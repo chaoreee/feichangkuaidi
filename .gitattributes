@@ -1,0 +1,4 @@
+# start.sh 必须在比赛 Linux 平台以 LF 运行；强制该类文件始终使用 LF，避免 Windows CRLF 破坏 shebang/bash。
+*.sh text eol=lf
+# Python 源码统一 LF（跨平台一致）。
+*.py text eol=lf

@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 运行时生成的比赛日志（保留目录占位与赛后分析产物 analysis.md）
+logs/**/*.jsonl
+logs/*.jsonl
+
+# 本地 IDE / 工具设置
+.claude/
+.idea/
+.vscode/
+.DS_Store
