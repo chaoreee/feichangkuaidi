@@ -2,6 +2,36 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `AGENTS.md`。
 
+## [Iteration 4] - 2026-07-02 — M4 收益策略
+
+### Added
+- `core/game_map.py`：`time_optimal_path`（按帧数最短路，边权含目标节点固定处理耗时；宫门 VERIFY 不计入路线差异）。
+- `strategy/decision.py`（在 M3 之上叠加，稳定交付仍是硬约束）：
+  - 路由改用 `time_optimal_path`。
+  - 机会式 `CLAIM_TASK`：目标即当前节点、非 T04/T06、非对方保护/占用、且过时间预算守卫。
+  - 机会式 `CLAIM_RESOURCE`：缺冰鉴则领冰鉴；无马且离终点远则领马。
+  - 鲜度管理：鲜度 < 阈值且持冰鉴 → `USE_RESOURCE ICE_BOX`。
+  - 加速：移动中无移动增益且离终点远且持马 → `USE_RESOURCE` 马。
+  - 护果令：RUSH 阶段鲜度偏低且未用急策 → `RUSH_PROTECT`。
+  - 时间预算守卫 `_can_afford`：做额外读条后仍能在 600 帧内交付才做。
+- `config.py`：策略调参常量（冰鉴阈值/马距离阈值/护果令阈值/安全余量/跳过任务模板）。
+- 单测：`test_router.py`(3)、`test_economy.py`(14)。
+
+### Changed
+- `scripts/mock_server.py`：扩展仿真——资源库存与 `CLAIM_RESOURCE`、皇榜任务与 `CLAIM_TASK`、`USE_RESOURCE`（冰鉴回鲜、马登记 buff）、`RUSH_PROTECT`、buff 衰减与护果令鲜度系数；每帧下发 nodes 库存与 tasks。
+
+### Verified
+- 全部单测 67/67 通过。
+- 端到端仿真：时间感知路由选择山路（绕开 S02/S04/S05 处理站点，更快），沿途领取冰鉴@S06、短程马@S08 并在移动中用马，完成 S11/S13 任务，`DELIVER_SUCCESS @round 51`（早于 M3 的 r60），鲜度 97.45、好果 100、任务分 60。退出码 0，未退赛。
+
+### Known limitations
+- 任务仅"机会式不绕路"：路线外任务不做（仿真中 S09 任务因走山路被跳过）。绕路做任务/情报探路减时属后续优化。
+- 未处理设卡/障碍/窗口/小分队与 疾行令/破关令（M5）。
+
+### Next (M5)
+- 对抗：设卡/攻坚破卡/强制通行/窗口出牌/小分队，及 疾行令/破关令；遇阻（障碍/敌方设卡）的绕行或突破。
+
+
 ## [Iteration 3] - 2026-07-02 — M3 基线策略
 
 ### Added

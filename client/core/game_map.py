@@ -174,6 +174,27 @@ class GameMap:
         adj = self._adj_move if metric == "move" else self._adj_dist
         return pathfind.shortest_path(adj, source, target)
 
+    def time_optimal_path(self, source, target, base_move=None):
+        """按"帧数"最短路 (path, frames)。边权 = 单边到站帧数 + 目标节点固定处理耗时。
+
+        比纯移动量更贴近真实用时：会为途经的固定处理站点计入读条帧数（宫门 VERIFY 为任何
+        路线终局必经，不计入路线差异）。base_move 默认无加速 1000。
+        """
+        bm = rules.BASE_MOVE_NONE if base_move is None else base_move
+        adj = {}
+        for e in self.edges:
+            base = rules.frames_on_edge(e.distance, e.route_type, bm)
+            adj.setdefault(e.from_node, []).append((e.to_node, base + self._proc_cost(e.to_node)))
+            if e.bidirectional:
+                adj.setdefault(e.to_node, []).append((e.from_node, base + self._proc_cost(e.from_node)))
+        return pathfind.shortest_path(adj, source, target)
+
+    def _proc_cost(self, node_id):
+        info = self.process_nodes.get(node_id)
+        if not info or node_id == self.gate_node:
+            return 0
+        return info.get("processRound", 0) or 0
+
     def route_distance(self, source, target):
         """最短路线距离（累计边 distance 之和）；用于情报/冲刺等距离口径。不可达返回 inf。"""
         _, cost = self.shortest_path(source, target, metric="distance")
