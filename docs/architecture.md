@@ -63,9 +63,11 @@
 
 ## 4b. 参考样例 samples/
 
-`samples/` 存放服务端真实下发/配置的样例 JSON（`map_config.json`、`start_message.json`、`inquire_message.json`），
-作为 **规格参考 + M2 解析开发依据 + 离线测试夹具**（供 `scripts/mock_server.py`、`client/tests/` 加载）。
-样例为只读快照，运行期不被 `client/` import，保证提交包纯净；策略禁止硬编码其中的节点/路线/资源位置。详见 `samples/README.md`。
+`samples/` 存放参考样例，作为 **规格参考 + M2 解析开发依据 + 离线测试夹具**（供 `scripts/mock_server.py`、`client/tests/` 加载）。
+- `map_config.json`（✅ 已提供）：中等难度竞技地图原始配置，是 `start` 载荷的子集（缺 `edgeId`/`bidirectional`/`count`/`claimRound`/英文 `processType`/`canWindow`/`taskTemplates`/`gameplay`）。
+- `start_message.json` / `inquire_message.json`（⛔ 暂不提供）：其结构以 **通信协议 §5 / §7 + 附录 B/C/D/F** 与 `docs/protocol.md` 为准。
+
+样例为只读快照，运行期不被 `client/` import；策略禁止硬编码其中的节点/路线/资源位置。字段差异与结构详见 `samples/README.md`。
 
 ## 5. 交付工程
 

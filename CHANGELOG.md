@@ -14,7 +14,7 @@
 - `start.sh`：根目录、LF、可执行，透传 `playerId host port`。
 - `scripts/mock_server.py`：本地假服务端（协议合法下发，附录 A 默认地图）。
 - `client/tests/test_framing.py`：7 项 framing 单测。
-- `samples/`：参考样例目录（`README.md` 说明 `map_config.json` / `start_message.json` / `inquire_message.json` 的用途，作为规格参考 + M2 解析依据 + 离线测试夹具）。
+- `samples/`：参考样例目录。`map_config.json`（中等难度竞技地图原始配置，经远端合入）已就位；`README.md` 记录其结构、与协议 `start` 的字段差异，并标注 `start_message.json`/`inquire_message.json` 暂不提供（结构以通信协议 §5/§7 为准）。
 - `.gitignore`：忽略 `__pycache__`、运行时 `logs/**/*.jsonl` 与本地 `.claude/` 设置。
 
 ### Verified

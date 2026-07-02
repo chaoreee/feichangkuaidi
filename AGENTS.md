@@ -19,7 +19,7 @@
 
 四层：能力基线（本文件 + docs/）→ 运行期 Client（`client/`，纯 stdlib、可提交、离线可跑）→ 开发期分析（`analysis/`，赛后离线）→ 迭代闭环。
 运行期与开发期严格分离：`client/` 内不含任何分析代码，保证提交包纯净。数据流与模块协作见 `docs/architecture.md`。
-`samples/` 存放服务端真实下发/配置的样例 JSON（`map_config.json` / `start_message.json` / `inquire_message.json`），作为规格参考、M2 解析开发依据与离线测试夹具（只读，不被 `client/` import）；详见 `samples/README.md`。
+`samples/` 存放参考样例：`map_config.json`（✅ 已提供，中等难度竞技地图原始配置，为 `start` 载荷子集）；`start_message.json`/`inquire_message.json`（⛔ 暂不提供，结构以通信协议 §5/§7 + `docs/protocol.md` 为准）。只读，不被 `client/` import。字段差异详见 `samples/README.md`。
 
 ## 3. Agent 职责与工作原则
 
