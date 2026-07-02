@@ -94,6 +94,7 @@ class Sim:
         self.obstacles = set(OBSTACLES)
         self.marks = {}          # node -> set(teamId)
         self.pending_scouts = []  # [arrive_round, node, team]
+        self.pending_clears = []  # [arrive_round, node]（小分队清障延迟落地）
         self.pos, self.state, self.target = "S01", "IDLE", None
         self.reading, self.read_kind, self.read_ctx, self.timer = False, None, None, 0
         self.verified = self.delivered = False
@@ -156,6 +157,7 @@ class Sim:
         if squad:
             events += self._apply_squad(squad, rnd)
         events += self._deliver_scouts(rnd)
+        events += self._deliver_clears(rnd)
 
         self._tick_buffs()
         fmult = 0.2 if self._has_buff("RUSH_PROTECT") else 1.0
@@ -172,7 +174,12 @@ class Sim:
                 self.state, self.target, self.timer = "MOVING", tgt, 1
         elif act == "PROCESS":
             if self.pos in self.proc_round:
-                self._start_read("PROCESS", self.proc_round[self.pos], None, "PROCESSING")
+                pr = self.proc_round[self.pos]
+                if "RED" in self.marks.get(self.pos, set()):  # 探路标记减处理帧
+                    pr = max(2, pr - 3)
+                    self.marks[self.pos].discard("RED")
+                    events.append(self._ev("SCOUT_MARKER_CONSUME", rnd, nodeId=self.pos))
+                self._start_read("PROCESS", pr, None, "PROCESSING")
         elif act == "VERIFY_GATE":
             if self.rush and self.pos == self.gate and not self.verified:
                 vr = self.verify_round
@@ -217,6 +224,13 @@ class Sim:
             self.squad_available -= 1
             self.pending_scouts.append([rnd + self.SCOUT_DELAY, tgt, "RED"])
             return [self._ev("SQUAD_DISPATCH", rnd, targetNodeId=tgt, action="SQUAD_SCOUT")]
+        if a == "SQUAD_CLEAR" and self.squad_available >= 2 and tgt in self.obstacles:
+            self.squad_available -= 2
+            self.pending_clears.append([rnd + self.SCOUT_DELAY, tgt])
+            return [self._ev("SQUAD_DISPATCH", rnd, targetNodeId=tgt, action="SQUAD_CLEAR")]
+        if a in ("SQUAD_WEAKEN", "SQUAD_REINFORCE") and self.squad_available >= 2 and tgt:
+            self.squad_available -= 2  # 本 mock 无敌方设卡，接受并记消耗
+            return [self._ev("SQUAD_DISPATCH", rnd, targetNodeId=tgt, action=a)]
         return []
 
     def _deliver_scouts(self, rnd):
@@ -228,6 +242,17 @@ class Sim:
             else:
                 still.append([arr, node, team])
         self.pending_scouts = still
+        return ev
+
+    def _deliver_clears(self, rnd):
+        ev, still = [], []
+        for arr, node in self.pending_clears:
+            if arr <= rnd:
+                self.obstacles.discard(node)
+                ev.append(self._ev("OBSTACLE_CLEAR", rnd, nodeId=node, byTeam="RED"))
+            else:
+                still.append([arr, node])
+        self.pending_clears = still
         return ev
 
     def _start_read(self, kind, frames, ctx, state_str):
@@ -267,6 +292,13 @@ class Sim:
             self.buffs.append({"type": res, "remainingRound": self.HORSE_DUR[res]})
             self.inv[res] -= 1
             return [self._ev("RESOURCE_USE", rnd, resourceType=res)]
+        if res == "INTEL" and self.inv.get("INTEL", 0) > 0:
+            tgt = main.get("targetNodeId")
+            if tgt:
+                self.inv["INTEL"] -= 1
+                self.marks.setdefault(tgt, set()).add("RED")  # 情报即时落标记（无延迟）
+                return [self._ev("RESOURCE_USE", rnd, resourceType="INTEL", targetNodeId=tgt),
+                        self._ev("SCOUT_MARKER_ADD", rnd, nodeId=tgt, teamId="RED")]
         return []
 
     def _tick_buffs(self):

@@ -3,13 +3,15 @@
 分层（每层在前一层之上，"稳定交付"始终是硬约束）：
 - M3 基线：最短路推进 → 固定处理 → 宫门 RUSH 验核 → 交付。
 - M4 收益：时间感知路由；机会式皇榜任务/资源领取；冰鉴保鲜；马加速；护果令。
-- M5 对抗：
-  * 阻塞感知路由：把道路障碍/敌方有效设卡节点视为不可进入，优先绕行。
-  * 突破（无法绕行时）：障碍→T04(得分+清障)/CLEAR(耗好果)/FORCED_PASS；敌卡→BREAK_GUARD(含破关令)/FORCED_PASS。
-  * 窗口出牌：参与本方窗口时按可支付牌出牌，否则弃权。
-  * 终局急策二选一：鲜度低用护果令，远且鲜度健康且无马用疾行令。
-  * 小分队探路宫门：临近宫门时派小分队探路，减少验核读条 3 帧。
-基线不主动 SET_GUARD（占用己方交付时间，收益不确定）——action 能力已具备，留待专门的进攻/干扰策略。
+- M5 对抗：阻塞感知路由(绕行)；突破(障碍 T04/CLEAR/强制通行；敌卡攻坚含破关令/强制通行)；窗口出牌；
+  疾行令/护果令二选一；小分队探路宫门。
+- M7 能力补全：
+  * 拒绝反馈：读上一帧 actionResults/events，PROCESS_REQUIRED 强制处理、移动阻塞类临时拉黑目标（防循环）。
+  * 情报(INTEL)：探路前方处理点/宫门（射程 15）减处理帧；并机会式领取情报。
+  * 绕行 vs 清障权衡：绕行远超就地清障成本时改为清障。
+  * 绕路做任务：任务分<90 且时间预算允许时，向近处任务节点绕行以拉高任务分。
+  * 防御性小分队：预清路线前方障碍(SQUAD_CLEAR)/削弱前方敌卡(SQUAD_WEAKEN)。
+  * 进攻干扰(默认关闭，config.ENABLE_OFFENSIVE)：关键关隘主动设卡。
 
 策略与通信解耦：只依赖 core.WorldState / GameMap，不 import socket。
 """
@@ -21,6 +23,8 @@ from protocol.enums import Action, Card, PlayerState, ResourceType
 
 _IDLE_LIKE = (PlayerState.IDLE, PlayerState.COST_BANKRUPT, None)
 _MOVE_BUFF_TYPES = frozenset({ResourceType.FAST_HORSE, ResourceType.SHORT_HORSE, "RUSH_SPEED"})
+_MOVE_BLOCK_CODES = frozenset({"MOVE_BLOCKED_BY_GUARD", "TARGET_NOT_REACHABLE",
+                               "MOVE_EDGE_NOT_FOUND", "OBJECT_BUSY"})
 _INF = float("inf")
 
 
@@ -48,6 +52,9 @@ class DecisionEngine:
         self._processed_here = False
         self._prev_state = None
         self._gate_scout_sent = False
+        self._cooldown = {}          # nodeId -> 拉黑截止回合（拒绝反馈）
+        self._last_main_action = None
+        self._squad_sent = set()     # (nodeId, kind) 已派出的小分队目标，避免重复
 
     def decide(self, world):
         me = world.me
@@ -56,30 +63,34 @@ class DecisionEngine:
             return []
 
         node = me.current_node_id
+        self._apply_rejection_feedback(world)
         self._update_process_memory(world, me, node)
         terminal = gm.terminal_nodes[0] if gm.terminal_nodes else None
         gate = gm.gate_node
 
+        result = []
         try:
             if me.delivered or me.state == PlayerState.DELIVERED:
-                return []
-            # 窗口出牌（本方参与的窗口）优先响应
+                result = []
+                return result
             card = self._window_card(world, me)
             if card:
-                return [card]
-
+                result = [card]
+                return result
             if me.state in (PlayerState.MOVING, PlayerState.WAITING):
-                main = self._maybe_horse(me, gm, terminal)
-                main = [main] if main else []
-            elif me.state in _IDLE_LIKE:
-                main = self._plan(world, me, gm, node, terminal, gate)
-            else:
-                main = []
-
-            squad = self._maybe_squad(world, me, gm, node)
-            return main + ([squad] if squad else [])
+                horse = self._maybe_horse(me, gm, terminal)
+                result = [horse] if horse else []
+                return result
+            if me.state not in _IDLE_LIKE:
+                result = []
+                return result
+            main = self._plan(world, me, gm, node, terminal, gate)
+            squad = self._maybe_squad(world, me, gm, node, terminal)
+            result = main + ([squad] if squad else [])
+            return result
         finally:
             self._prev_state = me.state
+            self._last_main_action = self._extract_main(result)
 
     # ---- 主计划（空闲态，在节点）----
 
@@ -108,6 +119,10 @@ class DecisionEngine:
         if node in gm.process_nodes and not self._processed_here:
             return [actions.process()]
 
+        intel = self._maybe_intel(world, me, gm, node, terminal)
+        if intel:
+            return [intel]
+
         rp = self._maybe_rush_protect(world, me)
         if rp:
             return [rp]
@@ -116,8 +131,14 @@ class DecisionEngine:
         if opp:
             return opp
 
-        if terminal:
-            return self._advance(world, me, gm, node, terminal, terminal)
+        guard = self._maybe_set_guard(world, me, gm, node)
+        if guard:
+            return [guard]
+
+        # 绕路做任务：任务分<90 且预算允许时，先去近处任务节点
+        dst = self._task_detour_target(world, me, gm, node, terminal) or terminal
+        if dst:
+            return self._advance(world, me, gm, node, dst, terminal)
         return []
 
     def _opportunistic(self, world, me, gm, node, terminal):
@@ -129,22 +150,30 @@ class DecisionEngine:
             return [claim]
         return None
 
-    # ---- 阻塞感知推进 + 突破 ----
+    # ---- 阻塞感知推进 + 突破 + 绕行/清障权衡 ----
 
     def _advance(self, world, me, gm, src, dst, terminal):
         blocked = self._blocked_nodes(world, me)
-        path, _ = gm.time_optimal_path(src, dst, blocked=blocked)
-        if path and len(path) > 1:
-            # 有畅通去路时才考虑用疾行令（被阻挡时用疾行令是浪费）
+        path_b, cost_b = gm.time_optimal_path(src, dst, blocked=blocked)
+        path_u, cost_u = gm.time_optimal_path(src, dst)
+
+        if path_b and len(path_b) > 1:
+            # 绕行 vs 清障权衡：绕行远比就地清障贵，且直路下一跳是可清障障碍 → 就地清障
+            if (path_u and len(path_u) > 1 and cost_b - cost_u > config.REROUTE_VS_CLEAR_EXTRA):
+                nxt_u = path_u[1]
+                ns = world.node(nxt_u)
+                if (ns and ns.has_obstacle and me.good_fruit > config.KEEP_GOOD_FRUIT_MIN
+                        and not self._is_cooldown(world, nxt_u)):
+                    return self._breakthrough(world, me, gm, nxt_u, terminal)
             speed = self._rush_speed_warranted(world, me, gm, src, terminal)
             if speed:
                 return [speed]
-            return [actions.move(path[1])]  # 正常/绕行
+            return [actions.move(path_b[1])]
+
         # 无法绕行：沿忽略阻塞的最短路，突破下一个阻塞节点
-        upath, _ = gm.time_optimal_path(src, dst)
-        if not upath or len(upath) < 2:
+        if not path_u or len(path_u) < 2:
             return []
-        return self._breakthrough(world, me, gm, upath[1], terminal)
+        return self._breakthrough(world, me, gm, path_u[1], terminal)
 
     def _blocked_nodes(self, world, me):
         blocked = set()
@@ -154,11 +183,17 @@ class DecisionEngine:
             owner = ns.active_guard_owner()
             if owner and owner != me.team_id:
                 blocked.add(nid)
+        rnd = world.round or 0
+        for nid, exp in self._cooldown.items():
+            if exp > rnd:
+                blocked.add(nid)
         return blocked
+
+    def _is_cooldown(self, world, nid):
+        return self._cooldown.get(nid, 0) > (world.round or 0)
 
     def _breakthrough(self, world, me, gm, nxt, terminal):
         ns = world.node(nxt)
-        # 道路障碍
         if ns and ns.has_obstacle:
             t04 = self._find_t04(world, nxt)
             if t04 and self._can_afford(world, gm, me.current_node_id, t04.get("processRound", 6) or 6, terminal):
@@ -166,7 +201,6 @@ class DecisionEngine:
             if me.good_fruit > config.KEEP_GOOD_FRUIT_MIN:
                 return [actions.clear(nxt)]
             return [actions.forced_pass(nxt)]
-        # 敌方有效设卡
         owner = ns.active_guard_owner() if ns else None
         if owner and owner != me.team_id:
             plan = self._plan_attack(world, me, ns)
@@ -175,7 +209,7 @@ class DecisionEngine:
                 return [actions.break_guard(nxt, good_fruit=g, bad_fruit=b,
                                             rush_tactic=(Action.BREAK_ORDER if bo else None))]
             return [actions.forced_pass(nxt)]
-        return [actions.move(nxt)]  # 兜底
+        return [actions.move(nxt)]
 
     def _find_t04(self, world, node):
         for t in world.active_tasks():
@@ -184,7 +218,6 @@ class DecisionEngine:
         return None
 
     def _plan_attack(self, world, me, ns):
-        """规划攻坚投入：好/坏果各 ≤2，攻坚值 ≥ 防守值，且保留最低好果。返回 (good,bad,break_order) 或 None。"""
         defense = (ns.guard or {}).get("defense", 0) or 0
         if defense <= 0:
             return None
@@ -201,6 +234,36 @@ class DecisionEngine:
                     if best is None or (g, b) < (best[0], best[1]):
                         best = (g, b, bo)
         return best
+
+    # ---- 拒绝反馈（M7）----
+
+    def _apply_rejection_feedback(self, world):
+        la = self._last_main_action
+        if la is None:
+            return
+        code = self._my_reject_code(world)
+        if not code:
+            return
+        if code == "PROCESS_REQUIRED":
+            self._processed_here = False  # 强制在当前节点先完成固定处理
+            return
+        if la.get("action") == Action.MOVE and code in _MOVE_BLOCK_CODES:
+            tgt = la.get("targetNodeId")
+            if tgt:
+                self._cooldown[tgt] = (world.round or 0) + config.REJECT_BLOCK_ROUNDS
+
+    def _my_reject_code(self, world):
+        pid = self.ctx.player_id
+        prev = (world.round or 0) - 1
+        for r in world.action_results:
+            if r.get("playerId") == pid and r.get("round") == prev and r.get("accepted") is False:
+                return r.get("errorCode")
+        for e in world.events:
+            if e.get("type") in ("ACTION_REJECTED", "INVALID_ACTION"):
+                p = e.get("payload") or {}
+                if p.get("playerId") == pid:
+                    return p.get("errorCode")
+        return None
 
     # ---- 收益子策略（M4）----
 
@@ -236,6 +299,9 @@ class DecisionEngine:
         if me.resource_count(ResourceType.ICE_BOX) < config.CLAIM_ICE_BOX_KEEP \
                 and ns.resource_available(ResourceType.ICE_BOX):
             wants.append(ResourceType.ICE_BOX)
+        if me.resource_count(ResourceType.INTEL) < 1 and ns.resource_available(ResourceType.INTEL) \
+                and self._intel_usable_ahead(world, me, gm, node, terminal):
+            wants.append(ResourceType.INTEL)
         if not self._has_any_horse(me) and self._far_from_terminal(gm, node, terminal):
             if ns.resource_available(ResourceType.FAST_HORSE):
                 wants.append(ResourceType.FAST_HORSE)
@@ -259,7 +325,6 @@ class DecisionEngine:
         return actions.use_resource(horse)
 
     def _maybe_rush_protect(self, world, me):
-        """低鲜度时用护果令保鲜（可在被阻挡/等待时使用，不浪费）。"""
         if not world.is_rush or me.delivered or (me.rush_tactic_used_count or 0) > 0:
             return None
         if me.freshness < config.RUSH_PROTECT_FRESHNESS_BELOW:
@@ -267,18 +332,137 @@ class DecisionEngine:
         return None
 
     def _rush_speed_warranted(self, world, me, gm, node, terminal):
-        """疾行令：仅在有畅通去路、远、鲜度健康、且无任何马类时（优先用马，马更省）。"""
         if not world.is_rush or me.delivered or (me.rush_tactic_used_count or 0) > 0:
             return None
         if me.freshness < config.RUSH_PROTECT_FRESHNESS_BELOW:
-            return None  # 低鲜度优先护果令
+            return None
         if self._has_any_horse(me) or not self._far_from_terminal(gm, node, terminal):
             return None
         return actions.rush_speed()
 
-    def _maybe_squad(self, world, me, gm, node):
-        """小分队探路宫门以减少验核读条。仅普通阶段（RUSH 禁止新派），临近宫门且尚无己方标记时一次。"""
-        if world.is_rush or self._gate_scout_sent or (me.squad_available or 0) < 1:
+    # ---- 情报 INTEL（M7）----
+
+    def _reduce_targets_on_route(self, world, me, gm, node, terminal):
+        """本方去路上的固定处理点/宫门（可被探路减时且尚无己方标记），按路径顺序。"""
+        if not terminal:
+            return []
+        path, _ = gm.time_optimal_path(node, terminal, blocked=self._blocked_nodes(world, me))
+        if not path or len(path) < 2:
+            path, _ = gm.time_optimal_path(node, terminal)
+        out = []
+        for nxt in (path[1:] if path else []):
+            if nxt == gm.gate_node or nxt in gm.process_nodes:
+                ns = world.node(nxt)
+                if ns and ns.my_scout_marks(me.team_id):
+                    continue
+                out.append(nxt)
+        return out
+
+    def _intel_usable_ahead(self, world, me, gm, node, terminal):
+        """去路上是否存在"可在其前一节点用情报"的处理点/宫门（前驱到它的路线距离≤射程）。
+
+        用于领取情报的守卫：避免在长边地图（每边>射程）上领取无法使用的情报。
+        """
+        if not terminal:
+            return False
+        path, _ = gm.time_optimal_path(node, terminal, blocked=self._blocked_nodes(world, me))
+        if not path or len(path) < 2:
+            path, _ = gm.time_optimal_path(node, terminal)
+        if not path:
+            return False
+        for i in range(1, len(path)):
+            p = path[i]
+            if p == gm.gate_node or p in gm.process_nodes:
+                ns = world.node(p)
+                if ns and ns.my_scout_marks(me.team_id):
+                    continue
+                if gm.route_distance(path[i - 1], p) <= config.INTEL_RANGE:
+                    return True
+        return False
+
+    def _maybe_intel(self, world, me, gm, node, terminal):
+        if me.resource_count(ResourceType.INTEL) <= 0:
+            return None
+        for nxt in self._reduce_targets_on_route(world, me, gm, node, terminal):
+            d = gm.route_distance(node, nxt)
+            if d == _INF:
+                continue
+            if d > config.INTEL_RANGE:
+                break  # 路径距离递增，更远的也超射程
+            return actions.use_resource(ResourceType.INTEL, nxt)
+        return None
+
+    # ---- 绕路做任务（M7）----
+
+    def _task_detour_target(self, world, me, gm, node, terminal):
+        if (me.task_score or 0) >= 90 or not terminal:
+            return None
+        pid = self.ctx.player_id
+        _, direct = gm.time_optimal_path(node, terminal)
+        if direct == _INF:
+            return None
+        best, best_extra = None, _INF
+        for t in world.active_tasks():
+            tn = t.get("nodeId")
+            if not tn or tn == node:
+                continue
+            if t.get("taskTemplateId") in config.SKIP_TASK_TEMPLATES:
+                continue
+            prot = t.get("protectionPlayerId") or 0
+            if prot and prot != pid:
+                continue
+            owner = t.get("ownerPlayerId") or 0
+            if owner and owner != pid:
+                continue
+            _, c1 = gm.time_optimal_path(node, tn)
+            _, c2 = gm.time_optimal_path(tn, terminal)
+            if c1 == _INF or c2 == _INF:
+                continue
+            pr = t.get("processRound", 0) or 0
+            extra = (c1 + pr + c2) - direct
+            if 0 <= extra <= config.TASK_DETOUR_MAX_EXTRA_FRAMES and extra < best_extra \
+                    and self._can_afford(world, gm, node, extra, terminal):
+                best, best_extra = tn, extra
+        return best
+
+    # ---- 小分队（M7：防御性预清障/削弱 + 探路宫门）----
+
+    def _maybe_squad(self, world, me, gm, node, terminal):
+        if world.is_rush:
+            return None  # RUSH 禁止新派小分队
+        avail = me.squad_available or 0
+        if avail >= 2:
+            blk = self._first_block_ahead(world, me, gm, node, terminal)
+            if blk:
+                nid, kind = blk
+                key = (nid, kind)
+                if key not in self._squad_sent:
+                    self._squad_sent.add(key)
+                    if kind == "obstacle":
+                        return actions.squad_clear(nid)
+                    if kind == "guard":
+                        return actions.squad_weaken(nid)
+        return self._maybe_scout_gate(world, me, gm, node)
+
+    def _first_block_ahead(self, world, me, gm, node, terminal):
+        if not terminal:
+            return None
+        path, _ = gm.time_optimal_path(node, terminal)
+        if not path:
+            return None
+        for i, nid in enumerate(path):
+            if i < config.SQUAD_AHEAD_MIN_HOPS:
+                continue  # 太近交给主车队突破（小分队延迟落地来不及）
+            ns = world.node(nid)
+            if ns and ns.has_obstacle:
+                return (nid, "obstacle")
+            owner = ns.active_guard_owner() if ns else None
+            if owner and owner != me.team_id:
+                return (nid, "guard")
+        return None
+
+    def _maybe_scout_gate(self, world, me, gm, node):
+        if self._gate_scout_sent or (me.squad_available or 0) < 1:
             return None
         gate = gm.gate_node
         if not gate or not node:
@@ -292,6 +476,21 @@ class DecisionEngine:
             return None
         self._gate_scout_sent = True
         return actions.squad_scout(gate)
+
+    # ---- 进攻干扰（M7，默认关闭）----
+
+    def _maybe_set_guard(self, world, me, gm, node):
+        if not config.ENABLE_OFFENSIVE or world.is_rush:
+            return None
+        n = gm.node(node)
+        if not n or n.type != "KEY_PASS":
+            return None
+        ns = world.node(node)
+        if ns and ns.guard and (ns.guard.get("defense", 0) or 0) > 0:
+            return None
+        if me.good_fruit < 20:  # 保留充足好果用于交付得分
+            return None
+        return actions.set_guard(node, extra_good_fruit=1)
 
     # ---- 窗口出牌 ----
 
@@ -313,6 +512,14 @@ class DecisionEngine:
         return actions.window_card(cid, Card.ABSTAIN)
 
     # ---- 辅助 ----
+
+    def _extract_main(self, result):
+        for a in result:
+            act = a.get("action", "")
+            if act.startswith("SQUAD_") or act == Action.WINDOW_CARD:
+                continue
+            return a
+        return None
 
     def _has_move_buff(self, me):
         for b in me.buffs:
