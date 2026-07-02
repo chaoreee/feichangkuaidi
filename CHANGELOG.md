@@ -2,6 +2,28 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `AGENTS.md`。
 
+## [Iteration 8] - 2026-07-02 — 真实败局驱动：保交付优先
+
+### 触发
+真实对局 `local-debug-l1` 分析报告（`logs/match_local-debug-l1_1001.analysis.md`）：**未交付、败北**——
+末帧 S14/WAITING@600，皇榜任务分 farm 到 180，但因超时未交付，送达/好果/鲜度/用时全归零，总分仅 80。
+根因：过度做任务/绕路（8 次 CLAIM_TASK、17 次 NODE_ENTER、11 次 TASK_EXPIRE）耗尽时钟，到宫门太晚。
+
+### Changed（strategy/decision.py）
+- 新增**交付冲刺模式** `_must_commit_deliver` / `_deliver_beeline`：当 `round + 送达估算 + DELIVER_COMMIT_BUFFER ≥ 600` 时，
+  放弃一切可选动作（任务/领取/绕路/情报/急策/小分队），只做 固定处理→宫门验核→推进→交付。
+- **任务上限 `TASK_SEEK_TARGET=90`**：任务分达 90 即停止机会式做任务与绕路做任务（`_maybe_task` / `_task_detour_target`）。
+- `_can_afford` / 送达估算**计入未验核时的验核耗时**（原先低估剩余时间）。
+- `config.py`：`TASK_SEEK_TARGET`、`DELIVER_COMMIT_BUFFER`。
+
+### Changed（analysis/optimizer.py）
+- 新增诊断规则：未交付且任务分≥90 → 判为"过度做任务导致超时"，建议设任务上限并启用交付冲刺模式。
+
+### Verified
+- 单测 98/98（client） + 5（analysis）全通过；新增 7 项（任务上限 3 + 交付冲刺 4）。
+- e2e 回归仍稳定交付（好果 100、任务 60、@r48）。
+
+
 ## [Iteration 7] - 2026-07-02 — 能力补全（补齐部分/未实现能力）
 
 ### Added（strategy/decision.py，均在"稳定交付"硬约束下）

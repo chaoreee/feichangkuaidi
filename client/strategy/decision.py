@@ -84,8 +84,10 @@ class DecisionEngine:
             if me.state not in _IDLE_LIKE:
                 result = []
                 return result
-            main = self._plan(world, me, gm, node, terminal, gate)
-            squad = self._maybe_squad(world, me, gm, node, terminal)
+            commit = self._must_commit_deliver(world, me, gm, node, terminal)
+            main = self._plan(world, me, gm, node, terminal, gate, commit)
+            # 交付冲刺模式下不再分心派小分队
+            squad = None if commit else self._maybe_squad(world, me, gm, node, terminal)
             result = main + ([squad] if squad else [])
             return result
         finally:
@@ -94,10 +96,14 @@ class DecisionEngine:
 
     # ---- 主计划（空闲态，在节点）----
 
-    def _plan(self, world, me, gm, node, terminal, gate):
+    def _plan(self, world, me, gm, node, terminal, gate, commit=False):
         rescue = self._freshness_rescue(me)
         if rescue:
             return [rescue]
+
+        # 交付冲刺：临近终局，放弃一切可选动作（任务/领取/绕路/情报/急策），直奔验核+交付
+        if commit:
+            return self._deliver_beeline(world, me, gm, node, terminal, gate)
 
         if terminal and node == terminal:
             if me.verified and me.good_fruit > 0 and me.freshness > 0:
@@ -174,6 +180,48 @@ class DecisionEngine:
         if not path_u or len(path_u) < 2:
             return []
         return self._breakthrough(world, me, gm, path_u[1], terminal)
+
+    # ---- 交付冲刺（M8，基于真实败局：过度做任务导致超时未交付）----
+
+    def _verify_frames(self, gm):
+        info = gm.process_nodes.get(gm.gate_node) if gm.gate_node else None
+        return (info.get("processRound") if info else 6) or 6
+
+    def _deliver_estimate(self, world, me, gm, node, terminal):
+        """从当前节点完成交付的估计帧数：路线到终点 + 未验核则加验核帧 + 少量缓冲。"""
+        if not terminal:
+            return _INF
+        _, travel = gm.time_optimal_path(node, terminal)
+        if travel == _INF:
+            return _INF
+        est = travel + 2
+        if not me.verified:
+            est += self._verify_frames(gm)
+        return est
+
+    def _must_commit_deliver(self, world, me, gm, node, terminal):
+        if me.delivered:
+            return False
+        est = self._deliver_estimate(world, me, gm, node, terminal)
+        if est == _INF:
+            return False
+        return (world.round or 0) + est + config.DELIVER_COMMIT_BUFFER >= (self.ctx.duration_round or 600)
+
+    def _deliver_beeline(self, world, me, gm, node, terminal, gate):
+        """最小交付路径：只处理固定站点、验核、推进与交付，不做任何可选动作。"""
+        if terminal and node == terminal:
+            if me.verified and me.good_fruit > 0 and me.freshness > 0:
+                return [actions.deliver()]
+            if not me.verified and gate:
+                return self._advance(world, me, gm, node, gate, terminal)
+            return []
+        if gate and node == gate:
+            if not me.verified:
+                return [actions.verify_gate()] if world.is_rush else []
+            return self._advance(world, me, gm, node, terminal, terminal)
+        if node in gm.process_nodes and not self._processed_here:
+            return [actions.process()]
+        return self._advance(world, me, gm, node, terminal, terminal)
 
     def _blocked_nodes(self, world, me):
         blocked = set()
@@ -273,6 +321,9 @@ class DecisionEngine:
         return None
 
     def _maybe_task(self, world, me, gm, node, terminal):
+        # 任务分达标即止：90 已解锁满额送达/用时+里程碑，再做任务不值得冒险拖慢交付
+        if (me.task_score or 0) >= config.TASK_SEEK_TARGET:
+            return None
         pid = self.ctx.player_id
         for t in world.active_tasks():
             if t.get("nodeId") != node:
@@ -395,7 +446,7 @@ class DecisionEngine:
     # ---- 绕路做任务（M7）----
 
     def _task_detour_target(self, world, me, gm, node, terminal):
-        if (me.task_score or 0) >= 90 or not terminal:
+        if (me.task_score or 0) >= config.TASK_SEEK_TARGET or not terminal:
             return None
         pid = self.ctx.player_id
         _, direct = gm.time_optimal_path(node, terminal)
@@ -538,12 +589,13 @@ class DecisionEngine:
         return gm.route_distance(node, terminal) > config.HORSE_MIN_REMAINING_DISTANCE
 
     def _can_afford(self, world, gm, node, extra_frames, terminal):
+        """做完 extra_frames 读条后仍能按时交付（含未验核时的验核耗时）。"""
         if terminal is None:
             return True
-        _, travel = gm.time_optimal_path(node, terminal)
-        if travel == _INF:
+        est = self._deliver_estimate(world, world.me, gm, node, terminal)
+        if est == _INF:
             return False
-        end = (world.round or 0) + extra_frames + travel + config.DELIVER_TIME_SAFETY_MARGIN
+        end = (world.round or 0) + extra_frames + est + config.DELIVER_TIME_SAFETY_MARGIN
         return end <= (self.ctx.duration_round or 600)
 
     # ---- 固定处理完成跟踪 ----

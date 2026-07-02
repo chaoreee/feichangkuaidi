@@ -212,5 +212,73 @@ class TestOffensiveGuardFlag(unittest.TestCase):
             config.ENABLE_OFFENSIVE = old
 
 
+# 线性无处理点：S01-SB-S14-S15（SB 便于测任务而不触发固定处理）
+LIN2 = _map(
+    [_node("S01", "START", start=True), _node("SB"), _node("S14", "GATE"), _node("S15", "FINISH", terminal=True)],
+    [_edge("S01", "SB"), _edge("SB", "S14"), _edge("S14", "S15")],
+    {"startNodeId": "S01", "gateNodeId": "S14", "terminalNodeIds": ["S15"]},
+)
+_TASK_SB = [{"taskId": "TK", "taskTemplateId": "T01", "nodeId": "SB", "processRound": 3,
+             "active": True, "completed": False}]
+
+
+class TestTaskCap(unittest.TestCase):
+    def test_does_task_below_target(self):
+        gm = GameMap(LIN2)
+        eng = DecisionEngine(GameContext(PID, "RED", 0, LIN2))
+        a = eng.decide(world(LIN2, gm, "SB", tasks=_TASK_SB, rnd=20))[0]
+        self.assertEqual(a, {"action": "CLAIM_TASK", "taskId": "TK"})
+
+    def test_skips_task_at_or_above_target(self):
+        gm = GameMap(LIN2)
+        eng = DecisionEngine(GameContext(PID, "RED", 0, LIN2))
+        w = world(LIN2, gm, "SB", tasks=_TASK_SB, rnd=20)
+        w.me.task_score = 90  # 已达标
+        a = eng.decide(w)[0]
+        self.assertEqual(a["action"], "MOVE")  # 不再做任务，直接推进
+
+    def test_no_detour_at_target(self):
+        # 菱形旁路任务，但任务分已达标 → 不绕路
+        m = _map(
+            [_node("S01", "START", start=True), _node("SA"), _node("ST"), _node("SJ"),
+             _node("S15", "FINISH", terminal=True)],
+            [_edge("S01", "SA"), _edge("SA", "SJ"), _edge("S01", "ST"), _edge("ST", "SJ"), _edge("SJ", "S15")],
+            {"startNodeId": "S01", "terminalNodeIds": ["S15"]},
+        )
+        gm = GameMap(m)
+        eng = DecisionEngine(GameContext(PID, "RED", 0, m))
+        w = world(m, gm, "S01", tasks=[{"taskId": "TK", "taskTemplateId": "T01", "nodeId": "ST",
+                                        "processRound": 3, "active": True, "completed": False}])
+        w.me.task_score = 90
+        self.assertEqual(eng.decide(w)[0]["targetNodeId"], "SA")  # 走默认直达，不绕去 ST
+
+
+class TestDeliverCommit(unittest.TestCase):
+    def test_beeline_skips_task_near_deadline(self):
+        gm = GameMap(LIN2)
+        eng = DecisionEngine(GameContext(PID, "RED", 0, LIN2))
+        # 临近终局(round=595/600)：即便脚下有任务也放弃，直奔推进交付
+        a = eng.decide(world(LIN2, gm, "SB", tasks=_TASK_SB, rnd=595))[0]
+        self.assertEqual(a, {"action": "MOVE", "targetNodeId": "S14"})
+
+    def test_normal_does_task_early(self):
+        gm = GameMap(LIN2)
+        eng = DecisionEngine(GameContext(PID, "RED", 0, LIN2))
+        a = eng.decide(world(LIN2, gm, "SB", tasks=_TASK_SB, rnd=20))[0]
+        self.assertEqual(a["action"], "CLAIM_TASK")
+
+    def test_commit_verifies_at_gate(self):
+        gm = GameMap(LIN2)
+        eng = DecisionEngine(GameContext(PID, "RED", 0, LIN2))
+        a = eng.decide(world(LIN2, gm, "S14", phase="RUSH", verified=False, rnd=595))[0]
+        self.assertEqual(a, {"action": "VERIFY_GATE"})
+
+    def test_commit_delivers_at_terminal(self):
+        gm = GameMap(LIN2)
+        eng = DecisionEngine(GameContext(PID, "RED", 0, LIN2))
+        a = eng.decide(world(LIN2, gm, "S15", verified=True, rnd=595))[0]
+        self.assertEqual(a, {"action": "DELIVER"})
+
+
 if __name__ == "__main__":
     unittest.main()

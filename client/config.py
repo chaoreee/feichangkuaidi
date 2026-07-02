@@ -31,6 +31,9 @@ CLAIM_ICE_BOX_KEEP = 1              # 期望至少持有的冰鉴数（低于则
 HORSE_MIN_REMAINING_DISTANCE = 30   # 剩余到终点路线距离大于此，才值得领取/使用马
 RUSH_PROTECT_FRESHNESS_BELOW = 90.0  # RUSH 阶段鲜度低于此用护果令保鲜
 DELIVER_TIME_SAFETY_MARGIN = 25     # 交付时间安全余量(帧)：估算做额外读条后仍能按时交付
+TASK_SEEK_TARGET = 90               # 任务分达到此即停止绕路/机会式做任务：90 已解锁满额送达基础分(240)与
+                                    # 满额用时系数+35 里程碑；再多任务收益远低于"确保交付"(未交付则送达/好果/鲜度/用时全归零)
+DELIVER_COMMIT_BUFFER = 40          # 剩余帧不足以"送达估算+此缓冲"时进入交付冲刺模式：放弃一切可选动作直奔验核+交付
 RESOURCE_CLAIM_ROUND = 2            # 资源领取读条帧数估算（用于时间预算）
 SKIP_TASK_TEMPLATES = ("T04", "T06")  # 机会式跳过：T04 需障碍上下文(仅突破时按清障任务处理)，T06 需消耗马
 
