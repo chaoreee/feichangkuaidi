@@ -81,6 +81,7 @@ class GameMap:
                 self._add_adj(to, frm, move_w, distance)
 
         self.roles = self._parse_roles(start_data)
+        self.process_nodes = self._parse_process_nodes(start_data)
 
     def _add_adj(self, a, b, move_w, dist_w):
         self._adj_move.setdefault(a, []).append((b, move_w))
@@ -109,6 +110,27 @@ class GameMap:
             if sz:
                 roles["safeZoneNodeIds"] = sz
         return roles
+
+    def _parse_process_nodes(self, start_data):
+        """固定处理站点集合 node_id -> {processType, processName, processRound}。
+
+        优先 start.map.gameplay.processNodes（英文 processType）；再并入顶层 processNodes
+        （map_config：中文 processName）。gate 也可能在其中，策略层单独用 VERIFY_GATE 处理。
+        """
+        result = {}
+        gameplay = (start_data.get("map", {}) or {}).get("gameplay", {}) or {}
+        for p in gameplay.get("processNodes", []) or []:
+            nid = p.get("nodeId")
+            if nid:
+                result[nid] = {"processType": p.get("processType"),
+                               "processRound": p.get("processRound", 0) or 0}
+        for p in start_data.get("processNodes", []) or []:
+            nid = p.get("nodeId")
+            if nid and nid not in result:
+                result[nid] = {"processType": p.get("processType"),
+                               "processName": p.get("processName"),
+                               "processRound": p.get("processRound", 0) or 0}
+        return result
 
     # ---- 查询 ----
 

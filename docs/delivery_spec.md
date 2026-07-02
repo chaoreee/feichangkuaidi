@@ -26,7 +26,7 @@
 
 ### 1.3 状态机（任务书 §3.1 / §8.2）
 IDLE / MOVING / WAITING / PROCESSING / CONTESTING / RESTING / FORCED_PASSING / VERIFYING / COST_BANKRUPT / DELIVERED / RETIRED。
-- [ ] 按当前 state 只提交该状态允许的动作（如 RESTING 只 WAIT；PROCESSING 不打断；DELIVERED 只 WAIT/重复 DELIVER）
+- [x] 按当前 state 只提交该状态允许的动作（M3：非空闲态与已交付均发空心跳让服务端推进；仅 IDLE/COST_BANKRUPT 主动决策）
 
 ## 2. 通信协议一致性（协议 §1/§3/§11）
 - [x] 帧格式：5 位十进制长度前缀（UTF-8 字节数，最大 99999）+ UTF-8 JSON body
@@ -55,8 +55,8 @@ IDLE / MOVING / WAITING / PROCESSING / CONTESTING / RESTING / FORCED_PASSING / V
 - [x] 运行时不执行 pip/npm/apt 等安装，不联网下载，不写系统目录
 
 ## 5. 得分导向（任务书 §7，指导策略取舍）
-- [ ] **稳定交付第一**：未交付则送达/好果/鲜度/用时四项归零，任务分封顶 80、悬赏封顶 25
-- [ ] 交付需同时满足：位于 S15 + 已验核 + 好果>0 + 鲜度>0 + 非移动/窗口/休整/强制通行/处理/验核中
+- [x] **稳定交付第一**：M3 基线策略以走完全程并交付为首要目标（仿真验证 @r60 交付成功）
+- [x] 交付需同时满足：位于 S15 + 已验核 + 好果>0 + 鲜度>0（M3 在 DELIVER 前校验；非空闲态不提交）
 - [ ] 鲜度阈值转坏（90/80/…/10）与鲜度归零报废逻辑纳入 core 计算，供策略预估
 - [ ] 皇榜任务基础分累计达 90 才拿满送达/用时；里程碑 60/90/110 额外加分
 - [ ] 避免惩罚：普通非法动作前 5 次免罚、第 6 次起每次 −1（上限 20）；交付后违规每次 −5
