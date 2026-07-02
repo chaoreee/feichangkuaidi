@@ -62,11 +62,12 @@ IDLE / MOVING / WAITING / PROCESSING / CONTESTING / RESTING / FORCED_PASSING / V
 - [x] 避免惩罚：M4 仅在满足条件时提交动作（非空闲态心跳、任务/资源过守卫），不提交已知非法动作
 
 ## 6. 提交前自检清单（任务书 §10.7）
-- [ ] ZIP 可正常解压
-- [ ] ZIP 根目录直接含 `start.sh`
-- [ ] `start.sh` 具可执行权限
-- [ ] `start.sh` 接收 `playerId host port` 三参数
-- [ ] 不写死 playerId/host/port/阵营
-- [ ] 第三方依赖已随包提供（当前为零依赖）
-- [ ] 运行时不执行现场安装或联网下载
-- [ ] 已按 `./start.sh <playerId> <host> <port>` 完成本地启动测试（对 mock_server）
+`scripts/build_zip.py` 自动构建 `dist/gameclient.zip` 并逐项自检（全部 PASS）：
+- [x] ZIP 可正常解压
+- [x] ZIP 根目录直接含 `start.sh`（未多套一层同名目录）
+- [x] `start.sh` 具可执行权限（ZIP 内 0o755）
+- [x] `start.sh` 接收 `playerId host port` 三参数
+- [x] 不写死 playerId/host/port/阵营（自检扫描无硬编码 IP；参数全来自 argv/start）
+- [x] 第三方依赖已随包提供（当前为零依赖；自检扫描 import 仅标准库+自有包）
+- [x] 运行时不执行现场安装或联网下载（自检扫描无 pip/npm/apt install）
+- [x] 已完成本地启动测试：client 对 `scripts/mock_server.py` 端到端跑通交付（平台环境经 `start.sh` 用 python3 启动）

@@ -90,8 +90,12 @@ def summarize_over(data):
         "overRound": data.get("overRound"),
         "winnerPlayerId": data.get("winnerPlayerId"),
         "players": [
-            {"playerId": p.get("playerId"), "totalScore": p.get("totalScore"),
-             "delivered": p.get("delivered"), "retired": p.get("retired")}
+            {"playerId": p.get("playerId"), "playerName": p.get("playerName"),
+             "totalScore": p.get("totalScore"), "delivered": p.get("delivered"),
+             "retired": p.get("retired"), "deliverRound": p.get("deliverRound"),
+             "freshness": p.get("freshness"), "goodFruit": p.get("goodFruit"),
+             "taskScore": p.get("taskScore"), "bountyScore": p.get("bountyScore"),
+             "scoreDetail": p.get("scoreDetail")}
             for p in (data.get("players") or [])
         ],
     }
@@ -124,15 +128,21 @@ def run_loop(client, engine, logger, match_id, player_id):
 
 def _handle_inquire(client, engine, logger, match_id, player_id, data):
     rnd = data.get("round")
-    logger.log("recv", round=rnd, msg="inquire", phase=data.get("phase"))
 
-    t0 = time.perf_counter()
+    world = None
     try:
         world = WorldState(data, player_id, engine.ctx.game_map)
-        actions = engine.decide(world)
-    except Exception as exc:  # 解析/决策异常绝不能拖垮心跳
-        actions = []
-        logger.log("error", round=rnd, error="decide_exception", detail=repr(exc))
+    except Exception as exc:  # 解析异常
+        logger.log("error", round=rnd, error="parse_exception", detail=repr(exc))
+    _log_frame(logger, rnd, data, world)
+
+    t0 = time.perf_counter()
+    actions = []
+    if world is not None:
+        try:
+            actions = engine.decide(world)
+        except Exception as exc:  # 决策异常绝不能拖垮心跳
+            logger.log("error", round=rnd, error="decide_exception", detail=repr(exc))
     elapsed = time.perf_counter() - t0
     if elapsed > config.DECISION_BUDGET:
         logger.log("state", round=rnd, warn="decision_over_budget",
@@ -144,6 +154,22 @@ def _handle_inquire(client, engine, logger, match_id, player_id, data):
         logger.log("error", round=rnd, error="send_failed", detail=str(exc))
         return
     logger.log("decide", round=rnd, actions=actions, ms=round(elapsed * 1000, 1))
+
+
+def _log_frame(logger, rnd, data, world):
+    """记录每帧关键状态与事件类型，供赛后分析（收到的数据/关键状态）。"""
+    me = world.me if world else None
+    logger.log(
+        "frame", round=rnd, phase=data.get("phase"),
+        node=(me.current_node_id if me else None),
+        state=(me.state if me else None),
+        freshness=(me.freshness if me else None),
+        goodFruit=(me.good_fruit if me else None),
+        taskScore=(me.task_score if me else None),
+        verified=(me.verified if me else None),
+        delivered=(me.delivered if me else None),
+        events=[e.get("type") for e in (world.events if world else [])],
+    )
 
 
 def main(argv):

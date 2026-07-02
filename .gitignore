@@ -9,6 +9,9 @@ venv/
 logs/**/*.jsonl
 logs/*.jsonl
 
+# 打包产物
+dist/
+
 # 本地 IDE / 工具设置
 .claude/
 .idea/
