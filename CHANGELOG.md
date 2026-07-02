@@ -2,26 +2,31 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `AGENTS.md`。
 
-## [Iteration 8] - 2026-07-02 — 真实败局驱动：保交付优先
+## [Iteration 8] - 2026-07-02 — 修复交付前卡死（保证交付）
 
-### 触发
-真实对局 `local-debug-l1` 分析报告（`logs/match_local-debug-l1_1001.analysis.md`）：**未交付、败北**——
-末帧 S14/WAITING@600，皇榜任务分 farm 到 180，但因超时未交付，送达/好果/鲜度/用时全归零，总分仅 80。
-根因：过度做任务/绕路（8 次 CLAIM_TASK、17 次 NODE_ENTER、11 次 TASK_EXPIRE）耗尽时钟，到宫门太晚。
+### 触发与更正诊断
+真实对局 `local-debug-l1`（`logs/match_local-debug-l1_1001.analysis.md`）**未交付败北**：末帧 **S14/WAITING**，
+一直卡到第 600 帧。**并非超时**（上一版误诊为过度做任务），而是**在交付点前的某位置停滞不动**。
+根因：`decide()` 把 `MOVING/WAITING` 当作被动状态，只回空动作 `[]` 且从不重新规划；真实服务端在路线边收到空动作会把车队
+park 成 `WAITING` 且不前进——于是验核完成后车队停在 S14/WAITING，永远不再发 `MOVE`/`DELIVER`，直到比赛结束。
+（此前 mock 在空动作时仍自动推进，故一直掩盖了该 bug。）
 
 ### Changed（strategy/decision.py）
-- 新增**交付冲刺模式** `_must_commit_deliver` / `_deliver_beeline`：当 `round + 送达估算 + DELIVER_COMMIT_BUFFER ≥ 600` 时，
-  放弃一切可选动作（任务/领取/绕路/情报/急策/小分队），只做 固定处理→宫门验核→推进→交付。
-- **任务上限 `TASK_SEEK_TARGET=90`**：任务分达 90 即停止机会式做任务与绕路做任务（`_maybe_task` / `_task_detour_target`）。
-- `_can_afford` / 送达估算**计入未验核时的验核耗时**（原先低估剩余时间）。
-- `config.py`：`TASK_SEEK_TARGET`、`DELIVER_COMMIT_BUFFER`。
+- 新增 `_keep_moving`：`MOVING/WAITING` 每帧**主动续行**——重发 `MOVE` 到当前目标节点（协议允许，不改道、不清进度）；
+  若无在途目标（被报为等待却停在节点）则按节点空闲**重新规划**。**杜绝任何交付前位置的空等卡死。**
+- 回退上一版基于"超时"误诊的交付冲刺模式与"任务上限停止机会式做任务"（保留 `TASK_SEEK_TARGET=90` 仅限制"为任务绕路"上限）。
+- 保留严格交付判定：到 S15 且已验核、好果>0、鲜度>0 立即 `DELIVER`。
+
+### Changed（scripts/mock_server.py）
+- 真实化路线边行为：`MOVING/WAITING` 下只有主动续行(MOVE 到当前目标/马类)才前进，空动作会 park 成 `WAITING`——
+  用于**复现该卡死并防回归**。
 
 ### Changed（analysis/optimizer.py）
-- 新增诊断规则：未交付且任务分≥90 → 判为"过度做任务导致超时"，建议设任务上限并启用交付冲刺模式。
+- 未交付且末态为 `WAITING/MOVING` → 诊断为"交付点前停滞"，建议主动续行+到点即交付（替换上一版的超时误判建议）。
 
 ### Verified
-- 单测 98/98（client） + 5（analysis）全通过；新增 7 项（任务上限 3 + 交付冲刺 4）。
-- e2e 回归仍稳定交付（好果 100、任务 60、@r48）。
+- 单测 96（client）+ 5（analysis）全通过（含新增 `TestNeverStuck`：移动续行/等待恢复/宫门重规划验核/终点交付）。
+- 端到端（faithful mock，会 park WAITING）：客户端**不再卡死**，`DELIVER_SUCCESS @round 48`（好果 100、任务 60、鲜度 97.6）。
 
 
 ## [Iteration 7] - 2026-07-02 — 能力补全（补齐部分/未实现能力）

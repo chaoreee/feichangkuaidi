@@ -137,16 +137,18 @@ class Sim:
         squad = next((a for a in actions if str(a.get("action", "")).startswith("SQUAD_")), None)
         act = main.get("action") if main else None
 
-        if not self.reading and self.state == "MOVING":
+        if not self.reading and self.state in ("MOVING", "WAITING"):
+            # 真实服务端行为：路线边上只有"主动续行"(MOVE 到当前目标 / 马类)才前进；
+            # 否则(空动作等)停为 WAITING(暴露空等卡死)。旧客户端发 [] 会在此卡死。
             if act == "USE_RESOURCE":
                 events += self._use(main, rnd)
-            self.timer -= 1
-            if self.timer <= 0:
-                self.pos, self.target, self.state = self.target, None, "IDLE"
-                events.append(self._ev("NODE_ENTER", rnd, nodeId=self.pos))
-                if self.pos == self.gate and not self.rush:
-                    self.rush = True
-                    events.append(self._ev("RUSH_START", rnd))
+                self.state = "MOVING"
+                self._tick_move(rnd, events)
+            elif act == "MOVE" and main.get("targetNodeId") == self.target:
+                self.state = "MOVING"
+                self._tick_move(rnd, events)
+            else:
+                self.state = "WAITING"
         elif self.reading:
             self.timer -= 1
             if self.timer <= 0:
@@ -254,6 +256,15 @@ class Sim:
                 still.append([arr, node])
         self.pending_clears = still
         return ev
+
+    def _tick_move(self, rnd, events):
+        self.timer -= 1
+        if self.timer <= 0:
+            self.pos, self.target, self.state = self.target, None, "IDLE"
+            events.append(self._ev("NODE_ENTER", rnd, nodeId=self.pos))
+            if self.pos == self.gate and not self.rush:
+                self.rush = True
+                events.append(self._ev("RUSH_START", rnd))
 
     def _start_read(self, kind, frames, ctx, state_str):
         self.reading, self.read_kind, self.read_ctx = True, kind, ctx

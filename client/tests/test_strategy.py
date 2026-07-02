@@ -94,8 +94,10 @@ class TestBaselineStrategy(unittest.TestCase):
     def test_delivered_only_heartbeat(self):
         self.assertIsNone(self.act(make_world("S15", delivered=True, verified=True, game_map=self.gm)))
 
-    def test_moving_state_heartbeat(self):
-        self.assertIsNone(self.act(make_world("S01", state="MOVING", game_map=self.gm)))
+    def test_moving_state_continues(self):
+        # 移动中主动续行（不再被动空等）：向终点方向推进
+        self.assertEqual(self.act(make_world("S01", state="MOVING", game_map=self.gm)),
+                         {"action": "MOVE", "targetNodeId": "S02"})
 
 
 if __name__ == "__main__":

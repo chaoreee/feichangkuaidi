@@ -111,9 +111,11 @@ class TestEconomy(unittest.TestCase):
         self.assertEqual(a, {"action": "USE_RESOURCE", "resourceType": "FAST_HORSE"})
 
     def test_no_horse_when_buff_active(self):
+        # 已有马类增益 → 不再用马；但移动中仍主动续行（推进），不空等
         a = self.act(node="SA", state="MOVING", resources={"FAST_HORSE": 1},
                      buffs=[{"type": "FAST_HORSE", "remainingRound": 5}])
-        self.assertIsNone(a)
+        self.assertNotEqual(a.get("action") if a else None, "USE_RESOURCE")
+        self.assertEqual((a or {}).get("action"), "MOVE")
 
     def test_no_horse_when_near_terminal(self):
         a = self.act(node="S14", state="MOVING", resources={"FAST_HORSE": 1})  # S14→S15=20<30

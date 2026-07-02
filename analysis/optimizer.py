@@ -7,14 +7,14 @@
 def suggest(parsed, ev):
     out = []
 
-    if not ev["delivered"] and (ev["task_score"] or 0) >= 90:
-        out.append(("时间管理", "任务分已达标(≥90)却未交付",
-                    "过度做任务/绕路导致超时：对任务分设上限(达 90 即止，已解锁满额送达基础分与用时系数)，"
-                    "并在临近终局进入交付冲刺模式(放弃一切可选动作，直奔宫门验核+终点交付)"))
+    if not ev["delivered"] and ev["last_state"] in ("WAITING", "MOVING"):
+        out.append(("卡死", "未交付且末态为移动中/等待中",
+                    "疑似在交付点前停滞：确保 MOVING/WAITING 每帧主动重发 MOVE 到当前目标续行、"
+                    "WAITING 无在途目标时重新规划，杜绝空动作空等；到达 S15 且已验核/好果>0/鲜度>0 应立即交付"))
 
     if not ev["delivered"]:
         out.append(("交付", "未完成交付",
-                    "检查末帧状态(%s@%s)与时间预算：确认宫门验核后进入 S15，且交付时好果>0、鲜度>0；"
+                    "检查末帧状态(%s@%s)：确认宫门验核后进入 S15，且交付时好果>0、鲜度>0；"
                     "若因遇阻卡住，检查突破/绕行逻辑" % (ev["last_state"], ev["last_node"])))
 
     if (ev["task_score"] or 0) < 90:
