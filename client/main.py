@@ -57,11 +57,15 @@ def parse_args(argv):
 
 
 def resolve_log_dir():
-    """把 config.LOG_DIR 解析为项目根（client 的上一级）下的 logs/。"""
+    """把 config.LOG_DIR 解析为 client/ 目录下的 logs/。
+
+    client/ 本身即提交平台的交付件根目录，因此日志必须落在包内（client/logs/），
+    对局结束后可随交付件一起下载回本地做分析。
+    """
     if os.path.isabs(config.LOG_DIR):
         return config.LOG_DIR
-    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    return os.path.join(project_root, config.LOG_DIR)
+    client_dir = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(client_dir, config.LOG_DIR)
 
 
 def wait_for(client, want_name, timeout, logger):
@@ -77,28 +81,51 @@ def wait_for(client, want_name, timeout, logger):
         if name == want_name:
             return msg
         if name == MsgName.ERROR:
-            logger.log("error", msg="error", payload=messages.msg_data(msg))
+            _log_error(logger, None, messages.msg_data(msg))
         else:
-            logger.log("recv", msg=name, note="unexpected_before_%s" % want_name)
+            logger.trace("Recv", msg=name, note="unexpected_before_%s" % want_name)
     return None
 
 
-def summarize_over(data):
-    return {
-        "resultType": data.get("resultType"),
-        "overReason": data.get("overReason"),
-        "overRound": data.get("overRound"),
-        "winnerPlayerId": data.get("winnerPlayerId"),
-        "players": [
-            {"playerId": p.get("playerId"), "playerName": p.get("playerName"),
-             "totalScore": p.get("totalScore"), "delivered": p.get("delivered"),
-             "retired": p.get("retired"), "deliverRound": p.get("deliverRound"),
-             "freshness": p.get("freshness"), "goodFruit": p.get("goodFruit"),
-             "taskScore": p.get("taskScore"), "bountyScore": p.get("bountyScore"),
-             "scoreDetail": p.get("scoreDetail")}
-            for p in (data.get("players") or [])
-        ],
-    }
+def _log_over(logger, player_id, data):
+    """把 over 结算写成一行 Over trace（本方结果 + 胜负），逐队再各写一行 Score。"""
+    winner = data.get("winnerPlayerId")
+    logger.trace(
+        "Over", resultType=data.get("resultType"), reason=data.get("overReason"),
+        overRound=data.get("overRound"), winner=winner,
+        iWon=(str(winner) == str(player_id)) if winner is not None else None)
+    for p in (data.get("players") or []):
+        pid = p.get("playerId")
+        logger.trace(
+            "Score", player=pid, me=(str(pid) == str(player_id)),
+            total=p.get("totalScore"), delivered=p.get("delivered"),
+            deliverRound=p.get("deliverRound"), retired=p.get("retired"),
+            fresh=p.get("freshness"), goodFruit=p.get("goodFruit"),
+            taskScore=p.get("taskScore"), bountyScore=p.get("bountyScore"))
+
+
+def _log_error(logger, rnd, payload):
+    """把 error 载荷压平成一行 Error trace（code/reason/detail 尽量提取）。"""
+    if isinstance(payload, dict):
+        logger.trace(
+            "Error", round=rnd, code=payload.get("errorCode") or payload.get("code"),
+            reason=payload.get("reason") or payload.get("message"),
+            detail=payload if not (payload.get("errorCode") or payload.get("code")) else None)
+    else:
+        logger.trace("Error", round=rnd, detail=payload)
+
+
+def _action_fields(action):
+    """从单个动作 dict 提取 trace 字段：action 类型 + 目标/参数（跳过空值）。"""
+    fields = {"action": action.get("action")}
+    for src, dst in (("targetNodeId", "target"), ("taskId", "task"),
+                     ("resourceType", "resource"), ("contestId", "contest"),
+                     ("card", "card"), ("rushTactic", "rush"),
+                     ("goodFruit", "good"), ("badFruit", "bad"),
+                     ("extraGoodFruit", "extraGood")):
+        if action.get(src) is not None:
+            fields[dst] = action[src]
+    return fields
 
 
 def run_loop(client, engine, logger, match_id, player_id):
@@ -107,8 +134,8 @@ def run_loop(client, engine, logger, match_id, player_id):
         msg = client.recv(config.RECV_LOOP_TIMEOUT)
         if msg is None:
             if client.recv_ended.is_set():
-                logger.log("error", error="disconnected",
-                           detail=str(client.error) if client.error else None)
+                logger.trace("Error", error="disconnected",
+                             detail=str(client.error) if client.error else None)
                 return
             continue  # 超时，服务端尚未下发，继续等待
 
@@ -118,12 +145,12 @@ def run_loop(client, engine, logger, match_id, player_id):
         if name == MsgName.INQUIRE:
             _handle_inquire(client, engine, logger, match_id, player_id, data)
         elif name == MsgName.OVER:
-            logger.log("recv", msg="over", payload=summarize_over(data))
+            _log_over(logger, player_id, data)
             return
         elif name == MsgName.ERROR:
-            logger.log("error", msg="error", payload=data)
+            _log_error(logger, None, data)
         else:
-            logger.log("recv", msg=name, note="unexpected_in_loop")
+            logger.trace("Recv", msg=name, note="unexpected_in_loop")
 
 
 def _handle_inquire(client, engine, logger, match_id, player_id, data):
@@ -133,7 +160,7 @@ def _handle_inquire(client, engine, logger, match_id, player_id, data):
     try:
         world = WorldState(data, player_id, engine.ctx.game_map)
     except Exception as exc:  # 解析异常
-        logger.log("error", round=rnd, error="parse_exception", detail=repr(exc))
+        logger.trace("Error", round=rnd, error="parse_exception", detail=repr(exc))
     _log_frame(logger, rnd, data, world)
 
     t0 = time.perf_counter()
@@ -142,47 +169,57 @@ def _handle_inquire(client, engine, logger, match_id, player_id, data):
         try:
             actions = engine.decide(world)
         except Exception as exc:  # 决策异常绝不能拖垮心跳
-            logger.log("error", round=rnd, error="decide_exception", detail=repr(exc))
-    elapsed = time.perf_counter() - t0
-    if elapsed > config.DECISION_BUDGET:
-        logger.log("state", round=rnd, warn="decision_over_budget",
-                   ms=round(elapsed * 1000, 1))
+            logger.trace("Error", round=rnd, error="decide_exception", detail=repr(exc))
+    elapsed_ms = round((time.perf_counter() - t0) * 1000, 1)
 
     try:
         client.send(messages.build_action(match_id, rnd, player_id, actions))
     except OSError as exc:
-        logger.log("error", round=rnd, error="send_failed", detail=str(exc))
+        logger.trace("Error", round=rnd, error="send_failed", detail=str(exc))
         return
-    logger.log("decide", round=rnd, actions=actions, ms=round(elapsed * 1000, 1))
+
+    _log_actions(logger, rnd, actions, elapsed_ms)
+
+
+def _log_actions(logger, rnd, actions, elapsed_ms):
+    """每个动作写一行 Action trace；空动作（系统等待/心跳）也显式记录一行。"""
+    over_budget = elapsed_ms > config.DECISION_BUDGET * 1000
+    ms = elapsed_ms if over_budget else None  # 只在超预算时附带耗时，保持精简
+    if not actions:
+        logger.trace("Action", round=rnd, action="NONE", note="heartbeat", ms=ms)
+        return
+    for action in actions:
+        logger.trace("Action", round=rnd, ms=ms, **_action_fields(action))
+        ms = None  # 耗时只标在本帧首行
 
 
 def _log_frame(logger, rnd, data, world):
     """记录每帧关键状态与事件类型，供赛后分析（收到的数据/关键状态）。"""
     me = world.me if world else None
-    logger.log(
-        "frame", round=rnd, phase=data.get("phase"),
+    logger.trace(
+        "Frame", round=rnd, phase=data.get("phase"),
         node=(me.current_node_id if me else None),
         state=(me.state if me else None),
-        freshness=(me.freshness if me else None),
+        fresh=(me.freshness if me else None),
         goodFruit=(me.good_fruit if me else None),
         taskScore=(me.task_score if me else None),
         verified=(me.verified if me else None),
         delivered=(me.delivered if me else None),
-        events=[e.get("type") for e in (world.events if world else [])],
+        events=[e.get("type") for e in (world.events if world else [])] or None,
     )
 
 
 def main(argv):
     player_id, host, port = parse_args(argv)
     logger = MatchLogger(resolve_log_dir(), player_id)
-    logger.log("state", note="startup", playerId=player_id, host=host, port=port,
-               version=config.CLIENT_VERSION)
+    logger.trace("Startup", playerId=player_id, host=host, port=port,
+                 version=config.CLIENT_VERSION)
 
     client = TcpClient(host, port, logger)
     try:
         client.connect(config.CONNECT_TIMEOUT)
     except OSError as exc:
-        logger.log("error", error="connect_failed", detail=str(exc))
+        logger.trace("Error", error="connect_failed", detail=str(exc))
         logger.close()
         return 1
 
@@ -190,26 +227,26 @@ def main(argv):
         # 1) registration
         client.send(messages.build_registration(
             player_id, config.DEFAULT_PLAYER_NAME, config.CLIENT_VERSION))
-        logger.log("send", msg="registration", playerId=player_id)
+        logger.trace("Register", playerId=player_id, name=config.DEFAULT_PLAYER_NAME)
 
         # 2) start
         start = wait_for(client, MsgName.START, config.HANDSHAKE_TIMEOUT, logger)
         if start is None:
-            logger.log("error", error="no_start_received")
+            logger.trace("Error", error="no_start_received")
             return 1
         sdata = messages.msg_data(start)
         match_id = sdata.get("matchId")
         logger.bind_match(match_id or "unknown")
         team_id, camp = messages.find_self_player(sdata, player_id)
-        logger.log("recv", msg="start", matchId=match_id, teamId=team_id, camp=camp,
-                   durationRound=sdata.get("durationRound"),
-                   nodes=len(sdata.get("nodes", []) or []),
-                   edges=len(sdata.get("edges", []) or []))
+        logger.trace("Start", teamId=team_id, camp=camp,
+                     durationRound=sdata.get("durationRound"),
+                     nodes=len(sdata.get("nodes", []) or []),
+                     edges=len(sdata.get("edges", []) or []))
 
         # 3) ready（round 用 start.round，通常为 1）
         ready_round = sdata.get("round") or 1
         client.send(messages.build_ready(match_id, ready_round, player_id))
-        logger.log("send", msg="ready", round=ready_round)
+        logger.trace("Ready", round=ready_round)
 
         # 4) 主循环
         ctx = GameContext(player_id, team_id, camp, sdata)
@@ -218,7 +255,7 @@ def main(argv):
         return 0
     finally:
         client.close()
-        logger.log("state", note="shutdown")
+        logger.trace("Shutdown")
         logger.close()
 
 

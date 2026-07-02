@@ -7,15 +7,20 @@
 ```
 ┌──────────────────────────────────────────────────────────────┐
 │  能力基线：AGENTS.md（SSOT） + docs/（spec/protocol/task/arch） │
-└───────────────┬─────────────────────────┬────────────────────┘
-                ▼                          ▼
-   运行期  client/（提交平台，纯 stdlib）   开发期  analysis/（赛后离线）
-   communication→protocol→core→strategy    parser→evaluator→optimizer→report
-        └─────── logger → logs/ ───────────────────►（日志驱动分析）
-                └───── 迭代闭环：分析结论回写 client / 基线 ─────┘
+└───────────────┬──────────────────────────────────────────────┘
+                ▼
+   运行期  client/（= 提交平台的交付件根目录，纯 stdlib、离线可跑）
+   communication → protocol → core → strategy
+        └── logger → client/logs/match_*.log（人类可读 trace）
+                          │ 对战后随交付件下载回本地
+                          ▼
+   采集   logs/（client 之外）：取回的 trace 日志入库
+                          │ 由 Claude Code 直接阅读分析（无 python 分析模块）
+                          ▼
+   迭代闭环：分析结论回写 client / AGENTS.md / CHANGELOG.md
 ```
 
-**核心原则**：`client/` 内**不得**出现分析代码或第三方依赖；提交包只含运行期所需，纯标准库、离线可跑。
+**核心原则**：`client/` **本身即交付件根目录**——手动打包时，`client/` 内容直接构成 ZIP 根（`start.sh`、`main.py`、各子包同级）。包内不得出现第三方依赖；纯标准库、离线可跑。分析不再依赖任何 python 模块，改由 Claude Code 直接读取取回的 trace 日志。
 
 ## 2. 运行期 Client 模块职责
 
@@ -25,29 +30,29 @@
 | `protocol/` | 消息 DTO 编解码、动作构造、枚举常量 | 字段名大小写敏感；空动作心跳 `actions: []` |
 | `core/` | 游戏状态镜像 `WorldState` + 规则计算 + 寻路 | 无副作用查询接口；供 strategy 使用 |
 | `strategy/` | 决策：输入 WorldState，输出 `List[Action]` | **不 import socket**；分层：路线→资源/任务→对抗→终局 |
-| `logger/` | 结构化 JSONL 日志旁路记录 | 文件名含 matchId；供赛后分析 |
-| `config.py` `main.py` | 参数/超时/开关；组装启动闭环 | argv=`playerId host port`，禁止写死 |
+| `logger/` | 人类可读 trace 日志旁路记录 | 写 `client/logs/match_<matchId>_<playerId>.log`；每行一事件，逐行 flush |
+| `config.py` `main.py` | 参数/超时/开关；组装启动闭环 | argv=`playerId host port`，禁止写死；`start.sh` 与 `main.py` 同级（包内） |
 
 ## 3. 数据流与模块协作
 
 ```
 平台 ⇄ communication ⇄ protocol ⇄ core(WorldState) → strategy → protocol → communication ⇄ 平台
                                        │
-                                    logger → logs/match_xxx/runtime.jsonl
-                                                     │（赛后离线）
-                           parser → evaluator → optimizer → report → logs/match_xxx/analysis.md
+                                    logger → client/logs/match_<matchId>_<playerId>.log
+                                                     │（对战后随交付件下载回本地）
+                          复制到仓库 logs/（client 之外） → Claude Code 直接阅读 trace
                                                      │
                         回写 → AGENTS.md / CHANGELOG.md / docs/delivery_spec.md / client/
 ```
 
-单帧主循环（M1 目标）：
+单帧主循环：
 ```
 收到 inquire(N)
   → protocol 解析 → core 更新 WorldState
   → strategy.decide(world) → List[Action]（含硬超时，超时降级为 [] / WAIT）
   → protocol 构造 action(round=N) → communication 发送
-  → logger 记录本帧收/发/决策依据/耗时
-收到 over → 记录最终分 → 退出
+  → logger 写 Frame + Action trace（超预算才附 ms）
+收到 over → 写 Over / Score trace → 退出
 ```
 
 ## 4. 关键技术决策
@@ -71,8 +76,9 @@
 
 ## 5. 交付工程
 
-- `start.sh` 位于仓库根/ZIP 根，可执行，接收 `playerId host port` 并透传给 `client/main.py`。
-- `scripts/build_zip.sh` 打包 ZIP：根目录直接含 `start.sh`，不套同名目录；执行 §10.7 自检。
+- `client/` 本身即交付件根目录。`client/start.sh` 与 `main.py` 同级，可执行，接收 `playerId host port` 并透传给同目录 `main.py`（`start.sh` 内**不含中文**）。
+- **打包由人工完成**：把 `client/` 的**内容**打成 ZIP（`start.sh` 直接位于 ZIP 根，不多套一层目录）。仓库内不再保留打包脚本。打包前建议剔除 `__pycache__/`、`logs/*.log` 等运行期产物。
+- 提交前对照任务书 §10.7 自查：ZIP 根含可执行 `start.sh`、接收 3 参数、纯标准库、无现场安装、无硬编码 IP。
 - 运行时不联网、不安装、不写系统目录。
 
 ## 6. Roadmap（里程碑）
@@ -85,5 +91,6 @@
 | M3 | 基线策略（最短路→处理→验核→交付） | mock 对局能稳定交付并得分 |
 | M4 | 资源/任务/鲜度收益策略 | 交付分 + 任务分显著提升 |
 | M5 | 对抗（设卡/攻坚/强制通行/窗口/小分队/急策） | 对抗动作合法生效、无非法动作扣分 |
-| M6 | analysis 四件套 + 首份 analysis.md + 回写基线 | 闭环跑通 |
+| M6 | 分析闭环 + 回写基线 | 闭环跑通 |
 | M7+ | 真实对局日志驱动迭代 | 持续 |
+| M9 | client/ 即交付件（start.sh 入包）+ trace 日志（client/logs）+ 移除 analysis/打包脚本 | 交付件可直接打包；trace 日志可直接分析 |

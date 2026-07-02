@@ -47,10 +47,10 @@ IDLE / MOVING / WAITING / PROCESSING / CONTESTING / RESTING / FORCED_PASSING / V
 ## 4. 工程要求（任务书 §10）
 - [x] Python 运行（代码保持 3.9+ 兼容，目标 3.12.9；本地以 3.9.13 验证通过）
 - [x] **纯标准库**，无第三方依赖（socket/json/threading/queue/os/time/unittest）
-- [x] 文件结构：见 `docs/architecture.md`；`start.sh` 位于根目录（打包时置于 ZIP 根，不套同名目录 → M6 build_zip）
-- [x] `start.sh` 接收 3 参数 `playerId host port` 并透传客户端；不写死 playerId/host/port/阵营
+- [x] 文件结构：见 `docs/architecture.md`；`client/` **本身即交付件根目录**，`start.sh` 与 `main.py` 同级（打包时 `client/` 内容直接构成 ZIP 根，不套同名目录）
+- [x] `start.sh` 接收 3 参数 `playerId host port` 并透传同目录 `main.py`；不写死 playerId/host/port/阵营；**脚本内不含中文**
 - [x] 配置集中于 `client/config.py`（超时、决策预算、日志目录、调试开关）
-- [x] 日志格式：JSONL，每行一事件，含 ts/round/kind(recv/send/decide/state/error)/matchId/payload
+- [x] 日志格式：人类可读 trace，每行一事件 `<时钟> <Event> matchId=..., round=..., k=v`，写入 **`client/logs/`**（包内），供取回后 Claude 直接分析（无 python 分析模块）
 - [x] 启动方式：`./start.sh <playerId> <host> <port>`（等价本地 `python client/main.py <playerId> <host> <port>`）
 - [x] 运行时不执行 pip/npm/apt 等安装，不联网下载，不写系统目录
 
@@ -62,12 +62,12 @@ IDLE / MOVING / WAITING / PROCESSING / CONTESTING / RESTING / FORCED_PASSING / V
 - [x] 避免惩罚：M4 仅在满足条件时提交动作（非空闲态心跳、任务/资源过守卫），不提交已知非法动作
 
 ## 6. 提交前自检清单（任务书 §10.7）
-`scripts/build_zip.py` 自动构建 `dist/gameclient.zip` 并逐项自检（全部 PASS）：
-- [x] ZIP 可正常解压
-- [x] ZIP 根目录直接含 `start.sh`（未多套一层同名目录）
-- [x] `start.sh` 具可执行权限（ZIP 内 0o755）
-- [x] `start.sh` 接收 `playerId host port` 三参数
-- [x] 不写死 playerId/host/port/阵营（自检扫描无硬编码 IP；参数全来自 argv/start）
-- [x] 第三方依赖已随包提供（当前为零依赖；自检扫描 import 仅标准库+自有包）
-- [x] 运行时不执行现场安装或联网下载（自检扫描无 pip/npm/apt install）
-- [x] 已完成本地启动测试：client 对 `scripts/mock_server.py` 端到端跑通交付（平台环境经 `start.sh` 用 python3 启动）
+**打包由人工完成**（仓库不再保留打包脚本）：把 `client/` 的**内容**压成 ZIP，使 `start.sh` 直接位于 ZIP 根。打包前逐项对照：
+- [x] ZIP 根目录直接含 `start.sh`（`client/` 内容即 ZIP 根，未多套一层同名目录）
+- [x] `start.sh` 具可执行权限（`git ls-files --stage` 显示 100755；打包时保留可执行位）
+- [x] `start.sh` 接收 `playerId host port` 三参数，透传同目录 `main.py`，脚本内不含中文
+- [x] 不写死 playerId/host/port/阵营（参数全来自 argv/start；无硬编码 IP）
+- [x] 第三方依赖已随包提供（当前为零依赖，纯标准库 socket/json/threading/queue/…）
+- [x] 运行时不执行现场安装或联网下载（无 pip/npm/apt install）
+- [x] 打包前剔除运行期产物：`__pycache__/`、`logs/*.log`（可选剔除 `tests/`）
+- [x] 已完成本地启动测试：client 对 `scripts/mock_server.py` 端到端跑通交付（本机用 `py`；平台环境经 `start.sh` 用 python3）

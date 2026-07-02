@@ -5,12 +5,10 @@ __pycache__/
 .venv/
 venv/
 
-# 运行时生成的比赛日志（保留目录占位与赛后分析产物 analysis.md）
-logs/**/*.jsonl
-logs/*.jsonl
-
-# 打包产物
-dist/
+# 运行期 client 写出的 trace 日志（本地/mock 跑出的噪声不入库；保留目录占位）
+# 交付件（client/）在平台运行时也写这里，随包下载后再复制到根目录 logs/ 提交分析。
+client/logs/*.log
+!client/logs/.gitkeep
 
 # 本地 IDE / 工具设置
 .claude/

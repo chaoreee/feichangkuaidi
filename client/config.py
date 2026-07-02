@@ -22,7 +22,7 @@ RECV_LOOP_TIMEOUT = 1.0          # 主循环从收包队列取消息的等待间
 DECISION_BUDGET = 0.4            # 单帧决策软预算（超过则记录告警；协议建议 500ms 内）
 
 # ---- 日志 ----
-LOG_DIR = "logs"                 # 相对启动工作目录；main 会解析为项目根下的 logs/
+LOG_DIR = "logs"                 # 相对 client/ 解析为包内 client/logs/（交付件随包下载可取回 trace 日志）
 DEBUG = False                    # 调试开关：True 时额外向 stderr 打印
 
 # ---- 策略调参（M4 收益策略）----

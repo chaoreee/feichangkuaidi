@@ -94,4 +94,4 @@ class TcpClient:
 
     def _log_error(self, kind, detail):
         if self._logger is not None:
-            self._logger.log("error", error=kind, detail=detail)
+            self._logger.trace("Error", error=kind, detail=detail)

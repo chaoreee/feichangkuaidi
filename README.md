@@ -304,7 +304,7 @@ logs/
 ```text
 project/
 │
-├── AGENTS.md                  # Agent能力基线
+├── AGENTS.md                  # Agent 能力基线（SSOT）
 ├── README.md
 ├── CHANGELOG.md
 │
@@ -314,30 +314,28 @@ project/
 │   ├── task.md
 │   └── architecture.md
 │
-├── client/
+├── client/                    # ← 交付件根目录：其“内容”手动打成 ZIP 提交
+│   ├── start.sh               #   启动脚本（ZIP 根，可执行，无中文）
 │   ├── main.py
+│   ├── config.py
 │   ├── communication/
 │   ├── protocol/
+│   ├── core/
 │   ├── strategy/
 │   ├── logger/
 │   ├── utils/
-│   └── tests/
+│   ├── tests/
+│   └── logs/                  #   运行期 trace 日志 match_*.log（gitignore，随包下载回本地）
 │
-├── logs/
-│   ├── match_001/
-│   │     runtime.log
-│   │     analysis.md
-│   │
-│   └── match_002/
+├── logs/                      # 采集目录（client 之外）：取回的 trace 日志入库，Claude 直接分析
+│   └── README.md
 │
-├── analysis/
-│   ├── parser.py
-│   ├── evaluator.py
-│   ├── optimizer.py
-│   └── report.py
-│
+├── samples/                   # 参考样例（只读，运行期不 import）
 └── scripts/
+    └── mock_server.py         # 本地假服务端（离线回归）
 ```
+
+> 打包：仓库不含打包脚本，由人工把 `client/` 的**内容**压成 ZIP（`start.sh` 直接位于 ZIP 根），打包前剔除 `__pycache__/`、`logs/*.log`。
 
 ---
 
