@@ -174,18 +174,21 @@ class GameMap:
         adj = self._adj_move if metric == "move" else self._adj_dist
         return pathfind.shortest_path(adj, source, target)
 
-    def time_optimal_path(self, source, target, base_move=None):
+    def time_optimal_path(self, source, target, base_move=None, blocked=None):
         """按"帧数"最短路 (path, frames)。边权 = 单边到站帧数 + 目标节点固定处理耗时。
 
         比纯移动量更贴近真实用时：会为途经的固定处理站点计入读条帧数（宫门 VERIFY 为任何
         路线终局必经，不计入路线差异）。base_move 默认无加速 1000。
+        blocked：不可进入的节点集合（障碍/敌方有效设卡）——跳过所有进入这些节点的边，实现绕行。
         """
         bm = rules.BASE_MOVE_NONE if base_move is None else base_move
+        blocked = blocked or frozenset()
         adj = {}
         for e in self.edges:
             base = rules.frames_on_edge(e.distance, e.route_type, bm)
-            adj.setdefault(e.from_node, []).append((e.to_node, base + self._proc_cost(e.to_node)))
-            if e.bidirectional:
+            if e.to_node not in blocked:
+                adj.setdefault(e.from_node, []).append((e.to_node, base + self._proc_cost(e.to_node)))
+            if e.bidirectional and e.from_node not in blocked:
                 adj.setdefault(e.to_node, []).append((e.from_node, base + self._proc_cost(e.from_node)))
         return pathfind.shortest_path(adj, source, target)
 

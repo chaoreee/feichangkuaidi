@@ -32,4 +32,9 @@ HORSE_MIN_REMAINING_DISTANCE = 30   # 剩余到终点路线距离大于此，才
 RUSH_PROTECT_FRESHNESS_BELOW = 90.0  # RUSH 阶段鲜度低于此用护果令保鲜
 DELIVER_TIME_SAFETY_MARGIN = 25     # 交付时间安全余量(帧)：估算做额外读条后仍能按时交付
 RESOURCE_CLAIM_ROUND = 2            # 资源领取读条帧数估算（用于时间预算）
-SKIP_TASK_TEMPLATES = ("T04", "T06")  # 机会式跳过：T04 需障碍上下文(M5)，T06 需消耗马
+SKIP_TASK_TEMPLATES = ("T04", "T06")  # 机会式跳过：T04 需障碍上下文(仅突破时按清障任务处理)，T06 需消耗马
+
+# ---- 策略调参（M5 对抗）----
+KEEP_GOOD_FRUIT_MIN = 1             # 攻坚/清障投入好果后必须保留的最低好果（保证仍能交付，好果>0）
+GATE_SCOUT_MIN_FRAMES = 8          # 派小分队探路宫门的最小剩余帧（太近来不及/无意义）
+GATE_SCOUT_MAX_FRAMES = 40         # 最大剩余帧（探路标记 45 帧有效，避免过早派出而过期）

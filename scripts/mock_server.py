@@ -1,13 +1,15 @@
-"""本地假服务端（开发工具，非提交物）——全流程仿真（M4 版）。
+"""本地假服务端（开发工具，非提交物）——全流程仿真（M5 版）。
 
-加载 samples/map_config.json 构建 start；模拟主车队移动/固定处理/宫门验核/交付，
-并支持 M4 交互：资源领取(CLAIM_RESOURCE)、皇榜任务(CLAIM_TASK)、资源使用(USE_RESOURCE，
-冰鉴回鲜/马加 buff)、护果令(RUSH_PROTECT)。用于离线验证 M4 收益策略。
+加载 samples/map_config.json 构建 start；模拟移动/处理/验核/交付 + M4 收益(资源/任务/急策) +
+M5 对抗联调：道路障碍与主车队清障(CLEAR)、小分队探路(SQUAD_SCOUT)与宫门验核减时。
 
-简化口径（仅联调，非真实结算）：MOVE 占 2 帧到相邻节点；各类读条占其帧数；到 S14 触发 RUSH；
-鲜度每帧 -0.05（护果令生效 ×0.2）；马仅登记 buff 不改移动速度。
+为验证突破逻辑，默认在 S13（终段唯一通路，不可绕行）放置一个道路障碍，迫使客户端 CLEAR。
 
-用法：python scripts/mock_server.py [host] [port] [maxRounds]（默认 127.0.0.1:8081, 200 帧）。
+简化口径（仅联调）：MOVE 占 2 帧；各读条占其帧数；CLEAR 占 6 帧且耗 1 好果；到 S14 触发 RUSH；
+小分队探路 3 帧后在目标落下己方标记；验核时若宫门有己方标记则读条 -3（最低3）并消耗标记；
+鲜度每帧 -0.05（护果令 ×0.2）；马/疾行仅登记 buff。
+
+用法：python scripts/mock_server.py [host] [port] [maxRounds]（默认 127.0.0.1:8081, 250 帧）。
 """
 
 import json
@@ -19,7 +21,7 @@ W = 5
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _MAP = os.path.join(_ROOT, "samples", "map_config.json")
 
-# 注入若干在"水路时间最优线"(S02→S04→S05→S09→S10→S11→S12→S13)上的任务，累计 90 分
+OBSTACLES = {"S13"}  # 终段唯一通路上的障碍：不可绕行 → 迫使客户端突破(CLEAR)
 TASKS = [
     {"taskId": "TK1", "taskTemplateId": "T01", "name": "限时过关", "nodeId": "S09", "score": 30, "processRound": 3},
     {"taskId": "TK2", "taskTemplateId": "T02", "name": "抵驿催运", "nodeId": "S11", "score": 30, "processRound": 4},
@@ -61,27 +63,22 @@ def build_adjacency(edges):
 
 
 def build_start(mc, match_id, red_id, blue_id):
-    return {
-        "msg_name": "start",
-        "msg_data": {
-            "matchId": match_id, "rulesVersion": "mock", "round": 1, "tick": 0, "durationRound": 600,
-            "map": {"maxX": mc["map"]["maxX"], "maxY": mc["map"]["maxY"],
-                    "gameplay": {"roles": {"startNodeId": "S01", "gateNodeId": "S14",
-                                           "terminalNodeIds": ["S15"], "safeZoneNodeIds": ["S15"]}}},
-            "players": [
-                {"playerId": red_id, "camp": 0, "teamId": "RED", "name": "mock-red"},
-                {"playerId": blue_id, "camp": 1, "teamId": "BLUE", "name": "mock-blue"},
-            ],
-            "nodes": mc["nodes"], "edges": mc["edges"], "processNodes": mc["processNodes"],
-            "resources": [{"nodeId": r["nodeId"], "resourceType": r["resourceType"], "count": 1, "claimRound": 2}
-                          for r in mc.get("visibleResources", [])],
-            "taskTemplates": [{"taskTemplateId": "T01", "score": 30}, {"taskTemplateId": "T02", "score": 30}],
-        },
-    }
+    return {"msg_name": "start", "msg_data": {
+        "matchId": match_id, "rulesVersion": "mock", "round": 1, "tick": 0, "durationRound": 600,
+        "map": {"maxX": mc["map"]["maxX"], "maxY": mc["map"]["maxY"],
+                "gameplay": {"roles": {"startNodeId": "S01", "gateNodeId": "S14",
+                                       "terminalNodeIds": ["S15"], "safeZoneNodeIds": ["S15"]}}},
+        "players": [{"playerId": red_id, "camp": 0, "teamId": "RED", "name": "mock-red"},
+                    {"playerId": blue_id, "camp": 1, "teamId": "BLUE", "name": "mock-blue"}],
+        "nodes": mc["nodes"], "edges": mc["edges"], "processNodes": mc["processNodes"],
+        "resources": [{"nodeId": r["nodeId"], "resourceType": r["resourceType"], "count": 1, "claimRound": 2}
+                      for r in mc.get("visibleResources", [])],
+        "taskTemplates": [{"taskTemplateId": "T01", "score": 30}, {"taskTemplateId": "T02", "score": 30}]}}
 
 
 class Sim:
     HORSE_DUR = {"FAST_HORSE": 20, "SHORT_HORSE": 14}
+    SCOUT_DELAY = 3
 
     def __init__(self, mc, me_id):
         self.me_id = me_id
@@ -94,25 +91,27 @@ class Sim:
             self.stock.setdefault(r["nodeId"], {}).setdefault(r["resourceType"], 0)
             self.stock[r["nodeId"]][r["resourceType"]] += 1
         self.tasks = [dict(t, completed=False) for t in TASKS]
-        # 状态
+        self.obstacles = set(OBSTACLES)
+        self.marks = {}          # node -> set(teamId)
+        self.pending_scouts = []  # [arrive_round, node, team]
         self.pos, self.state, self.target = "S01", "IDLE", None
         self.reading, self.read_kind, self.read_ctx, self.timer = False, None, None, 0
         self.verified = self.delivered = False
         self.good, self.fresh, self.rush = 100, 100.0, False
         self.inv, self.buffs, self.rush_used, self.task_score = {}, [], 0, 0
+        self.squad_available = 8
 
     # ---- 快照 ----
     def snapshot(self):
-        return {
-            "playerId": self.me_id, "teamId": "RED", "state": self.state,
-            "currentNodeId": self.pos, "nextNodeId": self.target,
-            "freshness": round(self.fresh, 3), "goodFruit": self.good, "badFruit": 0, "frozenGoodFruit": 0,
-            "squadAvailable": 8, "guardActionPoint": 4, "verified": self.verified, "delivered": self.delivered,
-            "retired": False, "resources": {k: v for k, v in self.inv.items() if v > 0},
-            "buffs": [{"type": b["type"], "remainingRound": b["remainingRound"]} for b in self.buffs],
-            "rushTacticUsedCount": self.rush_used, "taskScore": self.task_score,
-            "bountyScore": 0, "totalScore": 0,
-        }
+        return {"playerId": self.me_id, "teamId": "RED", "state": self.state,
+                "currentNodeId": self.pos, "nextNodeId": self.target,
+                "freshness": round(self.fresh, 3), "goodFruit": self.good, "badFruit": 0, "frozenGoodFruit": 0,
+                "squadAvailable": self.squad_available, "guardActionPoint": 4,
+                "verified": self.verified, "delivered": self.delivered, "retired": False,
+                "resources": {k: v for k, v in self.inv.items() if v > 0},
+                "buffs": [{"type": b["type"], "remainingRound": b["remainingRound"]} for b in self.buffs],
+                "rushTacticUsedCount": self.rush_used, "taskScore": self.task_score,
+                "bountyScore": 0, "totalScore": 0}
 
     def tasks_view(self):
         return [{"taskId": t["taskId"], "taskTemplateId": t["taskTemplateId"], "name": t.get("name"),
@@ -120,14 +119,21 @@ class Sim:
                  "active": not t["completed"], "completed": t["completed"], "failed": False}
                 for t in self.tasks]
 
-    def nodes_view(self, all_node_ids):
-        return [{"nodeId": nid, "resourceStock": dict(self.stock.get(nid, {})),
-                 "hasObstacle": False, "canWindow": False} for nid in all_node_ids]
+    def nodes_view(self, node_ids):
+        out = []
+        for nid in node_ids:
+            scouted = [{"teamId": t, "remainRound": 45, "processReduceRound": 3, "remainingTriggers": 1}
+                       for t in self.marks.get(nid, ())]
+            out.append({"nodeId": nid, "resourceStock": dict(self.stock.get(nid, {})),
+                        "hasObstacle": nid in self.obstacles, "obstacleType": "ROCKFALL" if nid in self.obstacles else None,
+                        "scouted": scouted, "canWindow": False})
+        return out
 
     # ---- 推进 ----
     def resolve(self, actions, rnd):
         events = []
-        main = actions[0] if actions else None
+        main = next((a for a in actions if not str(a.get("action", "")).startswith("SQUAD_")), None)
+        squad = next((a for a in actions if str(a.get("action", "")).startswith("SQUAD_")), None)
         act = main.get("action") if main else None
 
         if not self.reading and self.state == "MOVING":
@@ -147,6 +153,10 @@ class Sim:
         elif self.state in ("IDLE", "COST_BANKRUPT"):
             events += self._apply_idle(act, main, rnd)
 
+        if squad:
+            events += self._apply_squad(squad, rnd)
+        events += self._deliver_scouts(rnd)
+
         self._tick_buffs()
         fmult = 0.2 if self._has_buff("RUSH_PROTECT") else 1.0
         if self._has_buff("RUSH_SPEED"):
@@ -158,14 +168,23 @@ class Sim:
         events = []
         if act == "MOVE":
             tgt = main.get("targetNodeId")
-            if tgt in self.adj.get(self.pos, ()):
+            if tgt in self.adj.get(self.pos, ()) and tgt not in self.obstacles:
                 self.state, self.target, self.timer = "MOVING", tgt, 1
         elif act == "PROCESS":
             if self.pos in self.proc_round:
                 self._start_read("PROCESS", self.proc_round[self.pos], None, "PROCESSING")
         elif act == "VERIFY_GATE":
             if self.rush and self.pos == self.gate and not self.verified:
-                self._start_read("VERIFY", self.verify_round, None, "VERIFYING")
+                vr = self.verify_round
+                if "RED" in self.marks.get(self.gate, set()):
+                    vr = max(3, vr - 3)
+                    self.marks[self.gate].discard("RED")
+                    events.append(self._ev("SCOUT_MARKER_CONSUME", rnd, nodeId=self.gate))
+                self._start_read("VERIFY", vr, None, "VERIFYING")
+        elif act == "CLEAR":
+            tgt = main.get("targetNodeId")
+            if tgt in self.obstacles and (tgt == self.pos or tgt in self.adj.get(self.pos, ())) and self.good > 1:
+                self._start_read("CLEAR", 6, tgt, "PROCESSING")
         elif act == "CLAIM_RESOURCE":
             res, node = main.get("resourceType"), main.get("targetNodeId") or self.pos
             if node == self.pos and self.stock.get(self.pos, {}).get(res, 0) > 0:
@@ -181,11 +200,35 @@ class Sim:
                 self.buffs.append({"type": "RUSH_PROTECT", "remainingRound": 30})
                 self.rush_used += 1
                 events.append(self._ev("RUSH_TACTIC_USE", rnd, tactic="RUSH_PROTECT"))
+        elif act == "RUSH_SPEED":
+            if self.rush and self.rush_used == 0 and not self._has_move_buff():
+                self.buffs.append({"type": "RUSH_SPEED", "remainingRound": 15})
+                self.rush_used += 1
+                events.append(self._ev("RUSH_TACTIC_USE", rnd, tactic="RUSH_SPEED"))
         elif act == "DELIVER":
             if self.pos == self.terminal and self.verified and self.good > 0 and self.fresh > 0:
                 self.delivered = True
                 events.append(self._ev("DELIVER_SUCCESS", rnd))
         return events
+
+    def _apply_squad(self, squad, rnd):
+        a, tgt = squad.get("action"), squad.get("targetNodeId")
+        if a == "SQUAD_SCOUT" and self.squad_available > 0 and tgt:
+            self.squad_available -= 1
+            self.pending_scouts.append([rnd + self.SCOUT_DELAY, tgt, "RED"])
+            return [self._ev("SQUAD_DISPATCH", rnd, targetNodeId=tgt, action="SQUAD_SCOUT")]
+        return []
+
+    def _deliver_scouts(self, rnd):
+        ev, still = [], []
+        for arr, node, team in self.pending_scouts:
+            if arr <= rnd:
+                self.marks.setdefault(node, set()).add(team)
+                ev.append(self._ev("SCOUT_MARKER_ADD", rnd, nodeId=node, teamId=team))
+            else:
+                still.append([arr, node, team])
+        self.pending_scouts = still
+        return ev
 
     def _start_read(self, kind, frames, ctx, state_str):
         self.reading, self.read_kind, self.read_ctx = True, kind, ctx
@@ -199,6 +242,10 @@ class Sim:
         if kind == "VERIFY":
             self.verified = True
             return [self._ev("VERIFY_GATE_COMPLETE", rnd)]
+        if kind == "CLEAR":
+            self.obstacles.discard(ctx)
+            self.good -= 1
+            return [self._ev("OBSTACLE_CLEAR", rnd, nodeId=ctx)]
         if kind == "CLAIM":
             self.stock[self.pos][ctx] -= 1
             self.inv[ctx] = self.inv.get(ctx, 0) + 1
@@ -212,16 +259,14 @@ class Sim:
 
     def _use(self, main, rnd):
         res = main.get("resourceType")
-        if res == "ICE_BOX":
-            if self.inv.get("ICE_BOX", 0) > 0 and self.fresh > 0:
-                self.fresh = min(100.0, self.fresh + 10)
-                self.inv["ICE_BOX"] -= 1
-                return [self._ev("RESOURCE_USE", rnd, resourceType="ICE_BOX")]
-        elif res in self.HORSE_DUR:
-            if self.inv.get(res, 0) > 0 and not self._has_move_buff():
-                self.buffs.append({"type": res, "remainingRound": self.HORSE_DUR[res]})
-                self.inv[res] -= 1
-                return [self._ev("RESOURCE_USE", rnd, resourceType=res)]
+        if res == "ICE_BOX" and self.inv.get("ICE_BOX", 0) > 0 and self.fresh > 0:
+            self.fresh = min(100.0, self.fresh + 10)
+            self.inv["ICE_BOX"] -= 1
+            return [self._ev("RESOURCE_USE", rnd, resourceType="ICE_BOX")]
+        if res in self.HORSE_DUR and self.inv.get(res, 0) > 0 and not self._has_move_buff():
+            self.buffs.append({"type": res, "remainingRound": self.HORSE_DUR[res]})
+            self.inv[res] -= 1
+            return [self._ev("RESOURCE_USE", rnd, resourceType=res)]
         return []
 
     def _tick_buffs(self):
@@ -247,14 +292,12 @@ class Sim:
 
 
 def build_inquire(match_id, rnd, sim, blue_id, node_ids, events, last_action):
-    phase = "RUSH" if sim.rush else "NORMAL"
     ar = []
     if last_action is not None:
         first = last_action[0]["action"] if last_action else "WAIT"
-        ar.append({"round": rnd - 1, "playerId": sim.me_id, "action": first,
-                   "accepted": True, "result": "ACCEPTED"})
+        ar.append({"round": rnd - 1, "playerId": sim.me_id, "action": first, "accepted": True, "result": "ACCEPTED"})
     return {"msg_name": "inquire", "msg_data": {
-        "matchId": match_id, "round": rnd, "tick": rnd - 1, "phase": phase,
+        "matchId": match_id, "round": rnd, "tick": rnd - 1, "phase": "RUSH" if sim.rush else "NORMAL",
         "players": [sim.snapshot(),
                     {"playerId": blue_id, "teamId": "BLUE", "state": "IDLE",
                      "currentNodeId": "S01", "delivered": False, "retired": False}],
@@ -268,13 +311,12 @@ def build_over(match_id, rnd, sim, blue_id, reason):
         "matchId": match_id, "overRound": rnd,
         "resultType": "NORMAL" if sim.delivered else "DRAW", "overReason": reason,
         "winnerPlayerId": sim.me_id if sim.delivered else None,
-        "players": [
-            {"playerId": sim.me_id, "playerName": "mock-red", "online": True, "delivered": sim.delivered,
-             "retired": False, "freshness": round(sim.fresh, 3), "goodFruit": sim.good,
-             "taskScore": sim.task_score, "deliverRound": rnd if sim.delivered else 0,
-             "totalScore": 0, "scoreDetail": {"total": 0}},
-            {"playerId": blue_id, "playerName": "mock-blue", "online": True, "delivered": False,
-             "retired": False, "totalScore": 0, "scoreDetail": {"total": 0}}]}}
+        "players": [{"playerId": sim.me_id, "playerName": "mock-red", "online": True, "delivered": sim.delivered,
+                     "retired": False, "freshness": round(sim.fresh, 3), "goodFruit": sim.good,
+                     "taskScore": sim.task_score, "deliverRound": rnd if sim.delivered else 0,
+                     "totalScore": 0, "scoreDetail": {"total": 0}},
+                    {"playerId": blue_id, "playerName": "mock-blue", "online": True, "delivered": False,
+                     "retired": False, "totalScore": 0, "scoreDetail": {"total": 0}}]}}
 
 
 def serve(host, port, max_rounds):
@@ -285,7 +327,7 @@ def serve(host, port, max_rounds):
     srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     srv.bind((host, port))
     srv.listen(1)
-    print("[mock] listening on %s:%d (maxRounds=%d)" % (host, port, max_rounds))
+    print("[mock] listening on %s:%d (maxRounds=%d) obstacles=%s" % (host, port, max_rounds, OBSTACLES))
     conn, addr = srv.accept()
     print("[mock] client connected from %s" % (addr,))
     buf = bytearray()
@@ -313,13 +355,13 @@ def serve(host, port, max_rounds):
             actions = act_msg["msg_data"].get("actions", [])
             last_action = actions
             pending = sim.resolve(actions, rnd)
-            key = (sim.state, sim.pos, sim.verified, sim.task_score)
+            key = (sim.state, sim.pos, sim.verified, sim.task_score, tuple(sorted(sim.obstacles)))
             if key != last_key or pending:
                 names = [e["type"] for e in pending]
-                print("[mock] r%-3d pos=%-4s state=%-11s ver=%-5s task=%-3d inv=%s act=%-14s ev=%s"
-                      % (rnd, sim.pos, sim.state, sim.verified, sim.task_score,
-                         dict((k, v) for k, v in sim.inv.items() if v),
-                         (actions[0]["action"] if actions else "[]"), names))
+                acts = ",".join(a.get("action", "?") for a in actions) or "[]"
+                print("[mock] r%-3d pos=%-4s state=%-11s ver=%-5s task=%-3d good=%d inv=%s act=%-22s ev=%s"
+                      % (rnd, sim.pos, sim.state, sim.verified, sim.task_score, sim.good,
+                         dict((k, v) for k, v in sim.inv.items() if v), acts, names))
                 last_key = key
             if sim.delivered:
                 conn.sendall(encode(build_over(match_id, rnd, sim, blue_id, "ALL_DELIVERED")))
@@ -336,5 +378,5 @@ def serve(host, port, max_rounds):
 if __name__ == "__main__":
     host = sys.argv[1] if len(sys.argv) > 1 else "127.0.0.1"
     port = int(sys.argv[2]) if len(sys.argv) > 2 else 8081
-    rounds = int(sys.argv[3]) if len(sys.argv) > 3 else 200
+    rounds = int(sys.argv[3]) if len(sys.argv) > 3 else 250
     serve(host, port, rounds)

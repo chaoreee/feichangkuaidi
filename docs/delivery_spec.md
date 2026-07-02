@@ -21,8 +21,8 @@
 小分队：`SQUAD_SCOUT/CLEAR/REINFORCE/WEAKEN(targetNodeId)`
 窗口：`WINDOW_CARD(contestId,card)`
 急策：`RUSH_SPEED` `RUSH_PROTECT`；`BREAK_ORDER` 仅作为 `rushTactic` 绑定 `BREAK_GUARD`/`VERIFY_GATE`，禁止独立发送
-- [ ] 每帧动作类别上限：主车队/小分队/急策各 1，窗口 1 个 contestId（协议 §8 动作类别限制）
-- [ ] 输入=inquire 公开状态；输出=合法 actions 数组；空时发 `[]`
+- [x] 每帧动作类别上限：主车队/小分队/急策各 1，窗口 1 个 contestId（M5 至多 1 主车队 + 1 小分队探路同帧）
+- [x] 输入=inquire 公开状态；输出=合法 actions 数组；空时发 `[]`
 
 ### 1.3 状态机（任务书 §3.1 / §8.2）
 IDLE / MOVING / WAITING / PROCESSING / CONTESTING / RESTING / FORCED_PASSING / VERIFYING / COST_BANKRUPT / DELIVERED / RETIRED。
