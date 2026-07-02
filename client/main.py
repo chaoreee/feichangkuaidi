@@ -19,6 +19,7 @@ from logger.match_logger import MatchLogger  # noqa: E402
 from protocol import messages  # noqa: E402
 from protocol.enums import MsgName  # noqa: E402
 from strategy.decision import DecisionEngine, GameContext  # noqa: E402
+from core.world_state import WorldState  # noqa: E402
 
 
 def parse_args(argv):
@@ -127,8 +128,9 @@ def _handle_inquire(client, engine, logger, match_id, player_id, data):
 
     t0 = time.perf_counter()
     try:
-        actions = engine.decide(data)
-    except Exception as exc:  # 决策异常绝不能拖垮心跳
+        world = WorldState(data, player_id, engine.ctx.game_map)
+        actions = engine.decide(world)
+    except Exception as exc:  # 解析/决策异常绝不能拖垮心跳
         actions = []
         logger.log("error", round=rnd, error="decide_exception", detail=repr(exc))
     elapsed = time.perf_counter() - t0
