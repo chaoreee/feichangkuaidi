@@ -3,10 +3,10 @@
 > 本文件是《一骑红尘：荔枝争运战》Agent 交付件开发系统的**唯一能力基线**。
 > 所有开发以本文件为依据；每次能力发生变化时**必须同步更新**本文件的"能力矩阵"与"迭代日志"。
 
-- 最后更新：2026-07-03
-- 当前轮次：Iteration 20（M8 博弈投影层 **P4 §7 条件化 SET_GUARD**（默认关）：`decision.py` `_maybe_set_guard` 分发到 `_conditional_guard`(§7.1 六条件 + denial 期望分损失 `_guard_denial_value` ≥ `GUARD_MIN_NET_VALUE`)或 M7 基线 `_basic_set_guard`；设卡细节写 `guard_decision`、main 每帧 `GuardDecision` trace。15 项新单测(共 229)全通过；全部 race/guard 开关默认关故 mock 零回归 @r48。**M8 全部 P1-P4 落地完毕**）
-- 上一轮次：Iteration 19（M8 P3 §6.3 鲜度/资源 race 默认关；12 项新单测(共 214)）。更早各轮见 §7 迭代日志。
-- 进度：**M8 博弈投影层 P1-P4 全部实现**——P1 投影总线+P1.5 ΔEV 地板(启用)、P2 §5 低风险增量(启用)、P3 §6 race(默认关)、P4 §7 条件化 SET_GUARD(默认关)。所有增量动作均过 `_can_afford`+（相关处）ΔEV 地板，信息不足默认 EVEN=既有基线。**下一步：P0 真实对局 trace 归因 + 校准所有阈值/开关**。
+- 最后更新：2026-07-04
+- 当前轮次：Iteration 21（**迭代方式重排设计评审**——未改运行期决策代码。三问分析认定：①20 轮/M8 全建在 mock@r48 之上、`logs/` 零真实 trace 的"验证真空"；②静态层是贪心瀑布未求解、任务冲 90 的 ~+220 分杠杆只被机会式处理；③博弈层优先级错置（SET_GUARD ROI 最低却占 P4，GATE/deny 最弱）。产出 `docs/iteration_plan_v2.md` 定新范式：**分析器驱动证据型迭代**——in-client 采集器+repo 聚合器把 10w 字 trace 压成结构化 report，AI 只做归因；Phase 0 真实 trace → A 高保真仿真(复用 `rules.py`) → B 静态规划器(任务-90 可达性) → C 仿真校准 → D 博弈层重排(GATE/deny/预测优先，SET_GUARD 冻结)。同步更新 architecture/delivery_spec/CHANGELOG。运行期代码与 mock @r48 零回归。）
+- 上一轮次：Iteration 20（M8 P4 §7 条件化 SET_GUARD 默认关；M8 P1-P4 全部落地；15 项新单测共 229）。更早各轮见 §7 迭代日志。
+- 进度：**迭代方式重排为分析器驱动证据型**（详见 `docs/iteration_plan_v2.md`）。M8 P1-P4 代码全部保留但 triage：Layer1/ΔEV/ETA 保留（ΔEV 输入待 Phase B 鲜度模型升级后才可信）、P2/P3 race 待仿真 A/B 后逐项开关、P4 SET_GUARD **冻结**。**下一步（Iter 21→）**：先建分析器基础设施（`client/analysis/collector.py` + `scripts/analyze_logs.py` + report.json schema + 单测+对账），再 Phase 0 收割真实 trace，再 Phase A 高保真仿真、Phase B 静态规划器。新"done"标准：任何改动须过仿真 A/B 证据（见 `iteration_plan_v2.md` §1.2）。
 - 规则来源：`一骑红尘：荔枝争运战 参赛选手任务书.md`、`一骑红尘：荔枝争运战 通信协议.md`（二者为最高权威，本文件与其冲突时以原始文档为准）
 
 ---
@@ -19,8 +19,8 @@
 
 ## 2. 当前系统架构
 
-三层：能力基线（本文件 + docs/）→ 运行期 Client（`client/`，纯 stdlib、可提交、离线可跑）→ 迭代闭环（取回 trace 日志由 Claude Code 直接分析）。
-`client/` **本身即提交平台的交付件根目录**：`start.sh` 与 `main.py` 同级，手动打包时 `client/` 的内容直接构成 ZIP 根（不套同名目录）。运行期 trace 日志写在包内 `client/logs/`，随交付件下载回本地后复制到仓库 `logs/`（client 之外）供分析。仓库不再保留 python 分析模块与打包脚本。数据流与模块协作见 `docs/architecture.md`。
+三层：能力基线（本文件 + docs/）→ 运行期 Client（`client/`，纯 stdlib、可提交、离线可跑）→ 迭代闭环（**分析器驱动**：in-client 采集器把对局压成结构化 `report.json` → repo 侧聚合器产出跨局/A/B 聚合报告 → Claude Code 读聚合报告做归因，不再直读 10w 字原始 trace）。
+`client/` **本身即提交平台的交付件根目录**：`start.sh` 与 `main.py` 同级，手动打包时 `client/` 的内容直接构成 ZIP 根（不套同名目录）。运行期 trace 日志 + `report.json` 写在包内 `client/logs/`，随交付件下载回本地后复制到仓库 `logs/`（client 之外）供分析。仓库不再保留打包脚本；分析改为 `client/analysis/collector.py`（包内采集）+ `scripts/analyze_logs.py`（仓库侧聚合）两层，**只抽取事实、不做优化**（Iteration 9 删旧 `analysis/` 后以正确形态回归，详见 `docs/iteration_plan_v2.md`）。数据流与模块协作见 `docs/architecture.md`。
 `samples/` 存放参考样例：`map_config.json`（✅ 已提供，中等难度竞技地图原始配置，为 `start` 载荷子集）；`start_message.json`/`inquire_message.json`（⛔ 暂不提供，结构以通信协议 §5/§7 + `docs/protocol.md` 为准）。只读，不被 `client/` import。字段差异详见 `samples/README.md`。
 
 ## 3. Agent 职责与工作原则
@@ -28,8 +28,8 @@
 1. CLAUDE.md 是唯一能力基线（SSOT）。
 2. 所有代码实现严格遵循 `docs/delivery_spec.md`。
 3. 所有实现严格符合任务书与通信协议。
-4. 运行期 trace 日志写在包内 `client/logs/match_<matchId>_<playerId>.log`；取回后归档到仓库 `logs/`（client 之外）可追溯。
-5. 每轮日志分析由 Claude Code 直接读取 trace 日志产出结论（不依赖 python 分析模块）。
+4. 运行期 trace 日志 + 结构化 `report.json` 写在包内 `client/logs/match_<matchId>_<playerId>.{log,json}`；取回后归档到仓库 `logs/`（client 之外）可追溯。
+5. 每轮日志分析：in-client 采集器产出 `report.json`（事实，纯代码抽取），repo 侧 `scripts/analyze_logs.py` 聚合产出跨局/A/B 报告，Claude Code 读聚合报告做归因（**代码抽取事实、AI 只做解释**；分析器不做优化）。
 6. 每轮优化后同步更新本文件（能力矩阵 + 迭代日志）与 `CHANGELOG.md`。
 7. 所有经验/问题/改进沉淀为长期知识，形成闭环。
 
@@ -87,7 +87,7 @@
 | 能力 | 状态 | 备注 |
 |---|---|---|
 | 人类可读 trace 运行日志（握手/每帧状态/每个动作/错误/结算/异常） | ✅ | `logger/match_logger.py` 输出 `<时钟> <Event> matchId=..., round=..., k=v`；写**包内** `client/logs/match_{matchId}_{playerId}.log`，逐行 flush；事件 Startup/Register/Start/Ready/Frame/Action/Recv/Error/Over/Score/Shutdown |
-| 赛后分析 | ✅ | 由 Claude Code 直接读取取回的 trace 日志（仓库 `logs/`，client 之外）产出结论并回写基线；**已移除 python `analysis/` 模块** |
+| 赛后分析 | 🟡(规划中) | **Iteration 21 重排为分析器驱动**（详见 `docs/iteration_plan_v2.md`）：in-client `client/analysis/collector.py` 运行时累计决策事件、game over 写 `report.json`（2-4KB 结构化事实，schemaVersion 化）；repo 侧 `scripts/analyze_logs.py` **累积语料**（跨批次追加，单次提交对局少也够样本）+ 跨局统计 + **场景分段**（交付/未交付、task-90 达成/未达、中局领先/落后、天气/争抢 等）+ seed 配对 A/B + **运气分类**（expected_win/unlucky_loss/lucky_win/expected_loss）+ 异常局标记 + `rules.py` 对账自检 → `analysis_report.md`/`ab_report.md`/`calibration_v1.md` 三份分工报告；Claude Code 读聚合报告归因，不直读 10w 字 trace。**代码只抽取事实、不做优化**；**单局只作假设来源，决策须基于全语料聚合+CI+分段不回归**（防单点过拟合，对齐 839cfc9 教训）。实现待 Iter 21 |
 
 ### 4.5 交付工程
 | 能力 | 状态 | 备注 |
@@ -98,6 +98,7 @@
 
 ## 5. 当前问题与已知限制
 
+- **〔Iteration 21 三问分析认定，最高优先〕验证真空 + 静态层未求解 + 博弈层优先级错置**：① 20 轮/M8 P1-P4 全建在 mock@r48 之上，仓库 `logs/` **零真实对局 trace**，所有阈值/开关均为未校准初值、`ENABLE_*` 全默认关、mode 在唯一测试环境恒 EVEN → 博弈层对动作零影响；② 静态层 `_plan` 是贪心瀑布而非优化求解，任务冲 90（解锁送达基础分 120→240 + 用时系数满 + 里程碑 35，~+220 分）只被机会式处理，漏 90 代价远超 M8 微调；③ SET_GUARD ROI 最低却占 P4，GATE 验核/deny 收益最高却最弱。**处置见 `docs/iteration_plan_v2.md`：分析器驱动证据型迭代，Phase 0→A→B→C→D，SET_GUARD 冻结。** 在分析器 + 真实 trace + 仿真三级证据就绪前，不新增博弈层能力。
 - 无法访问比赛内网运行环境，只能靠导出日志离线分析（任务书 §4 要求）。
 - 当前协议不承诺断线重连；连接需稳定，异常需记录，但不强求恢复对局。
 - 单帧决策建议 500ms 内完成，策略需轻量并设硬超时降级。
@@ -114,14 +115,17 @@
 
 ## 6. 后续规划（Roadmap）
 
-M0 文档基线（本轮，✅ 交付中）→ M1 通信打通 → M2 核心镜像 → M3 基线策略（稳定交付）→ M4 收益策略 → M5 对抗策略 → M6 分析闭环 → M7+ 按真实日志迭代。里程碑详情见 `docs/architecture.md` §Roadmap。
+M0 文档基线 → M1 通信打通 → M2 核心镜像 → M3 基线策略（稳定交付）→ M4 收益策略 → M5 对抗策略 → M6 分析闭环 → M7 能力补全 → M8 博弈投影层（P1-P4 代码全部落地，待校准）→ **M9 分析器驱动证据型迭代（Iteration 21 起，进行中）**。里程碑详情见 `docs/architecture.md` §Roadmap。
 
-**M8 博弈投影层（P1+P1.5+P2 档位调参已实现，P2 其余与 P3-P4 待续）**：把 `world.opponent` 升级为策略一等输入，用"对手投影驱动的风险档位切换 + 分数质量地板"提升胜率与得分上限。落地顺序（详见 `docs/game_theory_projection_strategy.md` §10）：P0 真实 trace 败局归因（待真实 `logs/`）→ **✅ P1 投影总线**（纯观测）→ **✅ P1.5 分数质量地板** `net_score_delta` → **✅ P2 低风险增量全部完成**（§5.1 行1-5 档位调参+ΔEV 地板、§5.2 悬赏机会主义、§5.3 终局交付 race、§5.4 窗口 EV 均已接入 `decision.py`）→ **🟢 P3 中风险 race 全部接入（默认关）**（§6.1 ETA、§6.2 任务 race、§6.3 鲜度/资源 race）→ **✅ P4 §7 条件化 SET_GUARD（默认关）**。**M8 全部 P1-P4 已实现**。铁律：所有增量动作须同时过 `_can_afford`（时间）与 `ΔEV≥0`（分数）；信息不足默认 `EVEN` 保持基线。**下一步（P0）**：拿真实对局 trace 归因 + 校准全部阈值（`LEAD_SAFE`/confidence/投影精度/`ENDGAME_RACE_WINDOW`/窗口 EV 好果下限/突破时间税/ETA 精度/任务·资源 race 阈值/`GUARD_*`），并逐项打开 P3/P4 开关、用真实 trace 验证 ΔEV/胜负收益为正后固化。
+**M8 博弈投影层（P1-P4 代码已实现，全部待校准/默认关）**：把 `world.opponent` 升级为策略一等输入，用"对手投影驱动的风险档位切换 + 分数质量地板"提升胜率与得分上限（详见 `docs/game_theory_projection_strategy.md`）。M8 P1-P4 代码全部保留，但 Iteration 21 triage 后：Layer1/ΔEV/ETA 保留（ΔEV 输入待 M9 Phase B 鲜度模型升级后才可信）、P2/P3 race 待仿真 A/B 后逐项开关、**P4 SET_GUARD 冻结**。铁律不变：所有增量动作须同时过 `_can_afford`（时间）与 `ΔEV≥0`（分数）；信息不足默认 `EVEN` 保持基线。
+
+**M9 分析器驱动证据型迭代（Iteration 21 起，进行中，详见 `docs/iteration_plan_v2.md`）**：针对 Iteration 21 三问认定（验证真空 / 静态层未求解 / 博弈层优先级错置），把迭代方式改为证据型闭环 `假设→仿真/trace 证据→实现→A/B→仅当正向才固化`。落地顺序：**Iter 21 分析器基础设施**（in-client `collector.py` + `report.json` schema + repo `analyze_logs.py` + 单测+对账，只抽取不优化）→ **Phase 0** 真实 trace 收割 + P0 归因 → **Phase A** 高保真自博弈仿真器（物理复用 `core/rules.py`，产出同格式 report）→ **Phase B** 静态规划器（任务-90 可达性 + 路线评分 + 鲜度投影升级，替换 `_plan` 贪心瀑布）→ **Phase C** 仿真驱动阈值/开关校准（产出 `calibration_v1.md`）→ **Phase D** 博弈层重排（D1 GATE 验核 race、D2 窗口对手出牌预测、D3 deny 按 |gap| 条件化+相对分 ΔEV；D4 SET_GUARD 冻结）。新"done"标准见 `iteration_plan_v2.md` §1.2。
 
 ## 7. 迭代日志
 
 | 轮次 | 日期 | 触发 | 主要改动 | 能力增量 | 关联 |
 |---|---|---|---|---|---|
+| Iteration 21 | 2026-07-04 | 策略三问分析（验证真空 / 静态层未求解 / 博弈层优先级错置）驱动迭代方式重排 | **未改运行期决策代码**。新增 `docs/iteration_plan_v2.md`（完整设计与实现说明）：定新范式"分析器驱动证据型迭代"——in-client 采集器 `client/analysis/collector.py` + repo 聚合器 `scripts/analyze_logs.py` 把 10w 字 trace 压成结构化 `report.json`(2-4KB) + 聚合报告，**代码只抽取事实、AI 只做解释**（Iter 9 删旧 `analysis/` 后以正确形态回归）。Phase 路线：0 真实 trace 归因 → A 高保真仿真(复用 `core/rules.py`) → B 静态规划器(任务-90 可达性替换贪心瀑布) → C 仿真校准 → D 博弈层重排(GATE/deny/预测优先，SET_GUARD 冻结)。新"done"标准：改动须过仿真 A/B 证据。同步更新 CLAUDE.md(能力矩阵增"赛后分析🟡规划中"、§5 增三问认定、§6 增 M9)、architecture.md(数据流增分析器漏斗、Roadmap 增 M9)、delivery_spec.md、CHANGELOG.md。M8 P1-P4 代码 triage：Layer1/ΔEV/ETA 保留、P2/P3 待 A/B、P4 冻结。运行期代码与 mock @r48 零回归 | 迭代方式重排为证据型；分析器/仿真器/静态规划器设计基线就绪，待 Iter 21+ 实现 | `CHANGELOG.md`、`docs/iteration_plan_v2.md` |
 | Iteration 0 | 2026-07-02 | 项目初始化 | 建立 CLAUDE.md、docs/（architecture/delivery_spec/protocol/task）、CHANGELOG、目录骨架；确定 IO 模型=阻塞 socket+双线程 | 文档基线成型 | `CHANGELOG.md` |
 | Iteration 1 | 2026-07-02 | M1 通信打通 | 实现 framing/enums/messages/actions、双线程 TcpClient、JSONL logger、占位 DecisionEngine、config、main 启动闭环、start.sh、mock_server、framing 单测；端到端跑通 registration→over，全程空动作心跳不退赛 | 通信层可用 | `CHANGELOG.md` |
 | Iteration 2 | 2026-07-02 | M2 核心镜像 | 实现 core：rules(规则公式镜像)、pathfind(Dijkstra)、game_map(GameMap 解析+寻路)、world_state(WorldState 每帧解析)；main/decision 接线为每帧构建 WorldState 传入 decide；新增 40 项单测全通过；mock 端到端回归通过 | 状态镜像+规则+寻路可用，M3 策略就绪 | `CHANGELOG.md` |

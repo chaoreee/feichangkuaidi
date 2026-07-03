@@ -2,6 +2,29 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 21] - 2026-07-04 — 迭代方式重排设计评审（分析器驱动证据型迭代，未改运行期代码）
+
+### 触发
+对项目策略做三问分析，认定三个结构性问题：① **验证真空**——20 轮 / M8 P1-P4 全建在 mock@r48 之上，仓库 `logs/` 零真实对局 trace，所有阈值/开关为未校准初值、`ENABLE_*` 全默认关、mode 在唯一测试环境恒 EVEN（博弈层对动作零影响）；② **静态层未求解**——`_plan` 是贪心瀑布而非优化，任务冲 90（解锁送达基础分 120→240 + 用时系数满 + 里程碑 35，~+220 分）只被机会式处理；③ **博弈层优先级错置**——SET_GUARD ROI 最低却占 P4，GATE 验核/deny 收益最高却最弱。范式（静态最优为体、博弈投影为用）正确但远未执行到位。
+
+### Changed（文档，未改运行期决策代码）
+- 新增 **`docs/iteration_plan_v2.md`**（完整设计与实现说明）：定新范式"**分析器驱动证据型迭代**"——证据型闭环 `假设→仿真/trace 证据→实现→A/B→仅当正向才固化`；新"done"标准须过仿真 A/B 证据。
+- **分析器架构**（两层，只抽取事实不做优化——Iter 9 删旧 `analysis/` 后以正确形态回归）：in-client `client/analysis/collector.py` 运行时累计决策事件、game over 写 `report.json`(2-4KB 结构化事实，schemaVersion 化)；repo 侧 `scripts/analyze_logs.py` 跨局统计 + seed 配对 A/B + 异常局标记 + `rules.py` 对账自检 → `analysis_report.md`；Claude Code 读聚合报告归因，不直读 10w 字 trace。**代码抽取事实、AI 只做解释**。
+- **Phase 路线**：Phase 0 真实 trace 收割+P0 归因 → Phase A 高保真自博弈仿真器（物理复用 `core/rules.py`，产出同格式 report）→ Phase B 静态规划器（任务-90 可达性 + 路线评分 + 鲜度投影升级，替换 `_plan` 贪心瀑布）→ Phase C 仿真驱动阈值/开关校准（产出 `calibration_v1.md`）→ Phase D 博弈层重排（D1 GATE 验核 race、D2 窗口对手出牌预测、D3 deny 按 |gap| 条件化+相对分 ΔEV；D4 SET_GUARD 冻结）。
+- 同步更新 `CLAUDE.md`（当前轮次/进度、§2 架构、§3 职责、§4.4 赛后分析🟡规划中、§5 增三问认定、§6 Roadmap 增 M9、§7 增 Iteration 21 条目）、`docs/architecture.md`（数据流图增分析器漏斗、模块表增 `analysis/`、Roadmap 增 M8/M9）、`docs/delivery_spec.md`（结构化分析报告条目）。
+
+### M8 triage（代码全部保留，处置重排）
+- Layer 1 投影总线 / ΔEV 地板 / P3 ETA：**保留**（ΔEV 输入待 Phase B 鲜度模型升级后才可信）。
+- P2 档位调参/悬赏/终局 race/窗口 EV、P3 任务/鲜度/资源 race：**仿真 A/B 后逐项定开/关**（Phase C）。
+- P4 条件化 SET_GUARD：**冻结，不再投入**（ROI 最低，仅真实 trace 出现锁胜场景才重评）。
+
+### Verified
+- 未改运行期决策代码；`python3 -m unittest discover -s tests` 231 项全通过；mock 端到端仍 @r48 零回归。
+
+### 待办（Iter 21+ 实现）
+- Iter 21：实现分析器基础设施（`collector.py` + `report.json` schema + `analyze_logs.py` + 单测 + 对账）。
+- Iter 22+：Phase 0 → A → B → C → D 按 `iteration_plan_v2.md` §10 排期推进。
+
 ## [Iteration 20] - 2026-07-03 — M8 博弈投影层 P4 §7 条件化 SET_GUARD（默认关，M8 P1-P4 全部落地）
 
 ### 触发

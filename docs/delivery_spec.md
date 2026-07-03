@@ -50,7 +50,8 @@ IDLE / MOVING / WAITING / PROCESSING / CONTESTING / RESTING / FORCED_PASSING / V
 - [x] 文件结构：见 `docs/architecture.md`；`client/` **本身即交付件根目录**，`start.sh` 与 `main.py` 同级（打包时 `client/` 内容直接构成 ZIP 根，不套同名目录）
 - [x] `start.sh` 接收 3 参数 `playerId host port` 并透传同目录 `main.py`；不写死 playerId/host/port/阵营；**脚本内不含中文**
 - [x] 配置集中于 `client/config.py`（超时、决策预算、日志目录、调试开关）
-- [x] 日志格式：人类可读 trace，每行一事件 `<时钟> <Event> matchId=..., round=..., k=v`，写入 **`client/logs/`**（包内），供取回后 Claude 直接分析（无 python 分析模块）
+- [x] 日志格式：人类可读 trace，每行一事件 `<时钟> <Event> matchId=..., round=..., k=v`，写入 **`client/logs/`**（包内）
+- [ ] **结构化分析报告**（Iter 21 规划，详见 `docs/iteration_plan_v2.md`）：in-client `client/analysis/collector.py` 运行时累计决策事件，game over 写 `client/logs/match_<id>_<pid>.report.json`（2-4KB 结构化事实，schemaVersion 化，异常安全不影响对局）；repo 侧 `scripts/analyze_logs.py` 聚合产出 `docs/analysis_report.md`（跨局统计 + seed 配对 A/B + 异常局标记 + `rules.py` 对账自检）。**代码只抽取事实、不做优化**；Claude Code 读聚合报告归因，不直读 10w 字原始 trace
 - [x] 启动方式：`./start.sh <playerId> <host> <port>`（等价本地 `python client/main.py <playerId> <host> <port>`）
 - [x] 运行时不执行 pip/npm/apt 等安装，不联网下载，不写系统目录
 

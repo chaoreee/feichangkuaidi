@@ -12,15 +12,19 @@
    运行期  client/（= 提交平台的交付件根目录，纯 stdlib、离线可跑）
    communication → protocol → core → strategy
         └── logger → client/logs/match_*.log（人类可读 trace）
+        └── analysis/collector.py → client/logs/match_*.report.json（结构化事实，game over 写）
                           │ 对战后随交付件下载回本地
                           ▼
-   采集   logs/（client 之外）：取回的 trace 日志入库
-                          │ 由 Claude Code 直接阅读分析（无 python 分析模块）
+   采集   logs/（client 之外）：取回的 trace + report.json 入库
+                          │ scripts/analyze_logs.py 聚合（跨局统计 + A/B + 对账）
                           ▼
-   迭代闭环：分析结论回写 client / CLAUDE.md / CHANGELOG.md
+   分析报告 docs/analysis_report.md（5-10KB，跨局对比 + 异常局标记）
+                          │ Claude Code 读聚合报告做归因（不直读 10w 字 trace）
+                          ▼
+   迭代闭环：结论回写 client / CLAUDE.md / CHANGELOG.md
 ```
 
-**核心原则**：`client/` **本身即交付件根目录**——手动打包时，`client/` 内容直接构成 ZIP 根（`start.sh`、`main.py`、各子包同级）。包内不得出现第三方依赖；纯标准库、离线可跑。分析不再依赖任何 python 模块，改由 Claude Code 直接读取取回的 trace 日志。
+**核心原则**：`client/` **本身即交付件根目录**——手动打包时，`client/` 内容直接构成 ZIP 根（`start.sh`、`main.py`、各子包同级）。包内不得出现第三方依赖；纯标准库、离线可跑。**分析器驱动**：in-client 采集器产出结构化 `report.json`（事实，纯代码抽取），repo 侧聚合器产出跨局/A/B 报告，Claude Code 读报告做归因——**代码抽取事实、AI 只做解释**，分析器不做优化（Iteration 9 删旧 `analysis/` 后以正确形态回归，详见 `docs/iteration_plan_v2.md`）。
 
 ## 2. 运行期 Client 模块职责
 
@@ -31,6 +35,7 @@
 | `core/` | 游戏状态镜像 `WorldState` + 规则计算 + 寻路 | 无副作用查询接口；供 strategy 使用 |
 | `strategy/` | 决策：输入 WorldState，输出 `List[Action]` | **不 import socket**；分层：路线→资源/任务→对抗→终局 |
 | `logger/` | 人类可读 trace 日志旁路记录 | 写 `client/logs/match_<matchId>_<playerId>.log`；每行一事件，逐行 flush |
+| `analysis/`（Iter 21 规划） | in-client 采集器：运行时累计决策事件，game over 写 `report.json` | 纯 stdlib、异常安全（不影响对局）；只抽取事实不做优化；埋点于 decision/main 关键路径 |
 | `config.py` `main.py` | 参数/超时/开关；组装启动闭环 | argv=`playerId host port`，禁止写死；`start.sh` 与 `main.py` 同级（包内） |
 
 ## 3. 数据流与模块协作
@@ -38,10 +43,14 @@
 ```
 平台 ⇄ communication ⇄ protocol ⇄ core(WorldState) → strategy → protocol → communication ⇄ 平台
                                        │
-                                    logger → client/logs/match_<matchId>_<playerId>.log
+                                    logger → client/logs/match_<matchId>_<playerId>.log（人类可读 trace）
+                                    analysis/collector → 累计决策事件（内存）
                                                      │（对战后随交付件下载回本地）
-                          复制到仓库 logs/（client 之外） → Claude Code 直接阅读 trace
-                                                     │
+                          复制到仓库 logs/（client 之外）
+                                                     │ scripts/analyze_logs.py 聚合（跨局统计 + seed 配对 A/B + 异常局标记 + rules.py 对账）
+                                                     ▼
+                          docs/analysis_report.md（5-10KB，AI 消费的主文档）
+                                                     │ Claude Code 读聚合报告 + 被标记单局 report 做归因
                         回写 → CLAUDE.md / CHANGELOG.md / docs/delivery_spec.md / client/
 ```
 
@@ -50,9 +59,10 @@
 收到 inquire(N)
   → protocol 解析 → core 更新 WorldState
   → strategy.decide(world) → List[Action]（含硬超时，超时降级为 [] / WAIT）
+       └─ analysis/collector 在决策关键点累计事件（mode/被拒/任务/突破/窗口/阈值跨越…）
   → protocol 构造 action(round=N) → communication 发送
   → logger 写 Frame + Action trace（超预算才附 ms）
-收到 over → 写 Over / Score trace → 退出
+收到 over → 写 Over / Score trace → collector 写 match_*_*.report.json → 退出
 ```
 
 ## 4. 关键技术决策
@@ -64,7 +74,7 @@
 | 状态表示 | 强类型 `WorldState`（dataclass），每帧由 inquire 重建 | 与协议字段解耦策略，便于离线回放测试 |
 | 寻路 | Dijkstra，边权 = 到站所需移动量 `ceil(distance × 路线耗时系数)` | 任务书 §2.3.2；单向边只按方向 |
 | 健壮性 | 任何异常/超时都发出合法心跳（空 actions） | 连续 60 帧缺动作即退赛，代价最大，必须避免 |
-| 测试 | stdlib `unittest` + `scripts/mock_server.py` 本地假服务端 | 无网络也能回归拆帧/寻路/规则/策略 |
+| 测试 | stdlib `unittest` + `scripts/mock_server.py` 本地假服务端；Iter 21+ 规划 `scripts/sim_server.py` 高保真自博弈仿真（物理复用 `core/rules.py`） | 无网络也能回归拆帧/寻路/规则/策略；仿真器提供 A/B 证据（见 `iteration_plan_v2.md` Phase A） |
 
 ## 4b. 参考样例 samples/
 
@@ -93,4 +103,5 @@
 | M5 | 对抗（设卡/攻坚/强制通行/窗口/小分队/急策） | 对抗动作合法生效、无非法动作扣分 |
 | M6 | 分析闭环 + 回写基线 | 闭环跑通 |
 | M7+ | 真实对局日志驱动迭代 | 持续 |
-| M9 | client/ 即交付件（start.sh 入包）+ trace 日志（client/logs）+ 移除 analysis/打包脚本 | 交付件可直接打包；trace 日志可直接分析 |
+| M8 | 博弈投影层 P1-P4 代码落地（详见 `game_theory_projection_strategy.md`） | mock 零回归；阈值/开关待校准 |
+| M9 | **分析器驱动证据型迭代**（Iteration 21 起，进行中）：in-client 采集器 + repo 聚合器 + 高保真仿真器 + 静态规划器 + 仿真校准 + 博弈层重排 | 详见 `docs/iteration_plan_v2.md`；新"done"标准须过仿真 A/B 证据 |
