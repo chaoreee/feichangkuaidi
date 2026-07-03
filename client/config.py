@@ -74,6 +74,12 @@ ENDGAME_RACE_WINDOW = 20            # 终局交付 race 触发窗口（帧）
 BOUNTY_MAX_EXTRA_FRAMES = 25        # 顺路悬赏允许的最大额外帧
 BOUNTY_MIN_NET_SCORE = 15           # 悬赏动作的最低净收益门槛
 
+# Layer 2 §5.4 窗口 EV：无代价牌(兵争/验牒/免费强行)恒出；只有"明显正收益"才为窗口烧好果(献贡)。
+# 献贡消耗 1 好果(直接减交付好果分)，故按档位设好果下限；CONSERVATIVE 一律不烧(锁胜)。
+WINDOW_XIANGONG_MIN_GOOD_EVEN = 50        # EVEN：好果多于此才愿献贡烧 1 篓
+WINDOW_XIANGONG_MIN_GOOD_AGGRESSIVE = 12  # AGGRESSIVE：略高于交付好果硬下限，允许更积极
+WINDOW_VALUABLE_CONTEST_TYPES = ("TASK", "GATE", "PASS", "DOCK")  # 值得为之烧好果的窗口类型
+
 # Layer 3/4 子能力开关（默认关闭，真实 trace 验证为正后逐项打开）
 ENABLE_TASK_DENY = False
 ENABLE_RESOURCE_DENY = False

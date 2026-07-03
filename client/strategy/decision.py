@@ -680,21 +680,42 @@ class DecisionEngine:
     # ---- 窗口出牌 ----
 
     def _window_card(self, world, me):
+        """窗口出牌 EV（§5.4 + §5.1 行5）：无代价牌恒出，献贡(烧好果)按档位与窗口价值决定。
+
+        代价口径（§5.4.3）：兵争(行动点)/验牒(文书)/免费强行(已有马·疾行 buff) 均**不影响交付分与
+        交付时间**，视作无代价——出无代价有效牌弱优于弃权（可能赢本拍，输了也不损耗）。
+        献贡消耗 1 好果=直接减交付好果分，是唯一有交付代价的牌，故按档位门控：
+        CONSERVATIVE 一律不烧(锁胜)；EVEN/AGGRESSIVE 仅窗口价值明显且好果高于档位下限、鲜度≥80 时出。
+        （消耗马的强行不列入——马用于交付提速，价值高于一次窗口。）
+        """
         contests = world.my_contests()
         if not contests:
             return None
-        cid = contests[0].get("contestId")
+        c = contests[0]
+        cid = c.get("contestId")
         if not cid:
             return None
+        # 1) 无代价牌，按克制强度 兵争 > 验牒 > 免费强行（兵争在无代价牌中克制最广）。
         if (me.guard_action_point or 0) > 0:
             return actions.window_card(cid, Card.BING_ZHENG)
-        if me.freshness >= 80 and me.good_fruit > config.KEEP_GOOD_FRUIT_MIN:
-            return actions.window_card(cid, Card.XIAN_GONG)
-        if me.resource_count(ResourceType.PASS_TOKEN) > 0 or me.resource_count(ResourceType.OFFICIAL_PERMIT) > 0:
-            return actions.window_card(cid, Card.YAN_DIE)
-        if self._has_any_horse(me):
-            return actions.window_card(cid, Card.QIANG_XING)
+        if (me.resource_count(ResourceType.PASS_TOKEN) > 0
+                or me.resource_count(ResourceType.OFFICIAL_PERMIT) > 0):
+            return actions.window_card(cid, Card.YAN_DIE)   # 文书无其它主动用途，视作无代价
+        if self._has_move_buff(me):
+            return actions.window_card(cid, Card.QIANG_XING)  # 已有马/疾行 buff → 强行免消耗
+        # 2) 有代价牌（献贡烧好果）：仅非 CONSERVATIVE 且窗口价值明显、好果/鲜度富余时。
+        mode = self.tuning.mode
+        if mode != RiskMode.CONSERVATIVE and self._window_worth_cost(c):
+            min_good = (config.WINDOW_XIANGONG_MIN_GOOD_AGGRESSIVE
+                        if mode == RiskMode.AGGRESSIVE else config.WINDOW_XIANGONG_MIN_GOOD_EVEN)
+            if me.freshness >= 80 and me.good_fruit > min_good:
+                return actions.window_card(cid, Card.XIAN_GONG)
+        # 3) 无值得投入的牌 → 弃权（无代价）。
         return actions.window_card(cid, Card.ABSTAIN)
+
+    def _window_worth_cost(self, contest):
+        """窗口是否值得为之烧好果：按争夺类型收益判定（§5.4）。任务/宫门/通行/靠泊价值明显。"""
+        return contest.get("contestType") in config.WINDOW_VALUABLE_CONTEST_TYPES
 
     # ---- 辅助 ----
 

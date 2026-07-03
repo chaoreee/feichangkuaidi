@@ -2,6 +2,36 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `AGENTS.md`。
 
+## [Iteration 15] - 2026-07-03 — M8 博弈投影层 P2 窗口 EV（§5.4 + §5.1 行5）接入决策
+
+### 触发
+P2 §5.1-§5.3 已就绪。接入 §5.4：把 `_window_card` 从"出第一张可出的牌"升级为**代价感知 + 档位门控**的期望收益选择，锁住交付好果不被窗口无谓消耗。至此 P2 低风险增量基本完成（仅剩 §5.1 行3）。
+
+### Changed（strategy/decision.py）
+- 重构 `_window_card(world, me)`，依任务书 §5.4.3 成本口径分两类：
+  - **无代价牌**（不减交付好果分、不拖交付时间）：兵争(1 行动点，仅用于窗口)、验牒(1 文书；`PASS_TOKEN`/`OFFICIAL_PERMIT` 无其它主动用途)、免费强行(已有马/疾行 buff 生效时免消耗)。按克制强度 **兵争 > 验牒 > 免费强行** 恒出——出无代价有效牌弱优于弃权（可能赢本拍，输了不损耗）。
+  - **有代价牌**：献贡(消耗 1 好果 = 直接减交付好果分，唯一有交付代价的牌)。仅**非 CONSERVATIVE** 且窗口价值明显 + 好果 > 档位下限 + 鲜度 ≥ 80 时出。消耗马的强行**不再出**（马用于交付提速，价值高于一次窗口）。
+- 新增 `_window_worth_cost(contest)`：按 `contestType` 判窗口是否值得烧好果（TASK/GATE/PASS/DOCK）。
+
+### Changed（config.py）
+- 新增 `WINDOW_XIANGONG_MIN_GOOD_EVEN=50`、`WINDOW_XIANGONG_MIN_GOOD_AGGRESSIVE=12`、`WINDOW_VALUABLE_CONTEST_TYPES=(TASK,GATE,PASS,DOCK)`。
+
+### Added（单测，共 +14，合计 170 全通过）
+- `test_window_ev.py`：无代价牌优先级(兵争>验牒>免费强行)、CONSERVATIVE 不烧好果、EVEN/AGGRESSIVE 好果下限差异、低价值窗口(RESOURCE)不烧、鲜度<80 不可献贡、只有马不烧马、无窗口返回 None。
+
+### Verified
+- `py -m unittest discover -s tests`：170 项全通过。
+- mock 端到端（127.0.0.1:8095）：仍 @r48 `DELIVER_SUCCESS`（fresh 97.6/good 100/task 60）——mock 不创建窗口，`_window_card` 返回 None，**零回归**。
+
+### 设计说明 / 暂缓
+- 未接入"对手历史窗口出牌倾向"预测（§5.4 输入之一）：需可靠的跨帧对手出牌历史与真实 trace，暂缓；当前用"无代价牌恒出 + 有代价牌按价值/档位门控"的稳健 EV 近似。
+- **P2 低风险增量至此基本完成**：§5.1 行1/2/4/5、§5.2、§5.3、§5.4 均已接入；仅剩 §5.1 行3（突破烧好果意愿，触交付关键 `_breakthrough` 路径，待真实 trace）。
+
+### 待办
+- P0：真实 trace 归因 + 校准 `LEAD_SAFE`/confidence/投影精度/`ENDGAME_RACE_WINDOW`/窗口 EV 好果下限。
+- 评估进入 P3（中风险 race：ETA/任务/资源，逐项开关，默认关）。
+
+
 ## [Iteration 14] - 2026-07-03 — M8 博弈投影层 P2 终局交付 race（§5.3）接入决策
 
 ### 触发
