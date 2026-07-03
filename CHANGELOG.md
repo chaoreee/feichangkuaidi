@@ -2,6 +2,38 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `AGENTS.md`。
 
+## [Iteration 11] - 2026-07-03 — M8 博弈投影层 P1+P1.5 落地（纯观测，不改动作）
+
+### 触发
+按 `docs/game_theory_projection_strategy.md` 的落地顺序实现零风险先行的 P1（投影总线）与 P1.5（分数质量地板）：把 `world.opponent` 升级为策略一等**观测**输入，为后续 Layer 2-4 的档位调参与博弈动作提供基础设施与校准依据。P0（真实 trace 归因）与 P2-P4（改动作层）待真实对局日志。
+
+### Added（strategy/projection.py，新模块）
+- `Projector.build(world)`：每帧投影双方终局分/交付帧，计算 gap 与风险档位，产出只读 `ProjectionBus`；异常安全（任何缺信息都降级为 EVEN、绝不抛出）。
+- `project_final_score(...)`：复用 `core/rules.py` 纯函数把投影字段组合成投影终局分（交付/未交付两套口径，§4.2）。
+- `net_score_delta(...)`（§3.3，P1.5）：纯函数估算某增量动作对投影终局分的净影响 ΔEV，计入任务/悬赏增量与耗时/烧好果/鲜度损耗（含跨阈值转坏）代价；供 P2+ 增量动作与 `_can_afford` 组成"时间地板 ∧ 分数地板"与门。
+- `ModeMachine`：gap→mode 状态机，带滞后（连续 `MODE_HYSTERESIS_FRAMES` 帧同向才切档）与低置信回落 EVEN。
+- `RiskMode`/`Projection`/`ProjectionBus` 数据结构（§4.1）。
+
+### Added（strategy/tuning.py，新模块）
+- `StrategyTuning` + `tuning_for_mode(mode)`（Layer 2 §5.1）：mode→{task_seek_target/task_detour_max_extra_frames/action_min_net_score}；EVEN **严格等于** config 既有默认；三档 ΔEV 阈值均非负（铁律：更进取只放宽下限，不许净负分）。**当前尚未被决策消费**（保证 P1 端到端不变），P2 起接入。
+
+### Changed（decision.py、main.py、config.py）
+- `DecisionEngine` 持有 `Projector`，`decide()` 每帧 `_update_projection(world)` 构建投影总线并记录切档事件——**纯观测，不改变任何动作输出**。
+- `main.py` 每帧输出 `Projection matchId=.., round=.., myScore=.., oppScore=.., gap=.., mode=.., myDeliver=.., oppDeliver=.., confidence=..`；切档另输出 `ModeChange from=.. to=.. reason=..`（§8）。
+- `config.py` 新增 §9 常量：`LEAD_SAFE=40`/`MODE_HYSTERESIS_FRAMES=5`/`PROJECTION_MIN_CONFIDENCE=0.55`/`ACTION_MIN_NET_SCORE*`（三档）/`AGGRESSIVE_TASK_*`（绕路上限 90）/`CONSERVATIVE_TASK_*`/悬赏与终局阈值/`ENABLE_TASK_DENY`·`ENABLE_RESOURCE_DENY`·`ENABLE_CONDITIONAL_GUARD`（默认关）。
+
+### Added（单测，共 +30，合计 126 全通过）
+- `test_projection.py`（投影分/交付帧、对手缺失→低置信 EVEN、验核加帧、置信随回合上升、观测不改动作）、`test_risk_mode.py`（阈值+滞后+低置信回落）、`test_net_score_delta.py`（正/负 ΔEV、烧好果败局模式、跨鲜度阈值）、`test_game_theory_tuning.py`（三档映射、EVEN=默认、阈值非负）。
+
+### Verified
+- `py -m unittest discover -s tests`：126 项全通过。
+- mock 端到端（127.0.0.1:8091）：仍 @r48 `DELIVER_SUCCESS`（fresh 97.6/good 100），动作与现状逐帧一致——P1 零风险约束达成；`Projection` trace 每帧输出，前段 confidence 0.30–0.34（<0.55）故 mode 恒 `EVEN`、无 `ModeChange`（符合"前中段停 EVEN、切换主战场在中后段"的设计预期）。
+
+### 待办（后续迭代）
+- P0：拿真实对局 trace 做败局归因，校准 `LEAD_SAFE`/confidence 公式/投影精度（当前用 `AVG_FRESHNESS_LOSS_PER_FRAME=0.06` 粗估、悬赏两侧置 0）。
+- P2-P4：逐项接入档位调参/悬赏/终局 race/窗口 EV/任务·资源 race/条件化 SET_GUARD，每项过 `_can_afford`+ΔEV 地板、默认关、真实 trace 验证为正后打开。
+
+
 ## [Iteration 10] - 2026-07-03 — 博弈投影层设计评审与优化（仅文档，未改运行期代码）
 
 ### 触发

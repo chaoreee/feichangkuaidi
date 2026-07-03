@@ -172,6 +172,9 @@ def _handle_inquire(client, engine, logger, match_id, player_id, data):
             logger.trace("Error", round=rnd, error="decide_exception", detail=repr(exc))
     elapsed_ms = round((time.perf_counter() - t0) * 1000, 1)
 
+    if world is not None:
+        _log_projection(logger, rnd, engine)
+
     try:
         client.send(messages.build_action(match_id, rnd, player_id, actions))
     except OSError as exc:
@@ -191,6 +194,32 @@ def _log_actions(logger, rnd, actions, elapsed_ms):
     for action in actions:
         logger.trace("Action", round=rnd, ms=ms, **_action_fields(action))
         ms = None  # 耗时只标在本帧首行
+
+
+def _log_projection(logger, rnd, engine):
+    """每帧一行 Projection（双方投影分/交付帧/gap/mode/confidence）；切档另记 ModeChange。
+
+    M8 Layer 1 纯观测：投影总线只写 trace、不改动作，供投影精度校准与档位可解释性。
+    """
+    bus = getattr(engine, "projection_bus", None)
+    if bus is None:
+        return
+    my = bus.my_projection
+    opp = bus.opponent_projection
+    logger.trace(
+        "Projection", round=rnd,
+        myScore=round(my.projected_score, 1) if my else None,
+        oppScore=round(opp.projected_score, 1) if opp else None,
+        gap=round(bus.gap, 1),
+        mode=bus.mode.value,
+        myDeliver=my.deliver_frame if my else None,
+        oppDeliver=opp.deliver_frame if opp else None,
+        confidence=round(opp.confidence, 2) if opp else None)
+    mc = getattr(engine, "mode_change", None)
+    if mc:
+        from_mode, to_mode, reason, _ = mc
+        logger.trace("ModeChange", round=rnd, reason=reason,
+                     **{"from": from_mode.value, "to": to_mode.value})
 
 
 def _log_frame(logger, rnd, data, world):

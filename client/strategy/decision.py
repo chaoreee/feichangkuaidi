@@ -20,6 +20,7 @@ import config
 from core.game_map import GameMap
 from protocol import actions
 from protocol.enums import Action, Card, PlayerState, ResourceType
+from strategy.projection import Projector
 
 _IDLE_LIKE = (PlayerState.IDLE, PlayerState.COST_BANKRUPT, None)
 _MOVE_BUFF_TYPES = frozenset({ResourceType.FAST_HORSE, ResourceType.SHORT_HORSE, "RUSH_SPEED"})
@@ -55,6 +56,10 @@ class DecisionEngine:
         self._cooldown = {}          # nodeId -> 拉黑截止回合（拒绝反馈）
         self._last_main_action = None
         self._squad_sent = set()     # (nodeId, kind) 已派出的小分队目标，避免重复
+        # M8 博弈投影层（Layer 1，纯观测）：每帧构建只读投影总线，不改变任何动作。
+        self.projector = Projector(context)
+        self.projection_bus = None
+        self.mode_change = None      # (from_mode, to_mode, reason, round) 仅切档当帧非空，供 trace
 
     def decide(self, world):
         me = world.me
@@ -63,6 +68,7 @@ class DecisionEngine:
             return []
 
         node = me.current_node_id
+        self._update_projection(world)
         self._apply_rejection_feedback(world)
         self._update_process_memory(world, me, node)
         terminal = gm.terminal_nodes[0] if gm.terminal_nodes else None
@@ -91,6 +97,21 @@ class DecisionEngine:
         finally:
             self._prev_state = me.state
             self._last_main_action = self._extract_main(result)
+
+    # ---- M8 投影总线（Layer 1，纯观测）----
+
+    def _update_projection(self, world):
+        """每帧构建只读投影总线并记录切档事件。异常安全，绝不影响动作与心跳。"""
+        try:
+            self.projection_bus, changed, from_mode = self.projector.build(world)
+            if changed:
+                self.mode_change = (from_mode, self.projection_bus.mode,
+                                    self.projection_bus.reason, world.round)
+            else:
+                self.mode_change = None
+        except Exception:
+            self.projection_bus = None
+            self.mode_change = None
 
     # ---- 主计划（空闲态，在节点）----
 

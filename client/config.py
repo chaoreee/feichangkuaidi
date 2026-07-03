@@ -47,3 +47,30 @@ TASK_DETOUR_MAX_EXTRA_FRAMES = 70   # 绕路做任务允许的最大额外帧（
 REROUTE_VS_CLEAR_EXTRA = 20         # 绕行比直路多这么多帧时改为就地清障（清障≈6帧+1好果）
 SQUAD_AHEAD_MIN_HOPS = 2            # 小分队预清障/削弱要求阻塞位于路径第 N 跳之后（留延迟落地余量）
 ENABLE_OFFENSIVE = False            # 主动设卡/增援等进攻干扰（默认关闭：delivery-first，占用己方交付时间）
+
+# ---- 策略调参（M8 博弈投影层，docs/game_theory_projection_strategy.md §9）----
+# Layer 1 投影总线 / 风险档位状态机
+LEAD_SAFE = 40                      # 投影分差超过此值才考虑切档（保守/进取）；初值待真实 trace 校准
+MODE_HYSTERESIS_FRAMES = 5          # 连续满足同向条件的帧数门槛，避免临界点抖动
+PROJECTION_MIN_CONFIDENCE = 0.55    # 对手投影 confidence 低于此则回落 EVEN（前中段大概率如此，属预期）
+
+# Layer 3.3 分数质量地板：增量动作的最低净收益门槛（ΔEV）
+ACTION_MIN_NET_SCORE = 0            # EVEN 默认：净分为负不做
+ACTION_MIN_NET_SCORE_CONSERVATIVE = 8   # 领先时要求更高确定收益才动
+ACTION_MIN_NET_SCORE_AGGRESSIVE = 0     # 落后时放宽下限，但不得为负
+
+# Layer 2 档位参数（EVEN 复用上方既有默认，保证不改变现状行为）
+AGGRESSIVE_TASK_SEEK_TARGET = 110              # 进取档冲 110 里程碑
+AGGRESSIVE_TASK_DETOUR_MAX_EXTRA_FRAMES = 90   # 从直觉 120 收敛（§5.1）；真实 trace 验证后再上调
+CONSERVATIVE_TASK_SEEK_TARGET = 0              # 领先档不为任务绕路
+CONSERVATIVE_TASK_DETOUR_MAX_EXTRA_FRAMES = 0
+
+# Layer 2/3 悬赏与终局 race（P2+ 启用；此处仅登记阈值）
+ENDGAME_RACE_WINDOW = 20            # 终局交付 race 触发窗口（帧）
+BOUNTY_MAX_EXTRA_FRAMES = 25        # 顺路悬赏允许的最大额外帧
+BOUNTY_MIN_NET_SCORE = 15           # 悬赏动作的最低净收益门槛
+
+# Layer 3/4 子能力开关（默认关闭，真实 trace 验证为正后逐项打开）
+ENABLE_TASK_DENY = False
+ENABLE_RESOURCE_DENY = False
+ENABLE_CONDITIONAL_GUARD = False

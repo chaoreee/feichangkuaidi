@@ -1,0 +1,50 @@
+"""Layer 2 档位参数映射（docs/game_theory_projection_strategy.md §5.1）。
+
+把写死的策略常量按风险档位 `RiskMode` 映射为一组可调参数 `StrategyTuning`。
+EVEN 档**严格复用** config 既有默认值，保证在信息不足/均衡时行为与现状完全一致。
+
+铁律（§5.1）：三档只调"意愿/上限"，**不改变**"必过 `_can_afford`（时间地板）
+且必过 ΔEV 地板（分数地板）"这条与门——AGGRESSIVE 也不例外，
+`action_min_net_score` 三档均不得为负。
+
+本模块是只读配置工厂；是否消费它、以及消费的时机由决策层按落地阶段决定
+（P1 纯观测阶段不消费，保证端到端不变）。
+"""
+
+from dataclasses import dataclass
+
+import config
+from strategy.projection import RiskMode
+
+
+@dataclass(frozen=True)
+class StrategyTuning:
+    mode: RiskMode
+    task_seek_target: int              # 为任务绕路的上限（任务分达此值即不再绕路）
+    task_detour_max_extra_frames: int  # 绕路做任务允许的最大额外帧
+    action_min_net_score: float        # 增量动作的最低净收益门槛 ΔEV（分数质量地板）
+
+
+def tuning_for_mode(mode):
+    """按档位返回一组策略参数。未知档位回落 EVEN。"""
+    if mode == RiskMode.CONSERVATIVE:
+        return StrategyTuning(
+            mode=RiskMode.CONSERVATIVE,
+            task_seek_target=config.CONSERVATIVE_TASK_SEEK_TARGET,
+            task_detour_max_extra_frames=config.CONSERVATIVE_TASK_DETOUR_MAX_EXTRA_FRAMES,
+            action_min_net_score=config.ACTION_MIN_NET_SCORE_CONSERVATIVE,
+        )
+    if mode == RiskMode.AGGRESSIVE:
+        return StrategyTuning(
+            mode=RiskMode.AGGRESSIVE,
+            task_seek_target=config.AGGRESSIVE_TASK_SEEK_TARGET,
+            task_detour_max_extra_frames=config.AGGRESSIVE_TASK_DETOUR_MAX_EXTRA_FRAMES,
+            action_min_net_score=config.ACTION_MIN_NET_SCORE_AGGRESSIVE,
+        )
+    # EVEN：复用既有默认，等价于现状。
+    return StrategyTuning(
+        mode=RiskMode.EVEN,
+        task_seek_target=config.TASK_SEEK_TARGET,
+        task_detour_max_extra_frames=config.TASK_DETOUR_MAX_EXTRA_FRAMES,
+        action_min_net_score=config.ACTION_MIN_NET_SCORE,
+    )
