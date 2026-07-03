@@ -2,6 +2,35 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `AGENTS.md`。
 
+## [Iteration 13] - 2026-07-03 — M8 博弈投影层 P2 悬赏机会主义（§5.2）接入决策
+
+### 触发
+P2 档位调参已就绪，继续接入 §5.2：把已解析但未使用的 `world.bounties` 变成"顺路低代价正 EV 收益"——破对手设卡拿破关悬赏，且严格受时间地板与 §3.3 分数地板保护，不动摇 delivery-first。
+
+### Added（strategy/decision.py）
+- `_maybe_bounty(world, me, gm, node, terminal)`：接入 `_plan`（opportunistic 之后、set_guard 之前）。
+  - 候选：`world.bounties` 中 `active && !completed && !winner`，节点存在**对手有效设卡**（`active_guard_owner()` 非本方），且 `_plan_attack` 能低成本破（防守值可达、破卡后好果不跌破 `KEEP_GOOD_FRUIT_MIN`）。
+  - 路由：以阻塞感知的到终点帧数为基线 `direct`；把目标悬赏卡从阻塞集移除后求 `node→BG` 与 `BG→终点`，额外帧 `extra=(c1+c2)-direct`（顺路可为负）；要求 `extra ≤ BOUNTY_MAX_EXTRA_FRAMES`(25)。
+  - 双地板与门：`_can_afford`（时间）+ `net_score_delta ≥ BOUNTY_MIN_NET_SCORE`(15)——悬赏原始分作 `extra_bounty`（`bounty_score` 含交付 +20 奖励）、破卡好果作 `good_fruit_burned`、额外耗时与鲜度损耗计入代价。
+  - 动作：与悬赏卡相邻（路径长 2）→ `BREAK_GUARD(BG, 最小好/坏果, rushTactic?)`；否则沿"绕开其它阻塞、允许进入目标卡"的路径 `MOVE` 靠近一步，逐帧复评直至相邻破卡。
+  - 守卫：`CONSERVATIVE`（锁胜，不为悬赏花好果/时间）与 `RUSH`（保交付优先）直接不追。
+
+### Added（单测，共 +10，合计 145 全通过）
+- `test_bounty_opportunism.py`：相邻破卡输出 `BREAK_GUARD`、端到端管线也决策破卡、近路靠近输出 `MOVE`、跳过高防守(不可低成本破)/自方设卡/超绕路上限/零收益(ΔEV<15 被地板拒)/已完成、`CONSERVATIVE` 与 `RUSH` 不追。
+
+### Verified
+- `py -m unittest discover -s tests`：145 项全通过。
+- mock 端到端（127.0.0.1:8093）：仍 @r48 `DELIVER_SUCCESS`（fresh 97.6/good 100/task 60）——mock 不下发 `bounties`/`guard`，`_maybe_bounty` 不触发，**零回归**。
+
+### 设计说明
+- 破关悬赏因 `bounty_score` 有 +20 交付奖励，几乎总是正 EV；故实际约束主要是"低成本可破 + 顺路(≤25 帧)"两道，`BOUNTY_MIN_NET_SCORE` 主要挡零/负收益的无谓破卡。
+- mock 未建模 guard/bounty/BREAK_GUARD 结算（`bounties` 恒空），§5.2 以单测为验收；真实平台数据到位后再复核 ΔEV 与破卡收益。
+
+### 待办（后续迭代）
+- P0：真实 trace 归因 + 校准 `LEAD_SAFE`/confidence/投影精度（mode 前中段恒 EVEN，P2 差异只在中后段切档时显现）。
+- P2 续：终局交付 race（§5.3）、窗口 EV（§5.4）；P3-P4：ETA/任务·资源 race/条件化 SET_GUARD（开关已登记默认关）。
+
+
 ## [Iteration 12] - 2026-07-03 — M8 博弈投影层 P2 档位调参接入决策（§5.1 行1/2/4 + §3.3 ΔEV 地板）
 
 ### 触发

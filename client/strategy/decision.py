@@ -172,6 +172,10 @@ class DecisionEngine:
         if opp:
             return opp
 
+        bounty = self._maybe_bounty(world, me, gm, node, terminal)
+        if bounty:
+            return bounty
+
         guard = self._maybe_set_guard(world, me, gm, node)
         if guard:
             return [guard]
@@ -510,6 +514,76 @@ class DecisionEngine:
             duration=self.ctx.duration_round or 600,
             extra_task_score=task_pts, extra_frames=extra_frames,
             extra_freshness_loss=extra_loss)
+
+    # ---- 悬赏机会主义（M8 Layer 2 / P2 §5.2）----
+
+    def _maybe_bounty(self, world, me, gm, node, terminal):
+        """顺路/近路低代价破对手卡拿破关悬赏（§5.2）。
+
+        与门：对手有效设卡 + `_plan_attack` 低成本可破（保交付好果下限）+
+        额外帧≤`BOUNTY_MAX_EXTRA_FRAMES` 且过 `_can_afford`（时间地板）+
+        `net_score_delta ≥ BOUNTY_MIN_NET_SCORE`（分数地板：计悬赏得分 − 烧好果 − 额外耗时/鲜度）。
+        领先(CONSERVATIVE)锁胜、或 RUSH 保交付时不追悬赏；不为悬赏大幅改道。
+
+        相邻悬赏节点 → `BREAK_GUARD`；否则沿不含目标的阻塞感知路径 `MOVE` 一步靠近。
+        """
+        if world.is_rush or not terminal or self.tuning.mode == RiskMode.CONSERVATIVE:
+            return None
+        mp = self.projection_bus.my_projection if self.projection_bus else None
+        if mp is None or mp.deliver_frame is None:
+            return None
+        blocked_all = self._blocked_nodes(world, me)
+        _, direct = gm.time_optimal_path(node, terminal, blocked=blocked_all)
+        if direct == _INF:
+            _, direct = gm.time_optimal_path(node, terminal)
+        if direct == _INF:
+            return None
+
+        best = None  # (delta, action)
+        for b in world.bounties:
+            if not b.get("active") or b.get("completed") or (b.get("winnerPlayerId") or 0):
+                continue
+            bn = b.get("nodeId")
+            if not bn or bn == node:
+                continue
+            ns = world.node(bn)
+            owner = ns.active_guard_owner() if ns else None
+            if not owner or owner == me.team_id:  # 只破对手的有效设卡才拿到悬赏
+                continue
+            plan = self._plan_attack(world, me, ns)
+            if plan is None:  # 低成本破不了（防守值过高或好果保不住下限）
+                continue
+            blocked = blocked_all - {bn}   # 目标悬赏卡视为可进入，其它阻塞仍绕行
+            path_to, c1 = gm.time_optimal_path(node, bn, blocked=blocked)
+            if not path_to or len(path_to) < 2 or c1 == _INF:
+                continue
+            _, c2 = gm.time_optimal_path(bn, terminal, blocked=blocked)
+            if c2 == _INF:
+                continue
+            extra = (c1 + c2) - direct
+            if extra > config.BOUNTY_MAX_EXTRA_FRAMES:
+                continue
+            wait = extra if extra > 0 else 0
+            if not self._can_afford(world, gm, node, wait, terminal):
+                continue
+            raw = b.get("rewardScore", 0) or 0
+            delta = net_score_delta(
+                mp.deliver_frame, mp.projected_task_score, mp.projected_good_fruit,
+                mp.projected_freshness, penalty=me.penalty_score or 0,
+                duration=self.ctx.duration_round or 600,
+                extra_bounty=raw, extra_frames=wait, good_fruit_burned=plan[0],
+                extra_freshness_loss=wait * AVG_FRESHNESS_LOSS_PER_FRAME)
+            if delta < config.BOUNTY_MIN_NET_SCORE:
+                continue
+            if len(path_to) == 2:            # 已相邻 → 破卡拿悬赏
+                g, bad, bo = plan
+                action = actions.break_guard(bn, good_fruit=g, bad_fruit=bad,
+                                             rush_tactic=(Action.BREAK_ORDER if bo else None))
+            else:                            # 未相邻 → 顺路靠近一步
+                action = actions.move(path_to[1])
+            if best is None or delta > best[0]:
+                best = (delta, action)
+        return [best[1]] if best else None
 
     # ---- 小分队（M7：防御性预清障/削弱 + 探路宫门）----
 
