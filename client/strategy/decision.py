@@ -184,8 +184,9 @@ class DecisionEngine:
         if guard:
             return [guard]
 
-        # 绕路做任务：任务分<90 且预算允许时，先去近处任务节点
-        dst = self._task_detour_target(world, me, gm, node, terminal) or terminal
+        # 任务 race（§6.2，默认关）：先 deny 抢占对手关键任务点，否则追平/机会式绕路任务
+        dst = self._task_deny_target(world, me, gm, node, terminal)
+        dst = dst or self._task_detour_target(world, me, gm, node, terminal) or terminal
         if dst:
             return self._advance(world, me, gm, node, dst, terminal)
         return []
@@ -525,7 +526,13 @@ class DecisionEngine:
         这防止 AGGRESSIVE 放宽绕路上限后重演 839cfc9 的过度贪任务/烧鲜度败局。
         """
         tuning = self.tuning
-        if (me.task_score or 0) >= tuning.task_seek_target or not terminal:
+        seek_target = tuning.task_seek_target
+        detour_max = tuning.task_detour_max_extra_frames
+        if self._task_catch_up_active(world, me):
+            # §6.2 追平：对手任务分逼近 90 而我方未达 → 放宽目标/绕路上限（仍过 _can_afford + ΔEV）。
+            seek_target = max(seek_target, 90)
+            detour_max = max(detour_max, config.AGGRESSIVE_TASK_DETOUR_MAX_EXTRA_FRAMES)
+        if (me.task_score or 0) >= seek_target or not terminal:
             return None
         pid = self.ctx.player_id
         _, direct = gm.time_optimal_path(node, terminal)
@@ -550,7 +557,7 @@ class DecisionEngine:
                 continue
             pr = t.get("processRound", 0) or 0
             extra = (c1 + pr + c2) - direct
-            if not (0 <= extra <= tuning.task_detour_max_extra_frames) or extra >= best_extra:
+            if not (0 <= extra <= detour_max) or extra >= best_extra:
                 continue
             if not self._can_afford(world, gm, node, extra, terminal):
                 continue
@@ -559,6 +566,78 @@ class DecisionEngine:
                 continue  # 净收益不足（分数质量地板）——不为它绕路
             best, best_extra = tn, extra
         return best
+
+    def _task_catch_up_active(self, world, me):
+        """§6.2 追平触发：对手任务分≥阈值(逼近/达 90) 且我方未达 90（任务分<90 边际价值高）。"""
+        if not config.ENABLE_TASK_RACE:
+            return False
+        opp = world.opponent
+        if opp is None:
+            return False
+        return (opp.task_score or 0) >= config.TASK_RACE_OPP_THRESHOLD and (me.task_score or 0) < 90
+
+    def _task_deny_target(self, world, me, gm, node, terminal):
+        """§6.2 Deny：抢占对手正奔赴、我方能更早到达、且抢占可阻其里程碑的关键任务点。
+
+        默认关（`ENABLE_TASK_DENY`）。守卫：任务可领取（非对手保护/占用）；对手 ETA 有限；
+        我方到任务点帧数 ≤ 对手 ETA + margin（不跑空趟）；抢占跨对手里程碑(60/90/110)；
+        过 `_can_afford` 且我方 claim 该任务 ΔEV≥0（denial 是额外收益，但不做净负分）。
+        返回最紧迫（对手 ETA 最早）的任务节点。
+        """
+        if not config.ENABLE_TASK_DENY or not terminal:
+            return None
+        eta = self.opponent_eta
+        opp = world.opponent
+        if eta is None or opp is None:
+            return None
+        pid = self.ctx.player_id
+        _, direct = gm.time_optimal_path(node, terminal)
+        if direct == _INF:
+            return None
+        opp_task = opp.task_score or 0
+        best, best_opp_eta = None, _INF
+        for t in world.active_tasks():
+            tn = t.get("nodeId")
+            if not tn or tn == node:
+                continue
+            if t.get("taskTemplateId") in config.SKIP_TASK_TEMPLATES:
+                continue
+            prot = t.get("protectionPlayerId") or 0
+            if prot and prot != pid:
+                continue
+            owner = t.get("ownerPlayerId") or 0
+            if owner and owner != pid:
+                continue
+            opp_eta = eta.eta(tn)
+            if opp_eta is None:                       # 对手到不了该点 → 无需 deny
+                continue
+            score = t.get("score", 0) or 0
+            if not self._crosses_milestone(opp_task, score):  # 抢占不影响对手里程碑 → 跳过
+                continue
+            _, c1 = gm.time_optimal_path(node, tn)
+            _, c2 = gm.time_optimal_path(tn, terminal)
+            if c1 == _INF or c2 == _INF:
+                continue
+            if c1 > opp_eta + config.TASK_DENY_ETA_MARGIN:  # 抢不过对手 → 不跑空趟
+                continue
+            pr = t.get("processRound", 0) or 0
+            extra = (c1 + pr + c2) - direct
+            if not (0 <= extra <= config.AGGRESSIVE_TASK_DETOUR_MAX_EXTRA_FRAMES):
+                continue
+            if not self._can_afford(world, gm, node, extra, terminal):
+                continue
+            if self._detour_net_delta(me, score, extra) < 0:  # 不做净负分（denial 之外不自伤）
+                continue
+            if opp_eta < best_opp_eta:                # 选对手最快到达（最紧迫）的
+                best, best_opp_eta = tn, opp_eta
+        return best
+
+    def _crosses_milestone(self, base, gain):
+        """base 分再加 gain 是否跨过任一里程碑(60/90/110)——跨过则抢占对对手价值大。"""
+        for m in (60, 90, 110):
+            if base < m <= base + gain:
+                return True
+        return False
 
     def _detour_net_delta(self, me, task_pts, extra_frames):
         """绕路做任务的投影净收益 ΔEV（§3.3）。以本方投影为基线，计入额外耗时与鲜度损耗。

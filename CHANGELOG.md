@@ -2,6 +2,36 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `AGENTS.md`。
 
+## [Iteration 18] - 2026-07-03 — M8 博弈投影层 P3 §6.2 任务 race（追平 + Deny，默认关）
+
+### 触发
+在 §6.1 ETA 之上接入 §6.2：任务分 race 有两面——落后时补差（任务分<90 边际价值高，因 time_score×min(task,90)/90）、以及抢占对手正奔赴的关键任务点阻其里程碑。按 P3 规范逐项带开关、默认关，真实 trace 验证 ΔEV 为正后再开。
+
+### Added / Changed（strategy/decision.py）
+- **追平**：`_task_catch_up_active(world, me)`（`ENABLE_TASK_RACE`，对手任务分 ≥ `TASK_RACE_OPP_THRESHOLD`(80) 且我方 < 90）。触发时 `_task_detour_target` 把 `seek_target` 抬到 ≥90、`detour_max` 抬到 `AGGRESSIVE_TASK_DETOUR_MAX_EXTRA_FRAMES`——仍逐候选过 `_can_afford` 与档位 ΔEV 地板（不放松分数守卫）。
+- **Deny**：`_task_deny_target(world, me, gm, node, terminal)`（`ENABLE_TASK_DENY`）。遍历可领取任务（非对手保护/占用/SKIP），用 §6.1 `opponent_eta.eta(nodeId)` 判对手可达且正奔赴、我方到该点帧数 ≤ 对手 ETA + `TASK_DENY_ETA_MARGIN`（不跑空趟）、`_crosses_milestone`(60/90/110) 判抢占能阻断对手里程碑；过 `_can_afford` 且 `_detour_net_delta ≥ 0`（不自伤，denial 是额外收益）；选对手 ETA 最早（最紧迫）者。
+- `_crosses_milestone(base, gain)`：base+gain 是否跨过 60/90/110。
+- `_plan`：任务段改为先 `_task_deny_target`（默认关），否则 `_task_detour_target`（含追平），再回退终点。
+
+### Changed（config.py）
+- 新增 `ENABLE_TASK_RACE=False`、`TASK_RACE_OPP_THRESHOLD=80`、`TASK_DENY_ETA_MARGIN=0`；`ENABLE_TASK_DENY` 保持 False。
+
+### Added（单测，共 +14，合计 202 全通过）
+- `test_task_race.py`：追平（覆盖 CONSERVATIVE 被追平放宽、对手未逼近不追、自身已达 90 不追、`_task_catch_up_active` 谓词、开关关闭）；Deny（抢占跨里程碑任务、对手不可达不抢、无里程碑不抢、抢不过不跑空趟、被对手保护不抢、开关关闭、`_crosses_milestone`）；默认关校验。
+
+### Verified
+- `py -m unittest discover -s tests`：202 项全通过。
+- mock 端到端（127.0.0.1:8098）：仍 @r48 `DELIVER_SUCCESS`（fresh 97.6/good 100/task 60）——两开关默认关，`_task_detour_target` 无追平加成、`_task_deny_target` 直接返回 None，**零回归**。
+
+### 设计说明
+- 两子能力默认关（P3 规范）：真实 trace 验证 ΔEV/胜负收益为正后再开；deny 的价值主要在"对手失去里程碑"，`_detour_net_delta≥0` 仅保证我方不自伤（我方 claim 该任务本身也得分）。
+- deny 依赖 ETA（对手意图不可观测，用最短路 ETA 作代理），故与 §6.1 一样受"轨迹变化打折 confidence"的前提约束，务必真实 trace 校准后再启用。
+
+### 待办
+- P0：真实 trace 校准 `LEAD_SAFE`/confidence/`ENDGAME_RACE_WINDOW`/窗口 EV 好果下限/ETA 精度/**任务 race 阈值与 deny 命中率**。
+- P3 续：§6.3 鲜度/资源 race（`ENABLE_RESOURCE_DENY` 默认关）；P4 条件化 SET_GUARD。
+
+
 ## [Iteration 17] - 2026-07-03 — M8 博弈投影层 P3 §6.1 对手轨迹 ETA（纯观测）
 
 ### 触发
