@@ -63,6 +63,7 @@ class DecisionEngine:
         self.projector = Projector(context)
         self.projection_bus = None
         self.mode_change = None      # (from_mode, to_mode, reason, round) 仅切档当帧非空，供 trace
+        self.opponent_eta = None     # P3 §6.1 对手轨迹 ETA（纯观测，只作争夺判断输入）
         # M8 Layer 2（P2 档位调参）：当前档位的策略参数；缺投影时回落 EVEN=既有默认。
         self.tuning = tuning_for_mode(RiskMode.EVEN)
 
@@ -110,6 +111,7 @@ class DecisionEngine:
         try:
             self.projection_bus, changed, from_mode = self.projector.build(world)
             self.tuning = tuning_for_mode(self.projection_bus.mode)
+            self.opponent_eta = self.projector.build_opponent_eta(world)
             if changed:
                 self.mode_change = (from_mode, self.projection_bus.mode,
                                     self.projection_bus.reason, world.round)
@@ -118,6 +120,7 @@ class DecisionEngine:
         except Exception:
             self.projection_bus = None
             self.mode_change = None
+            self.opponent_eta = None
             self.tuning = tuning_for_mode(RiskMode.EVEN)
 
     # ---- 主计划（空闲态，在节点）----

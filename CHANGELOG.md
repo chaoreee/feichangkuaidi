@@ -2,6 +2,40 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `AGENTS.md`。
 
+## [Iteration 17] - 2026-07-03 — M8 博弈投影层 P3 §6.1 对手轨迹 ETA（纯观测）
+
+### 触发
+进入 P3。§6.1 是 race 层的观测基础设施：估算对手到宫门/终点/关键节点的帧数，作为后续 §6.2 任务 race、§6.3 鲜度/资源 race 的 tie-breaker/争夺判断输入。像 P1 投影总线一样**纯观测、不改任何动作**；动作层（§6.2/§6.3）仍在默认关开关后。
+
+### Added（strategy/projection.py）
+- `OpponentEta` 数据类：`from_node / to_gate / to_finish / to_nodes / verified / confidence`，含 `eta(node)` 查询。
+- `Projector.build_opponent_eta(world)`：以对手 `current_node_id`/`next_node_id`/`move_progress`/`verified` + 地图边权/宫门验核耗时估算 ETA。
+  - `_eta_base`：在途（0<progress<1）以 `next_node` 起算并加"到 next 的残余帧"（`ceil(edge_frames*(1-progress))`，§4.3 保守口径）；否则以 current 起算。
+  - `to_finish` 未验核时加 `_verify_frames`。
+  - `_eta_targets`：活跃任务节点 + 有库存资源节点。
+  - `_eta_confidence`：随终局上升，按 `_track_opp_route`（对手原地改目标=路线变更）的变更计数打折（意图不可观测，§4.4）。
+- `Projector` 增跨帧状态 `_opp_prev`/`_opp_route_changes`。
+
+### Changed（strategy/decision.py、main.py）
+- `DecisionEngine._update_projection` 每帧构建并存 `self.opponent_eta`（异常安全、**不改任何动作**）。
+- `main.py` 每帧输出 `Eta matchId=.., round=.., oppFrom=.., toGate=.., toFinish=.., verified=.., conf=..` trace（供校准 ETA 精度）。
+
+### Added（单测，共 +8，合计 188 全通过）
+- `test_opponent_eta.py`：在节点/在途（move_progress）ETA、未验核加验核帧、任务/资源节点 ETA、无对手降级、置信随回合上升、轨迹变化（原地改目标）降低置信、接入 `decide` 不改动作。
+
+### Verified
+- `py -m unittest discover -s tests`：188 项全通过。
+- mock 端到端（127.0.0.1:8097）：仍 @r48 `DELIVER_SUCCESS`；`Eta` trace 每帧输出（mock 对手静止 S01 → toGate=396/toFinish=416 恒定、conf 0.30→0.34），**零回归**。
+
+### 设计说明
+- ETA 假设对手沿最短路前进（对手意图不可观测）；轨迹频繁变化时按变更计数打折 confidence。只作只读输入，不直接产生动作。
+- 未计入天气对边耗时的影响（与本方 `time_optimal_path` 口径一致，均忽略天气）；待 P0 真实 trace 校准 ETA 精度后再决定是否精细化。
+
+### 待办
+- P0：真实 trace 校准 `LEAD_SAFE`/confidence/`ENDGAME_RACE_WINDOW`/窗口 EV 好果下限/**ETA 精度（对比 Eta trace 与对手真实到达帧）**。
+- P3 动作层：在 ETA 之上接入 §6.2 任务 race、§6.3 鲜度/资源 race（`ENABLE_TASK_DENY`/`ENABLE_RESOURCE_DENY` 默认关，逐项过 `_can_afford`+ΔEV 地板、真实 trace 验证为正后打开）；P4 条件化 SET_GUARD。
+
+
 ## [Iteration 16] - 2026-07-03 — M8 博弈投影层 P2 突破烧好果意愿（§5.1 行3）接入决策（P2 全部完成）
 
 ### 触发

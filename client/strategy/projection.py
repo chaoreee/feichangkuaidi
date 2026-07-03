@@ -12,6 +12,7 @@
 设计铁律（P1）：投影总线是只读输入，不改变任何动作输出；端到端行为与现状逐帧一致。
 """
 
+import math
 from dataclasses import dataclass, field
 from enum import Enum
 
@@ -53,6 +54,25 @@ class ProjectionBus:
     gap: float
     mode: RiskMode
     reason: str
+
+
+@dataclass(frozen=True)
+class OpponentEta:
+    """对手轨迹 ETA（P3 §6.1）：估算对手到宫门/终点/关键节点的帧数。
+
+    只作为 tie-breaker 或争夺判断的**只读输入**，不直接产生动作。
+    轨迹频繁变化时 confidence 下降（对手意图不可观测，见 §4.4）。
+    """
+    from_node: "str | None"          # 估算起算的对手参考节点（在途时为 next_node）
+    to_gate: "int | None"
+    to_finish: "int | None"          # 含未验核时的验核耗时
+    to_nodes: dict = field(default_factory=dict)   # nodeId -> 预计到达帧数
+    verified: bool = False
+    confidence: float = 0.0
+
+    def eta(self, node_id):
+        """到指定节点的 ETA（帧），未知返回 None。"""
+        return self.to_nodes.get(node_id)
 
 
 # ---------------------------------------------------------------------------
@@ -178,6 +198,9 @@ class Projector:
             _cfg("MODE_HYSTERESIS_FRAMES", 5),
             _cfg("PROJECTION_MIN_CONFIDENCE", 0.55),
         )
+        # P3 §6.1：对手轨迹稳定性跟踪（原地改目标视为路线变更 → 降低 ETA 置信）。
+        self._opp_prev = None
+        self._opp_route_changes = 0.0
 
     def build(self, world):
         """返回 (bus, changed, from_mode)。任何缺信息都安全降级，绝不抛出。"""
@@ -260,6 +283,94 @@ class Projector:
         duration = self.ctx.duration_round or 600
         conf = 0.30 + (rnd / duration) * 0.55
         return max(0.0, min(0.90, conf))
+
+    # ---- 对手轨迹 ETA（P3 §6.1，纯观测）----
+
+    def build_opponent_eta(self, world):
+        """估算对手到宫门/终点/任务点/资源点的帧数。异常安全，绝不抛出。
+
+        在途（move_progress∈(0,1)）时以 next_node 起算并加到 next 的残余帧（§4.3 保守口径）。
+        未验核时 to_finish 计入验核耗时。ETA 只作 tie-breaker/争夺判断输入。
+        """
+        gm = self.ctx.game_map
+        opp = world.opponent
+        self._track_opp_route(opp)
+        if opp is None or gm is None:
+            return OpponentEta(None, None, None, {}, False, 0.0)
+        base, offset = self._eta_base(gm, opp)
+        if not base:
+            return OpponentEta(None, None, None, {}, bool(opp.verified), 0.1)
+
+        gate = gm.gate_node
+        terminal = gm.terminal_nodes[0] if gm.terminal_nodes else None
+        to_gate = self._eta_to(gm, base, offset, gate) if gate else None
+        to_finish = self._eta_to(gm, base, offset, terminal) if terminal else None
+        if to_finish is not None and not opp.verified:
+            to_finish += _verify_frames(gm)
+
+        to_nodes = {}
+        for nid in self._eta_targets(world):
+            e = self._eta_to(gm, base, offset, nid)
+            if e is not None:
+                to_nodes[nid] = e
+
+        return OpponentEta(base, to_gate, to_finish, to_nodes,
+                           bool(opp.verified), self._eta_confidence(opp, world))
+
+    def _eta_base(self, gm, opp):
+        """返回 (base_node, offset)：对手后续路径的起算节点与已在途的残余帧数。"""
+        cur, nxt = opp.current_node_id, opp.next_node_id
+        prog = opp.move_progress or 0.0
+        if nxt and cur and 0.0 < prog < 1.0:
+            e = gm.edge_between(cur, nxt)
+            if e is not None:
+                total = rules.frames_on_edge(e.distance, e.route_type)
+                if total != _INF:
+                    return (nxt, max(0, math.ceil(total * (1.0 - prog))))
+            return (nxt, 0)
+        return (cur or nxt, 0)
+
+    def _eta_to(self, gm, base, offset, target):
+        if not target:
+            return None
+        if base == target:
+            return offset
+        _, travel = gm.time_optimal_path(base, target)
+        if travel == _INF:
+            return None
+        return offset + travel
+
+    def _eta_targets(self, world):
+        """关注的到达点：活跃任务节点 + 有库存的资源节点（有界集合）。"""
+        targets = set()
+        for t in world.active_tasks():
+            nid = t.get("nodeId")
+            if nid:
+                targets.add(nid)
+        for nid, ns in world.node_states.items():
+            if ns.resource_stock:
+                targets.add(nid)
+        return targets
+
+    def _eta_confidence(self, opp, world):
+        """§6.1：位置可见→随终局上升；轨迹频繁变化(原地改目标)→按变更计数打折。"""
+        if not (opp.current_node_id or opp.next_node_id):
+            return 0.1
+        rnd = world.round or 0
+        duration = self.ctx.duration_round or 600
+        conf = (0.30 + (rnd / duration) * 0.55) / (1.0 + 0.5 * self._opp_route_changes)
+        return max(0.0, min(0.90, conf))
+
+    def _track_opp_route(self, opp):
+        cur = opp.current_node_id if opp else None
+        nxt = opp.next_node_id if opp else None
+        if self._opp_prev is not None:
+            pcur, pnxt = self._opp_prev
+            if cur == pcur and pnxt and nxt and nxt != pnxt:
+                self._opp_route_changes += 1.0          # 原地改目标 = 路线变更
+            else:
+                self._opp_route_changes = max(0.0, self._opp_route_changes - 0.25)  # 缓慢衰减
+        self._opp_prev = (cur, nxt)
 
 
 def _cfg(name, default):

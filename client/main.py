@@ -220,6 +220,11 @@ def _log_projection(logger, rnd, engine):
         from_mode, to_mode, reason, _ = mc
         logger.trace("ModeChange", round=rnd, reason=reason,
                      **{"from": from_mode.value, "to": to_mode.value})
+    eta = getattr(engine, "opponent_eta", None)
+    if eta is not None and eta.from_node is not None:
+        logger.trace("Eta", round=rnd, oppFrom=eta.from_node,
+                     toGate=eta.to_gate, toFinish=eta.to_finish,
+                     verified=eta.verified, conf=round(eta.confidence, 2))
 
 
 def _log_frame(logger, rnd, data, world):
