@@ -388,6 +388,12 @@ class DecisionEngine:
         return (opp.freshness or 0) - (me.freshness or 0) >= config.FRESHNESS_RACE_GAP
 
     def _maybe_task(self, world, me, gm, node, terminal):
+        """机会式（顺路）领取当前节点的皇榜任务。
+
+        与门：非 SKIP 模板 + 非对手保护/占用 + **边际任务分>0**（未封顶 180 且能跨里程碑）
+        + `_can_afford`（时间地板）。边际收益门防止任务分到顶后仍为零收益停车处理
+        （白烧用时分与鲜度）——顺路≠免费，`processRound` 停车必然推迟交付。
+        """
         pid = self.ctx.player_id
         for t in world.active_tasks():
             if t.get("nodeId") != node:
@@ -400,6 +406,10 @@ class DecisionEngine:
             owner = t.get("ownerPlayerId") or 0
             if owner and owner != pid:
                 continue
+            base = me.task_score or 0
+            pts = t.get("score", 0) or 0
+            if rules.task_score(base + pts) <= rules.task_score(base):
+                continue  # 边际任务分为 0（已封顶 180 / 不跨里程碑）→ 不为零收益停车烧用时分+鲜度
             pr = t.get("processRound", 0) or 0
             if not self._can_afford(world, gm, node, pr, terminal):
                 continue

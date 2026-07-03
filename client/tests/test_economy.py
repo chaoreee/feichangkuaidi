@@ -32,13 +32,14 @@ START_DATA = {
 
 def make_world(node="SA", state="IDLE", phase="NORMAL", verified=False, delivered=False,
                freshness=100.0, resources=None, buffs=None, rush_used=0, tasks=None,
-               stock=None, rnd=20, game_map=None):
+               stock=None, rnd=20, game_map=None, task_score=0):
     inquire = {
         "round": rnd, "phase": phase,
         "players": [{
             "playerId": PID, "teamId": "RED", "state": state, "currentNodeId": node,
             "verified": verified, "delivered": delivered, "goodFruit": 100, "freshness": freshness,
             "resources": resources or {}, "buffs": buffs or [], "rushTacticUsedCount": rush_used,
+            "taskScore": task_score,
         }],
         "nodes": [{"nodeId": node, "resourceStock": stock or {}}],
         "tasks": tasks or [],
@@ -69,25 +70,39 @@ class TestEconomy(unittest.TestCase):
 
     # 任务
     def test_claim_task_at_node(self):
-        tasks = [{"taskId": "TK", "taskTemplateId": "T01", "nodeId": "SA",
+        tasks = [{"taskId": "TK", "taskTemplateId": "T01", "nodeId": "SA", "score": 30,
                   "processRound": 3, "active": True, "completed": False}]
         a = self.act(tasks=tasks)
         self.assertEqual(a, {"action": "CLAIM_TASK", "taskId": "TK"})
 
+    def test_skip_task_when_score_capped(self):
+        # 任务分已达 180 上限（base=130+里程碑50）→ 顺路任务边际收益 0 → 不停车烧用时分/鲜度
+        tasks = [{"taskId": "TK", "taskTemplateId": "T01", "nodeId": "SA", "score": 30,
+                  "processRound": 3, "active": True, "completed": False}]
+        a = self.act(tasks=tasks, task_score=130)
+        self.assertNotEqual(a.get("action") if a else None, "CLAIM_TASK")
+
+    def test_claim_task_when_marginal_gain(self):
+        # base=50 未跨里程碑，加 30 分跨过 60 里程碑 → 有正边际收益 → 领取
+        tasks = [{"taskId": "TK", "taskTemplateId": "T01", "nodeId": "SA", "score": 30,
+                  "processRound": 3, "active": True, "completed": False}]
+        a = self.act(tasks=tasks, task_score=50)
+        self.assertEqual(a, {"action": "CLAIM_TASK", "taskId": "TK"})
+
     def test_skip_t04_t06(self):
-        tasks = [{"taskId": "TK", "taskTemplateId": "T04", "nodeId": "SA",
+        tasks = [{"taskId": "TK", "taskTemplateId": "T04", "nodeId": "SA", "score": 30,
                   "processRound": 6, "active": True, "completed": False}]
         a = self.act(tasks=tasks)
         self.assertNotEqual(a.get("action"), "CLAIM_TASK")
 
     def test_skip_opponent_protected_task(self):
-        tasks = [{"taskId": "TK", "taskTemplateId": "T01", "nodeId": "SA", "processRound": 3,
+        tasks = [{"taskId": "TK", "taskTemplateId": "T01", "nodeId": "SA", "score": 30, "processRound": 3,
                   "active": True, "completed": False, "protectionPlayerId": 2222}]
         a = self.act(tasks=tasks)
         self.assertNotEqual(a.get("action"), "CLAIM_TASK")
 
     def test_task_skipped_when_time_short(self):
-        tasks = [{"taskId": "TK", "taskTemplateId": "T01", "nodeId": "SA",
+        tasks = [{"taskId": "TK", "taskTemplateId": "T01", "nodeId": "SA", "score": 30,
                   "processRound": 3, "active": True, "completed": False}]
         a = self.act(tasks=tasks, rnd=590)  # 临近 600，做任务将赶不上交付
         self.assertNotEqual(a.get("action"), "CLAIM_TASK")
