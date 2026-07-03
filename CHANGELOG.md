@@ -2,6 +2,36 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `AGENTS.md`。
 
+## [Iteration 20] - 2026-07-03 — M8 博弈投影层 P4 §7 条件化 SET_GUARD（默认关，M8 P1-P4 全部落地）
+
+### 触发
+接入 M8 最后一项 §7：把主动设卡从二元开关（`ENABLE_OFFENSIVE`）升级为投影驱动的条件开关。SET_GUARD 本身不给我方加分，只在"锁胜局 + 对手会真的撞上卡"时用富余好果对对手施加破卡/强制通行代价——ROI 最低、默认关、设卡计划过 denial 期望价值 ΔEV 地板。
+
+### Changed / Added（strategy/decision.py）
+- `_maybe_set_guard(world, me, gm, node, terminal)` 改为分发：`ENABLE_CONDITIONAL_GUARD` → `_conditional_guard`；否则 `ENABLE_OFFENSIVE` → `_basic_set_guard`（M7 基线原样保留）。
+- `_conditional_guard`（§7.1 六条件）：① mode==CONSERVATIVE 且 `gap ≥ GUARD_MIN_LEAD`(60) 锁胜；② 当前节点 type==KEY_PASS 且无有效卡；③ `eta.confidence ≥ GUARD_MIN_CONFIDENCE`(0.7)；④ 对手 `eta.eta(node) ∈ (GUARD_SETUP_FRAMES(5), GUARD_SURVIVAL_WINDOW(60)]`（设卡生效后、风化失效前通过）；⑤ `_guard_extra_fruit` 选投入 base(1)+extra 后仍守 `GUARD_KEEP_GOOD_FRUIT`(20) 的最大额外好果，无则放弃；⑥ `_can_afford(GUARD_SETUP_FRAMES)`。再过 denial 地板：`_guard_denial_value ≥ GUARD_MIN_NET_VALUE`(4)。
+- `_guard_denial_value`：对手撞卡的期望分损失 = min(破卡代价, 强制通行代价)。破卡受"好/坏果各≤2 篓"(§6.3.1)约束，坏果不计交付分故优先、好果每篓≈1.8 分，受限达不到防守值则破不了；强制通行按 `rules.guard_time_tax("key_pass", defense)` 折算用时分损失。
+- 设卡决策细节写 `self.guard_decision`（每帧 `_update_projection` 先清空，仅当帧真的设卡时置值）。
+
+### Changed（config.py、main.py）
+- config 增 `GUARD_MIN_LEAD=60`、`GUARD_MIN_CONFIDENCE=0.7`、`GUARD_SETUP_FRAMES=5`、`GUARD_SURVIVAL_WINDOW=60`、`GUARD_KEEP_GOOD_FRUIT=20`、`GUARD_MIN_NET_VALUE=4`；`ENABLE_CONDITIONAL_GUARD` 保持 False。
+- main 每帧输出 `GuardDecision`（target/reason/gap/oppEta/extraGood/defense/denial）trace（§7.2 要求记录设卡原因/分差/目标/预计对手通过帧/投入好果）。
+
+### Added（单测，共 +15，合计 229 全通过）
+- `test_conditional_guard.py`：锁胜局设卡（extra=2）；六条件与 denial 各守卫（非 CONSERVATIVE / 领先不足 / 置信低 / ETA 窗口外 / ETA 过早 / 不在路线上 / 好果不足 / 已有卡 / 对手有坏果可低价破卡 / 对手任务分低 denial 不足）；分发（两开关都关不设卡、`ENABLE_OFFENSIVE` 基线保留、条件化优先于基线）。
+
+### Verified
+- `py -m unittest discover -s tests`：229 项全通过。
+- mock 端到端（127.0.0.1:8100）：仍 @r48 `DELIVER_SUCCESS`（fresh 97.6/good 100/task 60）；`GuardDecision` 计数 0——所有 race/guard 开关默认关，**零回归**。
+
+### 里程碑：M8 博弈投影层 P1-P4 全部落地
+- P1 投影总线 + P1.5 ΔEV 分数质量地板（启用，纯观测+守卫）；P2 §5 低风险增量（启用：档位调参/悬赏/终局 race/窗口 EV/突破烧好果）；P3 §6 中风险 race（默认关：ETA/任务/鲜度·资源）；P4 §7 条件化 SET_GUARD（默认关）。所有增量动作过 `_can_afford` + ΔEV/denial 地板，信息不足默认 EVEN=既有基线；mock 全程零回归 @r48。
+
+### 待办（P0，进入真实对局迭代）
+- 拿真实对局 trace 归因，用 `Projection`/`Eta`/`ModeChange`/`GuardDecision` trace 校准全部阈值（`LEAD_SAFE`/confidence 公式/投影与 ETA 精度/`ENDGAME_RACE_WINDOW`/窗口 EV 好果下限/突破时间税/任务·资源 race 阈值/`GUARD_*`）。
+- 逐项打开 P3/P4 开关（`ENABLE_TASK_RACE`/`ENABLE_TASK_DENY`/`ENABLE_FRESHNESS_RACE`/`ENABLE_RESOURCE_DENY`/`ENABLE_CONDITIONAL_GUARD`），用真实 trace 验证 ΔEV/胜负收益为正后固化。
+
+
 ## [Iteration 19] - 2026-07-03 — M8 博弈投影层 P3 §6.3 鲜度/资源 race（默认关）
 
 ### 触发

@@ -64,6 +64,7 @@ class DecisionEngine:
         self.projection_bus = None
         self.mode_change = None      # (from_mode, to_mode, reason, round) 仅切档当帧非空，供 trace
         self.opponent_eta = None     # P3 §6.1 对手轨迹 ETA（纯观测，只作争夺判断输入）
+        self.guard_decision = None   # P4 §7 条件化设卡当帧决策细节（供 trace），未设卡为 None
         # M8 Layer 2（P2 档位调参）：当前档位的策略参数；缺投影时回落 EVEN=既有默认。
         self.tuning = tuning_for_mode(RiskMode.EVEN)
 
@@ -108,6 +109,7 @@ class DecisionEngine:
 
     def _update_projection(self, world):
         """每帧构建只读投影总线、按档位刷新策略参数并记录切档事件。异常安全。"""
+        self.guard_decision = None  # 每帧清空；仅当帧真的条件化设卡时由 _conditional_guard 置值
         try:
             self.projection_bus, changed, from_mode = self.projector.build(world)
             self.tuning = tuning_for_mode(self.projection_bus.mode)
@@ -180,7 +182,7 @@ class DecisionEngine:
         if bounty:
             return bounty
 
-        guard = self._maybe_set_guard(world, me, gm, node)
+        guard = self._maybe_set_guard(world, me, gm, node, terminal)
         if guard:
             return [guard]
 
@@ -834,10 +836,19 @@ class DecisionEngine:
         self._gate_scout_sent = True
         return actions.squad_scout(gate)
 
-    # ---- 进攻干扰（M7，默认关闭）----
+    # ---- 进攻干扰：主动设卡 ----
 
-    def _maybe_set_guard(self, world, me, gm, node):
-        if not config.ENABLE_OFFENSIVE or world.is_rush:
+    def _maybe_set_guard(self, world, me, gm, node, terminal):
+        """优先 §7 条件化设卡（`ENABLE_CONDITIONAL_GUARD`）；否则 M7 基线设卡（`ENABLE_OFFENSIVE`）。"""
+        if config.ENABLE_CONDITIONAL_GUARD:
+            return self._conditional_guard(world, me, gm, node, terminal)
+        if config.ENABLE_OFFENSIVE:
+            return self._basic_set_guard(world, me, gm, node)
+        return None
+
+    def _basic_set_guard(self, world, me, gm, node):
+        """M7 基线：在关键关隘无卡且好果充足时投 1 篓设卡（不看对手投影）。"""
+        if world.is_rush:
             return None
         n = gm.node(node)
         if not n or n.type != "KEY_PASS":
@@ -848,6 +859,82 @@ class DecisionEngine:
         if me.good_fruit < 20:  # 保留充足好果用于交付得分
             return None
         return actions.set_guard(node, extra_good_fruit=1)
+
+    def _conditional_guard(self, world, me, gm, node, terminal):
+        """§7 条件化主动设卡：仅锁胜局、对手会真的撞上卡、且 denial 期望价值达标时设卡。
+
+        六条件（§7.1）：CONSERVATIVE 且投影领先足够大；当前节点为关键关隘（在对手投影路线上）；
+        对手预计通过帧落在设卡存活窗口内；投入好果后仍守交付好果下限；设卡耗时过 `_can_afford`；
+        对手路线置信足够高。denial 期望分损失（对手破卡/强制通行取更省者）须 ≥ `GUARD_MIN_NET_VALUE`。
+        设卡决策细节写入 `self.guard_decision` 供 trace（§7.2）；未设卡时保持 None（每帧已清空）。
+        """
+        if world.is_rush:
+            return None
+        bus, eta = self.projection_bus, self.opponent_eta
+        if bus is None or eta is None:
+            return None
+        # 1. 锁胜：CONSERVATIVE + 领先足够大
+        if bus.mode != RiskMode.CONSERVATIVE or bus.gap < config.GUARD_MIN_LEAD:
+            return None
+        # 2. 当前节点为关键关隘（KEY_PASS）且无有效卡
+        n = gm.node(node)
+        if not n or n.type != "KEY_PASS":
+            return None
+        ns = world.node(node)
+        if ns and ns.guard and (ns.guard.get("defense", 0) or 0) > 0:
+            return None
+        # 6. 对手路线置信足够（且节点在其投影路线上——ETA 有限即可达）
+        if eta.confidence < config.GUARD_MIN_CONFIDENCE:
+            return None
+        # 3. 对手预计通过帧在存活窗口内（设卡完成生效后、风化失效前）
+        opp_eta = eta.eta(node)
+        if opp_eta is None or not (config.GUARD_SETUP_FRAMES < opp_eta <= config.GUARD_SURVIVAL_WINDOW):
+            return None
+        # 4. 投入好果后仍守交付好果下限（关键关隘基础成本 1 篓 + 额外 0/1/2）
+        base_cost = 1
+        extra = self._guard_extra_fruit(me, base_cost)
+        if extra is None:
+            return None
+        # 5. 设卡处理耗时过 _can_afford
+        if not self._can_afford(world, gm, node, config.GUARD_SETUP_FRAMES, terminal):
+            return None
+        # ΔEV：denial 对手期望分损失达标（把胜负期望价值计入，而非只看时间）
+        defense = min(7, 2 + extra * 2)          # 关键关隘防守上限 7
+        denial = self._guard_denial_value(world, defense)
+        if denial < config.GUARD_MIN_NET_VALUE:
+            return None
+        self.guard_decision = {
+            "target": node, "gap": round(bus.gap, 1), "oppEta": opp_eta,
+            "extraGood": extra, "defense": defense, "denial": round(denial, 1),
+            "reason": "lock_win_deny",
+        }
+        return actions.set_guard(node, extra_good_fruit=extra)
+
+    def _guard_extra_fruit(self, me, base_cost):
+        """选投入后仍守好果下限的最大额外好果（0/1/2）；都不满足返回 None。"""
+        for extra in (2, 1, 0):
+            if (me.good_fruit or 0) - base_cost - extra >= config.GUARD_KEEP_GOOD_FRUIT:
+                return extra
+        return None
+
+    def _guard_denial_value(self, world, defense):
+        """对手撞上设卡的期望分损失：破卡与强制通行取更省者。
+
+        破卡受"好/坏果各最多 2 篓"约束（§6.3.1）：坏果不计交付分故优先，好果每篓≈1.8 分；
+        若受限无法达防守值则破不了、只能强制通行（时间税→用时分损失）。
+        """
+        opp = world.opponent
+        opp_good = (opp.good_fruit or 0) if opp else 0
+        opp_bad = (opp.bad_fruit or 0) if opp else 0
+        break_cost = _INF
+        for g in range(0, min(2, opp_good) + 1):
+            for b in range(0, min(2, opp_bad) + 1):
+                if g * 2 + b * 3 >= defense:       # 达到防守值即可破
+                    break_cost = min(break_cost, g * (180 / 100.0))  # 仅好果损交付分
+        tax = rules.guard_time_tax("key_pass", defense)
+        opp_task = (opp.task_score or 0) if opp else 0
+        time_cost = (tax / 600.0) * 70.0 * (min(opp_task, 90) / 90.0)
+        return min(break_cost, time_cost)
 
     # ---- 窗口出牌 ----
 

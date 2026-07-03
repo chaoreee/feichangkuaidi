@@ -225,6 +225,12 @@ def _log_projection(logger, rnd, engine):
         logger.trace("Eta", round=rnd, oppFrom=eta.from_node,
                      toGate=eta.to_gate, toFinish=eta.to_finish,
                      verified=eta.verified, conf=round(eta.confidence, 2))
+    gd = getattr(engine, "guard_decision", None)
+    if gd:
+        logger.trace("GuardDecision", round=rnd, target=gd.get("target"),
+                     reason=gd.get("reason"), gap=gd.get("gap"), oppEta=gd.get("oppEta"),
+                     extraGood=gd.get("extraGood"), defense=gd.get("defense"),
+                     denial=gd.get("denial"))
 
 
 def _log_frame(logger, rnd, data, world):
