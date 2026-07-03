@@ -397,9 +397,34 @@ class DecisionEngine:
             return None
         if me.freshness < self.tuning.rush_protect_freshness_below:  # 鲜度危急优先护果，不冲刺
             return None
-        if self._has_any_horse(me) or not self._far_from_terminal(gm, node, terminal):
+        if self._has_any_horse(me):  # 已有马加速，不叠加疾行
+            return None
+        racing, behind = self._endgame_race_state(world, me)
+        if racing:
+            # §5.3 终局 race：落后/接近抢交付帧（放宽"远离终点"门槛，只要仍有移动余量即冲）；
+            # 领先则不烧疾行(+25%鲜度损耗)，把急策留给护果锁质量。
+            return actions.rush_speed() if behind else None
+        if not self._far_from_terminal(gm, node, terminal):  # 非 race：维持原保守门槛
             return None
         return actions.rush_speed()
+
+    def _endgame_race_state(self, world, me):
+        """§5.3 终局交付 race 判定：返回 (racing, behind)。
+
+        racing = RUSH 相位下，对手投影将在 `ENDGAME_RACE_WINDOW` 帧内交付且我方也接近交付。
+        behind = 投影分差 gap≤0（落后或接近）。缺投影/未到终局/信息不足 → (False, False)。
+        终局 RUSH 相位对手路线已收敛，投影 confidence 天然偏高，可信度足以据此决策。
+        """
+        bus = self.projection_bus
+        if not world.is_rush or bus is None or bus.opponent_projection is None:
+            return (False, False)
+        my, opp = bus.my_projection, bus.opponent_projection
+        if my is None or my.deliver_frame is None or opp.deliver_frame is None:
+            return (False, False)
+        rnd = world.round or 0
+        win = config.ENDGAME_RACE_WINDOW
+        racing = (opp.deliver_frame - rnd) <= win and (my.deliver_frame - rnd) <= win
+        return (racing, bus.gap <= 0)
 
     # ---- 情报 INTEL（M7）----
 

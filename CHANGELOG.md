@@ -2,6 +2,31 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `AGENTS.md`。
 
+## [Iteration 14] - 2026-07-03 — M8 博弈投影层 P2 终局交付 race（§5.3）接入决策
+
+### 触发
+P2 §5.1/§5.2 已就绪。继续接入 §5.3：现有急策只看我方状态；用对手投影把终局的 `RUSH_SPEED`/`RUSH_PROTECT` 取舍升级为"对手将交付时，落后抢交付帧 / 领先锁交付质量"，且不破坏已验证交付条件。
+
+### Added / Changed（strategy/decision.py）
+- 新增 `_endgame_race_state(world, me)`：RUSH 相位下，对手投影 `deliver_frame` 与我方 `deliver_frame` 均在 `ENDGAME_RACE_WINDOW`(20) 帧内 → `racing=True`；`gap≤0`（落后/接近）→ `behind=True`。缺投影/未到 RUSH/信息不足 → `(False, False)`。终局对手路线收敛、投影 confidence 天然偏高，据此决策可信。
+- `_rush_speed_warranted` 改为 race-aware：先保留"未用急策/鲜度安全/不叠加马"三道硬约束；再按 race：
+  - race 且落后/接近 → 放宽"远离终点"门槛，只要仍有移动余量即 `RUSH_SPEED` 抢交付帧；
+  - race 且领先 → 抑制疾行（不烧 +25% 鲜度损耗，把急策留给护果锁质量）；
+  - 非 race → 维持原有"路线距离 > `HORSE_MIN_REMAINING_DISTANCE` 才疾行"的保守门槛。
+- 领先且鲜度临界 → `RUSH_PROTECT` 仍由既有 `_maybe_rush_protect`（RUSH 相位 + 鲜度 < 档位阈值）覆盖，无需重复。
+
+### Added（单测，共 +11，合计 156 全通过）
+- `test_endgame_race.py`：落后+近终点抢帧（原本近处不疾行）、非 race 近处不冲、领先抑制疾行（原本远处会疾行）、非 race 远处保持原疾行、鲜度危急不冲、持马不冲；`_endgame_race_state` 的 race/behind/领先/对手远/非 RUSH/无对手投影各分支。
+
+### Verified
+- `py -m unittest discover -s tests`：156 项全通过。
+- mock 端到端（127.0.0.1:8094）：仍 @r48 `DELIVER_SUCCESS`（fresh 97.6/good 100/task 60）——mock 对手不推进、不下发悬赏，race 分支不改变既有单人最优路径，**零回归**。
+
+### 待办（后续迭代）
+- P0：真实 trace 归因 + 校准 `LEAD_SAFE`/confidence/投影精度/`ENDGAME_RACE_WINDOW`。
+- P2 续：窗口 EV（§5.4）；§5.1 行3/5 仍缓（触交付关键路径）。P3-P4：ETA/任务·资源 race/条件化 SET_GUARD（开关默认关）。
+
+
 ## [Iteration 13] - 2026-07-03 — M8 博弈投影层 P2 悬赏机会主义（§5.2）接入决策
 
 ### 触发
