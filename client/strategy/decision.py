@@ -17,6 +17,7 @@
 """
 
 import config
+from core import rules
 from core.game_map import GameMap
 from protocol import actions
 from protocol.enums import Action, Card, PlayerState, ResourceType
@@ -259,11 +260,16 @@ class DecisionEngine:
             t04 = self._find_t04(world, nxt)
             if t04 and self._can_afford(world, gm, me.current_node_id, t04.get("processRound", 6) or 6, terminal):
                 return [actions.claim_task(t04.get("taskId"))]
+            # §5.1 行3：CONSERVATIVE(领先)锁好果——能负担时间税则强制通行不烧好果。
+            if self._prefer_forced_pass(world, me, gm, nxt, terminal):
+                return [actions.forced_pass(nxt)]
             if me.good_fruit > config.KEEP_GOOD_FRUIT_MIN:
                 return [actions.clear(nxt)]
             return [actions.forced_pass(nxt)]
         owner = ns.active_guard_owner() if ns else None
         if owner and owner != me.team_id:
+            if self._prefer_forced_pass(world, me, gm, nxt, terminal):
+                return [actions.forced_pass(nxt)]
             plan = self._plan_attack(world, me, ns)
             if plan is not None:
                 g, b, bo = plan
@@ -271,6 +277,34 @@ class DecisionEngine:
                                             rush_tactic=(Action.BREAK_ORDER if bo else None))]
             return [actions.forced_pass(nxt)]
         return [actions.move(nxt)]
+
+    def _prefer_forced_pass(self, world, me, gm, nxt, terminal):
+        """§5.1 行3：仅 CONSERVATIVE(领先锁好果)且强制通行时间税仍能按时交付时，
+        突破优先 FORCED_PASS 不烧好果；负担不起时间税则回退烧好果攻坚，保交付下限。
+
+        必要突破前提下此选择只改"方法"（烧果 vs 付时间），不改"是否突破"。
+        """
+        if not self.tuning.protect_good_fruit_on_breakthrough:
+            return False
+        tax = self._forced_pass_tax(world, gm, nxt)
+        return self._can_afford(world, gm, me.current_node_id, tax, terminal)
+
+    def _forced_pass_tax(self, world, gm, nxt):
+        """强制通行时间税估算（§6.3.2）：纯障碍用固定障碍税；敌卡按节点类型 + 防守值。"""
+        ns = world.node(nxt)
+        if ns is None or not ns.active_guard_owner():
+            return rules.OBSTACLE_TIME_TAX
+        defense = (ns.guard or {}).get("defense", 0) or 0
+        n = gm.node(nxt)
+        if ns.has_obstacle:
+            kind = "obstacle_node"
+        elif n is not None and n.type == "KEY_PASS":
+            kind = "key_pass"
+        elif nxt == gm.gate_node:
+            kind = "gate"
+        else:
+            kind = "normal"
+        return rules.guard_time_tax(kind, defense)
 
     def _find_t04(self, world, node):
         for t in world.active_tasks():

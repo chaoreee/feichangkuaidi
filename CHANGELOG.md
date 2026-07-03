@@ -2,6 +2,36 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `AGENTS.md`。
 
+## [Iteration 16] - 2026-07-03 — M8 博弈投影层 P2 突破烧好果意愿（§5.1 行3）接入决策（P2 全部完成）
+
+### 触发
+接入 P2 最后一项 §5.1 行3：突破（清障/破卡）时是否烧好果按档位取舍。触碰交付关键的 `_breakthrough` 路径，故严格保持"必要突破照常发生、绝不因保好果而误交付"。
+
+### Changed（strategy/decision.py）
+- `_breakthrough` 增 CONSERVATIVE 保好果分支：障碍（T04 优先后）与敌卡在 `_prefer_forced_pass` 为真时改出 `FORCED_PASS`（不烧好果）；否则维持既有 `CLEAR` / `BREAK_GUARD`。
+- 新增 `_prefer_forced_pass(world, me, gm, nxt, terminal)`：仅当 `tuning.protect_good_fruit_on_breakthrough`（=CONSERVATIVE）且 `_forced_pass_tax` 过 `_can_afford`（强制通行时间税仍能按时交付）时返 True。负担不起时间税 → 回退烧好果攻坚，保交付下限。
+- 新增 `_forced_pass_tax`：纯障碍用固定 `rules.OBSTACLE_TIME_TAX`；敌卡按节点类型（obstacle_node/key_pass/gate/normal）+ 防守值走 `rules.guard_time_tax`（§6.3.2）。
+- 引入 `from core import rules`。
+- **必要突破前提下此改动只改"方法"（烧果 vs 付时间），不改"是否突破"**；EVEN/AGGRESSIVE 行为不变（维持烧好果攻坚更快通过）。
+
+### Changed（strategy/tuning.py）
+- `StrategyTuning` 增 `protect_good_fruit_on_breakthrough`：CONSERVATIVE=True（领先锁好果），EVEN/AGGRESSIVE=False。
+
+### Added（单测，共 +10，合计 180 全通过）
+- `test_breakthrough_fruit.py`：CONSERVATIVE 障碍/敌卡突破出 FORCED_PASS、EVEN/AGGRESSIVE 出 CLEAR/BREAK_GUARD、时间紧（逼近 600 帧）CONSERVATIVE 回退 CLEAR 保交付、`protect_good_fruit_on_breakthrough` 档位映射、`_forced_pass_tax` 障碍固定税/敌卡防守值缩放。
+
+### Verified
+- `py -m unittest discover -s tests`：180 项全通过。
+- mock 端到端（127.0.0.1:8096）：仍 @r48 `DELIVER_SUCCESS`（fresh 97.6/good 100/task 60），障碍 S13 仍走 SQUAD_CLEAR/CLEAR——mock mode 恒 EVEN，行为不变，**零回归**。
+
+### 里程碑：P2 低风险增量全部完成
+- §5.1 行1/2（档位任务目标/绕路上限 + §3.3 ΔEV 地板）、行3（突破烧好果意愿）、行4（护果令时机）、行5（窗口出牌）；§5.2 悬赏机会主义；§5.3 终局交付 race；§5.4 窗口 EV——均已接入 `decision.py`，各受 `_can_afford` 与（相关处）ΔEV 地板守卫，信息不足默认 EVEN=既有基线（mock 全程零回归 @r48 交付）。
+
+### 待办
+- P0：真实对局 trace 归因 + 校准 `LEAD_SAFE`/confidence/投影精度/`ENDGAME_RACE_WINDOW`/窗口 EV 好果下限/突破时间税估算（当前 mode 前中段恒 EVEN，P2 差异主要在中后段切档时显现）。
+- P3-P4：中风险 race（ETA/任务·资源，逐项开关）、条件化 SET_GUARD（默认关），真实 trace 验证 ΔEV 为正后逐项打开。
+
+
 ## [Iteration 15] - 2026-07-03 — M8 博弈投影层 P2 窗口 EV（§5.4 + §5.1 行5）接入决策
 
 ### 触发

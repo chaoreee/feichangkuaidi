@@ -24,6 +24,7 @@ class StrategyTuning:
     task_detour_max_extra_frames: int  # §5.1 行2：绕路做任务允许的最大额外帧
     action_min_net_score: float        # §3.3：增量动作的最低净收益门槛 ΔEV（分数质量地板）
     rush_protect_freshness_below: float  # §5.1 行4：护果令触发的鲜度阈值（低于即用）
+    protect_good_fruit_on_breakthrough: bool  # §5.1 行3：突破时优先不烧好果（FORCED_PASS）
 
 
 def tuning_for_mode(mode):
@@ -35,6 +36,7 @@ def tuning_for_mode(mode):
             task_detour_max_extra_frames=config.CONSERVATIVE_TASK_DETOUR_MAX_EXTRA_FRAMES,
             action_min_net_score=config.ACTION_MIN_NET_SCORE_CONSERVATIVE,
             rush_protect_freshness_below=config.RUSH_PROTECT_FRESHNESS_BELOW,
+            protect_good_fruit_on_breakthrough=True,   # 领先锁好果：能负担时间税则优先 FORCED_PASS
         )
     if mode == RiskMode.AGGRESSIVE:
         return StrategyTuning(
@@ -43,6 +45,7 @@ def tuning_for_mode(mode):
             task_detour_max_extra_frames=config.AGGRESSIVE_TASK_DETOUR_MAX_EXTRA_FRAMES,
             action_min_net_score=config.ACTION_MIN_NET_SCORE_AGGRESSIVE,
             rush_protect_freshness_below=config.AGGRESSIVE_RUSH_PROTECT_FRESHNESS_BELOW,
+            protect_good_fruit_on_breakthrough=False,  # 落后争速：允许烧好果攻坚更快通过
         )
     # EVEN：复用既有默认，等价于现状（ΔEV 地板除外——地板是 P2 起对所有档位的新增守卫）。
     return StrategyTuning(
@@ -51,4 +54,5 @@ def tuning_for_mode(mode):
         task_detour_max_extra_frames=config.TASK_DETOUR_MAX_EXTRA_FRAMES,
         action_min_net_score=config.ACTION_MIN_NET_SCORE,
         rush_protect_freshness_below=config.RUSH_PROTECT_FRESHNESS_BELOW,
+        protect_good_fruit_on_breakthrough=False,      # 保持现状（烧好果攻坚）
     )
