@@ -15,7 +15,7 @@
 1. 拿到一场对局的 `client/logs/match_*.log`。
 2. 复制（或经 GitHub 上传）到本目录 `logs/`，按需重命名/归档，例如 `logs/2026-07-02_local-debug-l1/`。
 3. 让 Claude Code 直接读这些 `.log`（trace 文本，无需 JSON 解析或 python 分析模块），产出分析结论并驱动 `client/` 迭代。
-4. 同步更新 `AGENTS.md`（能力矩阵 + 迭代日志）与 `CHANGELOG.md`。
+4. 同步更新 `CLAUDE.md`（能力矩阵 + 迭代日志）与 `CHANGELOG.md`。
 
 ## trace 行格式
 

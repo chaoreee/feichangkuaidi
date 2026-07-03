@@ -14,7 +14,7 @@
 
 ```
                 ┌────────────────────┐
-                │     AGENTS.md      │
+                │     CLAUDE.md      │
                 │ 项目能力基线（知识） │
                 └─────────┬──────────┘
                           │
@@ -32,9 +32,9 @@
 
 # 1. Agent 项目能力基线
 
-Agent 需要维护一份完整的 **AGENTS.md**，作为整个项目的唯一能力基线（Single Source of Truth）。
+Agent 需要维护一份完整的 **CLAUDE.md**，作为整个项目的唯一能力基线（Single Source of Truth）。
 
-AGENTS.md 应详细记录：
+CLAUDE.md 应详细记录：
 
 - 项目目标
 - 当前系统架构
@@ -48,9 +48,9 @@ AGENTS.md 应详细记录：
 
 要求：
 
-- AGENTS.md 必须始终保持最新。
+- CLAUDE.md 必须始终保持最新。
 - 每次能力发生变化时同步更新。
-- Agent 的所有开发工作均以 AGENTS.md 为基础。
+- Agent 的所有开发工作均以 CLAUDE.md 为基础。
 
 ---
 
@@ -268,7 +268,7 @@ Agent 需要能够自动完成：
 更新：
 
 - Client实现
-- AGENTS.md
+- CLAUDE.md
 - Delivery Specification
 
 保证整个项目不断演进。
@@ -289,7 +289,7 @@ logs/
 
 同时更新：
 
-- AGENTS.md
+- CLAUDE.md
 - CHANGELOG.md
 - 经验总结
 
@@ -304,7 +304,7 @@ logs/
 ```text
 project/
 │
-├── AGENTS.md                  # Agent 能力基线（SSOT）
+├── CLAUDE.md                  # Agent 能力基线（SSOT）
 ├── README.md
 ├── CHANGELOG.md
 │
@@ -345,7 +345,7 @@ project/
 初始化项目
         │
         ▼
-建立 AGENTS.md
+建立 CLAUDE.md
         │
         ▼
 建立交付件规格基线
@@ -369,7 +369,7 @@ project/
 优化 Client
         │
         ▼
-更新 AGENTS.md
+更新 CLAUDE.md
         │
         ▼
 下一轮比赛
@@ -381,12 +381,12 @@ project/
 
 Agent 在整个项目生命周期中必须遵循以下原则：
 
-1. **AGENTS.md 是唯一能力基线（Single Source of Truth）**。
+1. **CLAUDE.md 是唯一能力基线（Single Source of Truth）**。
 2. 所有代码实现必须严格遵循交付件规格基线。
 3. 所有实现必须严格符合比赛任务书和通信协议。
 4. 每场比赛日志必须独立保存，确保可追溯。
 5. 每轮日志分析必须输出完整分析报告。
-6. 每轮优化后必须同步更新能力基线（AGENTS.md）。
+6. 每轮优化后必须同步更新能力基线（CLAUDE.md）。
 7. 所有经验、问题与改进建议都应沉淀为长期知识，形成持续迭代的闭环开发体系。
 
 ---
@@ -398,7 +398,7 @@ Agent 在整个项目生命周期中必须遵循以下原则：
 1. 整个项目的总体架构设计。
 2. Agent 系统的模块划分。
 3. 项目目录结构。
-4. AGENTS.md 的设计方案。
+4. CLAUDE.md 的设计方案。
 5. Delivery Specification（交付件规格基线）的设计方案。
 6. Client 实现框架设计。
 7. Log 分析框架设计。

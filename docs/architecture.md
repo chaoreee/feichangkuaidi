@@ -1,12 +1,12 @@
 # 架构设计（architecture.md）
 
-本文件是 `AGENTS.md` 的架构落档版，描述系统分层、模块职责、数据流、关键技术决策与 Roadmap。规则细节以任务书/协议为准，本文件不重复规则。
+本文件是 `CLAUDE.md` 的架构落档版，描述系统分层、模块职责、数据流、关键技术决策与 Roadmap。规则细节以任务书/协议为准，本文件不重复规则。
 
 ## 1. 分层与运行/开发分离
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│  能力基线：AGENTS.md（SSOT） + docs/（spec/protocol/task/arch） │
+│  能力基线：CLAUDE.md（SSOT） + docs/（spec/protocol/task/arch） │
 └───────────────┬──────────────────────────────────────────────┘
                 ▼
    运行期  client/（= 提交平台的交付件根目录，纯 stdlib、离线可跑）
@@ -17,7 +17,7 @@
    采集   logs/（client 之外）：取回的 trace 日志入库
                           │ 由 Claude Code 直接阅读分析（无 python 分析模块）
                           ▼
-   迭代闭环：分析结论回写 client / AGENTS.md / CHANGELOG.md
+   迭代闭环：分析结论回写 client / CLAUDE.md / CHANGELOG.md
 ```
 
 **核心原则**：`client/` **本身即交付件根目录**——手动打包时，`client/` 内容直接构成 ZIP 根（`start.sh`、`main.py`、各子包同级）。包内不得出现第三方依赖；纯标准库、离线可跑。分析不再依赖任何 python 模块，改由 Claude Code 直接读取取回的 trace 日志。
@@ -42,7 +42,7 @@
                                                      │（对战后随交付件下载回本地）
                           复制到仓库 logs/（client 之外） → Claude Code 直接阅读 trace
                                                      │
-                        回写 → AGENTS.md / CHANGELOG.md / docs/delivery_spec.md / client/
+                        回写 → CLAUDE.md / CHANGELOG.md / docs/delivery_spec.md / client/
 ```
 
 单帧主循环：
