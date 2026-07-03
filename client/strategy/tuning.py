@@ -20,9 +20,10 @@ from strategy.projection import RiskMode
 @dataclass(frozen=True)
 class StrategyTuning:
     mode: RiskMode
-    task_seek_target: int              # 为任务绕路的上限（任务分达此值即不再绕路）
-    task_detour_max_extra_frames: int  # 绕路做任务允许的最大额外帧
-    action_min_net_score: float        # 增量动作的最低净收益门槛 ΔEV（分数质量地板）
+    task_seek_target: int              # §5.1 行1：为任务绕路的上限（任务分达此值即不再绕路）
+    task_detour_max_extra_frames: int  # §5.1 行2：绕路做任务允许的最大额外帧
+    action_min_net_score: float        # §3.3：增量动作的最低净收益门槛 ΔEV（分数质量地板）
+    rush_protect_freshness_below: float  # §5.1 行4：护果令触发的鲜度阈值（低于即用）
 
 
 def tuning_for_mode(mode):
@@ -33,6 +34,7 @@ def tuning_for_mode(mode):
             task_seek_target=config.CONSERVATIVE_TASK_SEEK_TARGET,
             task_detour_max_extra_frames=config.CONSERVATIVE_TASK_DETOUR_MAX_EXTRA_FRAMES,
             action_min_net_score=config.ACTION_MIN_NET_SCORE_CONSERVATIVE,
+            rush_protect_freshness_below=config.RUSH_PROTECT_FRESHNESS_BELOW,
         )
     if mode == RiskMode.AGGRESSIVE:
         return StrategyTuning(
@@ -40,11 +42,13 @@ def tuning_for_mode(mode):
             task_seek_target=config.AGGRESSIVE_TASK_SEEK_TARGET,
             task_detour_max_extra_frames=config.AGGRESSIVE_TASK_DETOUR_MAX_EXTRA_FRAMES,
             action_min_net_score=config.ACTION_MIN_NET_SCORE_AGGRESSIVE,
+            rush_protect_freshness_below=config.AGGRESSIVE_RUSH_PROTECT_FRESHNESS_BELOW,
         )
-    # EVEN：复用既有默认，等价于现状。
+    # EVEN：复用既有默认，等价于现状（ΔEV 地板除外——地板是 P2 起对所有档位的新增守卫）。
     return StrategyTuning(
         mode=RiskMode.EVEN,
         task_seek_target=config.TASK_SEEK_TARGET,
         task_detour_max_extra_frames=config.TASK_DETOUR_MAX_EXTRA_FRAMES,
         action_min_net_score=config.ACTION_MIN_NET_SCORE,
+        rush_protect_freshness_below=config.RUSH_PROTECT_FRESHNESS_BELOW,
     )

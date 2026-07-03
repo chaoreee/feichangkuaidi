@@ -2,6 +2,37 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `AGENTS.md`。
 
+## [Iteration 12] - 2026-07-03 — M8 博弈投影层 P2 档位调参接入决策（§5.1 行1/2/4 + §3.3 ΔEV 地板）
+
+### 触发
+P1/P1.5 已就绪（投影总线 + `net_score_delta`）。本轮把 §5.1 中**可清晰参数化、且不威胁交付下限**的档位调参正式接入决策：任务绕路目标/上限（行1/2）与护果令时机（行4），并给绕路这一增量动作套上 §3.3 分数质量地板——这是防 AGGRESSIVE 放宽绕路上限后重演 839cfc9「过度贪任务/烧好果」败局的核心闸门。
+
+### Changed（strategy/decision.py）
+- `DecisionEngine` 每帧 `_update_projection` 内 `self.tuning = tuning_for_mode(mode)`（异常/缺投影回落 EVEN=既有默认）。
+- `_task_detour_target`：改用 `tuning.task_seek_target` / `tuning.task_detour_max_extra_frames`；对每个候选新增与门第二道守卫——`net_score_delta ≥ tuning.action_min_net_score`（时间地板 `_can_afford` 之外的分数地板）。任务分增量取 `inquire.tasks[].score`。
+- 新增 `_detour_net_delta(me, task_pts, extra_frames)`：以本方投影 `my_projection`（deliver_frame/task/good/fresh）为基线，计入额外耗时（推迟交付→用时分）与额外鲜度损耗（`extra_frames × AVG_FRESHNESS_LOSS_PER_FRAME`，含跨阈值转坏）；缺投影或直达都交付不了则返回 -inf（拒绝绕路）。
+- `_maybe_rush_protect` / `_rush_speed_warranted`：护果令触发阈值由写死 `config.RUSH_PROTECT_FRESHNESS_BELOW` 改为 `tuning.rush_protect_freshness_below`。
+
+### Changed（strategy/tuning.py、config.py）
+- `StrategyTuning` 新增字段 `rush_protect_freshness_below`；`tuning_for_mode` 映射：CONSERVATIVE/EVEN=`RUSH_PROTECT_FRESHNESS_BELOW`(90)、AGGRESSIVE=`AGGRESSIVE_RUSH_PROTECT_FRESHNESS_BELOW`(75，落后时更克制、把急策留给冲刺)。
+- `config.py` 新增 `AGGRESSIVE_RUSH_PROTECT_FRESHNESS_BELOW = 75.0`。
+
+### Added（单测，共 +9，合计 135 全通过）
+- `test_mode_tuning_wiring.py`：EVEN 取近处高价值任务、CONSERVATIVE(target=0) 禁绕路、AGGRESSIVE 放宽上限取 EVEN 上限外的绕路、ΔEV 地板拒低价值绕路且 AGGRESSIVE 也不放净负分、护果令阈值三档时机（EVEN@85 用/AGGRESSIVE@85 不用/AGGRESSIVE@70 用）。
+- `test_game_theory_tuning.py`：新增护果令阈值按档位断言。
+
+### Verified
+- `py -m unittest discover -s tests`：135 项全通过。
+- mock 端到端（127.0.0.1:8092）：仍 @r48 `DELIVER_SUCCESS`（fresh 97.6/good 100/task 60）——mode 恒 EVEN（confidence<0.55），tuning=既有默认，ΔEV 地板不误伤有益的顺路/低成本绕路，**零回归**。
+
+### 设计取舍（本轮刻意不做）
+- §5.1 行3（突破烧好果意愿）触碰交付关键的 `_breakthrough` 路径、行5（窗口出牌）涉及窗口牌代价语义，二者错判可能损失交付；§5.2 悬赏/§5.3 终局 race/§5.4 窗口 EV 为新增机会动作。均留待真实 trace 验证与逐项开关，避免在无真实数据时动摇 delivery-first 下限。
+
+### 待办（后续迭代）
+- P0：真实 trace 归因 + 校准 `LEAD_SAFE`/confidence/投影精度（当前 mode 前中段恒 EVEN，P2 差异只在中后段切档时显现）。
+- P2 续：悬赏机会主义（§5.2）、终局交付 race（§5.3）、窗口 EV（§5.4）；P3-P4：ETA/任务·资源 race/条件化 SET_GUARD（开关已登记默认关）。
+
+
 ## [Iteration 11] - 2026-07-03 — M8 博弈投影层 P1+P1.5 落地（纯观测，不改动作）
 
 ### 触发

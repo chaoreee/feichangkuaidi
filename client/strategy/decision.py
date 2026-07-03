@@ -20,7 +20,9 @@ import config
 from core.game_map import GameMap
 from protocol import actions
 from protocol.enums import Action, Card, PlayerState, ResourceType
-from strategy.projection import Projector
+from strategy.projection import (Projector, RiskMode, net_score_delta,
+                                  AVG_FRESHNESS_LOSS_PER_FRAME)
+from strategy.tuning import tuning_for_mode
 
 _IDLE_LIKE = (PlayerState.IDLE, PlayerState.COST_BANKRUPT, None)
 _MOVE_BUFF_TYPES = frozenset({ResourceType.FAST_HORSE, ResourceType.SHORT_HORSE, "RUSH_SPEED"})
@@ -60,6 +62,8 @@ class DecisionEngine:
         self.projector = Projector(context)
         self.projection_bus = None
         self.mode_change = None      # (from_mode, to_mode, reason, round) 仅切档当帧非空，供 trace
+        # M8 Layer 2（P2 档位调参）：当前档位的策略参数；缺投影时回落 EVEN=既有默认。
+        self.tuning = tuning_for_mode(RiskMode.EVEN)
 
     def decide(self, world):
         me = world.me
@@ -101,9 +105,10 @@ class DecisionEngine:
     # ---- M8 投影总线（Layer 1，纯观测）----
 
     def _update_projection(self, world):
-        """每帧构建只读投影总线并记录切档事件。异常安全，绝不影响动作与心跳。"""
+        """每帧构建只读投影总线、按档位刷新策略参数并记录切档事件。异常安全。"""
         try:
             self.projection_bus, changed, from_mode = self.projector.build(world)
+            self.tuning = tuning_for_mode(self.projection_bus.mode)
             if changed:
                 self.mode_change = (from_mode, self.projection_bus.mode,
                                     self.projection_bus.reason, world.round)
@@ -112,6 +117,7 @@ class DecisionEngine:
         except Exception:
             self.projection_bus = None
             self.mode_change = None
+            self.tuning = tuning_for_mode(RiskMode.EVEN)
 
     # ---- 主计划（空闲态，在节点）----
 
@@ -378,14 +384,14 @@ class DecisionEngine:
     def _maybe_rush_protect(self, world, me):
         if not world.is_rush or me.delivered or (me.rush_tactic_used_count or 0) > 0:
             return None
-        if me.freshness < config.RUSH_PROTECT_FRESHNESS_BELOW:
+        if me.freshness < self.tuning.rush_protect_freshness_below:  # §5.1 行4：按档位
             return actions.rush_protect()
         return None
 
     def _rush_speed_warranted(self, world, me, gm, node, terminal):
         if not world.is_rush or me.delivered or (me.rush_tactic_used_count or 0) > 0:
             return None
-        if me.freshness < config.RUSH_PROTECT_FRESHNESS_BELOW:
+        if me.freshness < self.tuning.rush_protect_freshness_below:  # 鲜度危急优先护果，不冲刺
             return None
         if self._has_any_horse(me) or not self._far_from_terminal(gm, node, terminal):
             return None
@@ -446,7 +452,14 @@ class DecisionEngine:
     # ---- 绕路做任务（M7）----
 
     def _task_detour_target(self, world, me, gm, node, terminal):
-        if (me.task_score or 0) >= config.TASK_SEEK_TARGET or not terminal:
+        """按档位（§5.1 行1/2）在预算内选一处绕路任务点，并过 §3.3 分数质量地板 ΔEV。
+
+        与门：0≤extra≤档位绕路上限 且 `_can_afford`（时间地板）且
+        `net_score_delta ≥ 档位 ΔEV 阈值`（分数地板）。任一不过则跳过该候选。
+        这防止 AGGRESSIVE 放宽绕路上限后重演 839cfc9 的过度贪任务/烧鲜度败局。
+        """
+        tuning = self.tuning
+        if (me.task_score or 0) >= tuning.task_seek_target or not terminal:
             return None
         pid = self.ctx.player_id
         _, direct = gm.time_optimal_path(node, terminal)
@@ -471,10 +484,32 @@ class DecisionEngine:
                 continue
             pr = t.get("processRound", 0) or 0
             extra = (c1 + pr + c2) - direct
-            if 0 <= extra <= config.TASK_DETOUR_MAX_EXTRA_FRAMES and extra < best_extra \
-                    and self._can_afford(world, gm, node, extra, terminal):
-                best, best_extra = tn, extra
+            if not (0 <= extra <= tuning.task_detour_max_extra_frames) or extra >= best_extra:
+                continue
+            if not self._can_afford(world, gm, node, extra, terminal):
+                continue
+            task_pts = t.get("score", 0) or 0
+            if self._detour_net_delta(me, task_pts, extra) < tuning.action_min_net_score:
+                continue  # 净收益不足（分数质量地板）——不为它绕路
+            best, best_extra = tn, extra
         return best
+
+    def _detour_net_delta(self, me, task_pts, extra_frames):
+        """绕路做任务的投影净收益 ΔEV（§3.3）。以本方投影为基线，计入额外耗时与鲜度损耗。
+
+        缺投影或直达都无法交付时返回 -inf（拒绝绕路——连直达都交不了，绕路更无意义）。
+        """
+        mp = self.projection_bus.my_projection if self.projection_bus else None
+        if mp is None or mp.deliver_frame is None:
+            return _INF * -1
+        extra_loss = extra_frames * AVG_FRESHNESS_LOSS_PER_FRAME
+        return net_score_delta(
+            mp.deliver_frame, mp.projected_task_score, mp.projected_good_fruit,
+            mp.projected_freshness,
+            penalty=me.penalty_score or 0,
+            duration=self.ctx.duration_round or 600,
+            extra_task_score=task_pts, extra_frames=extra_frames,
+            extra_freshness_loss=extra_loss)
 
     # ---- 小分队（M7：防御性预清障/削弱 + 探路宫门）----
 

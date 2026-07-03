@@ -41,6 +41,17 @@ class TestTuningForMode(unittest.TestCase):
         for mode in (RiskMode.CONSERVATIVE, RiskMode.EVEN, RiskMode.AGGRESSIVE):
             self.assertGreaterEqual(tuning_for_mode(mode).action_min_net_score, 0)
 
+    def test_rush_protect_threshold_per_mode(self):
+        # §5.1 行4：CONSERVATIVE/EVEN 沿用既有 90；AGGRESSIVE 更克制（仅危急才用护果令）。
+        self.assertEqual(tuning_for_mode(RiskMode.CONSERVATIVE).rush_protect_freshness_below,
+                         config.RUSH_PROTECT_FRESHNESS_BELOW)
+        self.assertEqual(tuning_for_mode(RiskMode.EVEN).rush_protect_freshness_below,
+                         config.RUSH_PROTECT_FRESHNESS_BELOW)
+        self.assertEqual(tuning_for_mode(RiskMode.AGGRESSIVE).rush_protect_freshness_below,
+                         config.AGGRESSIVE_RUSH_PROTECT_FRESHNESS_BELOW)
+        self.assertLess(tuning_for_mode(RiskMode.AGGRESSIVE).rush_protect_freshness_below,
+                        tuning_for_mode(RiskMode.EVEN).rush_protect_freshness_below)
+
     def test_unknown_mode_falls_back_to_even(self):
         self.assertEqual(tuning_for_mode("WHATEVER").mode, RiskMode.EVEN)
 

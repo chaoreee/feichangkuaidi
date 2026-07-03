@@ -65,6 +65,10 @@ AGGRESSIVE_TASK_DETOUR_MAX_EXTRA_FRAMES = 90   # 从直觉 120 收敛（§5.1）
 CONSERVATIVE_TASK_SEEK_TARGET = 0              # 领先档不为任务绕路
 CONSERVATIVE_TASK_DETOUR_MAX_EXTRA_FRAMES = 0
 
+# Layer 2 §5.1 行4：RUSH_PROTECT 时机（护果令）。CONSERVATIVE/EVEN 沿用既有 90（鲜度<90即用），
+# AGGRESSIVE 落后时更克制，仅鲜度危急才用护果令、把急策留给速度冲刺。
+AGGRESSIVE_RUSH_PROTECT_FRESHNESS_BELOW = 75.0
+
 # Layer 2/3 悬赏与终局 race（P2+ 启用；此处仅登记阈值）
 ENDGAME_RACE_WINDOW = 20            # 终局交付 race 触发窗口（帧）
 BOUNTY_MAX_EXTRA_FRAMES = 25        # 顺路悬赏允许的最大额外帧
