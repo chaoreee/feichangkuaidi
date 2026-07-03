@@ -85,7 +85,15 @@ ENABLE_TASK_RACE = False           # 追平：对手任务分逼近 90 而我方
 TASK_RACE_OPP_THRESHOLD = 80       # 对手任务分≥此视为"已达/即将达 90"，触发我方追平
 TASK_DENY_ETA_MARGIN = 0           # Deny：我方到任务点帧数 ≤ 对手 ETA + margin 才抢（不跑空趟）
 
+# §6.3 鲜度/资源 race（P3，默认关）
+ENABLE_FRESHNESS_RACE = False      # 鲜度劣势时提前用冰鉴保阈值（不为省资源导致好果转坏）
+FRESHNESS_RACE_GAP = 10.0          # 对手鲜度比我方高出此值 → 我方处于鲜度劣势
+ICE_BOX_RACE_USE_BELOW = 88.0      # 鲜度劣势时提前用冰鉴的阈值（护 80 阈值），常态仍 ICE_BOX_USE_BELOW
+RESOURCE_RACE_MAX_EXTRA_FRAMES = 20  # 抢冰鉴允许的最大额外帧（不显著偏离交付路线）
+RESOURCE_RACE_ICEBOX_KEEP = 2        # 冰鉴 race：期望持有到此数才值得为抢它绕路/领取
+RESOURCE_DENY_ETA_MARGIN = 0         # 我方到资源点帧数 ≤ 对手 ETA + margin 才抢
+
 # Layer 3/4 子能力开关（默认关闭，真实 trace 验证为正后逐项打开）
 ENABLE_TASK_DENY = False           # §6.2 Deny：抢占对手正奔赴的关键任务点，阻其里程碑
-ENABLE_RESOURCE_DENY = False
+ENABLE_RESOURCE_DENY = False       # §6.3 资源 race：抢占对手争夺、库存有限的路线附近冰鉴
 ENABLE_CONDITIONAL_GUARD = False

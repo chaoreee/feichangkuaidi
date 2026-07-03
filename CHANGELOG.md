@@ -2,6 +2,34 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `AGENTS.md`。
 
+## [Iteration 19] - 2026-07-03 — M8 博弈投影层 P3 §6.3 鲜度/资源 race（默认关）
+
+### 触发
+接入 P3 race 层最后一项 §6.3：鲜度阈值触发好果转坏，故双方接近阈值时"路线/冰鉴时机"有博弈价值。两子能力逐项带开关、默认关，真实 trace 验证后再开。至此 P3 race 层（§6.1/§6.2/§6.3）全部就绪，仅剩 Layer 4 §7。
+
+### Added / Changed（strategy/decision.py）
+- **鲜度 race**：`_freshness_rescue(world, me)`（签名加 `world`）+ `_losing_freshness_race(world, me)`。开启 `ENABLE_FRESHNESS_RACE` 且对手鲜度 − 我方鲜度 ≥ `FRESHNESS_RACE_GAP`(10)（我方处劣势）时，把冰鉴使用阈值从 `ICE_BOX_USE_BELOW`(78) 抬到 `ICE_BOX_RACE_USE_BELOW`(88)，提前用冰鉴保阈值——符合守卫"冰鉴以保阈值为核心、不为省资源致好果转坏"（提前用只会更保护）。默认关时行为与现状完全一致。
+- **资源 race**：`_maybe_resource_race(world, me, gm, node, terminal)`（`ENABLE_RESOURCE_DENY`）。用 §6.1 `opponent_eta.eta(nodeId)` 找对手正争夺（ETA 有限）、我方到该点帧数 ≤ 对手 ETA + `RESOURCE_DENY_ETA_MARGIN`（抢得到、不跑空趟）、有冰鉴库存、额外帧 ≤ `RESOURCE_RACE_MAX_EXTRA_FRAMES`(20,不显著偏离)、过 `_can_afford`、且我方冰鉴未囤够 `RESOURCE_RACE_ICEBOX_KEEP`(2) 的路线附近节点，选对手最快到达（最紧迫）者作绕路目标；到点由 `_maybe_claim` 领取（开关开时其冰鉴保有量抬到 race 值）。
+- `_plan` race 绕路顺序：任务 deny（§6.2）→ 资源(冰鉴)争夺（§6.3）→ 任务追平/机会式绕路。
+
+### Changed（config.py）
+- 新增 `ENABLE_FRESHNESS_RACE=False`、`FRESHNESS_RACE_GAP=10.0`、`ICE_BOX_RACE_USE_BELOW=88.0`、`RESOURCE_RACE_MAX_EXTRA_FRAMES=20`、`RESOURCE_RACE_ICEBOX_KEEP=2`、`RESOURCE_DENY_ETA_MARGIN=0`；`ENABLE_RESOURCE_DENY` 保持 False。
+
+### Added（单测，共 +12，合计 214 全通过）
+- `test_freshness_resource_race.py`：鲜度 race（劣势提前用冰鉴、鲜度相近不提前、常态阈值内仍用、无冰鉴不动作、开关关闭）；资源 race（抢占对手争夺冰鉴、对手不可达不抢、抢不过不跑空趟、已足额不绕路、开关关闭）；默认关校验。
+
+### Verified
+- `py -m unittest discover -s tests`：214 项全通过。
+- mock 端到端（127.0.0.1:8099）：仍 @r48 `DELIVER_SUCCESS`（fresh 97.6/good 100/task 60）——四个 race 开关（TASK_RACE/TASK_DENY/FRESHNESS_RACE/RESOURCE_DENY）默认关，`_freshness_rescue` 阈值不变、`_maybe_resource_race` 返回 None，**零回归**。
+
+### 里程碑：P3 race 层全部接入（默认关）
+- §6.1 对手轨迹 ETA（纯观测）、§6.2 任务 race（追平/Deny）、§6.3 鲜度/资源 race 均已实现并单测覆盖，全部默认关。所有 race 依赖 ETA（对手意图不可观测，轨迹变化打折 confidence），须真实 trace 校准后逐项打开。仅剩 Layer 4 §7 条件化 SET_GUARD。
+
+### 待办
+- P0：真实 trace 校准 `LEAD_SAFE`/confidence/`ENDGAME_RACE_WINDOW`/窗口 EV 好果下限/ETA 精度/任务·资源 race 阈值，并逐项打开 P3 开关验证 ΔEV/胜负收益为正。
+- P4：§7 条件化 SET_GUARD（`ENABLE_CONDITIONAL_GUARD` 默认关，把 denial 对胜负的期望价值计入 ΔEV 地板）。
+
+
 ## [Iteration 18] - 2026-07-03 — M8 博弈投影层 P3 §6.2 任务 race（追平 + Deny，默认关）
 
 ### 触发

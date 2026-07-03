@@ -140,7 +140,7 @@ class DecisionEngine:
         return self._plan(world, me, gm, node, terminal, gate)
 
     def _plan(self, world, me, gm, node, terminal, gate):
-        rescue = self._freshness_rescue(me)
+        rescue = self._freshness_rescue(world, me)
         if rescue:
             return [rescue]
 
@@ -184,8 +184,9 @@ class DecisionEngine:
         if guard:
             return [guard]
 
-        # 任务 race（§6.2，默认关）：先 deny 抢占对手关键任务点，否则追平/机会式绕路任务
+        # race 绕路（§6.2/§6.3，默认关）：任务 deny → 资源(冰鉴)争夺 → 追平/机会式绕路任务
         dst = self._task_deny_target(world, me, gm, node, terminal)
+        dst = dst or self._maybe_resource_race(world, me, gm, node, terminal)
         dst = dst or self._task_detour_target(world, me, gm, node, terminal) or terminal
         if dst:
             return self._advance(world, me, gm, node, dst, terminal)
@@ -366,10 +367,23 @@ class DecisionEngine:
 
     # ---- 收益子策略（M4）----
 
-    def _freshness_rescue(self, me):
-        if me.resource_count(ResourceType.ICE_BOX) > 0 and 0 < me.freshness < config.ICE_BOX_USE_BELOW:
+    def _freshness_rescue(self, world, me):
+        """冰鉴保鲜：常态鲜度<ICE_BOX_USE_BELOW 用；§6.3 鲜度劣势时提前(更高阈值)用以保阈值。"""
+        if me.resource_count(ResourceType.ICE_BOX) <= 0 or me.freshness <= 0:
+            return None
+        threshold = config.ICE_BOX_USE_BELOW
+        if config.ENABLE_FRESHNESS_RACE and self._losing_freshness_race(world, me):
+            threshold = max(threshold, config.ICE_BOX_RACE_USE_BELOW)
+        if me.freshness < threshold:
             return actions.use_resource(ResourceType.ICE_BOX)
         return None
+
+    def _losing_freshness_race(self, world, me):
+        """§6.3：对手鲜度明显更高（安全）而我方在下滑 → 我方处于鲜度劣势，提前保阈值。"""
+        opp = world.opponent
+        if opp is None:
+            return False
+        return (opp.freshness or 0) - (me.freshness or 0) >= config.FRESHNESS_RACE_GAP
 
     def _maybe_task(self, world, me, gm, node, terminal):
         pid = self.ctx.player_id
@@ -395,7 +409,10 @@ class DecisionEngine:
         if ns is None:
             return None
         wants = []
-        if me.resource_count(ResourceType.ICE_BOX) < config.CLAIM_ICE_BOX_KEEP \
+        ice_keep = config.CLAIM_ICE_BOX_KEEP
+        if config.ENABLE_RESOURCE_DENY:  # §6.3 资源 race 开启时多囤到 race 保有量（供争夺后领取）
+            ice_keep = max(ice_keep, config.RESOURCE_RACE_ICEBOX_KEEP)
+        if me.resource_count(ResourceType.ICE_BOX) < ice_keep \
                 and ns.resource_available(ResourceType.ICE_BOX):
             wants.append(ResourceType.ICE_BOX)
         if me.resource_count(ResourceType.INTEL) < 1 and ns.resource_available(ResourceType.INTEL) \
@@ -410,6 +427,45 @@ class DecisionEngine:
             if self._can_afford(world, gm, node, config.RESOURCE_CLAIM_ROUND, terminal):
                 return actions.claim_resource(node, r)
         return None
+
+    def _maybe_resource_race(self, world, me, gm, node, terminal):
+        """§6.3 资源 race：抢占对手争夺、库存有限的路线附近冰鉴（默认关 ENABLE_RESOURCE_DENY）。
+
+        守卫：我方冰鉴未足额(需要它)；对手 ETA 有限(确为争夺)且我方到该点帧数 ≤ 对手 ETA+margin
+        (抢得到、不跑空趟)；额外帧 ≤ RESOURCE_RACE_MAX_EXTRA_FRAMES(不显著偏离交付路线) 且过
+        `_can_afford`。返回对手最快到达（最紧迫）的冰鉴节点。到点后由 `_maybe_claim` 领取。
+        """
+        if not config.ENABLE_RESOURCE_DENY or not terminal:
+            return None
+        if me.resource_count(ResourceType.ICE_BOX) >= config.RESOURCE_RACE_ICEBOX_KEEP:
+            return None  # 已足额，不为它绕路（避免囤积、不显著偏离）
+        eta = self.opponent_eta
+        if eta is None:
+            return None
+        _, direct = gm.time_optimal_path(node, terminal)
+        if direct == _INF:
+            return None
+        best, best_opp_eta = None, _INF
+        for nid, ns in world.node_states.items():
+            if nid == node or not ns.resource_available(ResourceType.ICE_BOX):
+                continue
+            opp_eta = eta.eta(nid)
+            if opp_eta is None:                     # 对手到不了 → 非争夺，交给常规顺路领取
+                continue
+            _, c1 = gm.time_optimal_path(node, nid)
+            _, c2 = gm.time_optimal_path(nid, terminal)
+            if c1 == _INF or c2 == _INF:
+                continue
+            if c1 > opp_eta + config.RESOURCE_DENY_ETA_MARGIN:   # 抢不过 → 不跑空趟
+                continue
+            extra = (c1 + config.RESOURCE_CLAIM_ROUND + c2) - direct
+            if not (0 <= extra <= config.RESOURCE_RACE_MAX_EXTRA_FRAMES):
+                continue
+            if not self._can_afford(world, gm, node, extra, terminal):
+                continue
+            if opp_eta < best_opp_eta:
+                best, best_opp_eta = nid, opp_eta
+        return best
 
     def _maybe_horse(self, me, gm, terminal):
         if self._has_move_buff(me):
