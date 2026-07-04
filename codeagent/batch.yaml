@@ -1,0 +1,23 @@
+# codeagent 批次清单（输入契约示例）
+# 详见 codeagent/README.md §2。Claude 在分支上写此文件，commit/push；
+# 人工触发 codeagent 拉取此 ref 的 client/ 打包，对 opponent_pool 跑一批对战。
+#
+# A/B = 两个 batch：baseline（ref=origin/main, variant=baseline）+ variant（本文件），
+# 必须用完全一致的 opponent_pool（顺序也一致）。
+
+batch_id: iter33-static-planner-v1     # 全局唯一，建议 <iter>-<variant>
+variant: static-planner-v1              # 标签；baseline batch 须含 "baseline"
+ref: origin/loop_engr                   # 打包此 ref 的 client/ 为平台 ZIP（start.sh 在根）
+opponent_pool:                          # 对手 id 列表；A/B 两 batch 须一致
+  - "2735"
+  - "2814"
+  - "2738"
+  - "2614"
+  - "2613"
+  - "2619"
+  - "2809"
+  - "2839"
+  - "2931"
+  - "2986"
+games_per_opponent: 3                   # K 对手 × M 局 = N；须 N ≥ 30（此处 10×3=30）
+# seed 不可控：M≥2 降低运气噪声；aggregator 按 (opponent, game_index) 配对

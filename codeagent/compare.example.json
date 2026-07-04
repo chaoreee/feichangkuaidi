@@ -1,0 +1,6 @@
+{
+  "_doc": "A/B 配对清单示例。两个 batch 跑完后 Claude 写此文件，跑 python3 -m analysis --compare <此文件>。详见 codeagent/README.md §4。",
+  "comparison_id": "iter33-static-planner",
+  "baseline_batch": "iter33-baseline",
+  "variant_batch": "iter33-static-planner-v1"
+}

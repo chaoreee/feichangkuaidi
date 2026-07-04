@@ -28,7 +28,7 @@
 
 ### 0.5 框架升级：codeagent 自动对战闭环（Iter 32 起）
 
-**新闭环**：Claude Code 改代码 → push GitHub → 内网 codeagent 拉取 → 对**平台真实对手群体**（代表性采样，含前十名但不限于）自动跑一轮对战 → 收 `match_*.log` → `analysis/` 解析聚合 → Claude 读**群体归因报告**定下一轮。
+**新闭环**：Claude Code 改代码 → push GitHub → 内网 codeagent 拉取 → 对**平台真实对手群体**（代表性采样，含前十名但不限于）自动跑一轮对战 → 收 `match_*.log` → `analysis/` 解析聚合 → Claude 读**群体归因报告**定下一轮。**接口契约（输入 `codeagent/batch.yaml` / 输出 `reports/batches/<batch>.json` / A/B 按 opponent 配对）详见 `codeagent/README.md`**；能力假设：手动触发、可指定对手 id、一轮一个 client 版本、seed 不可控、结果落共享 reports 路径 Claude pull。
 
 这打破了旧闭环的死锁（"不能不合 sim A/B → sim 无法验证博弈特征 → 特征永远关着 → 平台行为零变化"）：真实对战 A/B 现在可自动攒 N≥30，博弈特征终于有验证路径。
 
