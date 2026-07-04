@@ -1,0 +1,380 @@
+{
+  "classification": {
+    "luckClass": "expected_win",
+    "scoreMargin": 63,
+    "segments": [
+      "delivered",
+      "task90_reached",
+      "mid_lead",
+      "weather_hit",
+      "contested",
+      "opp_delivered"
+    ]
+  },
+  "clientVersion": "iter25",
+  "decisionTimeline": [
+    {
+      "detail": "CLEAR S06 cost 1",
+      "event": "BREAKTHROUGH",
+      "frame": 1
+    },
+    {
+      "detail": "T_003",
+      "event": "TASK_CLAIM",
+      "frame": 185
+    },
+    {
+      "detail": "T_005",
+      "event": "TASK_CLAIM",
+      "frame": 189
+    },
+    {
+      "detail": "card=BING_ZHENG",
+      "event": "WINDOW_CARD",
+      "frame": 190
+    },
+    {
+      "detail": "card=BING_ZHENG",
+      "event": "WINDOW_CARD",
+      "frame": 191
+    },
+    {
+      "detail": "card=BING_ZHENG",
+      "event": "WINDOW_CARD",
+      "frame": 192
+    },
+    {
+      "detail": "T_005",
+      "event": "TASK_CLAIM",
+      "frame": 196
+    },
+    {
+      "detail": "T_009",
+      "event": "TASK_CLAIM",
+      "frame": 272
+    },
+    {
+      "detail": "T_012",
+      "event": "TASK_CLAIM",
+      "frame": 276
+    },
+    {
+      "detail": "EVEN->CONSERVATIVE",
+      "event": "MODE_CHANGE",
+      "frame": 277
+    },
+    {
+      "detail": "T_013",
+      "event": "TASK_CLAIM",
+      "frame": 277
+    },
+    {
+      "detail": "CLAIM_TASK code=OBJECT_BUSY",
+      "event": "REJECTED",
+      "frame": 277
+    },
+    {
+      "detail": "fresh=76.8",
+      "event": "USE_ICE",
+      "frame": 331
+    },
+    {
+      "detail": "PROCESS code=OBJECT_BUSY",
+      "event": "REJECTED",
+      "frame": 333
+    },
+    {
+      "detail": "PROCESS code=OBJECT_BUSY",
+      "event": "REJECTED",
+      "frame": 334
+    },
+    {
+      "detail": "T_015",
+      "event": "TASK_CLAIM",
+      "frame": 339
+    },
+    {
+      "detail": "CLAIM_TASK code=OBJECT_BUSY",
+      "event": "REJECTED",
+      "frame": 340
+    },
+    {
+      "detail": "T_017",
+      "event": "TASK_CLAIM",
+      "frame": 368
+    },
+    {
+      "detail": "PROCESS code=OBJECT_BUSY",
+      "event": "REJECTED",
+      "frame": 409
+    },
+    {
+      "detail": "PROCESS code=OBJECT_BUSY",
+      "event": "REJECTED",
+      "frame": 410
+    },
+    {
+      "detail": "PROCESS code=OBJECT_BUSY",
+      "event": "REJECTED",
+      "frame": 411
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 441
+    }
+  ],
+  "delivery": {
+    "me": {
+      "frame": 459,
+      "freshness": 80.57,
+      "goodFruit": 97,
+      "verifyFrame": 445
+    },
+    "opp": {
+      "frame": 465
+    },
+    "rushTriggerFrame": 441
+  },
+  "durationRound": 600,
+  "failures": {
+    "canAffordBlocked": [],
+    "decisionTimeouts": 0,
+    "invalidActions": 0,
+    "rejected": [
+      {
+        "action": "CLAIM_TASK",
+        "code": "OBJECT_BUSY",
+        "frame": 277,
+        "target": null
+      },
+      {
+        "action": "PROCESS",
+        "code": "OBJECT_BUSY",
+        "frame": 333,
+        "target": null
+      },
+      {
+        "action": "PROCESS",
+        "code": "OBJECT_BUSY",
+        "frame": 334,
+        "target": null
+      },
+      {
+        "action": "CLAIM_TASK",
+        "code": "OBJECT_BUSY",
+        "frame": 340,
+        "target": null
+      },
+      {
+        "action": "PROCESS",
+        "code": "OBJECT_BUSY",
+        "frame": 409,
+        "target": null
+      },
+      {
+        "action": "PROCESS",
+        "code": "OBJECT_BUSY",
+        "frame": 410,
+        "target": null
+      },
+      {
+        "action": "PROCESS",
+        "code": "OBJECT_BUSY",
+        "frame": 411,
+        "target": null
+      }
+    ],
+    "waitingStuck": [
+      {
+        "fromFrame": 409,
+        "node": "S13",
+        "toFrame": 411
+      }
+    ]
+  },
+  "finalScore": {
+    "me": {
+      "bounty": 0,
+      "delivery": null,
+      "freshness": null,
+      "goodFruit": null,
+      "penalty": 0,
+      "task": null,
+      "time": null,
+      "total": 755
+    },
+    "opp": {
+      "bounty": 0,
+      "delivery": null,
+      "freshness": null,
+      "goodFruit": null,
+      "penalty": 0,
+      "task": null,
+      "time": null,
+      "total": 692
+    }
+  },
+  "matchId": "match_20260704_155006_495_2809_vs_2696_cb80fa89",
+  "opponentInteraction": {
+    "bounties": [],
+    "myGuards": [],
+    "oppGuards": [],
+    "windows": [
+      {
+        "contestId": "C_189_001",
+        "frame": 190,
+        "myCard": "BING_ZHENG",
+        "oppCard": null,
+        "result": null,
+        "type": "TASK"
+      },
+      {
+        "contestId": "C_189_001",
+        "frame": 191,
+        "myCard": "BING_ZHENG",
+        "oppCard": null,
+        "result": null,
+        "type": "TASK"
+      },
+      {
+        "contestId": "C_189_001",
+        "frame": 192,
+        "myCard": "BING_ZHENG",
+        "oppCard": null,
+        "result": null,
+        "type": "TASK"
+      }
+    ]
+  },
+  "outcome": "WIN",
+  "playerId": 2696,
+  "projection": {
+    "actualMyScore": 755,
+    "confidence": {
+      "max": 0.73,
+      "median": 0.51,
+      "min": 0.3
+    },
+    "error": -1,
+    "modeSwitches": [
+      {
+        "frame": 277,
+        "from": "EVEN",
+        "gap": null,
+        "reason": "gap_above_threshold",
+        "to": "CONSERVATIVE"
+      }
+    ],
+    "oppActualDeliver": 465,
+    "oppEtaPredictedDeliver": 465,
+    "projectedMyScore": 754
+  },
+  "resources": {
+    "horseUsed": null,
+    "iceUsed": [
+      {
+        "frame": 331,
+        "freshnessBefore": 76.79
+      }
+    ],
+    "rushTactic": {
+      "frame": 441,
+      "type": "RUSH_PROTECT"
+    }
+  },
+  "schemaVersion": 1,
+  "seed": null,
+  "source": "platform",
+  "tasks": {
+    "me": {
+      "base": 135,
+      "claimed": [
+        {
+          "detourExtra": null,
+          "frame": 185,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 189,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 196,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 272,
+          "node": "S10",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 276,
+          "node": "S10",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 277,
+          "node": "S10",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 339,
+          "node": "S11",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 368,
+          "node": "S12",
+          "template": null
+        }
+      ],
+      "milestones": [
+        60,
+        90,
+        110
+      ]
+    },
+    "missedReachable90": null,
+    "opp": {
+      "base": 105,
+      "claimed": [],
+      "milestones": [
+        60,
+        90
+      ]
+    }
+  },
+  "teamId": "BLUE",
+  "trajectory": {
+    "freshness": {
+      "end": 80.57,
+      "min": 76.79,
+      "start": 100
+    },
+    "goodFruit": {
+      "badCrossings": [
+        90,
+        80
+      ],
+      "end": 97,
+      "start": 100
+    },
+    "opponent": {
+      "freshnessEnd": 70.28,
+      "goodFruitEnd": 95,
+      "nodeEnd": "S15"
+    }
+  },
+  "variant": "baseline"
+}
