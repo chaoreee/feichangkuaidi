@@ -2,6 +2,48 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 24] - 2026-07-04 — Phase 0 真实 trace 归因 + 仿真器保真度校准
+
+### 触发
+用户上传 11 局真实平台对局报告（`reports/match_20260704_*.report.json`，source=platform，
+playerId=2696）——这是 `iteration_plan_v2.md` Phase 0 一直在等的"地面真相"。Phase A 仿真器
+此前所有结论标"待真实 trace 验证"，本批数据首次允许校准。
+
+### Phase 0 归因（`docs/p0_attribution.md`）
+- **mock@r48 坐实不可信**：真实交付帧 444–492（mean 456），mock 在 ~48，差一个数量级。
+- **"冲 90"杠杆证伪**：真实 `TASK_90_REACH=1.00`、task 分 mean 179.1（近 180 封顶）——90 在真实
+  环境必达，原 Phase B 主杠杆（~+220 分）不成立。Phase B 目标重定义为"交付时机 vs 质量积累"静态权衡。
+- **3 局输局归因**：全为 expected_loss（无 unlucky_loss/无 bug），模式一致——我方早交付(444-448)、
+  对手晚交付(475-557)却靠质量分(task/好果/鲜度)反超。真实杠杆是静态权衡未求解，非能力缺失。
+- **GATE race 真实证据**：末局 r468-472 连续 5 次 `VERIFY_GATE OBJECT_BUSY`，GATE 窗口我方 ABSTAIN→
+  对手抢验核。D1 GATE race 从 Phase D 提前。
+- **CLAIM_TASK 重试风暴**：11 局 13 个 waitingStuck，几乎全在 S10——客户端对已 OBJECT_BUSY 任务
+  反复重发同目标。未致败局但白烧用时分+鲜度，低风险清理项。
+- 对账自检 ok=11/mismatch=0；投影误差 median −3（可用）；mode 实战切档 1.82/局。
+- 数据缺口：`windows.oppCard` 全 null（D2 无原料）、`seed` 全 null（真实局不能 seed 配对 A/B）、
+  分项分多 null（靠 rules.py 重算对账兜底）。
+
+### Changed — 仿真器保真度校准（`scripts/sim_engine.py`）
+真实 trace 暴露任务池严重失真：旧版 3 个**共享**任务 ×30=90 分（双方分、全局 completed 互斥）→
+`TASK_90_REACH=0.04`，与真实 1.00 差 25 倍。按真实观察校准：
+1. 任务池扩为 **10 个沿途站点任务**（S06/S08/S10/S11/S12/S13，每站 1-2 个；score 20，processRound 3），
+   对齐实局"沿途站点领任务、单节点可领多个"。
+2. **每玩家独立完成追踪**（`completed_by` 集合替代全局 `completed`）：双方各可累计到 task 分封顶
+   停止（~140），对齐真实双玩家均 90+；`OBJECT_BUSY` 仅在本玩家重复领已完成任务时触发（复现实局
+   重试风暴拒绝语义），跨玩家不互斥。
+3. `_tasks_view(pid)` 按玩家视角返回 completed；`_start_claim_task`/完成结算改 per-player。
+
+### 验收
+- 50 局（100 player-games）：交付率 1.000、交付帧 452–467（mean **455.4** ≈ 真实 456）、
+  `TASK_90_REACH` **1.00**（原 0.04）、0 卡死、SimValidator 对账 0 误差。
+- 单测：18 sim + 42 analysis + 231 client = **291 全过**。
+- 残留偏差（标"假设级"）：freshness sim 136 vs 真实 144；task_base 恒 140（真实 120-150 有方差）；
+  MODE_SWITCHES 0（镜像自博弈 gap 恒 0）；waitingStuck 0（不复现客户端重试 bug）。
+
+### 重排后续优先级（`docs/p0_attribution.md` §6）
+修 CLAIM_TASK 重试风暴 → Phase B（重定义：交付时机 vs 质量）+ 鲜度投影升级 → D1 GATE race（提前）
+→ Phase C 阈值校准 → D2/D3（待 oppCard trace）。继续收割真实局至 N≥30。
+
 ## [Iteration 23] - 2026-07-04 — Phase A 高保真自博弈仿真器（in-process，物理复用 rules.py）
 
 ### 触发

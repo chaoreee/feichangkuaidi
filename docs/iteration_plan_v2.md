@@ -454,7 +454,8 @@ Phase D 期间继续收割真实 trace，对照仿真结论。冲突时以真实
 | **Iter 21** | **分析器基础设施**：`AnalysisCollector` + report.json schema + `analyze_logs.py` + 单测 + 对账自检（**本文件**，未改运行期决策代码） | — |
 | Iter 22 | Phase 0：提交 client 收割带 report 的真实对局，跑聚合器，AI 读 `analysis_report.md` 做 P0 归因 | Iter 21 |
 | Iter 23 ✅ | Phase A：高保真自博弈仿真器（复用 `rules.py`，产出同格式 report）+ SimValidator — **2026-07-04 落地**：50 局验收交付率 1.000/帧 428–459/0 卡死/对账 0 误差，`TASK_90_REACH=0.04` 暴露 Phase B 杠杆；待真实 trace 校准（悬赏/窗口留空、任务池 seed 合成、天气区域近似） | — |
-| Iter 24 | Phase B 上：静态规划器（任务-90 可达性 + 路线评分）+ 鲜度投影升级 | A |
+| Iter 24 ✅ | **Phase 0 归因 + 仿真器保真度校准** — 用户上传 11 局真实平台报告→`docs/p0_attribution.md`：证伪"冲 90"杠杆（真实 TASK_90_REACH=1.00）、暴露"早交付 vs 质量积累"真实静态权衡 + GATE race 真实证据；sim 任务池改 10 沿途任务+每玩家独立完成→TASK_90_REACH 0.04→1.00、交付帧 mean 436.7→455.4(≈真实 456)。N=11<30 标"假设级" | — |
+| Iter 25 | **Phase B（重定义）**：静态规划器求解"交付时机 vs 质量积累"最优（非"冲 90"，90 必达）+ 鲜度投影升级 + 修 CLAIM_TASK 重试风暴 | A, 0 |
 | Iter 25 | Phase B 下：接入 `_plan`，瀑布改 plan 驱动（安全兜底不变）+ 仿真验收 | 24 |
 | Iter 26 | Phase C：阈值扫描 + 开关 A/B，产出 `calibration_v1.md` | A, B |
 | Iter 27 | Phase D1：GATE 验核 race | A, C |

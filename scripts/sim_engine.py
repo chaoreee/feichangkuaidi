@@ -179,23 +179,37 @@ class SimEngine:
     # ---- 初始化辅助 ----
 
     def _synth_tasks(self):
-        """seed 合成任务实例（3 个 × score 30 = 90，给 task-90 机会）。
+        """seed 合成任务实例。按真实平台 11 局 trace 校准（reports/，N=11 假设级 §3.7）：
 
-        候选节点为处理/停靠点（不含 gate/terminal/start）。Phase A 标"任务池待真实 trace 对齐"。
+        真实观察：TASK_90_REACH=1.00、双方 task_base 均 120-150（mean 144.5）、任务出现在
+        最短路沿途站点 S06/S08/S10/S11/S12/S13（S01→S06→S08→S10→S11→S12→S13→S14→S15）、
+        单节点可领多个任务（实局 S10 连领 T_006/T_008/T_010/T_011/T_013）。旧版仅 3 个共享
+        任务 ×30=90（总量 90 双方分），TASK_90_REACH=0.04，严重偏离。
+
+        本版：12 个任务分布 6 个沿途站点（每站 2 个）、score 15、processRound 3-4，
+        **每玩家独立完成追踪**（completed_by 集合）——双方各可累计到 ~130（task 分封顶 180
+        时边际归零自动停止），对齐真实双玩家均达 90+。OBJECT_BUSY 仅在"本玩家重复领已完成
+        任务"时触发（复现实局 CLAIM_TASK 重试风暴的拒绝语义）；跨玩家不互斥（实局双方各自
+        高分亦支持非互斥）。仍标"假设级"：N=11<30，确切分值/每站数量/是否刷新待更多 trace。
         """
-        candidates = ["S09", "S11", "S13", "S07", "S05"]
-        chosen = self.rng.sample(candidates, 3)
-        tmpl = ["T01", "T02", "T01"]
+        stations = ["S06", "S08", "S10", "S11", "S12", "S13"]
+        # 每站任务数（沿途 6 站共 10 个）；score 20 使客户端领 ~7 个即触 task 分封顶 180 停止
+        # （边际归零门），对齐实局 base 120-150 且不过度停车推迟交付。
+        per_station = [1, 1, 2, 2, 2, 2]
         tasks = []
-        for i, nid in enumerate(chosen):
-            tasks.append({
-                "taskId": "TK%d" % (i + 1),
-                "taskTemplateId": tmpl[i],
-                "nodeId": nid,
-                "score": 30,
-                "processRound": 3 + (i % 2),
-                "active": True, "completed": False, "failed": False,
-            })
+        idx = 0
+        for nid, k in zip(stations, per_station):
+            for _ in range(k):
+                idx += 1
+                tasks.append({
+                    "taskId": "TK%d" % idx,
+                    "taskTemplateId": "T%02d" % idx,
+                    "nodeId": nid,
+                    "score": 20,
+                    "processRound": 3,
+                    "active": True, "failed": False,
+                    "completed_by": set(),   # 每玩家独立完成追踪
+                })
         return tasks
 
     def _synth_weather(self):
@@ -374,9 +388,8 @@ class SimEngine:
         elif kind == "CLAIM_TASK":
             tid = cp["ctx"]
             t = next((x for x in self.tasks if x["taskId"] == tid), None)
-            if t and not t["completed"]:
-                t["completed"] = True
-                t["active"] = False
+            if t and p.player_id not in t.get("completed_by", set()):
+                t["completed_by"].add(p.player_id)
                 p.task_score += t.get("score", 0)
             self.events.append({"type": "TASK_COMPLETE", "round": rnd, "payload": {"playerId": p.player_id, "taskId": tid, "taskScore": p.task_score}})
         elif kind == "SET_GUARD":
@@ -638,14 +651,14 @@ class SimEngine:
     def _start_claim_task(self, p, team, main, rnd):
         tid = main.get("taskId")
         t = next((x for x in self.tasks if x["taskId"] == tid), None)
-        if not t or t.get("completed") or t.get("failed"):
+        if not t or t.get("failed"):
             self._result(p, rnd, main, accepted=False, code="TASK_NOT_AVAILABLE")
             return
         if t.get("nodeId") != p.pos:
             self._result(p, rnd, main, accepted=False, code="NOT_AT_TARGET_NODE")
             return
-        prot = t.get("protectionPlayerId") or 0
-        if prot and prot != p.player_id:
+        # 每玩家独立完成：本玩家已领过 → OBJECT_BUSY（复现实局重复领取拒绝语义）
+        if p.player_id in t.get("completed_by", set()):
             self._result(p, rnd, main, accepted=False, code="OBJECT_BUSY")
             return
         frames = t.get("processRound", 3) or 3
@@ -912,7 +925,7 @@ class SimEngine:
             "phase": self.phase,
             "players": [self._player_view(p), self._player_view(opp)],
             "nodes": self._nodes_view(),
-            "tasks": self._tasks_view(),
+            "tasks": self._tasks_view(p.player_id),
             "contests": [],
             "bounties": [],
             "weather": self._weather_view(rnd),
@@ -972,10 +985,15 @@ class SimEngine:
             })
         return out
 
-    def _tasks_view(self):
+    def _tasks_view(self, pid):
+        """每玩家视角：本玩家已完成的任务标 completed=True（供 world.active_tasks 过滤）。
+
+        跨玩家不互斥（双方各自独立完成），故不以全局 completed 屏蔽对端。
+        """
         out = []
         for t in self.tasks:
-            tt = dict(t)
+            tt = {k: v for k, v in t.items() if k != "completed_by"}
+            tt["completed"] = pid in t.get("completed_by", set())
             out.append(tt)
         return out
 
