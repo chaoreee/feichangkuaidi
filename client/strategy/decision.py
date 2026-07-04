@@ -139,15 +139,34 @@ class DecisionEngine:
         """处于移动中/主动等待中时保证持续前进，绝不空等卡死。
 
         - 值得加速且无移动增益 → 用一次马（不影响本帧继续前进）。
-        - 有在途目标 → 重发 MOVE 到当前目标节点续行（协议允许，不改道、不清进度）。
+        - 在途目标仍可达（未被对手设卡 / 不在冷却期）→ 重发 MOVE 续行（协议允许、不清进度）。
+        - 在途目标已失效（被对手设卡 / 在冷却期）→ 丢弃在途目标，回落 _plan 全量重规划
+          （_advance 绕行，无法绕行则 _breakthrough 发 FORCED_PASS / BREAK_GUARD）。
+          修复真实败局（vs2735）：对手在途设卡导致 MOVE_BLOCKED_BY_GUARD 连拒 224 帧、未交付——
+          拒绝反馈写入 _cooldown 却无人读取而死锁。与 Iter 8（卡 S14）同源，补其"在途目标失效"盲区。
         - 无在途目标（已在节点却被报为等待）→ 按节点空闲重新规划。
         """
         horse = self._maybe_horse(me, gm, terminal)
         if horse:
             return [horse]
-        if me.next_node_id:
-            return [actions.move(me.next_node_id)]
+        nxt = me.next_node_id
+        if nxt:
+            if self._in_transit_target_blocked(world, me, nxt):
+                return self._plan(world, me, gm, node, terminal, gate)
+            return [actions.move(nxt)]
         return self._plan(world, me, gm, node, terminal, gate)
+
+    def _in_transit_target_blocked(self, world, me, nxt):
+        """在途目标是否已失效：在节点冷却期 或 被对手设卡（active guard owner != 我方）。
+
+        与 _blocked_nodes 同一组条件，但只判单个在途目标。己方设卡不挡己方
+        （owner == me.team_id → False，续行行为不变）。
+        """
+        if self._is_cooldown(world, nxt):
+            return True
+        ns = world.node(nxt)
+        owner = ns.active_guard_owner() if ns else None
+        return bool(owner and owner != me.team_id)
 
     def _plan(self, world, me, gm, node, terminal, gate):
         rescue = self._freshness_rescue(world, me)

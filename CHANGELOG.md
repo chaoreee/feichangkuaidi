@@ -2,6 +2,32 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 29] - 2026-07-04 — beat_top10 P0：修复被对手设卡卡死的未交付 bug（无条件合入）
+
+落地 `docs/beat_top10_design.md` P0。vs2735 那局我方 60 分未交付——对手进攻性设卡封 S10、`MOVE_BLOCKED_BY_GUARD` 连拒 224 帧（帧 262–485），全程未发 `BREAK_GUARD`/`FORCED_PASS`。根因：`_keep_moving`（MOVING/WAITING 态短路返回）重发 `MOVE(next_node_id)` 不检查在途目标是否已被对手设卡 / 在冷却期，而拒绝反馈写入 `_cooldown` 却无人读取 → 死锁卡至终局。与 Iter 8（卡 S14）同源，Iter 8 只修"无在途目标"分支，P0 补"在途目标失效"盲区。**bug 修复，无 flag、无阈值，无条件合入**。
+
+### Changed
+- `client/strategy/decision.py` `_keep_moving`：重发 MOVE 前校验在途目标是否失效；失效则丢弃在途目标回落 `_plan` 全量重规划（`_advance` 绕行 / `_breakthrough` FORCED_PASS/BREAK_GUARD）。docstring 更新。
+- 新增 `_in_transit_target_blocked(world, me, nxt)`：复用既有 `_is_cooldown`（decision.py:312-313）与 `NodeState.active_guard_owner()`（world_state.py:115-120）——在节点冷却期 **或** 被对手设卡（active guard owner != 我方）即判失效。与 `_blocked_nodes` 同一组条件，只判单个在途目标；己方设卡不挡己方（owner==me.team_id → 续行不变）。
+- `client/config.py`：`CLIENT_VERSION` iter25 → iter29（运行期行为变化：被设卡时改道）。
+
+### Tests
+- 新增 `client/tests/test_keep_moving_guard.py`（5 项，仿 `test_breakthrough_fruit.py`）：
+  1. 在途目标被对手设卡 → 绕行 MOVE(SA)（非续行 MOVE(SG)）。
+  2. 在途目标在 `_cooldown` → 同上绕行（证冷却触发重规划；拓扑加 SA 备路使重规划产生绕行而非 `_breakthrough` 兜底 MOVE）。
+  3. 在途目标畅通 → 续行 MOVE(SG)（防回归）。
+  4. 在途目标被己方设卡 → 仍 MOVE(SG)（己方卡不挡己方）。
+  5. 无在途目标 + WAITING → 重规划 MOVE(SG)（既有行为，防回归）。
+- 全量 client 单测 273 过（268 + 新增 5）。
+
+### Verification
+- sim A/B 50 种子 baseline：mean 747.8、交付帧 455.4、交付率 1.000、0 STUCK、对账 0 误差——**0 回归**。镜像自博弈无进攻性设卡（`ENABLE_OFFENSIVE`/`ENABLE_CONDITIONAL_GUARD` 默认关）故 P0 路径不触发，确认未激活时零影响；激活时（被设卡）正确回落 `_plan` 绕行/突破。
+- 预期收益：vs2735 那局 60 → ~755（消除白送未交付），4/10 → ≥5/10。须真实 trace 复核被设卡时是否正确选 FORCED_PASS（时间税可负担）vs 绕行 vs BREAK_GUARD。
+
+### Misc
+- 风险/回退：单 `git revert`，无 flag 依赖。`_plan` 轻量（Dijkstra + 机会式），单帧 <500ms；`REJECT_BLOCK_ROUNDS=4` 冷却限频天然防高频重算。
+- 下一轮 Iter 30：P1-B 精简 trace 回流通道（`analysis/compact.py`，client 零改动）。
+
 ## [Iter 29+ 规划] - 2026-07-04 — 打败前十名 P0–P3 蓝图定稿（设计文档，未实现）
 
 基于 10 局对平台前十名真实报告（`reports/`，N=10 假设级，4W/6L）定稿下一步迭代蓝图。**无代码改动**，仅设计与规划文档。

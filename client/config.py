@@ -7,7 +7,7 @@
 # ---- 客户端标识 ----
 # 人工版本标签：每轮迭代手动 bump（iter25/iter26/...）。这是"log 记录哪版代码"的主标签——
 # 解决真实 trace 不记录代码版本、旧/新 client 行为无法区分的问题（p0_attribution 工作流）。
-CLIENT_VERSION = "iter25"
+CLIENT_VERSION = "iter29"
 DEFAULT_PLAYER_NAME = "litchi-agent"
 
 
