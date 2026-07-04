@@ -2,6 +2,32 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 30] - 2026-07-04 — beat_top10 P1-B：精简 trace 派生（数据回流通道，纯观测零策略风险）
+
+落地 `docs/beat_top10_design.md` P1-B。原始完整 trace ~880KB–1.16MB/局、`.gitignore` 不入库无法上传 → 我只能读 `reports/`，核心数据到不了手。本轮把完整 trace **派生**为事件驱动紧凑格式（~6–9KB/局纯文本 / ~1.4KB gzip+base64），落 `reports/<matchId>.compact.log` 入库，使我 pull 后能直读、彻底绕开上传瓶颈。**client 零改动、零策略风险、不 bump `CLIENT_VERSION`**。
+
+### Added
+- 新增 `analysis/compact.py`：
+  - `compact_trace(source)`：完整 trace（路径或文本）→ 精简文本。事件驱动——帧状态仅变化时记 `F`、动作仅 (action, 关键参数) 变化时记 `A`、连续相同拒绝/canAfford 合并（`REJ x224`/`CAB x<n>`）、逐帧 Projection/Eta 丢弃只留末帧摘要 `Proj`/`Conf`/`MidGap`、轨迹摘要 `Traj`。多局文件按局分块（`---` 分隔）。
+  - `parse_compact(text)`：精简首块 → 与 `parser.parse_log` 同 schema 的 `Report` dict。复用 `parser` 的 `_final_score`/`_task_block`/`_segments`/`_luck_class` 组装，防 schema 漂移；waitingStuck 由状态/节点变化推算（与 parser 逐帧计数等价）。
+  - `to_b64`/`from_b64`：gzip+base64（~1.4KB/局，供聊天粘贴）。
+  - 独立 CLI `python3 -m analysis.compact <logfile> [--b64]`。
+- 新增 `docs/compact_trace_format.md`：一页格式 spec（行类型枚举 + 字段语义 + 还原保真度/已知近似），供 compact parser 与人阅读参考。
+- `analysis/__main__.py`：`parse_log` 后追加 `compact_trace` 写 `reports/<matchId>.compact.log`；新增 `--b64` 开关打印 gzip+base64 到 stdout（聊天粘贴用）。
+
+### Tests
+- 新增 `analysis/tests/test_compact.py`（5 项）：
+  1. `test_roundtrip`：完整 trace → `compact_trace` → `parse_compact` 与 `parse_log` 关键字段 0 误差（matchId/outcome/finalScore 双方/delivery/oppGuards/失败模式计数/trajectory/projection/classification/resources/tasks）。
+  2. `test_size_budget`：精简纯文本 < 10KB/局；b64 < 4KB。
+  3. `test_b64_roundtrip`：`from_b64(to_b64(x)) == x`。
+  4. `test_rejection_collapse`：224 次连续相同拒绝 → 1 行 `REJ x224`，`parse_compact` 还原 224 条；与 `parse_log` 计数一致。
+  5. `test_legacy_trace`：旧 trace 缺 oppState/oppTask/weather 等 P1-A 字段 → 精简格式优雅降级，`parse_compact` 仍重建 Report，缺字段 None（与 parser stub 一致）。
+
+### Verification
+- 全量 338 单测过（273 client + 47 analysis[42+5] + 18 sim）。
+- 回灌 sim 50 局（每文件多局追加）：每局精简 ~2.9KB（< 10KB 预算），`parse_compact` roundtrip 关键字段 0 误差（仅 `decisionTimeline` 条目数因动作折叠偏少——非关键字段，spec 已记已知近似）。
+- P1-A（Iter 31）富化字段（oppResources/Guards/scoreDetail）一旦进入完整 trace，精简格式自动透传，无需改 compact。
+
 ## [Iteration 29] - 2026-07-04 — beat_top10 P0：修复被对手设卡卡死的未交付 bug（无条件合入）
 
 落地 `docs/beat_top10_design.md` P0。vs2735 那局我方 60 分未交付——对手进攻性设卡封 S10、`MOVE_BLOCKED_BY_GUARD` 连拒 224 帧（帧 262–485），全程未发 `BREAK_GUARD`/`FORCED_PASS`。根因：`_keep_moving`（MOVING/WAITING 态短路返回）重发 `MOVE(next_node_id)` 不检查在途目标是否已被对手设卡 / 在冷却期，而拒绝反馈写入 `_cooldown` 却无人读取 → 死锁卡至终局。与 Iter 8（卡 S14）同源，Iter 8 只修"无在途目标"分支，P0 补"在途目标失效"盲区。**bug 修复，无 flag、无阈值，无条件合入**。

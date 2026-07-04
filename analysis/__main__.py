@@ -22,6 +22,7 @@ if _CLIENT not in sys.path:
     sys.path.insert(0, _CLIENT)
 
 from analysis import aggregator  # noqa: E402
+from analysis.compact import compact_trace, to_b64  # noqa: E402
 from analysis.parser import parse_log  # noqa: E402
 
 
@@ -46,7 +47,7 @@ def _infer_variant(path, override):
 
 
 def collect_reports(dirs, source_override, variant_override):
-    reports, skipped = [], []
+    reports, paths, skipped = [], [], []
     for d in dirs:
         if not os.path.isdir(d):
             continue
@@ -62,7 +63,8 @@ def collect_reports(dirs, source_override, variant_override):
                     skipped.append((path, "parse_failed_or_empty"))
                     continue
                 reports.append(report)
-    return reports, skipped
+                paths.append(path)
+    return reports, paths, skipped
 
 
 def main(argv):
@@ -72,9 +74,11 @@ def main(argv):
                     help="output directory for all analysis artifacts (default: repo-root reports/)")
     ap.add_argument("--source", default=None, help="override source tag for all logs")
     ap.add_argument("--variant", default=None, help="override variant tag for all logs")
+    ap.add_argument("--b64", action="store_true",
+                    help="also print each match's compact trace as gzip+base64 (for chat paste)")
     args = ap.parse_args(argv)
 
-    reports, skipped = collect_reports(args.dirs, args.source, args.variant)
+    reports, log_paths, skipped = collect_reports(args.dirs, args.source, args.variant)
     if not reports:
         print("no valid match logs found in %s" % " ".join(args.dirs), file=sys.stderr)
         return 1
@@ -96,6 +100,24 @@ def main(argv):
         with open(rpath, "w", encoding="utf-8") as fh:
             json.dump(r, fh, ensure_ascii=False, indent=2, sort_keys=True)
     print("wrote %d report.json to %s" % (len(reports), args.out_dir))
+
+    # 1b) 精简 trace（P1-B）：由完整 trace 派生，落 reports/<matchId>.compact.log（入库，我 pull 可直读）。
+    #     真实平台 trace 无法上传，精简格式 ~6–9KB/局使我绕开瓶颈；parse_compact 可还原 Report。
+    b64_lines = []
+    for r, lpath in zip(reports, log_paths):
+        mid = r.get("matchId") or "unknown"
+        try:
+            ctext = compact_trace(lpath)
+        except Exception:
+            continue
+        cpath = os.path.join(args.out_dir, "%s.compact.log" % _safe_name(mid))
+        with open(cpath, "w", encoding="utf-8") as fh:
+            fh.write(ctext + "\n")
+        if args.b64:
+            b64_lines.append("%s\t%s" % (mid, to_b64(ctext)))
+    print("wrote %d compact.log to %s" % (len(reports), args.out_dir))
+    if b64_lines:
+        sys.stdout.write("\n".join(b64_lines) + "\n")
 
     # 2) 索引 index.json —— 按 outcome/luckClass/segments 快速定位单局
     index = aggregator.build_index(reports, report_relpath=_report_relpath)
