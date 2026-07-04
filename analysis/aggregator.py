@@ -16,7 +16,7 @@ try:
 except Exception:  # pragma: no cover - 仅在 path 未配置时
     rules = None
 
-SUPPORTED_SCHEMA = 1
+SUPPORTED_SCHEMA = 2
 AB_MIN_SAMPLE = 30
 RARE_EVENT_MIN_SAMPLE = 100
 RECON_TOLERANCE = 1.5
@@ -324,6 +324,64 @@ def me_score_components(reports):
     return out
 
 
+def opp_score_components(reports):
+    """对手各分项分均值（P1-A：直接读 finalScore.opp 分项，trace 经 scoreDetail 携带）。
+
+    与 me_score_components 对称——首次能量化"对手赢在哪个分项"。非 null 才计入；
+    旧 trace 无 scoreDetail → 全 0.0（n=0）。
+    """
+    keys = ("delivery", "task", "time", "goodFruit", "freshness", "bounty")
+    out = {k: 0.0 for k in keys}
+    n = 0
+    for r in reports:
+        opp = ((r.get("finalScore") or {}).get("opp") or {})
+        if opp.get("delivery") is None and opp.get("freshness") is None:
+            continue  # 旧 trace 无 scoreDetail，跳过
+        n += 1
+        for k in keys:
+            out[k] += opp.get(k) or 0
+    if n:
+        for k in keys:
+            out[k] = round(out[k] / n, 1)
+    return out, n
+
+
+def opp_guard_stats(reports):
+    """对手设卡统计（P1-A）：(episode_count, games_with_guard, blocked_me_frames)。
+
+    - episode_count：对手设卡区间总数（∑ oppGuards）；
+    - games_with_guard：有对手设卡的局数；
+    - blocked_me_frames：我被卡帧数（∑ failures.rejected 中 MOVE_BLOCKED_BY_GUARD）。
+    """
+    episode_count = 0
+    games_with_guard = 0
+    blocked_me_frames = 0
+    for r in reports:
+        guards = ((r.get("opponentInteraction") or {}).get("oppGuards") or [])
+        if guards:
+            games_with_guard += 1
+            episode_count += len(guards)
+        for rej in (r.get("failures") or {}).get("rejected") or []:
+            if rej.get("code") == "MOVE_BLOCKED_BY_GUARD":
+                blocked_me_frames += 1
+    return episode_count, games_with_guard, blocked_me_frames
+
+
+def opp_resource_stats(reports):
+    """对手资源/鲜度轨迹统计（P1-A）：(ice_used_total, freshness_min_vals, freshness_end_vals)。"""
+    ice_total = 0
+    fmin_vals = []
+    fend_vals = []
+    for r in reports:
+        opp = ((r.get("trajectory") or {}).get("opponent") or {})
+        ice_total += len(opp.get("iceUsed") or [])
+        if opp.get("freshnessMin") is not None:
+            fmin_vals.append(opp["freshnessMin"])
+        if opp.get("freshnessEnd") is not None:
+            fend_vals.append(opp["freshnessEnd"])
+    return ice_total, fmin_vals, fend_vals
+
+
 # ---------------------------------------------------------------------------
 # A/B 配对
 # ---------------------------------------------------------------------------
@@ -418,6 +476,28 @@ def ab_report(reports):
 # 主报告
 # ---------------------------------------------------------------------------
 
+def _opp_section(reports):
+    """对手分项与设卡段（P1-A）：opp 分项均值 + 设卡统计 + 资源/鲜度轨迹。"""
+    comps, n_opp = opp_score_components(reports)
+    ep_count, games_guard, blocked = opp_guard_stats(reports)
+    ice_total, fmin_vals, fend_vals = opp_resource_stats(reports)
+    n = len(reports) or 1
+    lines = []
+    if n_opp:
+        lines.append("  OPP_SCORE_COMP (n=%d): %s"
+                     % (n_opp, ", ".join("%s=%.1f" % (k, v) for k, v in comps.items())))
+    else:
+        lines.append("  OPP_SCORE_COMP: n/a（旧 trace 无 scoreDetail，待 iter31+ 新 trace 回流）")
+    lines.append("  OPP_GUARD: episodes=%d, games_with_guard=%d/%d, blocked_me_frames=%d"
+                 % (ep_count, games_guard, len(reports), blocked))
+    lines.append("  OPP_ICE_USED: %d total (%.2f/game)" % (ice_total, ice_total / n))
+    if fmin_vals:
+        lines.append("  OPP_FRESHNESS: min mean=%.1f (n=%d), end mean=%.1f (n=%d)"
+                     % (statistics.mean(fmin_vals), len(fmin_vals),
+                        statistics.mean(fend_vals) if fend_vals else 0.0, len(fend_vals)))
+    return "\n".join(lines)
+
+
 def build_analysis_report(reports):
     n = len(reports)
     delivered = [r for r in reports if r.get("outcome") in ("WIN", "LOSS", "TIE")]
@@ -463,6 +543,9 @@ def build_analysis_report(reports):
           "",
           "## 分项分均值（me，rules.py 从原始输入重算）",
           "  " + ", ".join("%s=%.1f" % (k, v) for k, v in me_score_components(reports).items()),
+          "",
+          "## 对手分项与设卡（P1-A）",
+          _opp_section(reports),
           "",
           "## 失败模式频次",
           "  " + ", ".join("%s=%d" % (k, v) for k, v in fail.items())]

@@ -2,6 +2,49 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 31] - 2026-07-04 — beat_top10 P1-A：分析器数据补全（client trace 富化 + parser 抽取 + aggregator 落盘，纯观测零策略风险）
+
+落地 `docs/beat_top10_design.md` P1-A。打败前十名的 P2/P3 设计强依赖"对手凭什么鲜度 88–93"等归因，但当前 `reports/` 无法回答：协议层对手信息几乎全可见（`inquire.players[]` + `over.players[].scoreDetail`），缺口在 **client 不记 + parser 不抽**。本轮把对手分项分/设卡/资源/逐帧轨迹写进完整 trace 并解析入库，使 `report.json` 携带双方分项、`analysis_report.md` 出现对手分项与设卡段。**纯观测/分析，零策略风险，不改任何运行期决策**。
+
+### Added — A. client 富化（`client/main.py`）
+- `_log_frame` 补对手字段（均为 inquire 已有、零推断）：`oppBad`/`oppVerified`/`oppMoveProg`/`oppNext`/`oppGuardAP`/`oppResources`。
+- 新增 `_log_guards(logger, rnd, world, engine)`：每帧设卡集合变化时记一行 `Guards round=r guards=[node:owner:defense|...]`（owner=队伍 id）。对手进攻性设卡的唯一可观测来源（match 4 的 S10 设卡由此首次被记录）。sig 缓存于 `engine._guards_sig` 去重控体积；无设卡时发空 `guards=[]` 关闭区间。
+- `_log_over` Score 行补 `scoreDetail=[k=v|...]`（双方分项 delivery/tasks/time/goodFruit/freshness/bounty/penalty/total）。
+- 新增 `_dict_token`/`_resources_token`：dict 序列化为方括号管道列表，绕开 trace `_parse_fields` 的 `, ` 切分（原生 `str(dict)` 含 `, ` 会破坏解析）。
+
+### Added — B. parser 抽取（`analysis/parser.py`）
+- `_final_score` 去 stub：新 `_parse_score_detail` 把 Score 行 `scoreDetail`（list / `[k=v|...]` 串 / 单条 `k=v` 三态）还原为 dict，填双方 `delivery/task/time/goodFruit/freshness/penalty`；`task` 兼容协议 `tasks`（复数）与 sim `task`（单数）；`bounty` 优先 `bountyScore` 字段回落 sd。旧 trace 无 sd → 分项全 None（向后兼容）。
+- `_on_Guards`：解析 `Guards` 行，按 `owner != team_id` 判对手设卡，追踪 `node→{firstFrame,lastFrame,defense}` 区间，消失时 finalize 为 `opp_guard_episodes`。`build_report`：`oppGuards` = episodes（附匹配 BREAK_GUARD 的 myResponse/cost）；旧 trace 无 Guards 行则回落 `_on_Action` BREAK_GUARD 派生记录（保旧测试不回归）。
+- `_on_Frame` 扩 opp 字段：`trajectory.opponent.frames`（稀疏列表，仅任一字段变化时记一条，≤24 条溢出保首12末12，短键 `r/n/s/ts/b/vf/mp/nx/ga/rs`）+ `freshnessMin`/`badFruitEnd`/`verifyFrame`/`iceUsed`（ICE_BOX 库存递减推断）+ `tasks.opp.claimed`（oppTask 上跳轨迹）。`delivery.opp` 加 `verifyFrame`。
+- `SCHEMA_VERSION` 1→2。
+
+### Added — C. aggregator（`analysis/aggregator.py`）
+- `opp_score_components`：与 `me_score_components` 对称，直接读 `finalScore.opp` 分项求均值（trace 经 scoreDetail 携带，不 recompute）——首次能量化"对手赢在哪个分项"。旧 trace 无 sd → n=0。
+- `opp_guard_stats`：`(episode_count, games_with_guard, blocked_me_frames)`；blocked_me_frames = ∑ `failures.rejected` 中 `MOVE_BLOCKED_BY_GUARD`。
+- `opp_resource_stats`：对手冰鉴使用总数 + 鲜度 min/end 序列。
+- `build_analysis_report` 新增「对手分项与设卡（P1-A）」段：`OPP_SCORE_COMP`/`OPP_GUARD`/`OPP_ICE_USED`/`OPP_FRESHNESS`。
+- `SUPPORTED_SCHEMA` 1→2。
+
+### Changed — D. sim 对齐（`scripts/sim_engine.py`）
+- `_player_over` 加 `scoreDetail`（由 `_score_detail(p)` 派生，键 `task`→`tasks` 对齐协议），使 sim trace 携带分项、sim report 亦有 opp 分项。
+
+### Changed — compact（`analysis/compact.py`）
+- `_score_fields` 把 scoreDetail list 渲染回 `[k=v|...]`（防 `"det=%s" % list` 带空格破坏 `parse_compact`）；`_parse_score_detail` 三态兼容使 compact `det=` 透传后 `finalScore` 分项与 parser 0 误差。
+
+### Config
+- `CLIENT_VERSION` iter29→iter31（trace 格式变化）。
+
+### Tests
+- 新增 `analysis/tests/test_parser_opp_fields.py`（10 项）：scoreDetail 填分项/`task` 单数兼容/旧 trace 降级；Guards 行设卡区间/己方卡不计/ BREAK_GUARD 响应附挂/旧 trace 回落；opp frames 稀疏截顶/resources+task 跳变/字段入 frames。
+- 扩 `analysis/tests/test_aggregator.py`（+4 项 `TestOppStatsP1A`）：opp_score_components/legacy 跳过/opp_guard_stats/P1-A 段出现。
+- 扩 `analysis/tests/test_compact.py`：scoreDetail round-trip（`det=` 透传后双方分项 0 误差）；`trajectory.opponent` 比对收紧到 compact 可还原的标量字段（frames/iceUsed 等为 parser 侧富化，compact 有损不携带）。
+
+### Verification
+- 全量 352 单测过（273 client + 61 analysis[42+10+5+4] + 18 sim 零回归）。
+- sim 回灌：report.json `finalScore.opp.{delivery,task,time,goodFruit,freshness}` 非 null、`trajectory.opponent.frames` ≤24、`oppGuards` 结构正确、`analysis_report.md` 出现「对手分项与设卡（P1-A）」段、对账 0 误差。
+- 旧 trace（iter30 及以前）优雅降级：分项 null、oppGuards 回落 BREAK_GUARD 派生、`n=0`。
+- 尺寸预算：report.json 正常局稳在 ~5–6KB（frames 段 ≤24 条增量 ≤~1.5KB）。
+
 ## [Iteration 30] - 2026-07-04 — beat_top10 P1-B：精简 trace 派生（数据回流通道，纯观测零策略风险）
 
 落地 `docs/beat_top10_design.md` P1-B。原始完整 trace ~880KB–1.16MB/局、`.gitignore` 不入库无法上传 → 我只能读 `reports/`，核心数据到不了手。本轮把完整 trace **派生**为事件驱动紧凑格式（~6–9KB/局纯文本 / ~1.4KB gzip+base64），落 `reports/<matchId>.compact.log` 入库，使我 pull 后能直读、彻底绕开上传瓶颈。**client 零改动、零策略风险、不 bump `CLIENT_VERSION`**。

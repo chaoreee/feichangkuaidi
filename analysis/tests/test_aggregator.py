@@ -244,5 +244,79 @@ class TestIndexAndTimelines(unittest.TestCase):
         self.assertIsNone(A.build_timelines(rs))
 
 
+def _opp_report(match_id="m1", opp_components=None, opp_guards=None,
+                blocked_me_frames=0, opp_ice=0, opp_fresh_min=None, opp_fresh_end=None):
+    """构造带 P1-A 对手分项/设卡/资源的 Report。"""
+    r = _report(match_id=match_id, me_total=755, opp_total=760, opp_delivered=True,
+                me_task=90, me_good=97, me_fresh=79.0, deliver_frame=452)
+    if opp_components:
+        r["finalScore"]["opp"].update(opp_components)
+    if opp_guards is not None:
+        r["opponentInteraction"]["oppGuards"] = opp_guards
+    if blocked_me_frames:
+        r["failures"]["rejected"] = [
+            {"frame": 300 + i, "action": "MOVE", "code": "MOVE_BLOCKED_BY_GUARD",
+             "target": "S10"} for i in range(blocked_me_frames)]
+    r["trajectory"]["opponent"] = {
+        "freshnessEnd": opp_fresh_end, "freshnessMin": opp_fresh_min,
+        "goodFruitEnd": 98, "badFruitEnd": 0, "nodeEnd": "S15",
+        "verifyFrame": None,
+        "iceUsed": [{"frame": 200, "from": 2, "to": 1} for _ in range(opp_ice)],
+        "frames": []}
+    return r
+
+
+class TestOppStatsP1A(unittest.TestCase):
+    def test_opp_score_components(self):
+        reps = [
+            _opp_report(match_id="a", opp_components={"delivery": 240, "task": 60,
+                      "time": 20, "goodFruit": 98, "freshness": 88.0, "bounty": 0}),
+            _opp_report(match_id="b", opp_components={"delivery": 240, "task": 90,
+                      "time": 16, "goodFruit": 99, "freshness": 92.0, "bounty": 0}),
+        ]
+        comps, n = A.opp_score_components(reps)
+        self.assertEqual(n, 2)
+        self.assertAlmostEqual(comps["freshness"], 90.0, delta=0.1)
+        self.assertAlmostEqual(comps["task"], 75.0, delta=0.1)
+        self.assertEqual(comps["delivery"], 240.0)
+
+    def test_opp_score_components_legacy_skipped(self):
+        # 旧 trace 无分项 → n=0
+        reps = [_report(match_id="legacy")]
+        comps, n = A.opp_score_components(reps)
+        self.assertEqual(n, 0)
+        self.assertEqual(comps["delivery"], 0.0)
+
+    def test_opp_guard_stats(self):
+        reps = [
+            _opp_report(match_id="g1", opp_guards=[{"node": "S10", "frame": 100}],
+                        blocked_me_frames=5),
+            _opp_report(match_id="g2", opp_guards=[], blocked_me_frames=0),
+            _opp_report(match_id="g3",
+                        opp_guards=[{"node": "S07", "frame": 200},
+                                    {"node": "S10", "frame": 300}],
+                        blocked_me_frames=3),
+        ]
+        ep, games, blocked = A.opp_guard_stats(reps)
+        self.assertEqual(ep, 3)  # 1 + 0 + 2
+        self.assertEqual(games, 2)  # g1, g3
+        self.assertEqual(blocked, 8)  # 5 + 0 + 3
+
+    def test_opp_section_in_analysis_report(self):
+        reps = [_opp_report(match_id="x",
+                            opp_components={"delivery": 240, "task": 60, "time": 20,
+                                            "goodFruit": 98, "freshness": 88.0, "bounty": 0},
+                            opp_guards=[{"node": "S10", "frame": 100}],
+                            blocked_me_frames=4, opp_ice=2,
+                            opp_fresh_min=85.0, opp_fresh_end=88.0)]
+        md = A.build_analysis_report(reps)
+        self.assertIn("对手分项与设卡（P1-A）", md)
+        self.assertIn("OPP_SCORE_COMP", md)
+        self.assertIn("OPP_GUARD: episodes=1", md)
+        self.assertIn("blocked_me_frames=4", md)
+        self.assertIn("OPP_ICE_USED: 2 total", md)
+        self.assertIn("OPP_FRESHNESS", md)
+
+
 if __name__ == "__main__":
     unittest.main()

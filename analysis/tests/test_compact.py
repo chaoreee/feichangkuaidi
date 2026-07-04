@@ -163,9 +163,13 @@ def _full_trace():
         # 结算
         _emit("Over", resultType="NORMAL", reason="ALL_DELIVERED", overRound=452, winner=1001, iWon=True),
         _emit("Score", player=1001, me=True, total=758, delivered=True, deliverRound=452,
-              fresh=77.5, goodFruit=97, taskScore=20, bountyScore=0),
+              fresh=77.5, goodFruit=97, taskScore=20, bountyScore=0,
+              scoreDetail=["delivery=240", "tasks=20", "time=30", "goodFruit=97",
+                           "freshness=77.5", "bounty=0", "penalty=0", "total=758"]),
         _emit("Score", player=2002, me=False, total=752, delivered=True, deliverRound=455,
-              fresh=79.0, goodFruit=98, taskScore=60, bountyScore=0),
+              fresh=79.0, goodFruit=98, taskScore=60, bountyScore=0,
+              scoreDetail=["delivery=240", "tasks=60", "time=20", "goodFruit=98",
+                           "freshness=79", "bounty=0", "penalty=0", "total=752"]),
     ]
     return lines
 
@@ -196,6 +200,11 @@ class TestRoundtrip(unittest.TestCase):
         self.assertEqual(r_cp["finalScore"]["opp"]["total"], r_log["finalScore"]["opp"]["total"])
         self.assertEqual(r_cp["finalScore"]["me"]["bounty"], r_log["finalScore"]["me"]["bounty"])
         self.assertEqual(r_cp["finalScore"]["opp"]["bounty"], r_log["finalScore"]["opp"]["bounty"])
+        # P1-A scoreDetail 透传：分项分 round-trip 0 误差（compact 经 det= 还原）
+        for who in ("me", "opp"):
+            for k in ("delivery", "task", "time", "goodFruit", "freshness"):
+                self.assertEqual(r_cp["finalScore"][who][k], r_log["finalScore"][who][k],
+                                 "scoreDetail %s.%s mismatch" % (who, k))
         self.assertEqual(r_cp["delivery"]["me"]["frame"], r_log["delivery"]["me"]["frame"])
         self.assertEqual(r_cp["delivery"]["me"]["verifyFrame"], r_log["delivery"]["me"]["verifyFrame"])
         self.assertEqual(r_cp["delivery"]["me"]["freshness"], r_log["delivery"]["me"]["freshness"])
@@ -217,7 +226,12 @@ class TestRoundtrip(unittest.TestCase):
         self.assertEqual(r_cp["trajectory"]["freshness"], r_log["trajectory"]["freshness"])
         self.assertEqual(r_cp["trajectory"]["goodFruit"]["badCrossings"],
                          r_log["trajectory"]["goodFruit"]["badCrossings"])
-        self.assertEqual(r_cp["trajectory"]["opponent"], r_log["trajectory"]["opponent"])
+        # 对手轨迹：compact 为有损视图，只对比 compact 能还原的标量字段
+        # （frames/iceUsed/badFruitEnd/verifyFrame/freshnessMin 是 P1-A parser 侧富化，compact 不携带）
+        for k in ("freshnessEnd", "goodFruitEnd", "nodeEnd"):
+            self.assertEqual(r_cp["trajectory"]["opponent"][k],
+                             r_log["trajectory"]["opponent"][k],
+                             "trajectory.opponent.%s mismatch" % k)
         # 投影
         self.assertEqual(r_cp["projection"]["projectedMyScore"], r_log["projection"]["projectedMyScore"])
         self.assertEqual(r_cp["projection"]["oppEtaPredictedDeliver"],

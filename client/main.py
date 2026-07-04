@@ -87,8 +87,31 @@ def wait_for(client, want_name, timeout, logger):
     return None
 
 
+def _dict_token(d):
+    """dict → `[k=v|k=v]` 列表（logger 渲染为方括号管道串，parser._coerce 可还原）。
+
+    None→None（被 logger 丢弃）。用于 scoreDetail / resources 等 dict 字段的 trace 序列化：
+    原生 str(dict) 含 `, ` 会破坏 parser._parse_fields 的 ``, `` 切分，故走 list 形式。
+    """
+    if not d:
+        return None
+    return ["%s=%s" % (k, v) for k, v in d.items()]
+
+
+def _resources_token(resources):
+    """resources dict → `[ICE_BOX=2|FAST_HORSE=1]`（仅非零项；空→None 丢弃）。"""
+    if not resources:
+        return None
+    items = ["%s=%s" % (k, v) for k, v in resources.items() if v]
+    return items or None
+
+
 def _log_over(logger, player_id, data):
-    """把 over 结算写成一行 Over trace（本方结果 + 胜负），逐队再各写一行 Score。"""
+    """把 over 结算写成一行 Over trace（本方结果 + 胜负），逐队再各写一行 Score。
+
+    Score 行附 scoreDetail（P1-A）：协议 over.players[].scoreDetail 携带双方分项分
+    (delivery/goodFruit/freshness/time/tasks/bounty/penalty/total)，序列化为 `[k=v|...]`。
+    """
     winner = data.get("winnerPlayerId")
     logger.trace(
         "Over", resultType=data.get("resultType"), reason=data.get("overReason"),
@@ -101,7 +124,8 @@ def _log_over(logger, player_id, data):
             total=p.get("totalScore"), delivered=p.get("delivered"),
             deliverRound=p.get("deliverRound"), retired=p.get("retired"),
             fresh=p.get("freshness"), goodFruit=p.get("goodFruit"),
-            taskScore=p.get("taskScore"), bountyScore=p.get("bountyScore"))
+            taskScore=p.get("taskScore"), bountyScore=p.get("bountyScore"),
+            scoreDetail=_dict_token(p.get("scoreDetail")))
 
 
 def _log_error(logger, rnd, payload):
@@ -162,6 +186,7 @@ def _handle_inquire(client, engine, logger, match_id, player_id, data):
     except Exception as exc:  # 解析异常
         logger.trace("Error", round=rnd, error="parse_exception", detail=repr(exc))
     _log_frame(logger, rnd, data, world)
+    _log_guards(logger, rnd, world, engine)
 
     t0 = time.perf_counter()
     actions = []
@@ -289,7 +314,11 @@ def _log_projection(logger, rnd, engine):
 
 
 def _log_frame(logger, rnd, data, world):
-    """记录每帧关键状态与事件类型，供赛后分析（收到的数据/关键状态 + 对手逐帧 + 天气）。"""
+    """记录每帧关键状态与事件类型，供赛后分析（收到的数据/关键状态 + 对手逐帧 + 天气）。
+
+    P1-A 富化对手字段：oppBad/oppVerified/oppMoveProg/oppNext/oppGuardAP/oppResources
+    （均为 inquire 已有、零推断），使赛后可量化对手资源/鲜度/设卡行动点轨迹。
+    """
     me = world.me if world else None
     opp = world.opponent if world else None
     logger.trace(
@@ -305,10 +334,40 @@ def _log_frame(logger, rnd, data, world):
         oppState=(opp.state if opp else None),
         oppFresh=(opp.freshness if opp else None),
         oppGood=(opp.good_fruit if opp else None),
+        oppBad=(opp.bad_fruit if opp else None),
         oppTask=(opp.task_score if opp else None),
+        oppVerified=(bool(opp.verified) if opp else None),
+        oppMoveProg=(opp.move_progress if opp else None),
+        oppNext=(opp.next_node_id if opp else None),
+        oppGuardAP=(opp.guard_action_point if opp else None),
+        oppResources=(_resources_token(opp.resources) if opp else None),
         weather=(world.active_weather_type() if world else None),
         events=[e.get("type") for e in (world.events if world else [])] or None,
     )
+
+
+def _log_guards(logger, rnd, world, engine):
+    """设卡快照行（P1-A）：仅当全局设卡集合变化时记一行 `Guards round=r guards=[...]`。
+
+    每项 `node:owner:defense`（owner=队伍 id）。这是对手进攻性设卡的唯一可观测来源
+    （match 4 的 S10 设卡由此首次被记录）。变化时才发以控体积；上帧有、本帧无则发空
+    `guards=[]` 以关闭 parser 侧的设卡区间。sig 缓存在 engine._guards_sig。
+    """
+    if world is None:
+        return
+    items = []
+    for nid, ns in world.node_states.items():
+        owner = ns.active_guard_owner()
+        if owner is None:
+            continue
+        defense = (ns.guard or {}).get("defense", 0) or 0
+        items.append("%s:%s:%s" % (nid, owner, defense))
+    sig = tuple(sorted(items))
+    prev = getattr(engine, "_guards_sig", None)
+    if sig == prev:
+        return
+    engine._guards_sig = sig
+    logger.trace("Guards", round=rnd, guards=items or [])
 
 
 def main(argv):

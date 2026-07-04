@@ -13,7 +13,7 @@ import os
 import re
 import statistics
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 _GOOD_TO_BAD = (90, 80, 70, 60, 50, 40, 30, 20, 10)
 _MILESTONES = (60, 90, 110)
@@ -121,8 +121,23 @@ class _Acc:
         self.timeline = []
         # 对手逐帧（Frame 行携带 oppNode/oppFresh/oppGood）
         self.opp_fresh_end = None
+        self.opp_fresh_min = None
         self.opp_good_end = None
+        self.opp_bad_end = None
         self.opp_node = None
+        self.opp_verified_frame = None
+        self._prev_opp_verified = False
+        # P1-A：对手稀疏轨迹（仅变化帧，≤40 条）+ 任务分跳变 + 冰鉴使用推断
+        self.opp_frames = []
+        self._prev_opp = None
+        self.opp_task_jumps = []
+        self._prev_opp_task = None
+        self.opp_ice_used = []
+        self._prev_opp_ice = None
+        # P1-A：对手设卡区间（从 Guards 行追踪）
+        self._opp_guard_active = {}  # node -> {firstFrame, lastFrame, defense}
+        self.opp_guard_episodes = []
+        self._break_guard_responses = []  # {node, frame, costGood}（_on_Action BREAK_GUARD）
         # 失败
         self.rejected = []
         self.can_afford_blocked = []
@@ -177,11 +192,51 @@ class _Acc:
         opp_good = _num(f.get("oppGood"))
         if opp_fresh is not None:
             self.opp_fresh_end = opp_fresh
+            if self.opp_fresh_min is None or opp_fresh < self.opp_fresh_min:
+                self.opp_fresh_min = opp_fresh
         if opp_good is not None:
             self.opp_good_end = opp_good
         opp_node = f.get("oppNode")
         if opp_node is not None:
             self.opp_node = opp_node
+        # P1-A：对手资源/鲜度/任务轨迹富化
+        opp_bad = _num(f.get("oppBad"))
+        if opp_bad is not None:
+            self.opp_bad_end = opp_bad
+        opp_verified = bool(f.get("oppVerified"))
+        if opp_verified and not self._prev_opp_verified:
+            self.opp_verified_frame = rnd
+        self._prev_opp_verified = opp_verified
+        opp_task = _num(f.get("oppTask"))
+        if opp_task is not None:
+            if self._prev_opp_task is not None and opp_task > self._prev_opp_task:
+                self.opp_task_jumps.append({"frame": rnd, "taskScore": opp_task})
+            self._prev_opp_task = opp_task
+        # 对手冰鉴使用推断：ICE_BOX 库存递减即用了一次
+        opp_res = f.get("oppResources")
+        opp_ice = None
+        if isinstance(opp_res, list):
+            for item in opp_res:
+                if isinstance(item, str) and item.startswith("ICE_BOX="):
+                    opp_ice = _num(item.split("=", 1)[1])
+                    break
+        if opp_ice is not None:
+            if self._prev_opp_ice is not None and opp_ice < self._prev_opp_ice:
+                self.opp_ice_used.append({"frame": rnd, "from": self._prev_opp_ice, "to": opp_ice})
+            self._prev_opp_ice = opp_ice
+        # 对手稀疏轨迹快照（仅任一字段变化时记一条，≤40 条保 report.json 体积）
+        opp_snap = {
+            "r": rnd, "n": opp_node, "s": f.get("oppState"), "ts": opp_task,
+            "b": opp_bad, "vf": (opp_verified or None), "mp": _num(f.get("oppMoveProg")),
+            "nx": f.get("oppNext"), "ga": _num(f.get("oppGuardAP")), "rs": opp_res,
+        }
+        opp_snap = {k: v for k, v in opp_snap.items() if v is not None}
+        if opp_snap:
+            # 比较键排除 r（round 每帧变，不应触发记录），仅状态变化才记
+            snap_cmp = tuple(sorted((k, v) for k, v in opp_snap.items() if k != "r"))
+            if snap_cmp != self._prev_opp:
+                self._push_opp_frame(opp_snap)
+                self._prev_opp = snap_cmp
         # 天气命中（Frame 行 weather 字段；非空即本帧有生效天气）
         if f.get("weather"):
             self.weather_hit = True
@@ -221,6 +276,51 @@ class _Acc:
         self._wait_node = None
         self._wait_from = None
         self._wait_len = 0
+
+    def _push_opp_frame(self, snap):
+        """对手稀疏轨迹：append 一条；超 24 条时保留首 12 + 末 12（截中段）控 report.json 体积。"""
+        self.opp_frames.append(snap)
+        if len(self.opp_frames) > 24:
+            self.opp_frames = self.opp_frames[:12] + self.opp_frames[-12:]
+
+    # ---- 对手设卡区间（P1-A，从 Guards 行追踪）----
+    def _on_Guards(self, f):
+        rnd = f.get("round")
+        raw = f.get("guards")
+        if raw is None:
+            return
+        seen = set()
+        for item in raw:
+            if not isinstance(item, str) or item.count(":") < 2:
+                continue
+            node, owner, defense = item.split(":", 2)
+            seen.add(node)
+            if owner == self.team_id:
+                continue  # 己方设卡不记入 oppGuards
+            defense_n = _num(defense) or 0
+            ep = self._opp_guard_active.get(node)
+            if ep is None:
+                self._opp_guard_active[node] = {"firstFrame": rnd, "lastFrame": rnd,
+                                                "defense": defense_n}
+            else:
+                ep["lastFrame"] = rnd
+                ep["defense"] = defense_n
+        # 消失的节点 finalize
+        for node in list(self._opp_guard_active.keys()):
+            if node not in seen:
+                self._finalize_guard_episode(node)
+
+    def _finalize_guard_episode(self, node):
+        ep = self._opp_guard_active.pop(node, None)
+        if ep is None:
+            return
+        self.opp_guard_episodes.append({
+            "node": node, "frame": ep["firstFrame"], "lastFrame": ep["lastFrame"],
+            "durationFrames": (ep["lastFrame"] - ep["firstFrame"] + 1)
+                              if ep["lastFrame"] is not None and ep["firstFrame"] is not None
+                              else None,
+            "defense": ep["defense"], "myResponse": None, "cost": None,
+        })
 
     def _on_Projection(self, f):
         my = _num(f.get("myScore"))
@@ -282,6 +382,8 @@ class _Acc:
                 self.opp_guards.append({"node": node, "frame": rnd,
                                         "myResponse": "BREAK_GUARD",
                                         "cost": {"good": cost_good, "frames": 0}})
+                self._break_guard_responses.append({"node": node, "frame": rnd,
+                                                    "costGood": cost_good})
             self._timeline_push(rnd, "BREAKTHROUGH", "%s %s cost %d" % (method, node, cost_good))
         elif act == "SET_GUARD":
             self.my_guards.append({"node": f.get("target"), "frame": rnd,
@@ -366,16 +468,49 @@ def _outcome(acc):
     return "LOSS"
 
 
+def _parse_score_detail(sd):
+    """Score 行的 scoreDetail → dict。
+
+    接受三种形态（parser `_coerce` 还原为 list / compact `_coerce` 留作 `[k=v|...]` 原始串 / 单条 `k=v`）：
+    - list `[k=v, ...]`（parser 路径，`_coerce` 已拆 `[a|b]`）
+    - 字符串 `[k=v|k=v|...]`（compact 路径，`_coerce` 未拆 list）
+    - 字符串 `k=v`（单条）
+    协议 scoreDetail 键：delivery/goodFruit/freshness/time/tasks/bounty/penalty/total。
+    兼容 sim 的 `task`（单数）键。旧 trace 无 scoreDetail → {}（分项全 None，向后兼容）。
+    """
+    out = {}
+    if not sd:
+        return out
+    if isinstance(sd, str):
+        s = sd.strip()
+        if s.startswith("[") and s.endswith("]"):
+            s = s[1:-1]
+        sd = [p for p in s.split("|") if p]
+    for item in sd:
+        if not isinstance(item, str) or "=" not in item:
+            continue
+        k, v = item.split("=", 1)
+        out[k.strip()] = _coerce(v.strip())
+    return out
+
+
 def _final_score(score):
     if not score:
         return {"total": 0, "delivery": None, "task": None, "time": None,
                 "goodFruit": None, "freshness": None, "bounty": 0, "penalty": 0}
+    sd = _parse_score_detail(score.get("scoreDetail"))
+    # task：协议用 tasks（复数），sim 用 task（单数），两者兼容
+    task = sd.get("tasks", sd.get("task"))
     return {
         "total": _num(score.get("total")) or 0,
-        "delivery": None, "task": None, "time": None,
-        "goodFruit": None, "freshness": None,
-        "bounty": _num(score.get("bountyScore")) or 0,
-        "penalty": 0,
+        "delivery": _num(sd.get("delivery")),
+        "task": _num(task),
+        "time": _num(sd.get("time")),
+        "goodFruit": _num(sd.get("goodFruit")),
+        "freshness": _num(sd.get("freshness")),
+        "bounty": (_num(score.get("bountyScore")) if score.get("bountyScore") is not None
+                   else _num(sd.get("bounty"))) or 0,
+        "penalty": _num(sd.get("penalty")) or 0,
     }
 
 
@@ -429,6 +564,7 @@ def build_report(acc, source="platform", variant="baseline"):
         score_margin = (_num(me.get("total")) or 0) - (_num(opp.get("total")) or 0)
     outcome = _outcome(acc)
     opp_deliver = _num(opp.get("deliverRound"))
+    opp_guards = _build_opp_guards(acc)
 
     return {
         "schemaVersion": SCHEMA_VERSION,
@@ -447,12 +583,12 @@ def build_report(acc, source="platform", variant="baseline"):
                    "verifyFrame": acc.verify_frame,
                    "goodFruit": acc.good_end,
                    "freshness": (round(acc.fresh_end, 2) if acc.fresh_end is not None else None)},
-            "opp": {"frame": opp_deliver},
+            "opp": {"frame": opp_deliver, "verifyFrame": acc.opp_verified_frame},
             "rushTriggerFrame": acc.rush_trigger_frame,
         },
         "tasks": {
             "me": {**_task_block(acc.score_me), "claimed": acc.task_claims},
-            "opp": {**_task_block(acc.score_opp), "claimed": []},
+            "opp": {**_task_block(acc.score_opp), "claimed": acc.opp_task_jumps},
             "missedReachable90": None,  # 待 Phase B 静态规划器计算
         },
         "resources": {"iceUsed": acc.ice_used, "horseUsed": acc.horse_used,
@@ -461,10 +597,13 @@ def build_report(acc, source="platform", variant="baseline"):
             "freshness": {"start": acc.fresh_start, "end": acc.fresh_end, "min": acc.fresh_min},
             "goodFruit": {"start": acc.good_start, "end": acc.good_end,
                           "badCrossings": list(acc.bad_crossings)},
-            "opponent": {"freshnessEnd": acc.opp_fresh_end, "goodFruitEnd": acc.opp_good_end,
-                         "nodeEnd": acc.opp_node},
+            "opponent": {"freshnessEnd": acc.opp_fresh_end,
+                         "freshnessMin": acc.opp_fresh_min,
+                         "goodFruitEnd": acc.opp_good_end, "badFruitEnd": acc.opp_bad_end,
+                         "nodeEnd": acc.opp_node, "verifyFrame": acc.opp_verified_frame,
+                         "iceUsed": acc.opp_ice_used, "frames": acc.opp_frames},
         },
-        "opponentInteraction": {"windows": acc.windows, "oppGuards": acc.opp_guards,
+        "opponentInteraction": {"windows": acc.windows, "oppGuards": opp_guards,
                                 "bounties": acc.bounty_attempts, "myGuards": acc.my_guards},
         "failures": {"rejected": acc.rejected, "waitingStuck": acc.waiting_stuck,
                      "invalidActions": 0, "decisionTimeouts": acc.decision_timeouts,
@@ -487,6 +626,28 @@ def build_report(acc, source="platform", variant="baseline"):
         },
         "decisionTimeline": list(acc.timeline),
     }
+
+
+def _build_opp_guards(acc):
+    """oppGuards：优先用 Guards 行追踪的设卡区间（附 BREAK_GUARD 响应）；
+    无 Guards 行（旧 trace）回落 _on_Action BREAK_GUARD 派生记录，保旧测试不回归。"""
+    # finalize 仍未关闭的区间（对局结束时仍在的设卡）
+    for node in list(acc._opp_guard_active.keys()):
+        acc._finalize_guard_episode(node)
+    if acc.opp_guard_episodes:
+        eps = [dict(ep) for ep in acc.opp_guard_episodes]
+        # 把 BREAK_GUARD 响应挂到匹配区间（同 node、帧落在区间内）
+        for resp in acc._break_guard_responses:
+            for ep in eps:
+                f0, f1 = ep["frame"], ep["lastFrame"]
+                if ep["node"] == resp["node"] and f0 is not None and (
+                        f1 is None or f0 <= resp["frame"] <= (f1 + 30)):
+                    ep["myResponse"] = "BREAK_GUARD"
+                    ep["cost"] = {"good": resp["costGood"], "frames": 0}
+                    break
+        return eps
+    # 旧 trace 无 Guards 行：保持既有 BREAK_GUARD 派生行为
+    return acc.opp_guards
 
 
 def parse_log(path, source="platform", variant="baseline"):

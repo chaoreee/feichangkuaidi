@@ -8,7 +8,7 @@
 
 - **事件驱动**：帧状态只在**变化时**记一行，动作只在 **(action, 关键参数) 变化时**记，连续相同拒绝/canAfford 合并。膨胀源（每帧 Frame/Projection/Eta/Action 四行 ×600 帧）被压缩到 ~150–330 行/局。
 - **派生而非双写**：精简 trace 从完整 trace 重生成，属 repo 产物（不进 client），演进只改 `analysis/compact.py` 一处。
-- **P1-A 透传**：精简从完整 trace 派生，P1-A（Iter 31）补记的 `oppResources`/`Guards`/`scoreDetail` 一旦进入完整 trace 自动流进精简格式，无需改 compact。
+- **P1-A 透传（部分）**：精简从完整 trace 派生，P1-A（Iter 31）补记的 `scoreDetail` 经 `det=` 透传进精简格式并由 `parse_compact` 还原双方分项；`Guards`/`oppResources`/对手稀疏 `frames` 等 P1-A 富化字段**不进精简**（compact 为有损概览），它们落 `reports/*.report.json`（同入库，可直接读）做对手设卡/资源/鲜度归因。
 - **优雅降级**：旧 trace 缺 P1-A 字段时，精简格式相应行缺字段标 absent（`-`），`parse_compact` 仍可重建 Report。
 
 ## 多局文件
@@ -95,7 +95,7 @@ Over result=<resultType> reason=<reason> round=<overRound> winner=<winner> iWon=
 Score me total=<t> del=<delivered> dframe=<deliverRound> fresh=<f> good=<g> task=<taskScore> bounty=<bountyScore> [det=<scoreDetail>]
 Score opp total=<t> del=<delivered> dframe=<deliverRound> fresh=<f> good=<g> task=<taskScore> bounty=<bountyScore> [det=<scoreDetail>]
 ```
-- `det=` 仅 P1-A（Iter 31）补记 scoreDetail 后出现；旧 trace 省略，`parse_compact` 对应分项为 null（与 parser stub 一致）。
+- `det=` P1-A（Iter 31）已落地：完整 trace 的 Score 行携带 `scoreDetail=[k=v|...]`，精简格式透传 `det=[k=v|...]`，`parse_compact` 经 `_final_score` 还原双方分项（delivery/task/time/goodFruit/freshness/bounty/penalty），与 `parse_log` 0 误差。旧 trace（iter30 及以前）省略 `det=`，分项为 null（优雅降级）。
 
 ## 还原保真度
 

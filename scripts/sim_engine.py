@@ -1063,12 +1063,18 @@ class SimEngine:
         }
 
     def _player_over(self, p):
+        # scoreDetail 对齐协议键名（tasks 复数；sim _score_detail 用 task 单数），供 trace Score 行携带分项
+        detail = self._score_detail(p)
+        score_detail = dict(detail)
+        if "task" in score_detail:
+            score_detail["tasks"] = score_detail.pop("task")
         return {
             "playerId": p.player_id, "delivered": p.delivered, "retired": p.retired,
             "freshness": round(p.freshness, 3), "goodFruit": p.good_fruit,
             "taskScore": p.task_score, "bountyScore": p.bounty_score,
             "deliverRound": p.deliver_round if p.delivered else 0,
-            "totalScore": self._score_detail(p)["total"],
+            "totalScore": detail["total"],
+            "scoreDetail": score_detail,
         }
 
     def is_ended(self):

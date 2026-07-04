@@ -472,9 +472,11 @@ def _score_fields(s):
              "good=%s" % _fmt_num(_num(s.get("goodFruit"))),
              "task=%s" % _fmt_num(_num(s.get("taskScore")) or 0),
              "bounty=%s" % _fmt_num(_num(s.get("bountyScore")) or 0)]
-    # P1-A 透传：scoreDetail（Iter 31 落地后出现）
+    # P1-A 透传：scoreDetail（list `[k=v|...]` 再渲染回 `[a|b|c]`，防 %s 带空格破坏 parse_compact）
     det = s.get("scoreDetail")
     if det:
+        if isinstance(det, (list, tuple)):
+            det = "[%s]" % "|".join(str(x) for x in det)
         parts.append("det=%s" % det)
     return " ".join(parts)
 
