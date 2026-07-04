@@ -1,0 +1,93 @@
+# match_20260705_032341_729_2696_vs_2744_c2e99980 v=iter31 pid=2696 team=RED seed=None dur=600
+Map N=15 E=23
+N S01:S S02:C S03:P S04:D S05:W S06:M S07:S S08:M S09:S S10:K S11:P S12:J S13:P S14:G S15:F
+E S01-S02:30:R S02-S03:25:R S03-S07:54:R S07-S09:46:R S09-S10:40:R S10-S11:36:R S11-S12:20:R S12-S13:25:R S13-S14:18:R S14-S15:10:R S02-S04:20:R S04-S05:44:W S05-S07:46:B S01-S06:44:M S06-S08:54:M S08-S10:46:B S03-S06:38:B S05-S09:48:W S07-S08:42:M S04-S07:54:B S08-S09:64:B S11-S14:15:B S10-S13:27:B
+F r1 n=S01 st=IDLE ph=NORMAL gf=100 ts=0 on=S01 ots=0
+A r1 CLEAR target=S06 fresh=100
+A r1 SQUAD_CLEAR target=S08 fresh=100
+F r2 st=PROCESSING
+F r7 st=IDLE gf=99
+A r7 MOVE target=S06 fresh=99.7
+F r8 st=MOVING
+F r43 on=S02
+F r75 on=S04
+F r86 n=S06 st=IDLE
+A r86 CLAIM_RESOURCE target=S06 res=ICE_BOX fresh=94.17
+A r86 SQUAD_CLEAR target=S10 fresh=94.17
+F r87 st=PROCESSING
+F r88 st=IDLE
+A r88 MOVE target=S08 fresh=94.07
+F r89 st=MOVING
+F r106 w=HOT
+F r133 gf=98 fr90
+F r137 on=S05
+F r176 ofr90
+F r185 n=S08 st=IDLE
+A r185 CLAIM_TASK task=T_003 fresh=85.05
+F r186 st=PROCESSING
+F r189 st=IDLE ts=30
+A r189 CLAIM_TASK task=T_005 fresh=84.85
+F r190 st=PROCESSING
+F r193 st=IDLE ts=60
+A r193 CLAIM_RESOURCE target=S08 res=SHORT_HORSE fresh=84.65
+F r194 st=PROCESSING
+F r195 st=IDLE
+A r195 MOVE target=S10 fresh=84.55
+F r196 st=MOVING
+A r196 USE_RESOURCE res=SHORT_HORSE fresh=84.49
+A r197 MOVE target=S10 fresh=84.43
+F r203 on=S09
+F r216 w=MOUNTAIN_FOG
+F r257 on=S10
+A r261 BREAK_GUARD target=S10 good=2 fresh=80.59
+F r262 st=WAITING
+F r265 ots=30
+F r269 ots=60
+F r273 gf=97 ots=90 fr80
+A r273 BREAK_GUARD target=S10 good=0 fresh=79.99
+F r277 ots=120
+ModeChange r277 EVEN->AGGRESSIVE reason=gap_below_threshold gap=None
+Bounty r=291 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=292 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=293 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=294 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=295 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=296 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=297 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=298 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=299 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=300 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=301 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=302 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=303 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=304 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=305 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=306 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=307 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=308 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+Bounty r=309 target=S10 reward=18 delta=38 extra=0 action=BREAK_GUARD goodBurn=0
+A r310 BREAK_GUARD target=S10 good=1 fresh=78.14
+Bounty r=310 target=S10 reward=18 delta=37 extra=0 action=BREAK_GUARD goodBurn=1
+Bounty r=311 target=S10 reward=18 delta=37 extra=0 action=BREAK_GUARD goodBurn=1
+Bounty r=312 target=S10 reward=18 delta=37 extra=0 action=BREAK_GUARD goodBurn=1
+A r313 USE_RESOURCE res=ICE_BOX fresh=77.99
+REJ r262 x52 MOVING_ACTION_FORBIDDEN BREAK_GUARD S10
+F r326 w=HEAVY_RAIN
+F r375 ofr80
+F r450 ph=RUSH
+F r473 gf=96 fr70
+F r477 w=HOT
+ModeChange r513 AGGRESSIVE->EVEN reason=gap_within_band gap=None
+F r518 on=S13
+ModeChange r522 EVEN->AGGRESSIVE reason=gap_below_threshold gap=None
+F r528 ofr70
+F r548 on=S14
+F r568 on=S15
+REJ r314 x287 MOVING_ACTION_FORBIDDEN USE_RESOURCE None
+Traj fstart=100 fmin=62.37 fend=62.37 gstart=100 gend=96 onode=S15 ofend=67.57 ogend=94
+Proj my=60 oppDel=600 gap=-640 mode=AGGRESSIVE
+Conf min=0.300 med=0.575 max=0.850
+MidGap=-165
+Over result=NORMAL reason=TIME_LIMIT round=600 winner=2744 iWon=False
+Score me total=60 del=False dframe=0 fresh=62.32 good=96 task=60 bounty=0 det=[bounty=0|delivery=0|freshness=0|goodFruit=0|penalty=0|tasks=60|time=0|total=60]
+Score opp total=703 del=True dframe=568 fresh=67.57 good=94 task=120 bounty=0 det=[bounty=0|delivery=240|freshness=121|goodFruit=169|penalty=0|tasks=170|time=3|total=703]

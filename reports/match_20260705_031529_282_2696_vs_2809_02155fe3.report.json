@@ -1,0 +1,591 @@
+{
+  "classification": {
+    "luckClass": "expected_win",
+    "oppClassSignals": {
+      "freshnessEnd": 70.65,
+      "goodFruitEnd": 95,
+      "iceUsedCount": 0,
+      "oppDeliverFrame": 417,
+      "oppGuardCount": 1,
+      "oppTaskBase": 30
+    },
+    "opponentClass": "guard-type",
+    "scoreMargin": 258,
+    "segments": [
+      "delivered",
+      "task90_reached",
+      "mid_lead",
+      "weather_hit",
+      "contested",
+      "opp_delivered"
+    ]
+  },
+  "clientVersion": "iter31",
+  "decisionTimeline": [
+    {
+      "detail": "CLEAR S06 cost 1",
+      "event": "BREAKTHROUGH",
+      "frame": 1
+    },
+    {
+      "detail": "T_003",
+      "event": "TASK_CLAIM",
+      "frame": 185
+    },
+    {
+      "detail": "T_005",
+      "event": "TASK_CLAIM",
+      "frame": 189
+    },
+    {
+      "detail": "card=BING_ZHENG",
+      "event": "WINDOW_CARD",
+      "frame": 190
+    },
+    {
+      "detail": "card=BING_ZHENG",
+      "event": "WINDOW_CARD",
+      "frame": 191
+    },
+    {
+      "detail": "card=BING_ZHENG",
+      "event": "WINDOW_CARD",
+      "frame": 192
+    },
+    {
+      "detail": "T_005",
+      "event": "TASK_CLAIM",
+      "frame": 196
+    },
+    {
+      "detail": "T_009",
+      "event": "TASK_CLAIM",
+      "frame": 272
+    },
+    {
+      "detail": "T_012",
+      "event": "TASK_CLAIM",
+      "frame": 276
+    },
+    {
+      "detail": "EVEN->CONSERVATIVE",
+      "event": "MODE_CHANGE",
+      "frame": 277
+    },
+    {
+      "detail": "T_013",
+      "event": "TASK_CLAIM",
+      "frame": 277
+    },
+    {
+      "detail": "CLAIM_TASK code=OBJECT_BUSY",
+      "event": "REJECTED",
+      "frame": 277
+    },
+    {
+      "detail": "fresh=77.0",
+      "event": "USE_ICE",
+      "frame": 323
+    },
+    {
+      "detail": "PROCESS code=OBJECT_BUSY",
+      "event": "REJECTED",
+      "frame": 325
+    },
+    {
+      "detail": "PROCESS code=OBJECT_BUSY",
+      "event": "REJECTED",
+      "frame": 326
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 390
+    }
+  ],
+  "delivery": {
+    "me": {
+      "frame": 411,
+      "freshness": 81.99,
+      "goodFruit": 97,
+      "verifyFrame": 397
+    },
+    "opp": {
+      "frame": 417,
+      "verifyFrame": 403
+    },
+    "rushTriggerFrame": 390
+  },
+  "durationRound": 600,
+  "failures": {
+    "canAffordBlocked": [],
+    "decisionTimeouts": 0,
+    "invalidActions": 0,
+    "rejected": [
+      {
+        "action": "CLAIM_TASK",
+        "code": "OBJECT_BUSY",
+        "frame": 277,
+        "target": null
+      },
+      {
+        "action": "PROCESS",
+        "code": "OBJECT_BUSY",
+        "frame": 325,
+        "target": null
+      },
+      {
+        "action": "PROCESS",
+        "code": "OBJECT_BUSY",
+        "frame": 326,
+        "target": null
+      }
+    ],
+    "waitingStuck": [
+      {
+        "fromFrame": 357,
+        "node": "S14",
+        "toFrame": 391
+      }
+    ]
+  },
+  "finalScore": {
+    "me": {
+      "bounty": 0,
+      "delivery": 240,
+      "freshness": 147,
+      "goodFruit": 174,
+      "penalty": 0,
+      "task": 170,
+      "time": 22,
+      "total": 753
+    },
+    "opp": {
+      "bounty": 0,
+      "delivery": 160,
+      "freshness": 127,
+      "goodFruit": 171,
+      "penalty": 0,
+      "task": 30,
+      "time": 7,
+      "total": 495
+    }
+  },
+  "matchId": "match_20260705_031529_282_2696_vs_2809_02155fe3",
+  "opponentInteraction": {
+    "bounties": [],
+    "myGuards": [],
+    "oppGuards": [
+      {
+        "cost": null,
+        "defense": 2,
+        "durationFrames": 136,
+        "frame": 273,
+        "lastFrame": 408,
+        "myResponse": null,
+        "node": "S10"
+      }
+    ],
+    "windows": [
+      {
+        "contestId": "C_189_001",
+        "frame": 190,
+        "myCard": "BING_ZHENG",
+        "oppCard": null,
+        "result": null,
+        "type": "TASK"
+      },
+      {
+        "contestId": "C_189_001",
+        "frame": 191,
+        "myCard": "BING_ZHENG",
+        "oppCard": null,
+        "result": null,
+        "type": "TASK"
+      },
+      {
+        "contestId": "C_189_001",
+        "frame": 192,
+        "myCard": "BING_ZHENG",
+        "oppCard": null,
+        "result": null,
+        "type": "TASK"
+      }
+    ]
+  },
+  "outcome": "WIN",
+  "playerId": 2696,
+  "projection": {
+    "actualMyScore": 753,
+    "confidence": {
+      "max": 0.68,
+      "median": 0.49,
+      "min": 0.3
+    },
+    "error": -1,
+    "modeSwitches": [
+      {
+        "frame": 277,
+        "from": "EVEN",
+        "gap": null,
+        "reason": "gap_above_threshold",
+        "to": "CONSERVATIVE"
+      }
+    ],
+    "oppActualDeliver": 417,
+    "oppEtaPredictedDeliver": 417,
+    "projectedMyScore": 752
+  },
+  "resources": {
+    "horseUsed": null,
+    "iceUsed": [
+      {
+        "frame": 323,
+        "freshnessBefore": 77.04
+      }
+    ],
+    "rushTactic": {
+      "frame": 390,
+      "type": "RUSH_PROTECT"
+    }
+  },
+  "schemaVersion": 2,
+  "seed": null,
+  "source": "platform",
+  "tasks": {
+    "me": {
+      "base": 120,
+      "claimed": [
+        {
+          "detourExtra": null,
+          "frame": 185,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 189,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 196,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 272,
+          "node": "S10",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 276,
+          "node": "S10",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 277,
+          "node": "S10",
+          "template": null
+        }
+      ],
+      "milestones": [
+        60,
+        90,
+        110
+      ]
+    },
+    "missedReachable90": null,
+    "opp": {
+      "base": 30,
+      "claimed": [
+        {
+          "frame": 278,
+          "taskScore": 30
+        }
+      ],
+      "milestones": []
+    }
+  },
+  "teamId": "RED",
+  "trajectory": {
+    "freshness": {
+      "end": 81.99,
+      "min": 77.04,
+      "start": 100
+    },
+    "goodFruit": {
+      "badCrossings": [
+        90,
+        80
+      ],
+      "end": 97,
+      "start": 100
+    },
+    "opponent": {
+      "badFruitEnd": 2,
+      "frames": [
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0,
+          "n": "S01",
+          "r": 1,
+          "s": "IDLE",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0,
+          "n": "S01",
+          "r": 2,
+          "s": "WAITING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.01,
+          "n": "S01",
+          "nx": "S06",
+          "r": 8,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.02,
+          "n": "S01",
+          "nx": "S06",
+          "r": 9,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.04,
+          "n": "S01",
+          "nx": "S06",
+          "r": 10,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.05,
+          "n": "S01",
+          "nx": "S06",
+          "r": 11,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.06,
+          "n": "S01",
+          "nx": "S06",
+          "r": 12,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.07,
+          "n": "S01",
+          "nx": "S06",
+          "r": 13,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.08,
+          "n": "S01",
+          "nx": "S06",
+          "r": 14,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.09,
+          "n": "S01",
+          "nx": "S06",
+          "r": 15,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.11,
+          "n": "S01",
+          "nx": "S06",
+          "r": 16,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.12,
+          "n": "S01",
+          "nx": "S06",
+          "r": 17,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 2,
+          "ga": 1,
+          "mp": 0.22,
+          "n": "S14",
+          "nx": "S15",
+          "r": 406,
+          "s": "MOVING",
+          "ts": 30,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 1,
+          "mp": 0.29,
+          "n": "S14",
+          "nx": "S15",
+          "r": 407,
+          "s": "MOVING",
+          "ts": 30,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 1,
+          "mp": 0.36,
+          "n": "S14",
+          "nx": "S15",
+          "r": 408,
+          "s": "MOVING",
+          "ts": 30,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 1,
+          "mp": 0.43,
+          "n": "S14",
+          "nx": "S15",
+          "r": 409,
+          "s": "MOVING",
+          "ts": 30,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 1,
+          "mp": 0.51,
+          "n": "S14",
+          "nx": "S15",
+          "r": 410,
+          "s": "MOVING",
+          "ts": 30,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 1,
+          "mp": 0.58,
+          "n": "S14",
+          "nx": "S15",
+          "r": 411,
+          "s": "MOVING",
+          "ts": 30,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 1,
+          "mp": 0.65,
+          "n": "S14",
+          "nx": "S15",
+          "r": 412,
+          "s": "MOVING",
+          "ts": 30,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 1,
+          "mp": 0.72,
+          "n": "S14",
+          "nx": "S15",
+          "r": 413,
+          "s": "MOVING",
+          "ts": 30,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 1,
+          "mp": 0.8,
+          "n": "S14",
+          "nx": "S15",
+          "r": 414,
+          "s": "MOVING",
+          "ts": 30,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 1,
+          "mp": 0.87,
+          "n": "S14",
+          "nx": "S15",
+          "r": 415,
+          "s": "MOVING",
+          "ts": 30,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 1,
+          "mp": 0.94,
+          "n": "S14",
+          "nx": "S15",
+          "r": 416,
+          "s": "MOVING",
+          "ts": 30,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 1,
+          "mp": 0,
+          "n": "S15",
+          "r": 417,
+          "s": "IDLE",
+          "ts": 30,
+          "vf": true
+        }
+      ],
+      "freshnessEnd": 70.65,
+      "freshnessMin": 70.65,
+      "goodFruitEnd": 95,
+      "iceUsed": [],
+      "nodeEnd": "S15",
+      "verifyFrame": 403
+    }
+  },
+  "variant": "baseline"
+}
