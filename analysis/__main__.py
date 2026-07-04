@@ -25,6 +25,9 @@ from analysis import aggregator  # noqa: E402
 from analysis.compact import compact_trace, to_b64  # noqa: E402
 from analysis.opponent_classifier import annotate_opp_class  # noqa: E402
 from analysis.parser import parse_log  # noqa: E402
+from analysis.sizeguard import (  # noqa: E402
+    MAX_FILE_BYTES, assert_dir_under_limit, fit_json_list, fit_report, fit_text,
+)
 
 
 def _infer_source(path, override):
@@ -103,8 +106,9 @@ def main(argv):
     for r in reports:
         mid = r.get("matchId") or "unknown"
         rpath = os.path.join(args.out_dir, "%s.report.json" % _safe_name(mid))
+        fitted = fit_report(r)
         with open(rpath, "w", encoding="utf-8") as fh:
-            json.dump(r, fh, ensure_ascii=False, indent=2, sort_keys=True)
+            json.dump(fitted, fh, ensure_ascii=False, indent=2, sort_keys=True)
     print("wrote %d report.json to %s" % (len(reports), args.out_dir))
 
     # 1b) 精简 trace（P1-B）：由完整 trace 派生，落 reports/<matchId>.compact.log（入库，我 pull 可直读）。
@@ -118,7 +122,7 @@ def main(argv):
             continue
         cpath = os.path.join(args.out_dir, "%s.compact.log" % _safe_name(mid))
         with open(cpath, "w", encoding="utf-8") as fh:
-            fh.write(ctext + "\n")
+            fh.write(fit_text(ctext + "\n"))
         if args.b64:
             b64_lines.append("%s\t%s" % (mid, to_b64(ctext)))
     print("wrote %d compact.log to %s" % (len(reports), args.out_dir))
@@ -129,14 +133,14 @@ def main(argv):
     index = aggregator.build_index(reports, report_relpath=_report_relpath)
     index_path = os.path.join(args.out_dir, "index.json")
     with open(index_path, "w", encoding="utf-8") as fh:
-        json.dump(index, fh, ensure_ascii=False, indent=2, sort_keys=True)
+        json.dump(fit_json_list(index), fh, ensure_ascii=False, indent=2, sort_keys=True)
     print("wrote %s" % index_path)
 
     # 3) 跨局聚合报告 analysis_report.md
     main_md = aggregator.build_analysis_report(reports)
     main_path = os.path.join(args.out_dir, "analysis_report.md")
     with open(main_path, "w", encoding="utf-8") as fh:
-        fh.write(main_md)
+        fh.write(fit_text(main_md))
     print("wrote %s (N=%d)" % (main_path, len(reports)))
 
     # 4) A/B 配对报告 ab_report.md（有配对才生成）
@@ -144,7 +148,7 @@ def main(argv):
     if ab:
         ab_path = os.path.join(args.out_dir, "ab_report.md")
         with open(ab_path, "w", encoding="utf-8") as fh:
-            fh.write(ab + "\n")
+            fh.write(fit_text(ab + "\n"))
         print("wrote %s" % ab_path)
 
     # 5) 异常局时序摘要 timelines.md（有异常局才生成）
@@ -152,8 +156,17 @@ def main(argv):
     if tl_md:
         tl_path = os.path.join(args.out_dir, "timelines.md")
         with open(tl_path, "w", encoding="utf-8") as fh:
-            fh.write(tl_md + "\n")
+            fh.write(fit_text(tl_md + "\n"))
         print("wrote %s" % tl_path)
+
+    # 体积守卫自检：所有产物文件须 < MAX_FILE_BYTES（100KB）。
+    oversized = assert_dir_under_limit(args.out_dir)
+    if oversized:
+        for p, size in oversized:
+            print("WARN %s is %d bytes (> %d limit)" % (p, size, MAX_FILE_BYTES),
+                  file=sys.stderr)
+    else:
+        print("sizeguard: all artifacts under %d-byte limit" % MAX_FILE_BYTES)
 
     if skipped:
         print("skipped %d log(s)" % len(skipped), file=sys.stderr)

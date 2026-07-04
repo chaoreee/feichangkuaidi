@@ -23,15 +23,24 @@
 ### Added — C. 接线（`analysis/__main__.py`）
 - `collect_reports` 后对每局调 `annotate_opp_class`，使单局 report.json / index / 聚合报告共享同一标签。
 
+### Added — D. 体积守卫（`analysis/sizeguard.py`，新模块）
+- 确保每个产物文件 <100KB（`MAX_FILE_BYTES=100_000`）。只在**写出时**对序列化产物有损裁剪；喂给 aggregator 的内存 Report 保持全保真（聚合统计不受影响）。小报告原样落盘、零开销。
+- `fit_report`：超预算时按序——① **保信息合并**（连续相同 `failures.rejected`/`decisionTimeline`/`canAffordBlocked` 合并为一条带 `count`+`firstFrame`/`lastFrame`，信息不丢，如 vs2735 的 224 次 `MOVE_BLOCKED_BY_GUARD` → 1 条 count=224）→ ② **有损封顶**（逐级收紧 head/tail，插 `_ELIDED` 标记注明丢了多少）→ ③ 丢 `trajectory.opponent.frames` → ④ 兜底 timeline 置标。
+- `fit_json_list`：index.json 等 JSON list 超预算时保前 N 条 + 一条 `_truncated` 标记（合法 JSON）。`fit_text`：md/compact.log 超预算时截断附尾部标记（不切断多字节字符）。
+- `assert_dir_under_limit`：落盘后扫 out_dir，超限文件告警；CLI 末尾打印 `sizeguard: all artifacts under 100000-byte limit`。
+- `__main__` 全部写盘点（report.json / compact.log / index.json / analysis_report.md / ab_report.md / timelines.md）接入守卫。
+
 ### Config
 - **不 bump `CLIENT_VERSION`**（零运行期变化，纯分析侧）。
 
 ### Tests
 - 新增 `analysis/tests/test_opponent_classifier.py`（14 项）：三类各例 + guard 覆盖 quality 优先级 + 鲜度边界 84/85 + 旧 trace 降级 unknown + signals 填充 + annotate 幂等 + index 字段 + 分桶段三类 N/胜率 + unknown-only + analysis_report 含分桶头。
-- 全量 366 单测过（273 client + 75 analysis[61+14] + 18 sim 零回归）。
+- 新增 `analysis/tests/test_sizeguard.py`（15 项）：小报告原样不拷贝 + 不 mutate 输入 + 超预算达标 + count 保信息 + timeline 合并 + 封顶插 _ELIDED 保头尾 + 合法 JSON + 兜底 + JSON list 截断 + text 截断/多字节不切断 + 目录自检。
+- 全量 381 单测过（273 client + 90 analysis[61+14+15] + 18 sim 零回归）。
 
 ### Verification
 - sim 200 局回灌（`logs/sim` → 临时 out-dir）：`analysis_report.md` 出现「对手类分桶」段、report.json `classification.opponentClass` 与 `oppClassSignals` 注入、index.json 每条带 `opponentClass`、对账 0 误差、ab_report/timelines 正常。镜像自博弈无设卡→196 speed-route / 4 quality-route（预期）。
+- 体积守卫：`python3 -m analysis logs/` 落盘后 `find reports -type f -size +100k` 为空，最大文件 index.json 95KB（200 条目，未触发裁剪即自然达标）；CLI 末尾打印 `sizeguard: all artifacts under 100000-byte limit`。
 - 阈值标「假设级」（N<30），Iter 33+ codeagent 真实数据回流后校准。
 
 ### Next
