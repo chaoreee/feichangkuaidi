@@ -2,6 +2,26 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iter 29+ 规划] - 2026-07-04 — 打败前十名 P0–P3 蓝图定稿（设计文档，未实现）
+
+基于 10 局对平台前十名真实报告（`reports/`，N=10 假设级，4W/6L）定稿下一步迭代蓝图。**无代码改动**，仅设计与规划文档。
+
+### Added
+- `docs/beat_top10_plan.md`：总览——诊断（我方固定点 755、胜负 100% 由对手鲜度决定、分隔线 oppFr~82）、根因（`_keep_moving` 在途目标被设卡不回落 `_plan` → 224 帧卡死未交付）、P0–P3 按 ROI/置信度排序。
+- `docs/beat_top10_design.md`：P0–P3 详细设计与实现（file:line 精确 + 代码 + 单测 + 验收 + 排期 + 风险登记）。
+  - **P0** 修设卡卡死（`_keep_moving` 校验在途目标失效→回落 `_plan`，5 项单测，无条件合入，预期 +1 胜）。
+  - **P1-A** client trace 富化（opp 库存/设卡/scoreDetail）+ parser 抽取 + aggregator 落盘对手分项分。
+  - **P1-B** 精简 trace（`analysis/compact.py` 从完整 trace 派生事件驱动紧凑格式 ~6–9KB/局落 `reports/`，绕开"原始 trace 880KB 无法上传"瓶颈；client 零改动；gzip+b64 ~1.4KB/局可选）。
+  - **P2** 鲜度质量积累（抬地板 755→770，P1 归因驱动选 A/B/C/D 分支）。
+  - **P3** denial（设卡/破卡/争抢，真实 trace A/B，sim 镜像自博弈无法验证博弈层）。
+
+### Changed
+- `CLAUDE.md`：新增「Iter 29+ 规划」bullet（10 局证据 + P0–P3 排期 + 根因）、§6 Roadmap 加 M10、进度行"下一步"指向 `beat_top10_design.md`。
+
+### Misc
+- 排期：Iter29 P0 → Iter30 P1-B → Iter31 P1-A → Iter32 取 reports（含 `*.compact.log`）→ Iter33 归因选分支 → Iter34 P2 → Iter35 P3 → Iter36+ 校准。
+- 铁律不变：flag 默认关、阈值合入须真实 trace N≥30、sim A/B 50 种子 CI 正向 + 分段不回归、策略通用（读 `start`、决赛换新图）。
+
 ## [Iteration 28] - 2026-07-04 — Phase B v2 + ΔEV 每帧效率门（机制验证成功消除 v2 回归，samples 上仍中性，flag 保持关）
 
 落地 `docs/calibration_v1.md` §7「下一步候选①」。v2 失败根因：`plan_route` 改道门是**纯绝对增益门**（`gain ≥ STATIC_PLANNER_MIN_ROUTE_GAIN`），放行了投影 +7 / +60 帧 = 0.12/帧 的低效长绕路（实测 −3.7）。本轮给该门加一个**每帧效率维度**吸收投影对长绕路时间成本的系统性乐观（暴雨/山雾减速未建模、未来天气隐藏→不可彻底消除）。**sim A/B 机制验证成功——v2 的双重回归（−3.7 分、+60 帧）被消除，且无 task/分段回归；但 samples 图结构上无廉价鲜度，+0.1 CI 跨 0 中性，未过"mean 正向"门槛，flag 保持关。**
