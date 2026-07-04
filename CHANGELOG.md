@@ -2,6 +2,66 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 26] - 2026-07-04 — Phase B v1 静态规划器（仿真 A/B 未过门槛，flag 保持关）
+
+### 触发
+`docs/p0_attribution_batch2.md` §6：第二批 19 局真实 trace 确证"鲜度"为真实杠杆（输局对手
+交付鲜度 90.6 vs 我 80.4 → +19 分；质量路线投影 +24 上界）。据此落地 Phase B 静态规划器作
+variant，过仿真 A/B 后才合入。
+
+### Added — `strategy/static_planner.py`（新模块，纯函数 + 异常安全）
+- `freshness_optimal_path(gm, src, dst, blocked, weather_coef)`：鲜度损耗最小的路径（Dijkstra，
+  边权 = 逐边 `FRESHNESS_LOSS_MOVE × frames_on_edge` + 途经处理站停靠损耗）。
+- `project_route(...)`：沿给定路径交付、用 k 次冰鉴的投影终局分（复用 `core/rules.py` +
+  `freshness_loss_for_path`）。冰鉴模型：每次 +10 鲜度（封顶 100）、耗 1 动作帧、可阻止 1 次
+  good→bad 阈值跨越（+10≈一个阈值带）。
+- `plan_route(...)`：候选路径（时间最优 / 鲜度最优）× 冰鉴用量 0..max(库存, ICE_KEEP)，取投影
+  终局分最高；仅当鲜度最优高出时间最优 ≥ `STATIC_PLANNER_MIN_ROUTE_GAIN` 才改道，否则保时间
+  最优。异常/不可达回落时间最优，绝不抛出。
+
+### Changed — `decision.py`（全部 flag-gated，flag 关时 baseline 行为不变）
+- `_select_path`：`ENABLE_STATIC_PLANNER` 开时用 `plan_route` 选路（frame_cost 用该路径实际帧数
+  供绕行 vs 清障权衡），否则 `time_optimal_path(blocked)`（baseline）。
+- `_freshness_rescue`：flag 开时阈值提至 `STATIC_PLANNER_ICE_USE_BELOW=91`（在跌破 90 阈值带前
+  补鲜度，防好果转坏）。
+- `_maybe_claim`：flag 开时 ice_keep 提至 `STATIC_PLANNER_ICE_KEEP=3`（支撑质量路线多次使用）。
+- `_ice_detour_target`（新）：就近冰源绕路——投影"绕路收集 + 多用 1 篓冰鉴"终局分 vs 直送当前
+  冰鉴用量，增益 ≥ MIN_ROUTE_GAIN 且过 `_can_afford`、额外帧 ≤ `STATIC_PLANNER_ICE_DETOUR_MAX_EXTRA`
+  时选增益最高冰源。置于 `_plan` 绕路链任务绕路之后（任务优先，避免冰鉴挤占任务时间）。
+
+### Changed — `config.py` / `scripts/sim_server.py`
+- 新增 `ENABLE_STATIC_PLANNER=False`、`STATIC_PLANNER_ICE_USE_BELOW=91.0`、`STATIC_PLANNER_ICE_KEEP=3`、
+  `STATIC_PLANNER_MIN_ROUTE_GAIN=0.5`、`STATIC_PLANNER_ICE_DETOUR_MAX_EXTRA=25`。
+- `sim_server` 加 `--static-planner` CLI flag 翻转 config（供 variant A/B）。
+
+### Tests
+- 新增 `tests/test_static_planner.py` 16 项（freshness_optimal_path 正确性/阻塞/同点/不可达、
+  project_route 匹配 rules.py 重构 + 冰鉴模型、plan_route 改道门控 + 异常回落、flag-off baseline
+  不变 + flag-on 阈值/囤积提升）。总 258 client 单测全过。
+
+### 仿真 A/B 结果（50 种子 × 2 侧 = 100 player-games/批）—— **未过 §1.2 门槛**
+| 指标 | baseline | variant(任务优先+cap25) | variant(冰鉴优先,无cap) |
+|---|---|---|---|
+| mean 终局分 | 747.8 | 747.8（中性） | 748.3（+0.5） |
+| 交付帧 mean | 455.4 | 455.4 | 480.3（+25） |
+| 交付率/卡死/对账 | 1.0/0/0 | 1.0/0/0 | 1.0/0/0 |
+
+- 冰鉴优先模式：fresh 82.66→92.56（+18 分）、goodFruit 98→100（+4）兑现，但 task 140→120（−10）、
+  交付 +21 帧（−2）→ 单局净 +10、跨种子 mean 仅 +0.5（部分种子冰鉴绕路挤占任务致负）。
+- 任务优先模式：冰鉴绕路被任务绕路抢占 → 不触发，逐帧与 baseline 一致（中性零回归）。
+
+### 为何未合入（根因）
++24 上界假设 task_base 不变（150），仿真暴露被掩盖的两个成本：① 本图直送路线仅过 1 个冰源
+（S06），单篓冰鉴不足以改变交付鲜度，多篓须绕路 S03/S07；② **task 与 ice 争同一 spare-time
+预算（零和）**——冰鉴绕路 ~21 帧 ≈ 1 任务的时间，冰鉴优先则丢任务、任务优先则冰鉴不触发。
+分项式 `_plan` 瀑布（task/ice/route 各自为政）无法同时最大化 task 与 ice。真实对手 trace 中
+fresh 93 + task 165 共存，说明实战有"冰源与任务点共址"的高效路线——需全量联合 static_planner
+（task bundle + ice + route 一体求解）才能兑现，是下一增量。
+
+### Misc
+- `ENABLE_STATIC_PLANNER` 保持默认关 → 运行期行为零变化，`CLIENT_VERSION` 不 bump。
+- 代码保留作全量联合规划器的 variant 平台。详见 `docs/calibration_v1.md`。
+
 ## [Iteration 25] - 2026-07-04 — CLAIM_TASK 重试修复 + 鲜度投影升级（路线感知）
 
 ### 触发

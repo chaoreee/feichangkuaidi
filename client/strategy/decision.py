@@ -24,6 +24,7 @@ from protocol.enums import Action, Card, PlayerState, ResourceType
 from strategy.projection import (Projector, RiskMode, net_score_delta,
                                   AVG_FRESHNESS_LOSS_PER_FRAME,
                                   freshness_loss_for_path)
+from strategy import static_planner
 from strategy.tuning import tuning_for_mode
 
 _IDLE_LIKE = (PlayerState.IDLE, PlayerState.COST_BANKRUPT, None)
@@ -194,9 +195,12 @@ class DecisionEngine:
             return [guard]
 
         # race 绕路（§6.2/§6.3，默认关）：任务 deny → 资源(冰鉴)争夺 → 追平/机会式绕路任务
+        # Phase B（ENABLE_STATIC_PLANNER）：冰鉴收集绕路（质量路线冰源）置于任务绕路之后——
+        # 任务优先（task 未封顶时先做任务），冰源只在 spare time 收集，避免冰鉴绕路挤占任务时间。
         dst = self._task_deny_target(world, me, gm, node, terminal)
         dst = dst or self._maybe_resource_race(world, me, gm, node, terminal)
-        dst = dst or self._task_detour_target(world, me, gm, node, terminal) or terminal
+        dst = dst or self._task_detour_target(world, me, gm, node, terminal)
+        dst = dst or self._ice_detour_target(world, me, gm, node, terminal) or terminal
         if dst:
             return self._advance(world, me, gm, node, dst, terminal)
         return []
@@ -214,7 +218,7 @@ class DecisionEngine:
 
     def _advance(self, world, me, gm, src, dst, terminal):
         blocked = self._blocked_nodes(world, me)
-        path_b, cost_b = gm.time_optimal_path(src, dst, blocked=blocked)
+        path_b, cost_b = self._select_path(world, me, gm, src, dst, blocked, terminal)
         path_u, cost_u = gm.time_optimal_path(src, dst)
 
         if path_b and len(path_b) > 1:
@@ -234,6 +238,25 @@ class DecisionEngine:
         if not path_u or len(path_u) < 2:
             return []
         return self._breakthrough(world, me, gm, path_u[1], terminal)
+
+    def _select_path(self, world, me, gm, src, dst, blocked, terminal):
+        """阻塞感知路径选择 (path, frame_cost)。
+
+        baseline：`time_optimal_path(blocked)`（最短时间）。`ENABLE_STATIC_PLANNER` 开启时：
+        `static_planner.plan_route` 选投影终局分最高路线（时间最优 vs 鲜度最优 × 冰鉴用量），
+        frame_cost 用该路径实际帧数（供绕行 vs 清障权衡）。异常/回落即时间最优，绝不抛出。
+        """
+        if config.ENABLE_STATIC_PLANNER and terminal is not None:
+            try:
+                path, _ = static_planner.plan_route(
+                    world, me, gm, src, dst, terminal, self.ctx, blocked=blocked)
+                if path and len(path) > 1:
+                    cost = static_planner.path_frames(gm, path)
+                    if cost != _INF:
+                        return path, cost
+            except Exception:
+                pass
+        return gm.time_optimal_path(src, dst, blocked=blocked)
 
     def _verify_frames(self, gm):
         info = gm.process_nodes.get(gm.gate_node) if gm.gate_node else None
@@ -387,10 +410,16 @@ class DecisionEngine:
     # ---- 收益子策略（M4）----
 
     def _freshness_rescue(self, world, me):
-        """冰鉴保鲜：常态鲜度<ICE_BOX_USE_BELOW 用；§6.3 鲜度劣势时提前(更高阈值)用以保阈值。"""
+        """冰鉴保鲜：常态鲜度<ICE_BOX_USE_BELOW 用；§6.3 鲜度劣势时提前(更高阈值)用以保阈值。
+
+        Phase B（ENABLE_STATIC_PLANNER）：提高阈值至 STATIC_PLANNER_ICE_USE_BELOW(91)——
+        在跌破 90 阈值带前补鲜度，防好果转坏、把交付鲜度顶到 ~93（真实杠杆 +24 的主驱动）。
+        """
         if me.resource_count(ResourceType.ICE_BOX) <= 0 or me.freshness <= 0:
             return None
         threshold = config.ICE_BOX_USE_BELOW
+        if config.ENABLE_STATIC_PLANNER:
+            threshold = max(threshold, config.STATIC_PLANNER_ICE_USE_BELOW)
         if config.ENABLE_FRESHNESS_RACE and self._losing_freshness_race(world, me):
             threshold = max(threshold, config.ICE_BOX_RACE_USE_BELOW)
         if me.freshness < threshold:
@@ -441,6 +470,8 @@ class DecisionEngine:
             return None
         wants = []
         ice_keep = config.CLAIM_ICE_BOX_KEEP
+        if config.ENABLE_STATIC_PLANNER:  # Phase B：质量路线需多次冰鉴，多囤至 STATIC_PLANNER_ICE_KEEP
+            ice_keep = max(ice_keep, config.STATIC_PLANNER_ICE_KEEP)
         if config.ENABLE_RESOURCE_DENY:  # §6.3 资源 race 开启时多囤到 race 保有量（供争夺后领取）
             ice_keep = max(ice_keep, config.RESOURCE_RACE_ICEBOX_KEEP)
         if me.resource_count(ResourceType.ICE_BOX) < ice_keep \
@@ -660,6 +691,63 @@ class DecisionEngine:
                 continue  # 净收益不足（分数质量地板）——不为它绕路
             best, best_extra = tn, extra
         return best
+
+    def _ice_detour_target(self, world, me, gm, node, terminal):
+        """Phase B 冰鉴收集绕路（质量路线的冰源，docs/p0_attribution_batch2.md）。
+
+        真实杠杆是鲜度（+19/局），而鲜度靠冰鉴顶住。本图直送路线仅过 1 个冰源（S06）→
+        单篓冰鉴不足以改变交付鲜度。本方法在交付预算内绕路收集更多冰鉴：对每个有库存的
+        冰源节点，投影"绕路收集 + 多用 1 篓冰鉴"的终局分 vs 直送当前冰鉴用量的终局分，
+        增益 ≥ STATIC_PLANNER_MIN_ROUTE_GAIN 且过 `_can_afford` 时选增益最高者绕路。
+
+        守卫：已囤够 STATIC_PLANNER_ICE_KEEP 不再绕；RUSH 保交付阶段不绕。返回冰源节点或 None。
+        """
+        if not config.ENABLE_STATIC_PLANNER or not terminal or world.is_rush:
+            return None
+        if (me.resource_count(ResourceType.ICE_BOX) or 0) >= config.STATIC_PLANNER_ICE_KEEP:
+            return None  # 已囤够，不为冰鉴绕路
+        try:
+            wcoef = static_planner._weather_coef(world)
+            blocked = self._blocked_nodes(world, me)
+            p_direct, direct = gm.time_optimal_path(node, terminal, blocked=blocked)
+            if not p_direct or direct == _INF:
+                return None
+            ice_now = me.resource_count(ResourceType.ICE_BOX) or 0
+            # 直送 + 当前冰鉴用量 的最高投影分（基线）
+            cur = static_planner._best_score_for_path(
+                world, me, gm, p_direct, terminal, self.ctx, wcoef, ice_now)
+            if cur is None:
+                return None
+
+            best = None  # (gain, node)
+            for nid, ns in world.node_states.items():
+                if nid == node or not ns.resource_available(ResourceType.ICE_BOX):
+                    continue
+                p1, c1 = gm.time_optimal_path(node, nid, blocked=blocked)
+                p2, c2 = gm.time_optimal_path(nid, terminal, blocked=blocked)
+                if not p1 or not p2 or c1 == _INF or c2 == _INF:
+                    continue
+                extra = (c1 + config.RESOURCE_CLAIM_ROUND + c2) - direct
+                if extra < 0 or extra > config.STATIC_PLANNER_ICE_DETOUR_MAX_EXTRA:
+                    continue  # 仅就近冰源：绕路过远挤占任务/交付时间
+                if not self._can_afford(world, gm, node, extra, terminal):
+                    self.trace_events.append(("CanAffordBlock", {"action": "ICE_DETOUR",
+                                                                 "reason": "time", "target": nid}))
+                    continue
+                # 绕路收集后冰鉴 +1；投影绕路全程（含收集停靠）+ 多 1 篓冰鉴用量
+                detour_path = p1 + p2[1:]
+                after = static_planner._best_score_for_path(
+                    world, me, gm, detour_path, terminal, self.ctx, wcoef, ice_now + 1)
+                if after is None:
+                    continue
+                gain = after[0] - cur[0]
+                if gain < config.STATIC_PLANNER_MIN_ROUTE_GAIN:
+                    continue
+                if best is None or gain > best[0]:
+                    best = (gain, nid)
+            return best[1] if best else None
+        except Exception:
+            return None
 
     def _task_catch_up_active(self, world, me):
         """§6.2 追平触发：对手任务分≥阈值(逼近/达 90) 且我方未达 90（任务分<90 边际价值高）。"""

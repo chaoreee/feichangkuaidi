@@ -127,3 +127,16 @@ GUARD_MIN_NET_VALUE = 4            # denial 对对手的期望分损失下限（
 ENABLE_TASK_DENY = False           # §6.2 Deny：抢占对手正奔赴的关键任务点，阻其里程碑
 ENABLE_RESOURCE_DENY = False       # §6.3 资源 race：抢占对手争夺、库存有限的路线附近冰鉴
 ENABLE_CONDITIONAL_GUARD = False   # §7：投影驱动的条件化主动设卡（锁胜局，denial 过 ΔEV）
+
+# ---- Phase B 静态规划器（鲜度感知路线 + 冰鉴策略，docs/p0_attribution_batch2.md）----
+# 真实 30 局 trace 证伪"任务"杠杆（task_base≥130 双封顶 delivery 240/task 180，多做任务零分）、
+# 确证"鲜度"为真实杠杆（输局对手鲜度 90.6 vs 我 80.4 → +19 分；质量路线投影 +24）。
+# 本组开关把"早交付 vs 保鲜度"静态权衡当作优化问题求解：
+#  ① 冰鉴更积极（阈值 91 护 90 阈值带、防好果转坏；囤 3 篓支撑多次使用）—— +24 的主驱动；
+#  ② 路线选投影终局分最高者（时间最优 vs 鲜度最优），鲜度损耗差足以抵消时间成本才改道。
+# 默认关：作 variant 仿真 A/B 验证（N≥30 + 分段不回归）后才合入默认。开启后 baseline 行为改变。
+ENABLE_STATIC_PLANNER = False
+STATIC_PLANNER_ICE_USE_BELOW = 91.0   # 冰鉴使用阈值（fresh<91 即用：在跌破 90 阈值带前补鲜度，防好果转坏）
+STATIC_PLANNER_ICE_KEEP = 3            # 期望持有冰鉴数（支撑质量路线多次使用；baseline CLAIM_ICE_BOX_KEEP=1）
+STATIC_PLANNER_MIN_ROUTE_GAIN = 0.5    # 鲜度最优路线/冰鉴绕路投影分须高出直送此值才改道（避免噪声微改道）
+STATIC_PLANNER_ICE_DETOUR_MAX_EXTRA = 25  # 冰鉴收集绕路允许的最大额外帧（仅就近冰源，避免挤占任务/交付时间）

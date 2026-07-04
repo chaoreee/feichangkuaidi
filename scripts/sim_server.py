@@ -267,8 +267,13 @@ def main(argv):
     ap.add_argument("--seeds", type=str, default="1..50", help="seed range 'start..end' (inclusive)")
     ap.add_argument("--variant", type=str, default="baseline", help="variant tag (baseline/tuned/...)")
     ap.add_argument("--out", type=str, default=None, help="output dir (default logs/sim/<variant>)")
+    ap.add_argument("--static-planner", action="store_true",
+                    help="开启 config.ENABLE_STATIC_PLANNER（Phase B 质量路线 variant，供 A/B 对比 baseline）")
     ap.add_argument("--verbose", action="store_true")
     args = ap.parse_args(argv)
+
+    if args.static_planner:
+        config.ENABLE_STATIC_PLANNER = True
 
     if args.seed is not None:
         seed_start = args.seed
