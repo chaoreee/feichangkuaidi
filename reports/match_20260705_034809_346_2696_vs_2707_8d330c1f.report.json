@@ -1,0 +1,2426 @@
+{
+  "classification": {
+    "luckClass": "expected_win",
+    "oppClassSignals": {
+      "freshnessEnd": 77.61,
+      "goodFruitEnd": 96,
+      "iceUsedCount": 0,
+      "oppDeliverFrame": 411,
+      "oppGuardCount": 1,
+      "oppTaskBase": 0
+    },
+    "opponentClass": "guard-type",
+    "scoreMargin": 316,
+    "segments": [
+      "delivered",
+      "task90_reached",
+      "mid_lead",
+      "weather_hit",
+      "opp_delivered"
+    ]
+  },
+  "clientVersion": "iter31",
+  "decisionTimeline": [
+    {
+      "detail": "CLEAR S06 cost 1",
+      "event": "BREAKTHROUGH",
+      "frame": 1
+    },
+    {
+      "detail": "T_003",
+      "event": "TASK_CLAIM",
+      "frame": 185
+    },
+    {
+      "detail": "T_005",
+      "event": "TASK_CLAIM",
+      "frame": 189
+    },
+    {
+      "detail": "SHORT_HORSE",
+      "event": "USE_HORSE",
+      "frame": 196
+    },
+    {
+      "detail": "T_006",
+      "event": "TASK_CLAIM",
+      "frame": 265
+    },
+    {
+      "detail": "T_008",
+      "event": "TASK_CLAIM",
+      "frame": 269
+    },
+    {
+      "detail": "T_012",
+      "event": "TASK_CLAIM",
+      "frame": 273
+    },
+    {
+      "detail": "EVEN->CONSERVATIVE",
+      "event": "MODE_CHANGE",
+      "frame": 277
+    },
+    {
+      "detail": "fresh=77.3",
+      "event": "USE_ICE",
+      "frame": 319
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 344
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 345
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 345
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 346
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 346
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 347
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 347
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 348
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 348
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 349
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 349
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 350
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 350
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 351
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 351
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 352
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 352
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 353
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 353
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 354
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 354
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 355
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 355
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 356
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 356
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 357
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 357
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 358
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 358
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 359
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 359
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 360
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 360
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 361
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 361
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 362
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 362
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 363
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 363
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 364
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 364
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 365
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 365
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 366
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 366
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 367
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 367
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 368
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 368
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 369
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 369
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 370
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 370
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 371
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 371
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 372
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 372
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 373
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 373
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 374
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 374
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 375
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 375
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 376
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 376
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 377
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 377
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 378
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 378
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 379
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 379
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 380
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 380
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 381
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 381
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 382
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 382
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 383
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 383
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 384
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 384
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 385
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 385
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 386
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 386
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 387
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 387
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 388
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 388
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 389
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 389
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 390
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 390
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 391
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 391
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 392
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 392
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 393
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 393
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 394
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 394
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 395
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 395
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 396
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 396
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 397
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 397
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 398
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 398
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 399
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 399
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 400
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 400
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 401
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 401
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 402
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 402
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 403
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 403
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 404
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 404
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 405
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 405
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 406
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 406
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 407
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 407
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 408
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 408
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 409
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 409
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 410
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 410
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 411
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 411
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 412
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 412
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 413
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 413
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 414
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 414
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 415
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 415
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 416
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 416
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 417
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 417
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 418
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 418
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 419
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 419
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 420
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 420
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 421
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 421
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 422
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 422
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 423
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 423
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 424
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 424
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 425
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 425
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 426
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 426
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 427
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 427
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 428
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 428
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 429
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 429
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 430
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 430
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 431
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 431
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 432
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 432
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 433
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 433
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 434
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 434
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 435
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 435
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 436
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 436
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 437
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 437
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 438
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 438
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 439
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 439
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 440
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 440
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 441
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 441
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 442
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 442
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 443
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 443
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 444
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 444
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 445
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 445
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 446
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 446
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 447
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 447
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 448
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 448
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 449
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 449
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 450
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 450
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 451
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 451
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 452
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 452
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 453
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 453
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 454
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 454
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 455
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 455
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 456
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 456
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 457
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 457
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 458
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 458
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 459
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 459
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 460
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 460
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 461
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 461
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 462
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 462
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 463
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 463
+    },
+    {
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 464
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 470
+    }
+  ],
+  "delivery": {
+    "me": {
+      "frame": 491,
+      "freshness": 78.55,
+      "goodFruit": 97,
+      "verifyFrame": 477
+    },
+    "opp": {
+      "frame": 411,
+      "verifyFrame": 397
+    },
+    "rushTriggerFrame": 390
+  },
+  "durationRound": 600,
+  "failures": {
+    "canAffordBlocked": [],
+    "decisionTimeouts": 0,
+    "invalidActions": 0,
+    "rejected": [
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 345,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 346,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 347,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 348,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 349,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 350,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 351,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 352,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 353,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 354,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 355,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 356,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 357,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 358,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 359,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 360,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 361,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 362,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 363,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 364,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 365,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 366,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 367,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 368,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 369,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 370,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 371,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 372,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 373,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 374,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 375,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 376,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 377,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 378,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 379,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 380,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 381,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 382,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 383,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 384,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 385,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 386,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 387,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 388,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 389,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 390,
+        "target": "S14"
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 391,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 392,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 393,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 394,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 395,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 396,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 397,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 398,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 399,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 400,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 401,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 402,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 403,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 404,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 405,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 406,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 407,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 408,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 409,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 410,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 411,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 412,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 413,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 414,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 415,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 416,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 417,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 418,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 419,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 420,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 421,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 422,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 423,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 424,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 425,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 426,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 427,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 428,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 429,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 430,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 431,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 432,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 433,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 434,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 435,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 436,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 437,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 438,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 439,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 440,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 441,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 442,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 443,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 444,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 445,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 446,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 447,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 448,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 449,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 450,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 451,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 452,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 453,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 454,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 455,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 456,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 457,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 458,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 459,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 460,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 461,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 462,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 463,
+        "target": null
+      },
+      {
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 464,
+        "target": null
+      }
+    ],
+    "waitingStuck": [
+      {
+        "fromFrame": 345,
+        "node": "S13",
+        "toFrame": 464
+      }
+    ]
+  },
+  "finalScore": {
+    "me": {
+      "bounty": 0,
+      "delivery": 240,
+      "freshness": 141,
+      "goodFruit": 174,
+      "penalty": 0,
+      "task": 180,
+      "time": 12,
+      "total": 747
+    },
+    "opp": {
+      "bounty": 0,
+      "delivery": 120,
+      "freshness": 139,
+      "goodFruit": 172,
+      "penalty": 0,
+      "task": 0,
+      "time": 0,
+      "total": 431
+    }
+  },
+  "matchId": "match_20260705_034809_346_2696_vs_2707_8d330c1f",
+  "opponentInteraction": {
+    "bounties": [],
+    "myGuards": [],
+    "oppGuards": [
+      {
+        "cost": null,
+        "defense": 1,
+        "durationFrames": 91,
+        "frame": 344,
+        "lastFrame": 434,
+        "myResponse": null,
+        "node": "S14"
+      }
+    ],
+    "windows": []
+  },
+  "outcome": "WIN",
+  "playerId": 2696,
+  "projection": {
+    "actualMyScore": 747,
+    "confidence": {
+      "max": 0.75,
+      "median": 0.53,
+      "min": 0.3
+    },
+    "error": 0,
+    "modeSwitches": [
+      {
+        "frame": 277,
+        "from": "EVEN",
+        "gap": null,
+        "reason": "gap_above_threshold",
+        "to": "CONSERVATIVE"
+      }
+    ],
+    "oppActualDeliver": 411,
+    "oppEtaPredictedDeliver": 491,
+    "projectedMyScore": 747
+  },
+  "resources": {
+    "horseUsed": "SHORT_HORSE@196",
+    "iceUsed": [
+      {
+        "frame": 319,
+        "freshnessBefore": 77.27
+      }
+    ],
+    "rushTactic": {
+      "frame": 470,
+      "type": "RUSH_PROTECT"
+    }
+  },
+  "schemaVersion": 2,
+  "seed": null,
+  "source": "platform",
+  "tasks": {
+    "me": {
+      "base": 150,
+      "claimed": [
+        {
+          "detourExtra": null,
+          "frame": 185,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 189,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 265,
+          "node": "S10",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 269,
+          "node": "S10",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 273,
+          "node": "S10",
+          "template": null
+        }
+      ],
+      "milestones": [
+        60,
+        90,
+        110
+      ]
+    },
+    "missedReachable90": null,
+    "opp": {
+      "base": 0,
+      "claimed": [],
+      "milestones": []
+    }
+  },
+  "teamId": "RED",
+  "trajectory": {
+    "freshness": {
+      "end": 78.55,
+      "min": 77.27,
+      "start": 100
+    },
+    "goodFruit": {
+      "badCrossings": [
+        90,
+        80
+      ],
+      "end": 97,
+      "start": 100
+    },
+    "opponent": {
+      "badFruitEnd": 2,
+      "frames": [
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0,
+          "n": "S01",
+          "r": 1,
+          "s": "IDLE",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.02,
+          "n": "S01",
+          "nx": "S02",
+          "r": 2,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.05,
+          "n": "S01",
+          "nx": "S02",
+          "r": 3,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.07,
+          "n": "S01",
+          "nx": "S02",
+          "r": 4,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.1,
+          "n": "S01",
+          "nx": "S02",
+          "r": 5,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.12,
+          "n": "S01",
+          "nx": "S02",
+          "r": 6,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.14,
+          "n": "S01",
+          "nx": "S02",
+          "r": 7,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.17,
+          "n": "S01",
+          "nx": "S02",
+          "r": 8,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.19,
+          "n": "S01",
+          "nx": "S02",
+          "r": 9,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.22,
+          "n": "S01",
+          "nx": "S02",
+          "r": 10,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.24,
+          "n": "S01",
+          "nx": "S02",
+          "r": 11,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.27,
+          "n": "S01",
+          "nx": "S02",
+          "r": 12,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.29,
+          "n": "S14",
+          "nx": "S15",
+          "r": 401,
+          "s": "MOVING",
+          "ts": 0,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.36,
+          "n": "S14",
+          "nx": "S15",
+          "r": 402,
+          "s": "MOVING",
+          "ts": 0,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.43,
+          "n": "S14",
+          "nx": "S15",
+          "r": 403,
+          "s": "MOVING",
+          "ts": 0,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.51,
+          "n": "S14",
+          "nx": "S15",
+          "r": 404,
+          "s": "MOVING",
+          "ts": 0,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.58,
+          "n": "S14",
+          "nx": "S15",
+          "r": 405,
+          "s": "MOVING",
+          "ts": 0,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.65,
+          "n": "S14",
+          "nx": "S15",
+          "r": 406,
+          "s": "MOVING",
+          "ts": 0,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.72,
+          "n": "S14",
+          "nx": "S15",
+          "r": 407,
+          "s": "MOVING",
+          "ts": 0,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.8,
+          "n": "S14",
+          "nx": "S15",
+          "r": 408,
+          "s": "MOVING",
+          "ts": 0,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.87,
+          "n": "S14",
+          "nx": "S15",
+          "r": 409,
+          "s": "MOVING",
+          "ts": 0,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.94,
+          "n": "S14",
+          "nx": "S15",
+          "r": 410,
+          "s": "MOVING",
+          "ts": 0,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0,
+          "n": "S15",
+          "r": 411,
+          "s": "IDLE",
+          "ts": 0,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0,
+          "n": "S15",
+          "r": 412,
+          "s": "DELIVERED",
+          "ts": 0,
+          "vf": true
+        }
+      ],
+      "freshnessEnd": 77.61,
+      "freshnessMin": 77.61,
+      "goodFruitEnd": 96,
+      "iceUsed": [],
+      "nodeEnd": "S15",
+      "verifyFrame": 397
+    }
+  },
+  "variant": "baseline"
+}

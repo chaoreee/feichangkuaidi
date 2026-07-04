@@ -1,0 +1,2668 @@
+{
+  "classification": {
+    "luckClass": "expected_loss",
+    "oppClassSignals": {
+      "freshnessEnd": 75.68,
+      "goodFruitEnd": 94,
+      "iceUsedCount": 0,
+      "oppDeliverFrame": 428,
+      "oppGuardCount": 2,
+      "oppTaskBase": 90
+    },
+    "opponentClass": "guard-type",
+    "scoreMargin": -630,
+    "segments": [
+      "undelivered",
+      "task90_missed",
+      "mid_trail",
+      "weather_hit",
+      "opp_delivered"
+    ]
+  },
+  "clientVersion": "iter31",
+  "decisionTimeline": [
+    {
+      "count": 1,
+      "detail": "CLEAR S06 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 1,
+      "lastFrame": 1
+    },
+    {
+      "count": 1,
+      "detail": "T_003",
+      "event": "TASK_CLAIM",
+      "firstFrame": 185,
+      "lastFrame": 185
+    },
+    {
+      "count": 1,
+      "detail": "T_005",
+      "event": "TASK_CLAIM",
+      "firstFrame": 189,
+      "lastFrame": 189
+    },
+    {
+      "count": 1,
+      "detail": "SHORT_HORSE",
+      "event": "USE_HORSE",
+      "firstFrame": 196,
+      "lastFrame": 196
+    },
+    {
+      "count": 2,
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 260,
+      "lastFrame": 261
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 261,
+      "lastFrame": 261
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 262,
+      "lastFrame": 262
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 262,
+      "lastFrame": 262
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 263,
+      "lastFrame": 263
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 263,
+      "lastFrame": 263
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 264,
+      "lastFrame": 264
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 264,
+      "lastFrame": 264
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 265,
+      "lastFrame": 265
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 265,
+      "lastFrame": 265
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 266,
+      "lastFrame": 266
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 266,
+      "lastFrame": 266
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 267,
+      "lastFrame": 267
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 267,
+      "lastFrame": 267
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 268,
+      "lastFrame": 268
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 268,
+      "lastFrame": 268
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 269,
+      "lastFrame": 269
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 269,
+      "lastFrame": 269
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 270,
+      "lastFrame": 270
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 270,
+      "lastFrame": 270
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 271,
+      "lastFrame": 271
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 271,
+      "lastFrame": 271
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 272,
+      "lastFrame": 272
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 272,
+      "lastFrame": 272
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 273,
+      "lastFrame": 273
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 273,
+      "lastFrame": 273
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 274,
+      "lastFrame": 274
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 274,
+      "lastFrame": 274
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 275,
+      "lastFrame": 275
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 275,
+      "lastFrame": 275
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 276,
+      "lastFrame": 276
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 276,
+      "lastFrame": 276
+    },
+    {
+      "count": 1,
+      "detail": "EVEN->AGGRESSIVE",
+      "event": "MODE_CHANGE",
+      "firstFrame": 277,
+      "lastFrame": 277
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 277,
+      "lastFrame": 277
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 277,
+      "lastFrame": 277
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 278,
+      "lastFrame": 278
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 278,
+      "lastFrame": 278
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 279,
+      "lastFrame": 279
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 279,
+      "lastFrame": 279
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 280,
+      "lastFrame": 280
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 280,
+      "lastFrame": 280
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 281,
+      "lastFrame": 281
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 281,
+      "lastFrame": 281
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 282,
+      "lastFrame": 282
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 282,
+      "lastFrame": 282
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 283,
+      "lastFrame": 283
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 283,
+      "lastFrame": 283
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 284,
+      "lastFrame": 284
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 284,
+      "lastFrame": 284
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 285,
+      "lastFrame": 285
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 285,
+      "lastFrame": 285
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 286,
+      "lastFrame": 286
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 286,
+      "lastFrame": 286
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 287,
+      "lastFrame": 287
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 287,
+      "lastFrame": 287
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 288,
+      "lastFrame": 288
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 288,
+      "lastFrame": 288
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 289,
+      "lastFrame": 289
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 289,
+      "lastFrame": 289
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 290,
+      "lastFrame": 290
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 290,
+      "lastFrame": 290
+    },
+    {
+      "count": 1,
+      "detail": "S10 reward=18 delta=37 BREAK_GUARD",
+      "event": "BOUNTY",
+      "firstFrame": 290,
+      "lastFrame": 290
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 291,
+      "lastFrame": 291
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 291,
+      "lastFrame": 291
+    },
+    {
+      "count": 1,
+      "detail": "S10 reward=18 delta=37 BREAK_GUARD",
+      "event": "BOUNTY",
+      "firstFrame": 291,
+      "lastFrame": 291
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 292,
+      "lastFrame": 292
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 292,
+      "lastFrame": 292
+    },
+    {
+      "count": 1,
+      "detail": "S10 reward=18 delta=37 BREAK_GUARD",
+      "event": "BOUNTY",
+      "firstFrame": 292,
+      "lastFrame": 292
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 293,
+      "lastFrame": 293
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 293,
+      "lastFrame": 293
+    },
+    {
+      "count": 1,
+      "detail": "S10 reward=18 delta=37 BREAK_GUARD",
+      "event": "BOUNTY",
+      "firstFrame": 293,
+      "lastFrame": 293
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 294,
+      "lastFrame": 294
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 294,
+      "lastFrame": 294
+    },
+    {
+      "count": 1,
+      "detail": "S10 reward=18 delta=37 BREAK_GUARD",
+      "event": "BOUNTY",
+      "firstFrame": 294,
+      "lastFrame": 294
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "firstFrame": 295,
+      "lastFrame": 295
+    },
+    {
+      "count": 1,
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 295,
+      "lastFrame": 295
+    },
+    {
+      "count": 379,
+      "detail": "decisionTimeline: 379 entries elided to fit size limit",
+      "event": "_ELIDED"
+    },
+    {
+      "count": 1,
+      "detail": "fresh=68.6",
+      "event": "USE_ICE",
+      "firstFrame": 476,
+      "lastFrame": 476
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 476,
+      "lastFrame": 476
+    },
+    {
+      "count": 1,
+      "detail": "fresh=68.5",
+      "event": "USE_ICE",
+      "firstFrame": 477,
+      "lastFrame": 477
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 477,
+      "lastFrame": 477
+    },
+    {
+      "count": 1,
+      "detail": "fresh=68.5",
+      "event": "USE_ICE",
+      "firstFrame": 478,
+      "lastFrame": 478
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 478,
+      "lastFrame": 478
+    },
+    {
+      "count": 1,
+      "detail": "fresh=68.4",
+      "event": "USE_ICE",
+      "firstFrame": 479,
+      "lastFrame": 479
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 479,
+      "lastFrame": 479
+    },
+    {
+      "count": 1,
+      "detail": "fresh=68.4",
+      "event": "USE_ICE",
+      "firstFrame": 480,
+      "lastFrame": 480
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 480,
+      "lastFrame": 480
+    },
+    {
+      "count": 1,
+      "detail": "fresh=68.3",
+      "event": "USE_ICE",
+      "firstFrame": 481,
+      "lastFrame": 481
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 481,
+      "lastFrame": 481
+    },
+    {
+      "count": 1,
+      "detail": "fresh=68.3",
+      "event": "USE_ICE",
+      "firstFrame": 482,
+      "lastFrame": 482
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 482,
+      "lastFrame": 482
+    },
+    {
+      "count": 1,
+      "detail": "fresh=68.2",
+      "event": "USE_ICE",
+      "firstFrame": 483,
+      "lastFrame": 483
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 483,
+      "lastFrame": 483
+    },
+    {
+      "count": 1,
+      "detail": "fresh=68.2",
+      "event": "USE_ICE",
+      "firstFrame": 484,
+      "lastFrame": 484
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 484,
+      "lastFrame": 484
+    },
+    {
+      "count": 1,
+      "detail": "fresh=68.1",
+      "event": "USE_ICE",
+      "firstFrame": 485,
+      "lastFrame": 485
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 485,
+      "lastFrame": 485
+    },
+    {
+      "count": 1,
+      "detail": "fresh=68.1",
+      "event": "USE_ICE",
+      "firstFrame": 486,
+      "lastFrame": 486
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 486,
+      "lastFrame": 486
+    },
+    {
+      "count": 1,
+      "detail": "fresh=68.0",
+      "event": "USE_ICE",
+      "firstFrame": 487,
+      "lastFrame": 487
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 487,
+      "lastFrame": 487
+    },
+    {
+      "count": 1,
+      "detail": "fresh=68.0",
+      "event": "USE_ICE",
+      "firstFrame": 488,
+      "lastFrame": 488
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 488,
+      "lastFrame": 488
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.9",
+      "event": "USE_ICE",
+      "firstFrame": 489,
+      "lastFrame": 489
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 489,
+      "lastFrame": 489
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.9",
+      "event": "USE_ICE",
+      "firstFrame": 490,
+      "lastFrame": 490
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 490,
+      "lastFrame": 490
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.8",
+      "event": "USE_ICE",
+      "firstFrame": 491,
+      "lastFrame": 491
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 491,
+      "lastFrame": 491
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.8",
+      "event": "USE_ICE",
+      "firstFrame": 492,
+      "lastFrame": 492
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 492,
+      "lastFrame": 492
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.7",
+      "event": "USE_ICE",
+      "firstFrame": 493,
+      "lastFrame": 493
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 493,
+      "lastFrame": 493
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.7",
+      "event": "USE_ICE",
+      "firstFrame": 494,
+      "lastFrame": 494
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 494,
+      "lastFrame": 494
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.6",
+      "event": "USE_ICE",
+      "firstFrame": 495,
+      "lastFrame": 495
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 495,
+      "lastFrame": 495
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.6",
+      "event": "USE_ICE",
+      "firstFrame": 496,
+      "lastFrame": 496
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 496,
+      "lastFrame": 496
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.5",
+      "event": "USE_ICE",
+      "firstFrame": 497,
+      "lastFrame": 497
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 497,
+      "lastFrame": 497
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.5",
+      "event": "USE_ICE",
+      "firstFrame": 498,
+      "lastFrame": 498
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 498,
+      "lastFrame": 498
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.4",
+      "event": "USE_ICE",
+      "firstFrame": 499,
+      "lastFrame": 499
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 499,
+      "lastFrame": 499
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.4",
+      "event": "USE_ICE",
+      "firstFrame": 500,
+      "lastFrame": 500
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 500,
+      "lastFrame": 500
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.3",
+      "event": "USE_ICE",
+      "firstFrame": 501,
+      "lastFrame": 501
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 501,
+      "lastFrame": 501
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.3",
+      "event": "USE_ICE",
+      "firstFrame": 502,
+      "lastFrame": 502
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 502,
+      "lastFrame": 502
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.2",
+      "event": "USE_ICE",
+      "firstFrame": 503,
+      "lastFrame": 503
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 503,
+      "lastFrame": 503
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.2",
+      "event": "USE_ICE",
+      "firstFrame": 504,
+      "lastFrame": 504
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 504,
+      "lastFrame": 504
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.1",
+      "event": "USE_ICE",
+      "firstFrame": 505,
+      "lastFrame": 505
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 505,
+      "lastFrame": 505
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.1",
+      "event": "USE_ICE",
+      "firstFrame": 506,
+      "lastFrame": 506
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 506,
+      "lastFrame": 506
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.0",
+      "event": "USE_ICE",
+      "firstFrame": 507,
+      "lastFrame": 507
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 507,
+      "lastFrame": 507
+    },
+    {
+      "count": 1,
+      "detail": "fresh=67.0",
+      "event": "USE_ICE",
+      "firstFrame": 508,
+      "lastFrame": 508
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 508,
+      "lastFrame": 508
+    },
+    {
+      "count": 1,
+      "detail": "fresh=66.9",
+      "event": "USE_ICE",
+      "firstFrame": 509,
+      "lastFrame": 509
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 509,
+      "lastFrame": 509
+    },
+    {
+      "count": 1,
+      "detail": "fresh=66.9",
+      "event": "USE_ICE",
+      "firstFrame": 510,
+      "lastFrame": 510
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 510,
+      "lastFrame": 510
+    },
+    {
+      "count": 1,
+      "detail": "fresh=66.8",
+      "event": "USE_ICE",
+      "firstFrame": 511,
+      "lastFrame": 511
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 511,
+      "lastFrame": 511
+    },
+    {
+      "count": 1,
+      "detail": "fresh=66.8",
+      "event": "USE_ICE",
+      "firstFrame": 512,
+      "lastFrame": 512
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 512,
+      "lastFrame": 512
+    },
+    {
+      "count": 1,
+      "detail": "fresh=66.7",
+      "event": "USE_ICE",
+      "firstFrame": 513,
+      "lastFrame": 513
+    },
+    {
+      "count": 1,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 513,
+      "lastFrame": 513
+    },
+    {
+      "count": 1,
+      "detail": "fresh=66.7",
+      "event": "USE_ICE",
+      "firstFrame": 514,
+      "lastFrame": 514
+    },
+    {
+      "count": 2,
+      "detail": "USE_RESOURCE code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "firstFrame": 514,
+      "lastFrame": 515
+    },
+    {
+      "count": 1,
+      "detail": "fresh=66.3",
+      "event": "USE_ICE",
+      "firstFrame": 520,
+      "lastFrame": 520
+    },
+    {
+      "count": 1,
+      "detail": "RUSH_SPEED",
+      "event": "RUSH_TACTIC",
+      "firstFrame": 521,
+      "lastFrame": 521
+    }
+  ],
+  "delivery": {
+    "me": {
+      "frame": 0,
+      "freshness": 71.49,
+      "goodFruit": 94,
+      "verifyFrame": 596
+    },
+    "opp": {
+      "frame": 428,
+      "verifyFrame": 413
+    },
+    "rushTriggerFrame": 407
+  },
+  "durationRound": 600,
+  "failures": {
+    "canAffordBlocked": [
+      {
+        "action": "DETOUR_TASK",
+        "count": 1,
+        "firstFrame": 521,
+        "lastFrame": 521,
+        "reason": "time",
+        "target": "S11"
+      },
+      {
+        "action": "DETOUR_TASK",
+        "count": 1,
+        "firstFrame": 521,
+        "lastFrame": 521,
+        "reason": "time",
+        "target": "S12"
+      },
+      {
+        "action": "DETOUR_TASK",
+        "count": 2,
+        "firstFrame": 521,
+        "lastFrame": 522,
+        "reason": "time",
+        "target": "S11"
+      },
+      {
+        "action": "DETOUR_TASK",
+        "count": 1,
+        "firstFrame": 522,
+        "lastFrame": 522,
+        "reason": "time",
+        "target": "S12"
+      },
+      {
+        "action": "DETOUR_TASK",
+        "count": 2,
+        "firstFrame": 522,
+        "lastFrame": 565,
+        "reason": "time",
+        "target": "S11"
+      }
+    ],
+    "decisionTimeouts": 0,
+    "invalidActions": 0,
+    "rejected": [
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "count": 54,
+        "firstFrame": 261,
+        "lastFrame": 314,
+        "target": "S10"
+      },
+      {
+        "action": "USE_RESOURCE",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "count": 201,
+        "firstFrame": 315,
+        "lastFrame": 515,
+        "target": null
+      }
+    ],
+    "waitingStuck": [
+      {
+        "fromFrame": 261,
+        "node": "S08",
+        "toFrame": 515
+      }
+    ]
+  },
+  "finalScore": {
+    "me": {
+      "bounty": 0,
+      "delivery": 0,
+      "freshness": 0,
+      "goodFruit": 0,
+      "penalty": 0,
+      "task": 60,
+      "time": 0,
+      "total": 60
+    },
+    "opp": {
+      "bounty": 0,
+      "delivery": 240,
+      "freshness": 136,
+      "goodFruit": 169,
+      "penalty": 0,
+      "task": 125,
+      "time": 20,
+      "total": 690
+    }
+  },
+  "matchId": "match_20260705_035502_420_2696_vs_2695_bc9ebbc3",
+  "opponentInteraction": {
+    "bounties": [
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 290,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 291,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 292,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 293,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 294,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 295,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 296,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 297,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 298,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 299,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 300,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 301,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 302,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 303,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 304,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 38,
+        "extraFrames": 0,
+        "frame": 305,
+        "goodBurned": 0,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 38,
+        "extraFrames": 0,
+        "frame": 306,
+        "goodBurned": 0,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 38,
+        "extraFrames": 0,
+        "frame": 307,
+        "goodBurned": 0,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 38,
+        "extraFrames": 0,
+        "frame": 308,
+        "goodBurned": 0,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 309,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 310,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 311,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 312,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 313,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      }
+    ],
+    "myGuards": [],
+    "oppGuards": [
+      {
+        "cost": null,
+        "defense": 1,
+        "durationFrames": 101,
+        "frame": 325,
+        "lastFrame": 425,
+        "myResponse": null,
+        "node": "S13"
+      },
+      {
+        "cost": {
+          "frames": 0,
+          "good": 1
+        },
+        "defense": 1,
+        "durationFrames": 226,
+        "frame": 260,
+        "lastFrame": 485,
+        "myResponse": "BREAK_GUARD",
+        "node": "S10"
+      }
+    ],
+    "windows": []
+  },
+  "outcome": "UNDELIVERED",
+  "playerId": 2696,
+  "projection": {
+    "actualMyScore": 60,
+    "confidence": {
+      "max": 0.85,
+      "median": 0.575,
+      "min": 0.3
+    },
+    "error": 0,
+    "modeSwitches": [
+      {
+        "frame": 277,
+        "from": "EVEN",
+        "gap": null,
+        "reason": "gap_below_threshold",
+        "to": "AGGRESSIVE"
+      }
+    ],
+    "oppActualDeliver": 428,
+    "oppEtaPredictedDeliver": 600,
+    "projectedMyScore": 60
+  },
+  "resources": {
+    "horseUsed": "SHORT_HORSE@196",
+    "iceUsed": [
+      {
+        "frame": 314,
+        "freshnessBefore": 77.96
+      },
+      {
+        "frame": 315,
+        "freshnessBefore": 77.91
+      },
+      {
+        "frame": 316,
+        "freshnessBefore": 77.86
+      },
+      {
+        "frame": 317,
+        "freshnessBefore": 77.81
+      },
+      {
+        "frame": 318,
+        "freshnessBefore": 77.76
+      },
+      {
+        "frame": 319,
+        "freshnessBefore": 77.71
+      },
+      {
+        "frame": 320,
+        "freshnessBefore": 77.66
+      },
+      {
+        "frame": 321,
+        "freshnessBefore": 77.61
+      },
+      {
+        "frame": 322,
+        "freshnessBefore": 77.56
+      },
+      {
+        "frame": 323,
+        "freshnessBefore": 77.51
+      },
+      {
+        "frame": 324,
+        "freshnessBefore": 77.46
+      },
+      {
+        "frame": 325,
+        "freshnessBefore": 77.41
+      },
+      {
+        "frame": 326,
+        "freshnessBefore": 77.36
+      },
+      {
+        "frame": 327,
+        "freshnessBefore": 77.31
+      },
+      {
+        "frame": 328,
+        "freshnessBefore": 77.26
+      },
+      {
+        "frame": 329,
+        "freshnessBefore": 77.21
+      },
+      {
+        "frame": 330,
+        "freshnessBefore": 77.16
+      },
+      {
+        "frame": 331,
+        "freshnessBefore": 77.11
+      },
+      {
+        "frame": 332,
+        "freshnessBefore": 77.06
+      },
+      {
+        "frame": 333,
+        "freshnessBefore": 77.01
+      },
+      {
+        "frame": 334,
+        "freshnessBefore": 76.96
+      },
+      {
+        "frame": 335,
+        "freshnessBefore": 76.91
+      },
+      {
+        "frame": 336,
+        "freshnessBefore": 76.86
+      },
+      {
+        "frame": 337,
+        "freshnessBefore": 76.81
+      },
+      {
+        "frame": 338,
+        "freshnessBefore": 76.76
+      },
+      {
+        "frame": 339,
+        "freshnessBefore": 76.71
+      },
+      {
+        "frame": 340,
+        "freshnessBefore": 76.66
+      },
+      {
+        "frame": 341,
+        "freshnessBefore": 76.61
+      },
+      {
+        "frame": 342,
+        "freshnessBefore": 76.56
+      },
+      {
+        "frame": 343,
+        "freshnessBefore": 76.51
+      },
+      {
+        "frame": 344,
+        "freshnessBefore": 76.46
+      },
+      {
+        "frame": 345,
+        "freshnessBefore": 76.41
+      },
+      {
+        "frame": 346,
+        "freshnessBefore": 76.36
+      },
+      {
+        "frame": 347,
+        "freshnessBefore": 76.31
+      },
+      {
+        "frame": 348,
+        "freshnessBefore": 76.26
+      },
+      {
+        "frame": 349,
+        "freshnessBefore": 76.21
+      },
+      {
+        "frame": 350,
+        "freshnessBefore": 76.16
+      },
+      {
+        "frame": 351,
+        "freshnessBefore": 76.11
+      },
+      {
+        "frame": 352,
+        "freshnessBefore": 76.06
+      },
+      {
+        "frame": 353,
+        "freshnessBefore": 76.01
+      },
+      {
+        "frame": 354,
+        "freshnessBefore": 75.96
+      },
+      {
+        "frame": 355,
+        "freshnessBefore": 75.91
+      },
+      {
+        "frame": 356,
+        "freshnessBefore": 75.86
+      },
+      {
+        "frame": 357,
+        "freshnessBefore": 75.81
+      },
+      {
+        "frame": 358,
+        "freshnessBefore": 75.76
+      },
+      {
+        "frame": 359,
+        "freshnessBefore": 75.71
+      },
+      {
+        "frame": 360,
+        "freshnessBefore": 75.63
+      },
+      {
+        "frame": 361,
+        "freshnessBefore": 75.55
+      },
+      {
+        "frame": 362,
+        "freshnessBefore": 75.48
+      },
+      {
+        "frame": 363,
+        "freshnessBefore": 75.41
+      },
+      {
+        "frame": 364,
+        "freshnessBefore": 75.34
+      },
+      {
+        "frame": 365,
+        "freshnessBefore": 75.27
+      },
+      {
+        "frame": 366,
+        "freshnessBefore": 75.2
+      },
+      {
+        "frame": 367,
+        "freshnessBefore": 75.13
+      },
+      {
+        "frame": 368,
+        "freshnessBefore": 75.05
+      },
+      {
+        "frame": 369,
+        "freshnessBefore": 74.98
+      },
+      {
+        "frame": 370,
+        "freshnessBefore": 74.91
+      },
+      {
+        "frame": 371,
+        "freshnessBefore": 74.84
+      },
+      {
+        "frame": 372,
+        "freshnessBefore": 74.77
+      },
+      {
+        "frame": 373,
+        "freshnessBefore": 74.7
+      },
+      {
+        "frame": 374,
+        "freshnessBefore": 74.63
+      },
+      {
+        "frame": 375,
+        "freshnessBefore": 74.55
+      },
+      {
+        "frame": 376,
+        "freshnessBefore": 74.48
+      },
+      {
+        "frame": 377,
+        "freshnessBefore": 74.41
+      },
+      {
+        "frame": 378,
+        "freshnessBefore": 74.34
+      },
+      {
+        "frame": 379,
+        "freshnessBefore": 74.27
+      },
+      {
+        "frame": 380,
+        "freshnessBefore": 74.2
+      },
+      {
+        "frame": 381,
+        "freshnessBefore": 74.13
+      },
+      {
+        "frame": 382,
+        "freshnessBefore": 74.05
+      },
+      {
+        "frame": 383,
+        "freshnessBefore": 73.98
+      },
+      {
+        "frame": 384,
+        "freshnessBefore": 73.91
+      },
+      {
+        "frame": 385,
+        "freshnessBefore": 73.84
+      },
+      {
+        "frame": 386,
+        "freshnessBefore": 73.77
+      },
+      {
+        "frame": 387,
+        "freshnessBefore": 73.7
+      },
+      {
+        "frame": 388,
+        "freshnessBefore": 73.63
+      },
+      {
+        "frame": 389,
+        "freshnessBefore": 73.55
+      },
+      {
+        "frame": 390,
+        "freshnessBefore": 73.48
+      },
+      {
+        "frame": 391,
+        "freshnessBefore": 73.41
+      },
+      {
+        "frame": 392,
+        "freshnessBefore": 73.34
+      },
+      {
+        "frame": 393,
+        "freshnessBefore": 73.27
+      },
+      {
+        "frame": 394,
+        "freshnessBefore": 73.2
+      },
+      {
+        "frame": 395,
+        "freshnessBefore": 73.13
+      },
+      {
+        "frame": 396,
+        "freshnessBefore": 73.05
+      },
+      {
+        "frame": 397,
+        "freshnessBefore": 72.98
+      },
+      {
+        "frame": 398,
+        "freshnessBefore": 72.91
+      },
+      {
+        "frame": 399,
+        "freshnessBefore": 72.84
+      },
+      {
+        "frame": 400,
+        "freshnessBefore": 72.77
+      },
+      {
+        "frame": 401,
+        "freshnessBefore": 72.7
+      },
+      {
+        "frame": 402,
+        "freshnessBefore": 72.63
+      },
+      {
+        "frame": 403,
+        "freshnessBefore": 72.55
+      },
+      {
+        "frame": 404,
+        "freshnessBefore": 72.48
+      },
+      {
+        "frame": 405,
+        "freshnessBefore": 72.41
+      },
+      {
+        "frame": 406,
+        "freshnessBefore": 72.34
+      },
+      {
+        "frame": 407,
+        "freshnessBefore": 72.27
+      },
+      {
+        "frame": 408,
+        "freshnessBefore": 72.2
+      },
+      {
+        "frame": 409,
+        "freshnessBefore": 72.13
+      },
+      {
+        "frame": 410,
+        "freshnessBefore": 72.05
+      },
+      {
+        "frame": 411,
+        "freshnessBefore": 71.98
+      },
+      {
+        "frame": 412,
+        "freshnessBefore": 71.91
+      },
+      {
+        "frame": 413,
+        "freshnessBefore": 71.84
+      },
+      {
+        "frame": 414,
+        "freshnessBefore": 71.77
+      },
+      {
+        "frame": 415,
+        "freshnessBefore": 71.7
+      },
+      {
+        "frame": 416,
+        "freshnessBefore": 71.63
+      },
+      {
+        "frame": 417,
+        "freshnessBefore": 71.55
+      },
+      {
+        "frame": 418,
+        "freshnessBefore": 71.48
+      },
+      {
+        "frame": 419,
+        "freshnessBefore": 71.41
+      },
+      {
+        "frame": 420,
+        "freshnessBefore": 71.36
+      },
+      {
+        "frame": 421,
+        "freshnessBefore": 71.31
+      },
+      {
+        "frame": 422,
+        "freshnessBefore": 71.26
+      },
+      {
+        "frame": 423,
+        "freshnessBefore": 71.21
+      },
+      {
+        "frame": 424,
+        "freshnessBefore": 71.16
+      },
+      {
+        "frame": 425,
+        "freshnessBefore": 71.11
+      },
+      {
+        "frame": 426,
+        "freshnessBefore": 71.06
+      },
+      {
+        "frame": 427,
+        "freshnessBefore": 71.01
+      },
+      {
+        "frame": 428,
+        "freshnessBefore": 70.96
+      },
+      {
+        "frame": 429,
+        "freshnessBefore": 70.91
+      },
+      {
+        "frame": 430,
+        "freshnessBefore": 70.86
+      },
+      {
+        "frame": 431,
+        "freshnessBefore": 70.81
+      },
+      {
+        "frame": 432,
+        "freshnessBefore": 70.76
+      },
+      {
+        "frame": 433,
+        "freshnessBefore": 70.71
+      },
+      {
+        "frame": 434,
+        "freshnessBefore": 70.66
+      },
+      {
+        "frame": 435,
+        "freshnessBefore": 70.61
+      },
+      {
+        "frame": 436,
+        "freshnessBefore": 70.56
+      },
+      {
+        "frame": 437,
+        "freshnessBefore": 70.51
+      },
+      {
+        "frame": 438,
+        "freshnessBefore": 70.46
+      },
+      {
+        "frame": 439,
+        "freshnessBefore": 70.41
+      },
+      {
+        "frame": 440,
+        "freshnessBefore": 70.36
+      },
+      {
+        "frame": 441,
+        "freshnessBefore": 70.31
+      },
+      {
+        "frame": 442,
+        "freshnessBefore": 70.26
+      },
+      {
+        "frame": 443,
+        "freshnessBefore": 70.21
+      },
+      {
+        "frame": 444,
+        "freshnessBefore": 70.16
+      },
+      {
+        "frame": 445,
+        "freshnessBefore": 70.11
+      },
+      {
+        "frame": 446,
+        "freshnessBefore": 70.06
+      },
+      {
+        "frame": 447,
+        "freshnessBefore": 70.01
+      },
+      {
+        "frame": 448,
+        "freshnessBefore": 69.96
+      },
+      {
+        "frame": 449,
+        "freshnessBefore": 69.91
+      },
+      {
+        "frame": 450,
+        "freshnessBefore": 69.86
+      },
+      {
+        "frame": 451,
+        "freshnessBefore": 69.81
+      },
+      {
+        "frame": 452,
+        "freshnessBefore": 69.76
+      },
+      {
+        "frame": 453,
+        "freshnessBefore": 69.71
+      },
+      {
+        "frame": 454,
+        "freshnessBefore": 69.66
+      },
+      {
+        "frame": 455,
+        "freshnessBefore": 69.61
+      },
+      {
+        "frame": 456,
+        "freshnessBefore": 69.56
+      },
+      {
+        "frame": 457,
+        "freshnessBefore": 69.51
+      },
+      {
+        "frame": 458,
+        "freshnessBefore": 69.46
+      },
+      {
+        "frame": 459,
+        "freshnessBefore": 69.41
+      },
+      {
+        "frame": 460,
+        "freshnessBefore": 69.36
+      },
+      {
+        "frame": 461,
+        "freshnessBefore": 69.31
+      },
+      {
+        "frame": 462,
+        "freshnessBefore": 69.26
+      },
+      {
+        "frame": 463,
+        "freshnessBefore": 69.21
+      },
+      {
+        "frame": 464,
+        "freshnessBefore": 69.16
+      },
+      {
+        "frame": 465,
+        "freshnessBefore": 69.11
+      },
+      {
+        "frame": 466,
+        "freshnessBefore": 69.06
+      },
+      {
+        "frame": 467,
+        "freshnessBefore": 69.01
+      },
+      {
+        "frame": 468,
+        "freshnessBefore": 68.96
+      },
+      {
+        "frame": 469,
+        "freshnessBefore": 68.91
+      },
+      {
+        "frame": 470,
+        "freshnessBefore": 68.86
+      },
+      {
+        "frame": 471,
+        "freshnessBefore": 68.81
+      },
+      {
+        "frame": 472,
+        "freshnessBefore": 68.76
+      },
+      {
+        "frame": 473,
+        "freshnessBefore": 68.71
+      },
+      {
+        "frame": 474,
+        "freshnessBefore": 68.66
+      },
+      {
+        "frame": 475,
+        "freshnessBefore": 68.61
+      },
+      {
+        "frame": 476,
+        "freshnessBefore": 68.56
+      },
+      {
+        "frame": 477,
+        "freshnessBefore": 68.51
+      },
+      {
+        "frame": 478,
+        "freshnessBefore": 68.46
+      },
+      {
+        "frame": 479,
+        "freshnessBefore": 68.41
+      },
+      {
+        "frame": 480,
+        "freshnessBefore": 68.36
+      },
+      {
+        "frame": 481,
+        "freshnessBefore": 68.31
+      },
+      {
+        "frame": 482,
+        "freshnessBefore": 68.26
+      },
+      {
+        "frame": 483,
+        "freshnessBefore": 68.21
+      },
+      {
+        "frame": 484,
+        "freshnessBefore": 68.16
+      },
+      {
+        "frame": 485,
+        "freshnessBefore": 68.11
+      },
+      {
+        "frame": 486,
+        "freshnessBefore": 68.06
+      },
+      {
+        "frame": 487,
+        "freshnessBefore": 68.01
+      },
+      {
+        "frame": 488,
+        "freshnessBefore": 67.96
+      },
+      {
+        "frame": 489,
+        "freshnessBefore": 67.91
+      },
+      {
+        "frame": 490,
+        "freshnessBefore": 67.86
+      },
+      {
+        "frame": 491,
+        "freshnessBefore": 67.81
+      },
+      {
+        "frame": 492,
+        "freshnessBefore": 67.76
+      },
+      {
+        "frame": 493,
+        "freshnessBefore": 67.71
+      },
+      {
+        "frame": 494,
+        "freshnessBefore": 67.66
+      },
+      {
+        "frame": 495,
+        "freshnessBefore": 67.61
+      },
+      {
+        "frame": 496,
+        "freshnessBefore": 67.56
+      },
+      {
+        "frame": 497,
+        "freshnessBefore": 67.51
+      },
+      {
+        "frame": 498,
+        "freshnessBefore": 67.46
+      },
+      {
+        "frame": 499,
+        "freshnessBefore": 67.41
+      },
+      {
+        "frame": 500,
+        "freshnessBefore": 67.36
+      },
+      {
+        "frame": 501,
+        "freshnessBefore": 67.31
+      },
+      {
+        "frame": 502,
+        "freshnessBefore": 67.26
+      },
+      {
+        "frame": 503,
+        "freshnessBefore": 67.21
+      },
+      {
+        "frame": 504,
+        "freshnessBefore": 67.16
+      },
+      {
+        "frame": 505,
+        "freshnessBefore": 67.11
+      },
+      {
+        "frame": 506,
+        "freshnessBefore": 67.06
+      },
+      {
+        "frame": 507,
+        "freshnessBefore": 67.01
+      },
+      {
+        "frame": 508,
+        "freshnessBefore": 66.96
+      },
+      {
+        "frame": 509,
+        "freshnessBefore": 66.91
+      },
+      {
+        "frame": 510,
+        "freshnessBefore": 66.86
+      },
+      {
+        "frame": 511,
+        "freshnessBefore": 66.81
+      },
+      {
+        "frame": 512,
+        "freshnessBefore": 66.76
+      },
+      {
+        "frame": 513,
+        "freshnessBefore": 66.71
+      },
+      {
+        "frame": 514,
+        "freshnessBefore": 66.66
+      },
+      {
+        "frame": 520,
+        "freshnessBefore": 66.31
+      }
+    ],
+    "rushTactic": {
+      "frame": 521,
+      "type": "RUSH_SPEED"
+    }
+  },
+  "schemaVersion": 2,
+  "seed": null,
+  "source": "platform",
+  "tasks": {
+    "me": {
+      "base": 60,
+      "claimed": [
+        {
+          "detourExtra": null,
+          "frame": 185,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 189,
+          "node": "S08",
+          "template": null
+        }
+      ],
+      "milestones": [
+        60
+      ]
+    },
+    "missedReachable90": null,
+    "opp": {
+      "base": 90,
+      "claimed": [
+        {
+          "frame": 264,
+          "taskScore": 30
+        },
+        {
+          "frame": 268,
+          "taskScore": 60
+        },
+        {
+          "frame": 272,
+          "taskScore": 90
+        }
+      ],
+      "milestones": [
+        60,
+        90
+      ]
+    }
+  },
+  "teamId": "RED",
+  "trajectory": {
+    "freshness": {
+      "end": 71.49,
+      "min": 66.31,
+      "start": 100
+    },
+    "goodFruit": {
+      "badCrossings": [
+        90,
+        80,
+        70
+      ],
+      "end": 94,
+      "start": 100
+    },
+    "opponent": {
+      "badFruitEnd": 2,
+      "frames": [
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0,
+          "n": "S01",
+          "r": 1,
+          "s": "IDLE",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.02,
+          "n": "S01",
+          "nx": "S02",
+          "r": 2,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.05,
+          "n": "S01",
+          "nx": "S02",
+          "r": 3,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.07,
+          "n": "S01",
+          "nx": "S02",
+          "r": 4,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.1,
+          "n": "S01",
+          "nx": "S02",
+          "r": 5,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.12,
+          "n": "S01",
+          "nx": "S02",
+          "r": 6,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.14,
+          "n": "S01",
+          "nx": "S02",
+          "r": 7,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.17,
+          "n": "S01",
+          "nx": "S02",
+          "r": 8,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.19,
+          "n": "S01",
+          "nx": "S02",
+          "r": 9,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.22,
+          "n": "S01",
+          "nx": "S02",
+          "r": 10,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.24,
+          "n": "S01",
+          "nx": "S02",
+          "r": 11,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.27,
+          "n": "S01",
+          "nx": "S02",
+          "r": 12,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.29,
+          "n": "S14",
+          "nx": "S15",
+          "r": 418,
+          "s": "MOVING",
+          "ts": 90,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.36,
+          "n": "S14",
+          "nx": "S15",
+          "r": 419,
+          "s": "MOVING",
+          "ts": 90,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.43,
+          "n": "S14",
+          "nx": "S15",
+          "r": 420,
+          "s": "MOVING",
+          "ts": 90,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.51,
+          "n": "S14",
+          "nx": "S15",
+          "r": 421,
+          "s": "MOVING",
+          "ts": 90,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.58,
+          "n": "S14",
+          "nx": "S15",
+          "r": 422,
+          "s": "MOVING",
+          "ts": 90,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.65,
+          "n": "S14",
+          "nx": "S15",
+          "r": 423,
+          "s": "MOVING",
+          "ts": 90,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.72,
+          "n": "S14",
+          "nx": "S15",
+          "r": 424,
+          "s": "MOVING",
+          "ts": 90,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.8,
+          "n": "S14",
+          "nx": "S15",
+          "r": 425,
+          "s": "MOVING",
+          "ts": 90,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.87,
+          "n": "S14",
+          "nx": "S15",
+          "r": 426,
+          "s": "MOVING",
+          "ts": 90,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0.94,
+          "n": "S14",
+          "nx": "S15",
+          "r": 427,
+          "s": "MOVING",
+          "ts": 90,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0,
+          "n": "S15",
+          "r": 428,
+          "s": "IDLE",
+          "ts": 90,
+          "vf": true
+        },
+        {
+          "b": 2,
+          "ga": 4,
+          "mp": 0,
+          "n": "S15",
+          "r": 429,
+          "s": "DELIVERED",
+          "ts": 90,
+          "vf": true
+        }
+      ],
+      "freshnessEnd": 75.68,
+      "freshnessMin": 75.68,
+      "goodFruitEnd": 94,
+      "iceUsed": [],
+      "nodeEnd": "S15",
+      "verifyFrame": 413
+    }
+  },
+  "variant": "baseline"
+}
