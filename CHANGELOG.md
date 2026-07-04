@@ -4,7 +4,7 @@
 
 ## [Iteration 31] - 2026-07-04 — beat_top10 P1-A：分析器数据补全（client trace 富化 + parser 抽取 + aggregator 落盘，纯观测零策略风险）
 
-落地 `docs/beat_top10_design.md` P1-A。打败前十名的 P2/P3 设计强依赖"对手凭什么鲜度 88–93"等归因，但当前 `reports/` 无法回答：协议层对手信息几乎全可见（`inquire.players[]` + `over.players[].scoreDetail`），缺口在 **client 不记 + parser 不抽**。本轮把对手分项分/设卡/资源/逐帧轨迹写进完整 trace 并解析入库，使 `report.json` 携带双方分项、`analysis_report.md` 出现对手分项与设卡段。**纯观测/分析，零策略风险，不改任何运行期决策**。
+落地 `docs/iteration_loop_design.md` P1-A。打败前十名的 P2/P3 设计强依赖"对手凭什么鲜度 88–93"等归因，但当前 `reports/` 无法回答：协议层对手信息几乎全可见（`inquire.players[]` + `over.players[].scoreDetail`），缺口在 **client 不记 + parser 不抽**。本轮把对手分项分/设卡/资源/逐帧轨迹写进完整 trace 并解析入库，使 `report.json` 携带双方分项、`analysis_report.md` 出现对手分项与设卡段。**纯观测/分析，零策略风险，不改任何运行期决策**。
 
 ### Added — A. client 富化（`client/main.py`）
 - `_log_frame` 补对手字段（均为 inquire 已有、零推断）：`oppBad`/`oppVerified`/`oppMoveProg`/`oppNext`/`oppGuardAP`/`oppResources`。
@@ -47,7 +47,7 @@
 
 ## [Iteration 30] - 2026-07-04 — beat_top10 P1-B：精简 trace 派生（数据回流通道，纯观测零策略风险）
 
-落地 `docs/beat_top10_design.md` P1-B。原始完整 trace ~880KB–1.16MB/局、`.gitignore` 不入库无法上传 → 我只能读 `reports/`，核心数据到不了手。本轮把完整 trace **派生**为事件驱动紧凑格式（~6–9KB/局纯文本 / ~1.4KB gzip+base64），落 `reports/<matchId>.compact.log` 入库，使我 pull 后能直读、彻底绕开上传瓶颈。**client 零改动、零策略风险、不 bump `CLIENT_VERSION`**。
+落地 `docs/iteration_loop_design.md` P1-B。原始完整 trace ~880KB–1.16MB/局、`.gitignore` 不入库无法上传 → 我只能读 `reports/`，核心数据到不了手。本轮把完整 trace **派生**为事件驱动紧凑格式（~6–9KB/局纯文本 / ~1.4KB gzip+base64），落 `reports/<matchId>.compact.log` 入库，使我 pull 后能直读、彻底绕开上传瓶颈。**client 零改动、零策略风险、不 bump `CLIENT_VERSION`**。
 
 ### Added
 - 新增 `analysis/compact.py`：
@@ -73,7 +73,7 @@
 
 ## [Iteration 29] - 2026-07-04 — beat_top10 P0：修复被对手设卡卡死的未交付 bug（无条件合入）
 
-落地 `docs/beat_top10_design.md` P0。vs2735 那局我方 60 分未交付——对手进攻性设卡封 S10、`MOVE_BLOCKED_BY_GUARD` 连拒 224 帧（帧 262–485），全程未发 `BREAK_GUARD`/`FORCED_PASS`。根因：`_keep_moving`（MOVING/WAITING 态短路返回）重发 `MOVE(next_node_id)` 不检查在途目标是否已被对手设卡 / 在冷却期，而拒绝反馈写入 `_cooldown` 却无人读取 → 死锁卡至终局。与 Iter 8（卡 S14）同源，Iter 8 只修"无在途目标"分支，P0 补"在途目标失效"盲区。**bug 修复，无 flag、无阈值，无条件合入**。
+落地 `docs/iteration_loop_design.md` P0。vs2735 那局我方 60 分未交付——对手进攻性设卡封 S10、`MOVE_BLOCKED_BY_GUARD` 连拒 224 帧（帧 262–485），全程未发 `BREAK_GUARD`/`FORCED_PASS`。根因：`_keep_moving`（MOVING/WAITING 态短路返回）重发 `MOVE(next_node_id)` 不检查在途目标是否已被对手设卡 / 在冷却期，而拒绝反馈写入 `_cooldown` 却无人读取 → 死锁卡至终局。与 Iter 8（卡 S14）同源，Iter 8 只修"无在途目标"分支，P0 补"在途目标失效"盲区。**bug 修复，无 flag、无阈值，无条件合入**。
 
 ### Changed
 - `client/strategy/decision.py` `_keep_moving`：重发 MOVE 前校验在途目标是否失效；失效则丢弃在途目标回落 `_plan` 全量重规划（`_advance` 绕行 / `_breakthrough` FORCED_PASS/BREAK_GUARD）。docstring 更新。
@@ -102,8 +102,8 @@
 基于 10 局对平台前十名真实报告（`reports/`，N=10 假设级，4W/6L）定稿下一步迭代蓝图。**无代码改动**，仅设计与规划文档。
 
 ### Added
-- `docs/beat_top10_plan.md`：总览——诊断（我方固定点 755、胜负 100% 由对手鲜度决定、分隔线 oppFr~82）、根因（`_keep_moving` 在途目标被设卡不回落 `_plan` → 224 帧卡死未交付）、P0–P3 按 ROI/置信度排序。
-- `docs/beat_top10_design.md`：P0–P3 详细设计与实现（file:line 精确 + 代码 + 单测 + 验收 + 排期 + 风险登记）。
+- `docs/iteration_loop_plan.md`：总览——诊断（我方固定点 755、胜负 100% 由对手鲜度决定、分隔线 oppFr~82）、根因（`_keep_moving` 在途目标被设卡不回落 `_plan` → 224 帧卡死未交付）、P0–P3 按 ROI/置信度排序。
+- `docs/iteration_loop_design.md`：P0–P3 详细设计与实现（file:line 精确 + 代码 + 单测 + 验收 + 排期 + 风险登记）。
   - **P0** 修设卡卡死（`_keep_moving` 校验在途目标失效→回落 `_plan`，5 项单测，无条件合入，预期 +1 胜）。
   - **P1-A** client trace 富化（opp 库存/设卡/scoreDetail）+ parser 抽取 + aggregator 落盘对手分项分。
   - **P1-B** 精简 trace（`analysis/compact.py` 从完整 trace 派生事件驱动紧凑格式 ~6–9KB/局落 `reports/`，绕开"原始 trace 880KB 无法上传"瓶颈；client 零改动；gzip+b64 ~1.4KB/局可选）。
@@ -111,7 +111,7 @@
   - **P3** denial（设卡/破卡/争抢，真实 trace A/B，sim 镜像自博弈无法验证博弈层）。
 
 ### Changed
-- `CLAUDE.md`：新增「Iter 29+ 规划」bullet（10 局证据 + P0–P3 排期 + 根因）、§6 Roadmap 加 M10、进度行"下一步"指向 `beat_top10_design.md`。
+- `CLAUDE.md`：新增「Iter 29+ 规划」bullet（10 局证据 + P0–P3 排期 + 根因）、§6 Roadmap 加 M10、进度行"下一步"指向 `iteration_loop_design.md`。
 
 ### Misc
 - 排期：Iter29 P0 → Iter30 P1-B → Iter31 P1-A → Iter32 取 reports（含 `*.compact.log`）→ Iter33 归因选分支 → Iter34 P2 → Iter35 P3 → Iter36+ 校准。
