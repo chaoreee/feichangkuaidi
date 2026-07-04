@@ -9,22 +9,21 @@
 │  能力基线：CLAUDE.md（SSOT） + docs/（spec/protocol/task/arch） │
 └───────────────┬──────────────────────────────────────────────┘
                 ▼
-   运行期  client/（= 提交平台的交付件根目录，纯 stdlib、离线可跑）
+   运行期  client/（= 提交平台的交付件根目录，纯 stdlib、离线可跑，**只记日志不做分析**）
    communication → protocol → core → strategy
-        └── logger → client/logs/match_*.log（人类可读 trace）
-        └── analysis/collector.py → client/logs/match_*.report.json（结构化事实，game over 写）
+        └── logger → client/logs/match_*.log（人类可读 trace，含 Rejected/CanAffordBlock 内部信号）
                           │ 对战后随交付件下载回本地
                           ▼
-   采集   logs/（client 之外）：取回的 trace + report.json 入库
-                          │ scripts/analyze_logs.py 聚合（跨局统计 + A/B + 对账）
+   采集   logs/（client 之外）：取回的 trace 入库（logs/real/ 平台、logs/sim/<variant>/ 仿真）
+                          │ analysis/（仓库根，client 之外）parser 解析 trace → Report + aggregator 聚合
                           ▼
-   分析报告 docs/analysis_report.md（5-10KB，跨局对比 + 异常局标记）
+   分析报告 docs/analysis_report.md（5-10KB，跨局对比 + 异常局标记）+ docs/ab_report.md
                           │ Claude Code 读聚合报告做归因（不直读 10w 字 trace）
                           ▼
    迭代闭环：结论回写 client / CLAUDE.md / CHANGELOG.md
 ```
 
-**核心原则**：`client/` **本身即交付件根目录**——手动打包时，`client/` 内容直接构成 ZIP 根（`start.sh`、`main.py`、各子包同级）。包内不得出现第三方依赖；纯标准库、离线可跑。**分析器驱动**：in-client 采集器产出结构化 `report.json`（事实，纯代码抽取），repo 侧聚合器产出跨局/A/B 报告，Claude Code 读报告做归因——**代码抽取事实、AI 只做解释**，分析器不做优化（Iteration 9 删旧 `analysis/` 后以正确形态回归，详见 `docs/iteration_plan_v2.md`）。
+**核心原则**：`client/` **本身即交付件根目录**——手动打包时，`client/` 内容直接构成 ZIP 根（`start.sh`、`main.py`、各子包同级）。包内不得出现第三方依赖；纯标准库、离线可跑、**只记 trace 日志**。**分析器在 client 之外**（仓库根 `analysis/`）：对局结束后把取回的 trace 事后解析为结构化 `Report`，再跨局聚合产出报告，Claude Code 读报告做归因——**代码抽取事实、AI 只做解释**，分析器不做优化（Iteration 9 删旧 `analysis/` 后以正确形态回归，详见 `docs/iteration_plan_v2.md`）。
 
 ## 2. 运行期 Client 模块职责
 
@@ -33,10 +32,11 @@
 | `communication/` | TCP 长连接、收发、拆帧、缓冲、超时兜底 | 阻塞 socket + 双线程（见 §4 决策）；按 5 位长度前缀拆帧 |
 | `protocol/` | 消息 DTO 编解码、动作构造、枚举常量 | 字段名大小写敏感；空动作心跳 `actions: []` |
 | `core/` | 游戏状态镜像 `WorldState` + 规则计算 + 寻路 | 无副作用查询接口；供 strategy 使用 |
-| `strategy/` | 决策：输入 WorldState，输出 `List[Action]` | **不 import socket**；分层：路线→资源/任务→对抗→终局 |
-| `logger/` | 人类可读 trace 日志旁路记录 | 写 `client/logs/match_<matchId>_<playerId>.log`；每行一事件，逐行 flush |
-| `analysis/`（Iter 21 规划） | in-client 采集器：运行时累计决策事件，game over 写 `report.json` | 纯 stdlib、异常安全（不影响对局）；只抽取事实不做优化；埋点于 decision/main 关键路径 |
+| `strategy/` | 决策：输入 WorldState，输出 `List[Action]` | **不 import socket**；分层：路线→资源/任务→对抗→终局；经 `trace_events` 暴露被拒/拦截信号供 main 落盘 |
+| `logger/` | 人类可读 trace 日志旁路记录 | 写 `client/logs/match_<matchId>_<playerId>.log`；每行一事件，逐行 flush；含 `Rejected`/`CanAffordBlock` 内部信号行 |
 | `config.py` `main.py` | 参数/超时/开关；组装启动闭环 | argv=`playerId host port`，禁止写死；`start.sh` 与 `main.py` 同级（包内） |
+
+> **client 不含分析模块**。赛后分析由仓库根 `analysis/`（client 之外）承担：`parser.parse_log` 把 `match_*.log` 解析为 `Report`（schemaVersion=1），`aggregator` 跨局聚合，CLI `python3 -m analysis`。详见 `docs/iteration_plan_v2.md` §3。
 
 ## 3. 数据流与模块协作
 
@@ -44,13 +44,13 @@
 平台 ⇄ communication ⇄ protocol ⇄ core(WorldState) → strategy → protocol → communication ⇄ 平台
                                        │
                                     logger → client/logs/match_<matchId>_<playerId>.log（人类可读 trace）
-                                    analysis/collector → 累计决策事件（内存）
-                                                     │（对战后随交付件下载回本地）
+                                       │（对战后随交付件下载回本地）
                           复制到仓库 logs/（client 之外）
-                                                     │ scripts/analyze_logs.py 聚合（跨局统计 + seed 配对 A/B + 异常局标记 + rules.py 对账）
-                                                     ▼
-                          docs/analysis_report.md（5-10KB，AI 消费的主文档）
-                                                     │ Claude Code 读聚合报告 + 被标记单局 report 做归因
+                                       │ analysis/parser.parse_log 解析 trace → Report（schemaVersion=1）
+                                       │ analysis/aggregator 聚合（跨局统计 + seed 配对 A/B + 异常局标记 + rules.py 对账）
+                                       ▼
+                          docs/analysis_report.md（5-10KB，AI 消费的主文档）+ docs/ab_report.md
+                                       │ Claude Code 读聚合报告 + 被标记单局 Report 做归因
                         回写 → CLAUDE.md / CHANGELOG.md / docs/delivery_spec.md / client/
 ```
 
@@ -59,10 +59,11 @@
 收到 inquire(N)
   → protocol 解析 → core 更新 WorldState
   → strategy.decide(world) → List[Action]（含硬超时，超时降级为 [] / WAIT）
-       └─ analysis/collector 在决策关键点累计事件（mode/被拒/任务/突破/窗口/阈值跨越…）
+       └─ decision 经 trace_events 暴露被拒/canAfford 拦截信号
   → protocol 构造 action(round=N) → communication 发送
-  → logger 写 Frame + Action trace（超预算才附 ms）
-收到 over → 写 Over / Score trace → collector 写 match_*_*.report.json → 退出
+  → logger 写 Frame + Action trace（超预算才附 ms）+ Rejected/CanAffordBlock 内部信号行
+收到 over → 写 Over / Score trace → 退出
+（trace 随交付件下载回本地后，由仓库侧 analysis/ 解析聚合）
 ```
 
 ## 4. 关键技术决策

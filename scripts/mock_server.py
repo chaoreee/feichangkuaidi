@@ -20,6 +20,11 @@ import sys
 W = 5
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _MAP = os.path.join(_ROOT, "samples", "map_config.json")
+# 复用 client 规则镜像计算真实终局分（让 mock 产出的 report 携带可信分，供分析器对账自检 0 误差）。
+_CLIENT = os.path.join(_ROOT, "client")
+if _CLIENT not in sys.path:
+    sys.path.insert(0, _CLIENT)
+from core import rules as _rules  # noqa: E402
 
 OBSTACLES = {"S13"}  # 终段唯一通路上的障碍：不可绕行 → 迫使客户端突破(CLEAR)
 TASKS = [
@@ -349,7 +354,29 @@ def build_inquire(match_id, rnd, sim, blue_id, node_ids, events, last_action):
         "scorePreview": {"RED": 0, "BLUE": 0}}}
 
 
+def _score_detail(delivered, task_base, good, fresh, deliver_round, bounty=0, penalty=0):
+    """用 rules.py 计算真实终局分项分（让 mock report 携带可信分，供分析器对账 0 误差）。"""
+    if delivered:
+        detail = {
+            "delivery": _rules.delivery_base_score(task_base),
+            "task": _rules.task_score(task_base, delivered=True),
+            "time": _rules.time_score(deliver_round, task_base),
+            "goodFruit": _rules.good_fruit_score(good),
+            "freshness": _rules.freshness_score(fresh),
+            "bounty": _rules.bounty_score(bounty, delivered=True),
+            "penalty": penalty,
+        }
+    else:
+        detail = {"task": _rules.task_score(task_base, delivered=False),
+                  "bounty": _rules.bounty_score(bounty, delivered=False),
+                  "delivery": 0, "time": 0, "goodFruit": 0, "freshness": 0, "penalty": penalty}
+    detail["total"] = max(0, sum(detail.values()) - penalty)
+    return detail
+
+
 def build_over(match_id, rnd, sim, blue_id, reason):
+    me_detail = _score_detail(sim.delivered, sim.task_score, sim.good,
+                              round(sim.fresh, 3), rnd if sim.delivered else 0)
     return {"msg_name": "over", "msg_data": {
         "matchId": match_id, "overRound": rnd,
         "resultType": "NORMAL" if sim.delivered else "DRAW", "overReason": reason,
@@ -357,7 +384,7 @@ def build_over(match_id, rnd, sim, blue_id, reason):
         "players": [{"playerId": sim.me_id, "playerName": "mock-red", "online": True, "delivered": sim.delivered,
                      "retired": False, "freshness": round(sim.fresh, 3), "goodFruit": sim.good,
                      "taskScore": sim.task_score, "deliverRound": rnd if sim.delivered else 0,
-                     "totalScore": 0, "scoreDetail": {"total": 0}},
+                     "totalScore": me_detail["total"], "scoreDetail": me_detail},
                     {"playerId": blue_id, "playerName": "mock-blue", "online": True, "delivered": False,
                      "retired": False, "totalScore": 0, "scoreDetail": {"total": 0}}]}}
 

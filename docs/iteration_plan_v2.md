@@ -87,43 +87,57 @@ AI 输入从"50×10w 字"压到"一份聚合报告 + 几份被标记单局报告
 
 ## 3. 分析器架构（两层）
 
-### 3.1 为什么采集器放在 client 内
+### 3.1 为什么分析器放在 client 之外（事后解析 trace）
 
-事后解析日志脆弱（正则、格式漂移），且 client 运行时**自己就知道**最丰富的状态（决策意图、mode、projection、`_can_afford` 为何拦下动作）——这些很多没写进日志。client 边跑边累计、game over 直接产出报告，**最准、零解析风险**。报告写在包内 `client/logs/`，随交付件下载自动回来，无需额外步骤。
+`client/` 是提交到对战平台的交付件，对局运行时**只需要记录日志**，不做任何分析。分析器属于
+仓库侧工具：对局结束后把取回的多份 trace 日志（`match_*.log`）事后解析为结构化单局报告，再跨局聚合。
 
-> 与 Iteration 9 删模块的关系：旧 `analysis/` 是事后解析 + 越界优化，被删。新分析器是 in-client 采集 + repo 聚合，**只抽取不优化**，且采集器在 client 内拿到比日志更丰富的状态。这是"请回来"的正确形态。
+因此分析模块 `analysis/` 位于仓库根（与 `client/` 同级、**不属于交付件**）。client 只负责把赛后
+分析所需的事实写进人类可读 trace 日志（Frame/Action/Projection/ModeChange/Over/Score + 少量内部信号
+`Rejected`/`CanAffordBlock`）；`analysis/parser.py` 把 trace 解析回结构化 `Report`，`analysis/aggregator.py`
+跨局聚合。**代码抽取事实、AI 只做解释**，分析器不做优化。
 
-### 3.2 交付件 1：`client/analysis/collector.py`（包内，纯 stdlib）
+> 与 Iteration 9 删模块的关系：旧 `analysis/` 是事后解析 + 越界优化，被删。新分析器仍是事后解析，
+> 但**只抽取不优化**，且作为 client 之外的独立模块以正确形态回归。client 侧零分析负担、交付件最小化。
+> client trace 已记录绝大部分事实（投影、mode、动作、终局分等）；仅被拒动作与 canAfford 拦截两处
+> 内部信号由 client 额外写成 trace 行（`Rejected`/`CanAffordBlock`，纯日志），解析器据此还原。
 
-`AnalysisCollector` 在决策路径关键点被调用，累计计数器与事件；game over 写 `client/logs/match_<id>_<pid>.report.json`，并在 human trace 尾部追加 `Summary` 块。
+### 3.2 交付件 1：`analysis/parser.py`（仓库侧，client 之外）
 
-**埋点位置**（大部分已在现有决策路径上，成本低）：
-- `main.py`：`Over`/`Score` 事件 → 终局分项分、胜负；`Startup`/`Start` → matchId/seed/身份。
-- `decision.py`：
-  - 每帧 mode/projection（供投影误差、mode 切换统计）；
-  - `_can_afford` 返回 False 拦下的动作（记录 action + reason）；
-  - `_apply_rejection_feedback` 命中的被拒动作（action + errorCode + target）；
-  - mode 切换（from/to/gap/round）；
-  - 任务领取（template/node/frame/detourExtra）、绕路目标选择；
-  - 突破（node/方式 CLEAR|BREAK_GUARD|FORCED_PASS/cost）、设卡（node/defense/extra）、窗口出牌（contestType/myCard/oppCard/result）；
-  - 好果转坏阈值跨越、冰鉴/马/急策使用（frame/freshnessBefore）；
-  - WAITING 停滞检测（连续 N 帧 state=WAITING 且无 move_progress）。
+`parse_log(path) -> Report` 把一份 `match_*.log`（`client/logger/match_logger.py` 输出格式）解析为
+schemaVersion=1 的结构化 `Report`（§3.4）。纯确定性、可单测，事实 100% 从日志文本抽取。
+
+解析来源（trace 事件 → Report 字段）：
+- `Startup`/`Start` → matchId/playerId/teamId/seed/durationRound；
+- `Frame`（每帧 phase/node/state/fresh/goodFruit/taskScore/verified/delivered/events）→ 轨迹（freshness
+  start/end/min、好果、好→坏阈值跨越）、验核帧、RUSH 触发帧、WAITING 停滞检测、中局 gap 快照、天气命中；
+- `Action`（MOVE/USE_RESOURCE/CLAIM_TASK/CLEAR/BREAK_GUARD/FORCED_PASS/SET_GUARD/WINDOW_CARD/RUSH_*）
+  → 资源·急策使用、任务领取、突破、设卡、窗口出牌、决策超时（ms）；
+- `GuardDecision` → 设卡 defense/denial/gap；
+- `Projection`/`ModeChange` → 投影分/置信采样/mode 切换/投影误差；
+- `Over`/`Score` → outcome（WIN/LOSS/TIE/UNDELIVERED/RETIRED）、终局分、交付帧、scoreMargin；
+- `Rejected`/`CanAffordBlock`（client 内部信号 trace 行）→ 被拒动作、canAfford/ΔEV 拦截。
+
+`source`/`variant` 不在日志内，由聚合器按路径推断（`logs/real/`→platform、`logs/sim/`→sim；
+父目录 `baseline`/`tuned`→variant），可被 CLI `--source`/`--variant` 覆盖。
 
 **非功能约束**：
-- 纯 stdlib（与交付件一致）。
-- **异常安全**：采集器任何异常都不得影响对局（全部 try 包裹，最坏只是少一份报告）。
-- 单帧开销可忽略（只更新计数器与少量 list，不写文件）；仅 game over 一次写盘。
-- 内存有界：`decisionTimeline` 仅保留"有意思"事件（上限 ~60 条，超出按重要性裁剪）；原始每帧数据只保留聚合统计量（min/median/max/直方图），不逐帧存。
+- 纯 stdlib；解析行无法识别时静默跳过，**永不抛出**。
+- 单局开销可忽略；内存随日志行数线性（有界于对局帧数 ≤600）。
 
-### 3.3 交付件 2：`scripts/analyze_logs.py`（仓库侧）
+### 3.3 交付件 2：`analysis/aggregator.py` + `analysis/__main__.py`（仓库侧）
 
-输入一批 `*.report.json`（来自平台或仿真），输出**多份分工报告**：
+`python3 -m analysis <dirs>` 扫描目录下的 `match_*.log`（来自平台或仿真），`parser` 逐份解析为 `Report`，
+`aggregator` 跨局聚合，输出**多份分工报告**：
 
 - **`docs/analysis_report.md`**（主报告，累积聚合）：跨局统计（交付率、交付帧分布、mean/median 分、各分项分分布、失败模式频次、task-90 达成率、投影误差分布、mode 切换频次）+ **场景分段视图**（见 §3.7）+ 异常局标记（见下）。
 - **`docs/ab_report.md`**（A/B 配对对比，存在 variant 时产）：按 seed 配对 variant vs baseline 的胜率、mean 分差、配对胜负、95% 置信区间、交付率/各分段回归检查。
 - **`docs/calibration_v1.md`**（决策日志，按 `ab_report` 累积）：每个阈值/开关 → 证据（局数/分差/CI/分段表现）→ 取值，增量构建。
 
-**累积语料库**：`analyze_logs.py` 每次读取 `logs/{real,sim}/` 下**全部** `report.json` 重新聚合，新取回对局只往语料库追加。每次平台提交回来的对局数可能很少（1 局到几局），只有跨批次累积才够样本。
+**累积语料库**：`python3 -m analysis` 每次读取 `logs/{real,sim}/` 下**全部** trace 重新解析聚合，新取回对局只往语料库追加。每次平台提交回来的对局数可能很少（1 局到几局），只有跨批次累积才够样本。
+
+**source/variant 推断**：按日志路径推断（`logs/real/`→platform、`logs/sim/`→sim；父目录 `baseline`/`tuned`→variant），
+仿真 A/B 把日志分放 `logs/sim/baseline/` 与 `logs/sim/tuned/` 即可自动 seed 配对。可被 `--source`/`--variant` 覆盖。
 
 **异常局标记**（AI 深看的候选，**仅作假设来源**）：输局且 `task<90` 但 `missedReachable90=true`；`UNDELIVERED` 或 WAITING 卡死；投影误差 > 50 分；mode 应切未切；交付帧异常晚；以及 §3.8 的 lucky win / unlucky loss。
 
@@ -249,11 +263,11 @@ SEGMENT REGRESSION（任一回归即不合入）:
 
 ### 3.6 分析器自身可靠性（闭环关键一环，必须有测试 rigor）
 
-- **单测**：`client/tests/test_collector.py` + `scripts/tests/test_analyze_logs.py`。构造已知对局状态/报告集，断言每个字段、A/B 配对、置信区间。
-- **schema 版本路由**：`report.json` 带 `schemaVersion`，聚合器按版本路由，避免 client 升级后老报告解析错。
-- **对账自检**：聚合器读 `finalScore` 时用 `core/rules.py` 重算分项分与报告值对账，不一致则标红（防采集器/规则镜像 bug 污染事实）。
-- **缺失兜底**：采集器异常致 report 缺失时聚合器标"无报告"，AI 不据此臆断。
-- **日志格式兼容**：采集器从 live 状态产出 report，不依赖 trace 文本解析；若需对老日志（无 report）补分析，另写 `scripts/parse_log.py` 兜底解析器，作为可选回退（非主路径）。
+- **单测**：`analysis/tests/test_parser.py`（构造合成 trace，逐字段断言解析）+ `analysis/tests/test_aggregator.py`（合成 Report 集，断言统计/A/B/对账/分段/异常标记）。
+- **schema 版本路由**：`Report` 带 `schemaVersion`；聚合器只处理 `SUPPORTED_SCHEMA`，不兼容的跳过并记录（避免 client 升级后老日志解析错）。
+- **对账自检**：聚合器用 `core/rules.py` 从 `Report` 的原始输入（task_base/goodFruit/freshness/deliverFrame）重算终局分，与 trace `Score` 行报告的 total 对账，不一致则标红（防解析器/规则镜像 bug 污染事实）。mock 真实分已验 0 误差。
+- **缺失兜底**：解析失败/空日志的 trace 标"parse_failed_or_empty"跳过，AI 不据此臆断。
+- **日志格式兼容**：parser 依赖 trace 文本格式（`match_logger.py` 输出）；格式变更须同步 parser + 单测。parser 是 trace 的唯一结构化消费者，格式漂移风险由单测兜住。
 
 ### 3.7 批量与分段分析（防单点过拟合——核心纪律）
 
@@ -452,12 +466,12 @@ Phase D 期间继续收割真实 trace，对照仿真结论。冲突时以真实
 
 ## 11. Iter 21 落地步骤（分析器基础设施）
 
-1. 定 `report.json` schema（§3.4），加 `schemaVersion: 1`。
-2. 实现 `client/analysis/collector.py`：在 `decision.py` 决策点与 `main.py` 事件埋点；game over 写 `report.json` + trace 尾部 `Summary`。
-3. 实现 `scripts/analyze_logs.py`：跨局统计 + seed 配对 A/B + 异常局标记 + `rules.py` 对账。
-4. 单测：`client/tests/test_collector.py`（字段）+ `scripts/tests/test_analyze_logs.py`（统计/A/B/对账/schema 路由）。
-5. 用现有 mock 跑几局自测（mock 亦产 report），确认端到端链路通；mock 零回归 @r48。
-6. 同步更新 `CLAUDE.md` 能力矩阵（新增"分析闭环"行）与迭代日志。
+1. 定 `Report` schema（§3.4），加 `schemaVersion: 1`。
+2. **client 侧（仅日志）**：`main.py`/`decision.py` 把赛后分析所需事实写进 trace（Frame/Action/Projection/ModeChange/Over/Score 已有；新增 `Rejected`/`CanAffordBlock` 内部信号 trace 行 + Start 行补 `seed` + WINDOW_CARD 行补 `contestType`）。client **不写结构化报告、不含分析模块**。
+3. **仓库侧 `analysis/`（client 之外）**：`parser.parse_log` 把 `match_*.log` 解析为 `Report`；`aggregator` 跨局统计 + seed 配对 A/B + 异常局标记 + `rules.py` 对账；`__main__` 为 CLI。
+4. 单测：`analysis/tests/test_parser.py`（解析字段）+ `analysis/tests/test_aggregator.py`（统计/A/B/对账/schema 路由/分段/异常）。
+5. 用现有 mock 跑几局自测（mock 产 trace），`python3 -m analysis` 解析聚合，确认端到端链路通、对账 0 误差；mock 零回归 @r48。
+6. 同步更新 `CLAUDE.md` 能力矩阵（§4.4 赛后分析）与迭代日志。
 
 ---
 

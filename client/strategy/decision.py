@@ -67,12 +67,17 @@ class DecisionEngine:
         self.guard_decision = None   # P4 §7 条件化设卡当帧决策细节（供 trace），未设卡为 None
         # M8 Layer 2（P2 档位调参）：当前档位的策略参数；缺投影时回落 EVEN=既有默认。
         self.tuning = tuning_for_mode(RiskMode.EVEN)
+        # 本帧产生的"日志事件"（被拒动作 / canAfford 拦截等内部信号，正常无 logger 依赖）：
+        # main.py 在 decide 返回后取出并写成 trace 行，供赛后分析器解析。每帧 decide 开头清空。
+        self.trace_events = []
 
     def decide(self, world):
         me = world.me
         gm = self.ctx.game_map
         if me is None or gm is None:
             return []
+
+        self.trace_events = []  # 清空本帧日志事件（main.py 取走后这里已是空，双保险）
 
         node = me.current_node_id
         self._update_projection(world)
@@ -346,6 +351,9 @@ class DecisionEngine:
         code = self._my_reject_code(world)
         if not code:
             return
+        self.trace_events.append(("Rejected", {"action": la.get("action"),
+                                               "code": code,
+                                               "target": la.get("targetNodeId")}))
         if code == "PROCESS_REQUIRED":
             self._processed_here = False  # 强制在当前节点先完成固定处理
             return
@@ -628,9 +636,13 @@ class DecisionEngine:
             if not (0 <= extra <= detour_max) or extra >= best_extra:
                 continue
             if not self._can_afford(world, gm, node, extra, terminal):
+                self.trace_events.append(("CanAffordBlock", {"action": "DETOUR_TASK",
+                                                             "reason": "time", "target": tn}))
                 continue
             task_pts = t.get("score", 0) or 0
             if self._detour_net_delta(me, task_pts, extra) < tuning.action_min_net_score:
+                self.trace_events.append(("CanAffordBlock", {"action": "DETOUR_TASK",
+                                                             "reason": "dev", "target": tn}))
                 continue  # 净收益不足（分数质量地板）——不为它绕路
             best, best_extra = tn, extra
         return best

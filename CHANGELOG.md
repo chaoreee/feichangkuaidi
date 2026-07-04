@@ -2,6 +2,62 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 21（续·修订）] - 2026-07-04 — 分析器基础设施落地（**分析模块移出 client，事后解析 trace**）
+
+### 触发
+承接 Iteration 21 设计评审（`docs/iteration_plan_v2.md`）的落地步骤 §11。**修订**：初版误把 `analysis/`
+放进交付件 `client/`（in-client collector + report.json）。对战平台运行时无需实时分析，client 只需记录日志；
+分析器属仓库侧工具，须在 client 之外、对取回的多份 trace 事后解析。故重构为：client 只记 trace →
+仓库根 `analysis/` 解析+聚合。
+
+### Added
+- **`analysis/`（仓库根，client 之外，纯 stdlib）**：
+  - `parser.parse_log(path) -> Report`：把 client trace `match_*.log`（`match_logger.py` 输出格式）解析为
+    schemaVersion=1 结构化 `Report`。事实 100% 从日志文本抽取；行无法识别静默跳过，永不抛出。来源：
+    Startup/Start→身份+seed；Frame→轨迹/验核帧/RUSH 触发/WAITING 停滞/中局 gap/天气；Action→资源·急策·任务·
+    突破·设卡·窗口·决策超时；GuardDecision→设卡 defense/denial；Projection/ModeChange→投影/置信/mode 切换/
+    误差；Over/Score→outcome/终局分/交付帧；Rejected/CanAffordBlock→被拒/拦截。
+  - `aggregator`：跨局统计 + **场景分段**（交付/未交付、task-90 达成/未达、中局领先/落后/持平、天气/争抢、
+    对手交付）+ **运气分类**（expected_win/unlucky_loss/lucky_win/expected_loss，v1 以投影误差作运气信号）+
+    异常局标记 + seed 配对 A/B（95% CI + 配对胜负 + 分段回归检查 + 低样本标"假设级" N<30/100）+
+    **`rules.py` 对账自检**（从 Report 原始输入重算终局分 vs trace Score 行 total，0 误差）→
+    `docs/analysis_report.md`（+ 存在 variant 时的 `docs/ab_report.md`）。
+  - `__main__`：CLI `python3 -m analysis <dirs>`，扫描 `match_*.log` 解析聚合；source/variant 按路径推断
+    （`logs/real/`→platform、`logs/sim/`→sim；父目录 `baseline`/`tuned`→variant），可被 `--source`/`--variant` 覆盖。
+- **单测**：`analysis/tests/test_parser.py`（14 项，合成 trace 逐字段断言解析）、
+  `analysis/tests/test_aggregator.py`（18 项，对账/分段/异常/A/B 配对+CI+分段回归+低样本）。
+
+### Changed（client 侧——仅日志，零分析负担）
+- `client/strategy/decision.py`：`DecisionEngine` 持有 `self.trace_events`（本帧内部信号列表，main 取走落盘）；
+  `_apply_rejection_feedback` 命中被拒动作时 append `("Rejected", ...)`；`_task_detour_target` 候选被
+  `_can_afford`/ΔEV 拦截时 append `("CanAffordBlock", ...)`。decision 不持有 logger（保持与通信解耦）。
+- `client/main.py`：`_log_engine_events` 每帧把 `engine.trace_events` 写成 trace 行；`_log_actions` 补记
+  WINDOW_CARD 的 `contestType`（查 world.contests）；Start 行补 `seed`。**移除** collector 全部钩子与 report 写盘。
+- `client/config.py`：**移除** `REPORT_SOURCE`/`REPORT_VARIANT`（分析专属配置不属于交付件）。
+- `scripts/mock_server.py`：`build_over` 改用 `core/rules.py` 计算真实终局分（取代 stub total=0），让 trace
+  Score 行携带可信分、对账 0 误差。**不影响仿真物理**。
+- `.gitignore`：移除 `client/logs/*.report.json`（client 不再写）；保留忽略生成的 `docs/analysis_report.md`/`ab_report.md`。
+- `logs/README.md`：改为"client 只产 trace → 复制到 logs/{real,sim}/ → `python3 -m analysis` 解析聚合"流程 + 分工边界。
+- `docs/iteration_plan_v2.md`：§3.1/§3.2/§3.3/§3.6/§11 改为"分析器在 client 之外、事后解析 trace"。
+- `CLAUDE.md`：§2 架构、§4.4 赛后分析、当前轮次/进度、§7 Iter 21 日志全部改为修订版。
+- `docs/architecture.md`、`docs/delivery_spec.md`：模块表/数据流标注 `analysis/` 在 client 之外。
+
+### Removed
+- `client/analysis/`（整目录）、`client/tests/test_collector.py`、`scripts/analyze_logs.py`、`scripts/tests/`——
+  分析代码全部移出 client / 迁入仓库根 `analysis/`。
+
+### Verified
+- `python3 -m unittest discover -s tests`（client）**231** 全通过（回归到 Iter21 前，无 collector 测试）；
+  `python3 -m unittest discover -s analysis/tests -t .` **32** 全通过（14 parser + 18 aggregator，合计 **263**）。
+- mock 端到端：仍 @r48 交付（fresh=97.60 / good=100 / task=60）；client/logs 仅产 `match_*.log`（**无 report.json**）；
+  `python3 -m analysis logs/sim` 解析聚合后对账自检 `ok=1, mismatch=0`（0 误差）；投影分 672 == 实际 672（error=0）；
+  source/variant 由路径正确推断为 sim/baseline。
+- 运行期决策代码与 mock @r48 零回归。
+
+### 待办（Iter 22+）
+- Iter 22：Phase 0——打包提交收割真实对局 trace 到 `logs/real/`，`python3 -m analysis` 解析聚合，AI 读 `analysis_report.md` 做 P0 归因。
+- Iter 23+：Phase A 仿真器 → Phase B 静态规划器 → Phase C 校准 → Phase D 博弈层重排（按 `iteration_plan_v2.md` §10 排期）。
+
 ## [Iteration 21] - 2026-07-04 — 迭代方式重排设计评审（分析器驱动证据型迭代，未改运行期代码）
 
 ### 触发

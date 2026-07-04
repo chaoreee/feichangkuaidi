@@ -181,10 +181,11 @@ def _handle_inquire(client, engine, logger, match_id, player_id, data):
         logger.trace("Error", round=rnd, error="send_failed", detail=str(exc))
         return
 
-    _log_actions(logger, rnd, actions, elapsed_ms)
+    _log_actions(logger, rnd, actions, elapsed_ms, world)
+    _log_engine_events(logger, rnd, engine)
 
 
-def _log_actions(logger, rnd, actions, elapsed_ms):
+def _log_actions(logger, rnd, actions, elapsed_ms, world):
     """每个动作写一行 Action trace；空动作（系统等待/心跳）也显式记录一行。"""
     over_budget = elapsed_ms > config.DECISION_BUDGET * 1000
     ms = elapsed_ms if over_budget else None  # 只在超预算时附带耗时，保持精简
@@ -192,8 +193,26 @@ def _log_actions(logger, rnd, actions, elapsed_ms):
         logger.trace("Action", round=rnd, action="NONE", note="heartbeat", ms=ms)
         return
     for action in actions:
-        logger.trace("Action", round=rnd, ms=ms, **_action_fields(action))
+        fields = _action_fields(action)
+        # 窗口出牌补记 contestType（供赛后分析分段；动作本身只带 contestId）。
+        if action.get("action") == "WINDOW_CARD":
+            cid = action.get("contestId")
+            for c in world.my_contests():
+                if c.get("contestId") == cid:
+                    fields["contestType"] = c.get("contestType")
+                    break
+        logger.trace("Action", round=rnd, ms=ms, **fields)
         ms = None  # 耗时只标在本帧首行
+
+
+def _log_engine_events(logger, rnd, engine):
+    """把 decision 本帧产生的内部信号（被拒动作 / canAfford 拦截）写成 trace 行，供赛后分析。
+
+    decision 不持有 logger（策略与通信解耦），故由 main 取出其 trace_events 落盘。
+    """
+    for name, fields in getattr(engine, "trace_events", None) or ():
+        logger.trace(name, round=rnd, **fields)
+    engine.trace_events = []
 
 
 def _log_projection(logger, rnd, engine):
@@ -278,10 +297,13 @@ def main(argv):
         match_id = sdata.get("matchId")
         logger.bind_match(match_id or "unknown")
         team_id, camp = messages.find_self_player(sdata, player_id)
+        seed = next((sdata.get(k) for k in ("seed", "randomSeed", "matchSeed")
+                     if sdata.get(k) is not None), None)
         logger.trace("Start", teamId=team_id, camp=camp,
                      durationRound=sdata.get("durationRound"),
                      nodes=len(sdata.get("nodes", []) or []),
-                     edges=len(sdata.get("edges", []) or []))
+                     edges=len(sdata.get("edges", []) or []),
+                     seed=seed)
 
         # 3) ready（round 用 start.round，通常为 1）
         ready_round = sdata.get("round") or 1

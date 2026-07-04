@@ -10,6 +10,10 @@ venv/
 client/logs/*.log
 !client/logs/.gitkeep
 
+# 分析器生成的聚合报告（每次 python3 -m analysis 重新生成，不入库）
+docs/analysis_report.md
+docs/ab_report.md
+
 # 本地 IDE / 工具设置
 .claude/
 .idea/
