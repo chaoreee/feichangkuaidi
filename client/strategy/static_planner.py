@@ -1,21 +1,23 @@
-"""Phase B 静态规划器（鲜度感知路线 + 冰鉴策略 + 终局分投影选择）。
+"""Phase B 联合静态规划器（路线 × task × ice 一体投影选择）。
 
-见 docs/p0_attribution_batch2.md / docs/iteration_plan_v2.md §6。真实 30 局 trace 证伪
-"任务"杠杆（task_base≥130 双双封顶 delivery 240 / task 180，多做任务零分）、确证"鲜度"为
-真实杠杆（输局对手交付鲜度 90.6 vs 我 80.4 → freshness 分 +19；质量路线投影 +24）。本模块把
-"早交付 vs 保鲜度"静态权衡当作优化问题求解：
+见 docs/p0_attribution_batch2.md / docs/iteration_plan_v2.md §6 / docs/calibration_v1.md。
+真实 30 局 trace 证伪"任务"杠杆（task_base≥130 双封顶 delivery 240 / task 180，多做任务零分）、
+确证"鲜度"为真实杠杆（+19/局）。v1 分项式（路线选择 / ice 绕路 / task 绕路各自为政）未过 A/B：
+task 与 ice 争同一 spare-time 预算（零和），且 project_route 把 task_base 冻结、无法评估
+"绕冰源 vs 绕任务点"的取舍。本版改为**联合**求解：
 
-- `freshness_optimal_path`：鲜度损耗最小的路径（Dijkstra，边权 = 逐边 `FRESHNESS_LOSS_MOVE ×
-  frames_on_edge` + 途经处理站停靠损耗）。
-- `project_route`：沿给定路径交付、用 k 次冰鉴的投影终局分（复用 `core/rules.py` + 鲜度模型）。
-- `plan_route`：对候选路径（时间最优 / 鲜度最优）× 冰鉴用量 0..库存，取投影终局分最高者；仅当
-  鲜度最优投影分高出时间最优 ≥ `STATIC_PLANNER_MIN_ROUTE_GAIN` 才改道，否则保时间最优。
+- `freshness_optimal_path`：鲜度损耗最小的路径（Dijkstra，边权 = 逐边损耗 + 途经处理站停靠）。
+- `_path_pickups`：沿给定路径可领取的 task（贪心到 130 封顶）+ 可收集的 ice 概算——让路线
+  选择能正确权衡"绕冰源多收 ice"与"绕任务点多做 task"的零和（v1 缺的关键）。
+- `project_route`：沿路径交付、用 k 次冰鉴的投影终局分（复用 `core/rules.py` + 鲜度模型 +
+  `_path_pickups` 的 task/ice 建模）。自动计入沿途 task 领取帧、ice 收集帧及其鲜度损耗。
+- `plan_route`：候选 = 时间最优 + 鲜度最优 + 经冰源/任务点 waypoint 的拼接路线；每候选用
+  `project_route`（× ice 用量 0..库存+沿途可收）投影终局分取最高，仅当高出时间最优
+  ≥ `STATIC_PLANNER_MIN_ROUTE_GAIN` 才改道。读 `start` 拓扑动态生成候选，不写死节点（通用）。
 
 冰鉴模型（对齐 sim/规则）：每次 `USE_RESOURCE(ICE_BOX)` +10 鲜度（封顶 100）、耗 1 动作帧
-（推迟交付 1 帧）、可阻止 1 次 good→bad 阈值跨越（+10≈一个阈值带 90/80/…）。
-
-默认关（`config.ENABLE_STATIC_PLANNER`）：baseline 行为不变。作 variant 仿真 A/B 验证
-（N≥30 + 分段不回归）后才合入默认。纯函数 + 异常安全：任何错误回落时间最优路径，绝不抛出。
+（推迟交付 1 帧）、可阻止 1 次 good→bad 阈值跨越。默认关（`config.ENABLE_STATIC_PLANNER`）：
+baseline 行为不变。纯函数 + 异常安全：任何错误回落时间最优路径，绝不抛出。
 """
 
 import math
@@ -25,7 +27,10 @@ from strategy.projection import freshness_loss_for_path, project_final_score
 
 _INF = float("inf")
 _ICE_RESTORE = 10.0          # 单次冰鉴鲜度恢复量（对齐 sim_engine / 规则）
+_ICE_CLAIM_FRAMES = 2        # 收集 1 篓冰鉴的读条帧（对齐 config.RESOURCE_CLAIM_ROUND）
+_TASK_CAP = 130              # task_score 封顶的 task_base 阈值；过此多做任务零边际（rules）
 _DEFAULT_VERIFY_FRAMES = 6   # gm 无 gate 信息时的回退
+_WAYPOINT_MAX_EXTRA = 80     # waypoint 绕路允许的最大额外帧（防候选爆炸；ΔEV 门才是真正过滤器）
 
 
 def _weather_coef(world):
@@ -99,11 +104,64 @@ def path_frames(gm, path, base_move=None):
     return total
 
 
-def project_route(world, me, gm, path, terminal, ice_uses, ctx, weather_coef):
-    """投影沿 path 交付、用 ice_uses 次冰鉴的终局分。
+def _best_task_at(world, nid):
+    """节点 nid 上可领取的最高分任务 (score, processRound)；无可用任务返回 None。"""
+    best = None
+    for t in getattr(world, "tasks", []) or []:
+        if t.get("nodeId") != nid:
+            continue
+        if not t.get("active") or t.get("completed") or t.get("failed"):
+            continue
+        sc = t.get("score") or 0
+        pr = t.get("processRound") or 0
+        if best is None or sc > best[0]:
+            best = (sc, pr)
+    return best
 
-    返回 dict {score, deliver_frame, final_fresh, final_good, task_base, route_loss}，
-    path 不可用 / 无法交付时返回 None。冰鉴模型见模块docstring。
+
+def _path_pickups(world, me, path):
+    """沿 path 可领取的 task / 可收集的 ice 概算（用于路线终局分投影与对比）。
+
+    返回 (task_delta, task_claim_frames, ice_collected, ice_claim_frames)：
+    - task：每个途经任务节点领 1 个最高分任务，贪心到 task_base 达 _TASK_CAP(130) 封顶
+      （过此多做任务零边际，不浪费帧）。
+    - ice：每个途经有库存的冰源 +1 篓（每篓 _ICE_CLAIM_FRAMES 收集帧）。
+    每节点只计一次（防 path 重访）。属投影近似——实际领取/收集由 _maybe_task / _maybe_claim
+    在到达该节点时落地；此处仅为路线**对比**提供一致的潜在收益估算。
+    """
+    task_delta = 0
+    task_frames = 0
+    ice_collected = 0
+    ice_frames = 0
+    cur_tb = me.task_score or 0
+    seen = set()
+    node_states = getattr(world, "node_states", {}) or {}
+    for nid in path:
+        if nid in seen:
+            continue
+        seen.add(nid)
+        # task：未到封顶时领取本节点最高分任务
+        if cur_tb + task_delta < _TASK_CAP:
+            bt = _best_task_at(world, nid)
+            if bt is not None:
+                task_delta += bt[0]
+                task_frames += bt[1]
+        # ice：有库存的冰源 +1 篓
+        ns = node_states.get(nid)
+        if ns is not None and ns.resource_available("ICE_BOX"):
+            ice_collected += 1
+            ice_frames += _ICE_CLAIM_FRAMES
+    return task_delta, task_frames, ice_collected, ice_frames
+
+
+def project_route(world, me, gm, path, terminal, ice_uses, ctx, weather_coef):
+    """投影沿 path 交付、用 ice_uses 次冰鉴的终局分（含沿途 task/ice 建模）。
+
+    自动计入 `_path_pickups`：沿途 task 领取（task_base += task_delta，+领取帧）、
+    ice 收集（+收集帧，计入可用量上限）、领取/收集停靠帧的鲜度损耗。
+    返回 dict {score, deliver_frame, final_fresh, final_good, task_base, route_loss,
+              ice_collected, task_delta}；path 不可用 / 无法交付时返回 None。
+    冰鉴模型见模块 docstring。
     """
     if not path or len(path) < 2 or terminal is None:
         return None
@@ -112,8 +170,11 @@ def project_route(world, me, gm, path, terminal, ice_uses, ctx, weather_coef):
     if frames == _INF:
         return None
     verify = 0 if getattr(me, "verified", False) else _verify_frames(gm)
-    deliver_frame = rnd + frames + verify + ice_uses      # 每次冰鉴耗 1 动作帧
-    route_loss = freshness_loss_for_path(gm, path, weather_coef, verify_frames=verify)
+    task_delta, task_frames, ice_collected, ice_frames = _path_pickups(world, me, path)
+    stop_frames = task_frames + ice_frames
+    deliver_frame = rnd + frames + verify + ice_uses + stop_frames      # 冰鉴使用 + 任务/冰鉴收集停靠
+    route_loss = freshness_loss_for_path(gm, path, weather_coef, verify_frames=verify) \
+                 + stop_frames * rules.FRESHNESS_LOSS_BASE * weather_coef
 
     cur_fresh = me.freshness or 0.0
     fresh_no_ice = max(0.0, cur_fresh - route_loss)
@@ -123,74 +184,158 @@ def project_route(world, me, gm, path, terminal, ice_uses, ctx, weather_coef):
     crossings = max(0, crossings_no_ice - ice_uses)
     final_good = max(0, (me.good_fruit or 0) - crossings)
 
-    task_base = me.task_score or 0
+    task_base = (me.task_score or 0) + task_delta
     duration = ctx.duration_round or 600
     score = project_final_score(
         deliver_frame, task_base, final_good, final_fresh,
         penalty=me.penalty_score or 0, duration=duration)
     return {"score": score, "deliver_frame": deliver_frame,
             "final_fresh": final_fresh, "final_good": final_good,
-            "task_base": task_base, "route_loss": route_loss}
+            "task_base": task_base, "route_loss": route_loss,
+            "ice_collected": ice_collected, "task_delta": task_delta}
 
 
-def _best_score_for_path(world, me, gm, path, terminal, ctx, weather_coef, ice_budget):
-    """单路径上遍历冰鉴用量 0..ice_budget 的最高投影分。返回 (score, k) 或 None。"""
-    best = None
-    for k in range(0, ice_budget + 1):
+def _best_score_for_path(world, me, gm, path, terminal, ctx, weather_coef):
+    """单路径上遍历冰鉴用量 0..(库存 + 沿途可收) 的最高投影分。返回 (score, k) 或 None。
+
+    ice 预算 = 当前库存 + `_path_pickups` 沿途可收集量（前瞻规划假设将收集到）。
+    """
+    inv = 0
+    if hasattr(me, "resource_count"):
+        inv = me.resource_count("ICE_BOX") or 0
+    probe = project_route(world, me, gm, path, terminal, 0, ctx, weather_coef)
+    if probe is None:
+        return None
+    ice_budget = inv + probe.get("ice_collected", 0)
+    best = (probe["score"], 0)
+    for k in range(1, ice_budget + 1):
         proj = project_route(world, me, gm, path, terminal, k, ctx, weather_coef)
         if proj is None:
             continue
-        if best is None or proj["score"] > best[0]:
+        if proj["score"] > best[0]:
             best = (proj["score"], k)
     return best
 
 
+def _via_path(gm, src, waypoints, terminal, blocked):
+    """src → w1 → ... → terminal 的拼接时间最短路。
+
+    返回 (path, frames)。拒绝**非简单路径**（含重复节点/回溯段）：waypoint 间最短路若绕回
+    src 或已访问节点，拼接后会形成回环，逐帧重规划时导致在回环处振荡卡死（真实败局模式）。
+    任一段不可达或拼接后非简单路径 → 返回 (None, inf)。
+    """
+    nodes = [src] + list(waypoints) + [terminal]
+    full = []
+    total = 0
+    for i in range(len(nodes) - 1):
+        seg, c = gm.time_optimal_path(nodes[i], nodes[i + 1], blocked=blocked)
+        if not seg or c == _INF:
+            return None, _INF
+        total += c
+        full.extend(seg if i == 0 else seg[1:])   # 后续段去掉与前段重复的衔接点
+    # 简单性校验：含重复节点（回溯/回环）的候选直接丢弃
+    if len(set(full)) != len(full):
+        return None, _INF
+    return full, total
+
+
+def _build_candidates(world, me, gm, src, terminal, blocked, p_time, p_fresh):
+    """生成候选路线集：时间最优 + 鲜度最优 + 经冰源/任务点 waypoint 的拼接路线。
+
+    读 `start` 拓扑动态枚举（不写死节点）：冰源取 world.node_states 中有 ICE_BOX 库存者；
+    任务点取 world.tasks 中 active 未完成者。waypoint 绕路额外帧 ≤ _WAYPOINT_MAX_EXTRA 才入选
+    （防候选爆炸；真正过滤由 plan_route 的 ΔEV 门负责）。含 (ice, task) 二段组合以覆盖
+    "冰源与任务点共址"的高效路线（真实对手 fresh 93 + task 165 共存所暗示）。
+    """
+    candidates = []
+    if p_time:
+        candidates.append(p_time)
+    if p_fresh and p_fresh != p_time:
+        candidates.append(p_fresh)
+
+    direct = path_frames(gm, p_time) if p_time else _INF
+
+    ice_nodes = []
+    for nid, ns in (getattr(world, "node_states", {}) or {}).items():
+        if nid in (src, terminal):
+            continue
+        if ns.resource_available("ICE_BOX"):
+            ice_nodes.append(nid)
+
+    task_nodes = []
+    for t in getattr(world, "tasks", []) or []:
+        if not t.get("active") or t.get("completed") or t.get("failed"):
+            continue
+        nid = t.get("nodeId")
+        if nid and nid not in (src, terminal) and nid not in task_nodes:
+            task_nodes.append(nid)
+
+    # 单 waypoint：经 1 个冰源 或 1 个任务点
+    for w in ice_nodes + task_nodes:
+        p, c = _via_path(gm, src, [w], terminal, blocked)
+        if p is None or c - direct > _WAYPOINT_MAX_EXTRA:
+            continue
+        candidates.append(p)
+
+    # 二段组合：(冰源, 任务点)——覆盖冰源/任务共址路线
+    for i in ice_nodes:
+        for t in task_nodes:
+            if i == t:
+                continue
+            p, c = _via_path(gm, src, [i, t], terminal, blocked)
+            if p is None or c - direct > _WAYPOINT_MAX_EXTRA:
+                continue
+            candidates.append(p)
+
+    return candidates
+
+
 def plan_route(world, me, gm, src, dst, terminal, ctx, blocked=None):
-    """选投影终局分最高的路线（时间最优 vs 鲜度最优 × 冰鉴用量 0..库存）。
+    """选投影终局分最高的**完整交付路线**（联合 task/ice/freshness/time）。
 
-    返回 (path, projected_score)。永不抛出：异常/不可达回落时间最优路径。
-    仅当鲜度最优投影分高出时间最优 ≥ STATIC_PLANNER_MIN_ROUTE_GAIN 才改道，否则保时间最优
-    （baseline 行为）——避免噪声驱动的微改道。
-
-    冰鉴预算取 max(当前库存, STATIC_PLANNER_ICE_KEEP)：前瞻规划假设将收集到 KEEP 篓
-    （由 _maybe_claim 按 STATIC_PLANNER_ICE_KEEP 落实），让路线选择看到质量路线的潜在收益。
+    flag-on 时规划 src→terminal 的完整交付路线（`dst` 仅保留签名兼容，作异常回落目标）：
+    候选 = 时间最优 + 鲜度最优 + 经冰源/任务点 waypoint 的拼接路线（`_build_candidates`）。
+    每候选用 `project_route`（自动建模沿途 task 领取 + ice 收集 + ice 用量 0..预算）投影终局分，
+    取最高；仅当高出时间最优 ≥ `STATIC_PLANNER_MIN_ROUTE_GAIN` 才改道，否则保时间最优。
+    永不抛出：异常/不可达回落时间最优路径。
     """
     import config
     blocked = frozenset(blocked or ())
     try:
+        if terminal is None:
+            p, _ = gm.time_optimal_path(src, dst, blocked=blocked)
+            return (p or [], 0.0)
         wcoef = _weather_coef(world)
-        p_time, _ = gm.time_optimal_path(src, dst, blocked=blocked)
-        p_fresh, _ = freshness_optimal_path(gm, src, dst, blocked, wcoef)
+        p_time, _ = gm.time_optimal_path(src, terminal, blocked=blocked)
+        p_fresh, _ = freshness_optimal_path(gm, src, terminal, blocked, wcoef)
 
-        candidates = []
-        if p_time:
-            candidates.append(p_time)
-        if p_fresh and p_fresh != p_time:
-            candidates.append(p_fresh)
-        if not candidates:
+        candidates = _build_candidates(world, me, gm, src, terminal, blocked, p_time, p_fresh)
+
+        # 去重
+        seen = set()
+        uniq = []
+        for p in candidates:
+            key = tuple(p)
+            if key and key not in seen:
+                seen.add(key)
+                uniq.append(p)
+        if not uniq:
             return (p_time or [], 0.0)
 
-        ice_avail = 0
-        if hasattr(me, "resource_count"):
-            ice_avail = me.resource_count("ICE_BOX") or 0
-        ice_budget = max(ice_avail, getattr(config, "STATIC_PLANNER_ICE_KEEP", 3))
-
-        # 时间最优的最高分（对照基线）
-        time_best = _best_score_for_path(world, me, gm, p_time, terminal, ctx, wcoef, ice_budget) \
+        time_best = _best_score_for_path(world, me, gm, p_time, terminal, ctx, wcoef) \
             if p_time else None
 
         best = None  # (score, path)
-        for path in candidates:
-            scored = _best_score_for_path(world, me, gm, path, terminal, ctx, wcoef, ice_budget)
+        for path in uniq:
+            scored = _best_score_for_path(world, me, gm, path, terminal, ctx, wcoef)
             if scored is None:
                 continue
             if best is None or scored[0] > best[0]:
                 best = (scored[0], path)
-
         if best is None:
             return (p_time or [], 0.0)
 
-        # 改道门控：鲜度最优须高出时间最优 ≥ MIN_ROUTE_GAIN 才采用，否则保时间最优。
+        # ΔEV 改道门控：候选须高出时间最优 ≥ MIN_ROUTE_GAIN 才采用，否则保时间最优。
         best_path = best[1]
         if best_path != p_time and time_best is not None:
             if best[0] - time_best[0] < getattr(config, "STATIC_PLANNER_MIN_ROUTE_GAIN", 0.5):

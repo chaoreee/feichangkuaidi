@@ -2,6 +2,40 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 27] - 2026-07-04 — Phase B v2 联合规划器（task+ice+route 一体求解，A/B 仍未过门槛）
+
+针对 Iter 26 v1 评审结论（`project_route` 冻结 task_base、`plan_route` 候选集过窄、`_ice_detour_target` 分项式零和）落地真正联合求解。**sim A/B 仍未过门槛（−3.7），flag 保持关；但机制正确（多图自适应已证）、修了一个卡死 bug、根因从"分项零和"推进到"投影天气乐观（隐藏信息）"。**
+
+### Added
+- `strategy/static_planner.py` `_path_pickups(world, me, path)`：沿路径自动建模 task 领取（每任务节点领最高分任务，贪心到 task_base 130 封顶——过此零边际不浪费帧）+ ice 收集（每有库存冰源 +1 篓、+`_ICE_CLAIM_FRAMES`）。返回 (task_delta, task_frames, ice_collected, ice_frames)。让路线投影首次能权衡"绕冰源多收 ice"与"绕任务点多做 task"的零和（v1 缺的关键）。
+- `project_route` 接入 `_path_pickups`：task_base += task_delta、deliver_frame 含领取/收集停靠帧、route_loss 含停靠帧鲜度损耗；返回 `ice_collected`/`task_delta`。
+- `_build_candidates` + `_via_path`：`plan_route` 候选集扩展为 时间最优 + 鲜度最优 + 经冰源/任务点 waypoint 的拼接路线（含 ice+task 二段组合，覆盖共址路线）。读 `world.node_states`/`world.tasks` 动态枚举，**不写死节点**（通用）。waypoint 绕路额外帧 ≤ `_WAYPOINT_MAX_EXTRA`(80) 入选，ΔEV 门真正过滤。
+- `tests/test_static_planner.py` `TestJointModel`（3 项：`_path_pickups` 计 task/ice、task 封顶、`project_route` 沿途建模）+ `TestMultiMapAdaptivity`（4 项：共址图改道、偏远图保直送、偏远+任务仍绕路、同输入两图相反决策）。`_joint_world`/`_task`/`FAR_ICE_MAP` 辅助。
+
+### Changed
+- `plan_route` 改为规划 **src→terminal 完整交付路线**（`dst` 仅签名兼容/异常回落）；`_best_score_for_path` 自算 ice 预算（库存 + 沿途可收），不再接 ice_budget 形参。
+- `decision.py`：删 `_ice_detour_target`（分项式零和元凶）+ 其 `_plan` 链调用；flag-on 时 `_plan` 跳过 `_task_detour_target`（避免与 plan_route 双重决策）；`_select_path` flag-on 用 plan_route（规划到 terminal）。
+- `config.py`：删 `STATIC_PLANNER_ICE_DETOUR_MAX_EXTRA`（orphan）。`STATIC_PLANNER_ICE_USE_BELOW`/`ICE_KEEP` 保留——移除分项绕路后，它们经路线耦合兑现冰鉴收集/使用（不再脱钩）。
+- 模块 docstring 更新为联合规划器表述。
+
+### Fixed
+- **卡死 bug**：初版 `_via_path` 拼接的 waypoint 路径可含回溯段（如 S03→S06 最短路绕回 S01），逐帧重规划时在回环处振荡 → 7/50 局 STUCK（双方均卡至 600 帧未交付）。修法：`_via_path` 拒绝非简单路径（`len(set(full)) != len(full)`）。修复后 0 STUCK、交付率 1.000。
+
+### Tests / A/B
+- 265 client 单测全过（+7 新增；flag-off 行为零回归）。
+- sim A/B 50 种子：baseline mean 747.8 / 交付 455.4；tuned（联合规划器）mean **744.1（−3.7）** / 交付 515.0（+60）/ 0 STUCK。
+- 多图单测证通用自适应：冰源顺路图 → 改道；冰源偏远图 → 保直送（同输入不同图相反决策）。
+
+### 未合入原因 / 根因推进
+- v1 根因"分项式 task-ice 零和"已由联合求解消除（`project_route` 现能权衡二者），但 A/B 仍负。
+- **新根因**：投影系统性低估长绕路时间成本——`path_frames` 用默认天气系数，未建模暴雨（水路 +35%）/山雾（山路 +10%）移动减速；长绕路水路段多、被低估更甚 → 投影高估长路线收益（投影 +7、实测 −3.7）。
+- **未来天气对客户端隐藏**（协议）→ 投影无法准确预测 → 此乐观**不可彻底消除**。
+- 不强行调参逼 samples 正向（过拟合初赛图，违反通用原则；决赛换新图）。samples 结构上不提供廉价鲜度（与 v1 同结论，现已由正确联合推理得出）。
+
+### 决策
+- `ENABLE_STATIC_PLANNER` **保持默认关**（运行期零变化，CLIENT_VERSION 不 bump）。代码保留作通用 variant 平台。
+- 下一步候选：① ΔEV 门加"每帧效率"维度（gain/extra_frames ≥ 阈值）吸收不可消除的投影不确定性——拒 +7/+60=0.12/帧 的低效长绕路；② 接受 samples 中性、靠决赛新图（冰源顺路时）自然正向。详见 `docs/calibration_v1.md` §7。
+
 ## [Iteration 26] - 2026-07-04 — Phase B v1 静态规划器（仿真 A/B 未过门槛，flag 保持关）
 
 ### 触发

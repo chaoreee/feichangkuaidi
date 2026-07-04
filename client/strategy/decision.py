@@ -195,12 +195,14 @@ class DecisionEngine:
             return [guard]
 
         # race 绕路（§6.2/§6.3，默认关）：任务 deny → 资源(冰鉴)争夺 → 追平/机会式绕路任务
-        # Phase B（ENABLE_STATIC_PLANNER）：冰鉴收集绕路（质量路线冰源）置于任务绕路之后——
-        # 任务优先（task 未封顶时先做任务），冰源只在 spare time 收集，避免冰鉴绕路挤占任务时间。
+        # Phase B（ENABLE_STATIC_PLANNER）：联合规划器在 _select_path 内接管路线选择（含
+        # task/ice waypoint 候选 + 沿途 task/ice 投影），故此处不为任务绕路——避免与 plan_route
+        # 双重决策。flag-off 时走既有 _task_detour_target（baseline 行为不变）。
         dst = self._task_deny_target(world, me, gm, node, terminal)
         dst = dst or self._maybe_resource_race(world, me, gm, node, terminal)
-        dst = dst or self._task_detour_target(world, me, gm, node, terminal)
-        dst = dst or self._ice_detour_target(world, me, gm, node, terminal) or terminal
+        if not config.ENABLE_STATIC_PLANNER:
+            dst = dst or self._task_detour_target(world, me, gm, node, terminal)
+        dst = dst or terminal
         if dst:
             return self._advance(world, me, gm, node, dst, terminal)
         return []
@@ -691,63 +693,6 @@ class DecisionEngine:
                 continue  # 净收益不足（分数质量地板）——不为它绕路
             best, best_extra = tn, extra
         return best
-
-    def _ice_detour_target(self, world, me, gm, node, terminal):
-        """Phase B 冰鉴收集绕路（质量路线的冰源，docs/p0_attribution_batch2.md）。
-
-        真实杠杆是鲜度（+19/局），而鲜度靠冰鉴顶住。本图直送路线仅过 1 个冰源（S06）→
-        单篓冰鉴不足以改变交付鲜度。本方法在交付预算内绕路收集更多冰鉴：对每个有库存的
-        冰源节点，投影"绕路收集 + 多用 1 篓冰鉴"的终局分 vs 直送当前冰鉴用量的终局分，
-        增益 ≥ STATIC_PLANNER_MIN_ROUTE_GAIN 且过 `_can_afford` 时选增益最高者绕路。
-
-        守卫：已囤够 STATIC_PLANNER_ICE_KEEP 不再绕；RUSH 保交付阶段不绕。返回冰源节点或 None。
-        """
-        if not config.ENABLE_STATIC_PLANNER or not terminal or world.is_rush:
-            return None
-        if (me.resource_count(ResourceType.ICE_BOX) or 0) >= config.STATIC_PLANNER_ICE_KEEP:
-            return None  # 已囤够，不为冰鉴绕路
-        try:
-            wcoef = static_planner._weather_coef(world)
-            blocked = self._blocked_nodes(world, me)
-            p_direct, direct = gm.time_optimal_path(node, terminal, blocked=blocked)
-            if not p_direct or direct == _INF:
-                return None
-            ice_now = me.resource_count(ResourceType.ICE_BOX) or 0
-            # 直送 + 当前冰鉴用量 的最高投影分（基线）
-            cur = static_planner._best_score_for_path(
-                world, me, gm, p_direct, terminal, self.ctx, wcoef, ice_now)
-            if cur is None:
-                return None
-
-            best = None  # (gain, node)
-            for nid, ns in world.node_states.items():
-                if nid == node or not ns.resource_available(ResourceType.ICE_BOX):
-                    continue
-                p1, c1 = gm.time_optimal_path(node, nid, blocked=blocked)
-                p2, c2 = gm.time_optimal_path(nid, terminal, blocked=blocked)
-                if not p1 or not p2 or c1 == _INF or c2 == _INF:
-                    continue
-                extra = (c1 + config.RESOURCE_CLAIM_ROUND + c2) - direct
-                if extra < 0 or extra > config.STATIC_PLANNER_ICE_DETOUR_MAX_EXTRA:
-                    continue  # 仅就近冰源：绕路过远挤占任务/交付时间
-                if not self._can_afford(world, gm, node, extra, terminal):
-                    self.trace_events.append(("CanAffordBlock", {"action": "ICE_DETOUR",
-                                                                 "reason": "time", "target": nid}))
-                    continue
-                # 绕路收集后冰鉴 +1；投影绕路全程（含收集停靠）+ 多 1 篓冰鉴用量
-                detour_path = p1 + p2[1:]
-                after = static_planner._best_score_for_path(
-                    world, me, gm, detour_path, terminal, self.ctx, wcoef, ice_now + 1)
-                if after is None:
-                    continue
-                gain = after[0] - cur[0]
-                if gain < config.STATIC_PLANNER_MIN_ROUTE_GAIN:
-                    continue
-                if best is None or gain > best[0]:
-                    best = (gain, nid)
-            return best[1] if best else None
-        except Exception:
-            return None
 
     def _task_catch_up_active(self, world, me):
         """§6.2 追平触发：对手任务分≥阈值(逼近/达 90) 且我方未达 90（任务分<90 边际价值高）。"""
