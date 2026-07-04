@@ -23,6 +23,7 @@ if _CLIENT not in sys.path:
 
 from analysis import aggregator  # noqa: E402
 from analysis.compact import compact_trace, to_b64  # noqa: E402
+from analysis.opponent_classifier import annotate_opp_class  # noqa: E402
 from analysis.parser import parse_log  # noqa: E402
 
 
@@ -82,6 +83,11 @@ def main(argv):
     if not reports:
         print("no valid match logs found in %s" % " ".join(args.dirs), file=sys.stderr)
         return 1
+
+    # Iter 32：注入对手类标签（guard/quality/speed/unknown）到每局 classification，
+    # 使单局 report.json / index / 聚合报告共享同一标签。纯观测，不改决策。
+    for r in reports:
+        annotate_opp_class(r)
 
     # 所有分析产物（聚合 md + 单局 report.json + index + timelines）统一落 --out-dir
     # （默认仓库根 reports/，与规格文档 docs/ 解耦——docs 只放规格，reports 放派生分析结果）。

@@ -2,6 +2,42 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 32] - 2026-07-05 — codeagent 真实对战基线准备：对手策略分类器 + analysis 群体归因段（对手类分桶，纯观测零策略风险）
+
+落地 `docs/iteration_loop_design.md` §0.5（Iter 32 框架升级）。codeagent 自动对战闭环取代手动收割：Claude Code 改代码 → push → 内网 codeagent 拉取 → 对平台真实对手群体自动跑一轮 → 收 `match_*.log` → `analysis` 解析聚合 → Claude 读**群体归因报告**定下一轮（codeagent 自收集自调 analysis，**repo 侧无需契约**）。本轮 repo 侧交付**对手策略分类器**与**群体归因段**，使新 reports 回流后 `analysis_report.md` 头部按对手类分桶看胜率/均分/分项差——为 Iter 33+ 静态最优 A/B 提供归因主线，把分析器从"单局时间线导向"转向"群体归因导向"。**纯观测/分析，零策略风险，不改任何运行期决策，client 零改动**。
+
+### Added — A. 对手策略分类器（`analysis/opponent_classifier.py`，新模块）
+- `classify_opponent(report) -> {class, signals}`：用 P1-A 已抽到的对手轨迹/用冰/设卡，对每局对手打类标签。三类互斥全覆盖，优先级 **guard > quality > speed**：
+  - **guard-type**：`oppGuards` 非空（对手至少设卡一次）——进攻性设卡是主动强信号，覆盖路线型归类。
+  - **quality-route**：`freshnessEnd ≥ 85` 且（`goodFruitEnd ≥ 95` 或 `iceUsed` 非空）——鲜度积累型。
+  - **speed-route**：其余（快交付/低鲜度型）。
+  - 旧 trace 无对手鲜度且无设卡 → `unknown`（不崩）。
+- 阈值取物理含义（85 = 一次好果→坏果跨越线之上、95 = 实质量满），**不扫参数**；`signals` 记 freshnessEnd/goodFruitEnd/iceUsedCount/oppGuardCount/oppDeliverFrame/oppTaskBase 供归因下钻。
+- `annotate_opp_class(report)`：幂等注入 `classification.opponentClass` + `oppClassSignals`。
+
+### Added — B. aggregator 群体归因段（`analysis/aggregator.py`）
+- 新增 `_opp_class_section(reports)` + `_opp_class`/`_opp_total`/`_opp_freshness`/`_opp_good_fruit` 等访问器。
+- `build_analysis_report` 在「总体」段后加「## 对手类分桶（Iter 32 群体归因，假设级）」段：每类 N/胜率/me 均分/opp 均分/鲜度 me-opp gap/好果 me-opp gap/我方交付帧 + 跨类归因一句话（最低/最高胜率类）。
+- `build_index` 每条加 `opponentClass`，便于按类过滤下钻。
+
+### Added — C. 接线（`analysis/__main__.py`）
+- `collect_reports` 后对每局调 `annotate_opp_class`，使单局 report.json / index / 聚合报告共享同一标签。
+
+### Config
+- **不 bump `CLIENT_VERSION`**（零运行期变化，纯分析侧）。
+
+### Tests
+- 新增 `analysis/tests/test_opponent_classifier.py`（14 项）：三类各例 + guard 覆盖 quality 优先级 + 鲜度边界 84/85 + 旧 trace 降级 unknown + signals 填充 + annotate 幂等 + index 字段 + 分桶段三类 N/胜率 + unknown-only + analysis_report 含分桶头。
+- 全量 366 单测过（273 client + 75 analysis[61+14] + 18 sim 零回归）。
+
+### Verification
+- sim 200 局回灌（`logs/sim` → 临时 out-dir）：`analysis_report.md` 出现「对手类分桶」段、report.json `classification.opponentClass` 与 `oppClassSignals` 注入、index.json 每条带 `opponentClass`、对账 0 误差、ab_report/timelines 正常。镜像自博弈无设卡→196 speed-route / 4 quality-route（预期）。
+- 阈值标「假设级」（N<30），Iter 33+ codeagent 真实数据回流后校准。
+
+### Next
+- 用户在内网用 codeagent 拉 `loop_engr` 分支对平台真实对手群体跑首轮基线（iter31 富化版 client）→ 收 `match_*.log` 回流 `logs/` → `python3 -m analysis logs/<dir>` 产出含分桶段的 reports。
+- Iter 33+ 静态最优：开 `ENABLE_STATIC_PLANNER` / 调冰阈值 / 鲜度感知选路，codeagent 真实 A/B（new vs old client，N≥30）验证地板 755→770。
+
 ## [Iteration 31] - 2026-07-04 — beat_top10 P1-A：分析器数据补全（client trace 富化 + parser 抽取 + aggregator 落盘，纯观测零策略风险）
 
 落地 `docs/iteration_loop_design.md` P1-A。打败前十名的 P2/P3 设计强依赖"对手凭什么鲜度 88–93"等归因，但当前 `reports/` 无法回答：协议层对手信息几乎全可见（`inquire.players[]` + `over.players[].scoreDetail`），缺口在 **client 不记 + parser 不抽**。本轮把对手分项分/设卡/资源/逐帧轨迹写进完整 trace 并解析入库，使 `report.json` 携带双方分项、`analysis_report.md` 出现对手分项与设卡段。**纯观测/分析，零策略风险，不改任何运行期决策**。

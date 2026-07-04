@@ -16,6 +16,10 @@ try:
 except Exception:  # pragma: no cover - 仅在 path 未配置时
     rules = None
 
+from analysis.opponent_classifier import (  # noqa: E402
+    CLASS_GUARD, CLASS_QUALITY, CLASS_SPEED, CLASS_UNKNOWN, classify_opponent,
+)
+
 SUPPORTED_SCHEMA = 2
 AB_MIN_SAMPLE = 30
 RARE_EVENT_MIN_SAMPLE = 100
@@ -148,6 +152,18 @@ def _segments_of(r):
     return (r.get("classification") or {}).get("segments", [])
 
 
+# 对手类（Iter 32 群体归因）：优先读 classification.opponentClass（__main__ 已注入），
+# 缺失则就地分类（兼容旧 report.json / 直接调 aggregator 的场景）。
+def _opp_class(r):
+    cls = (r.get("classification") or {}).get("opponentClass")
+    if cls:
+        return cls
+    return classify_opponent(r)["class"]
+
+
+_OPP_CLASS_ORDER = [CLASS_GUARD, CLASS_QUALITY, CLASS_SPEED, CLASS_UNKNOWN]
+
+
 # ---------------------------------------------------------------------------
 # 场景分段（§3.7）
 # ---------------------------------------------------------------------------
@@ -249,6 +265,7 @@ def build_index(reports, report_relpath=None):
             "score": _me_total(r),
             "luckClass": (r.get("classification") or {}).get("luckClass"),
             "segments": _segments_of(r),
+            "opponentClass": _opp_class(r),
             "deliverFrame": _me_deliver_frame(r),
             "taskBase": _me_task_base(r),
         }
@@ -476,6 +493,86 @@ def ab_report(reports):
 # 主报告
 # ---------------------------------------------------------------------------
 
+def _me_freshness(r):
+    return ((r.get("delivery") or {}).get("me") or {}).get("freshness")
+
+
+def _me_good_fruit(r):
+    return ((r.get("delivery") or {}).get("me") or {}).get("goodFruit")
+
+
+def _opp_freshness(r):
+    return ((r.get("trajectory") or {}).get("opponent") or {}).get("freshnessEnd")
+
+
+def _opp_good_fruit(r):
+    return ((r.get("trajectory") or {}).get("opponent") or {}).get("goodFruitEnd")
+
+
+def _opp_total(r):
+    return ((r.get("finalScore") or {}).get("opp") or {}).get("total") or None
+
+
+def _mean(vals):
+    vals = [v for v in vals if v is not None]
+    return statistics.mean(vals) if vals else None
+
+
+def _opp_class_section(reports):
+    """对手类分桶（Iter 32 群体归因）：每类 N/胜率/均分/分项差/交付帧。
+
+    design §0.5：从"单局时间线导向"转向"群体归因导向"——按对手类分桶看胜率/均分/分项差，
+    定位"对哪类对手吃亏"。单局时间线降为异常下钻入口（build_timelines，不变）。N<30 标假设级。
+    """
+    by_class = {c: [] for c in _OPP_CLASS_ORDER}
+    for r in reports:
+        by_class[_opp_class(r)].append(r)
+
+    lines = ["> 按对手类分桶（guard-type/quality-route/speed-route/unknown）。N<%d 标假设级，"
+             "Iter 33+ 真实数据回流后校准阈值。" % AB_MIN_SAMPLE, ""]
+    for c in _OPP_CLASS_ORDER:
+        sub = by_class[c]
+        if not sub:
+            continue
+        n = len(sub)
+        win = _rate(sub, lambda r: r.get("outcome") == "WIN")
+        me_scores = _nums(sub, _me_total)
+        opp_scores = _nums(sub, _opp_total)
+        me_mean = statistics.mean(me_scores) if me_scores else 0.0
+        opp_mean = statistics.mean(opp_scores) if opp_scores else 0.0
+        me_fr = _mean([_me_freshness(r) for r in sub])
+        opp_fr = _mean([_opp_freshness(r) for r in sub])
+        me_gf = _mean([_me_good_fruit(r) for r in sub])
+        opp_gf = _mean([_opp_good_fruit(r) for r in sub])
+        frames = _nums(sub, _me_deliver_frame)
+        fr_mean = statistics.mean(frames) if frames else 0.0
+        fr_gap = (opp_fr - me_fr) if (me_fr is not None and opp_fr is not None) else None
+        gf_gap = (opp_gf - me_gf) if (me_gf is not None and opp_gf is not None) else None
+        lines.append(
+            "  %-13s (N=%d): W %.2f, me %.0f / opp %.0f, "
+            "fresh me=%.1f opp=%.1f (gap %+.1f), good me=%.1f opp=%.1f (gap %+.1f), "
+            "meDeliverF=%.0f"
+            % (c, n, win, me_mean, opp_mean,
+               me_fr if me_fr is not None else 0.0,
+               opp_fr if opp_fr is not None else 0.0,
+               fr_gap if fr_gap is not None else 0.0,
+               me_gf if me_gf is not None else 0.0,
+               opp_gf if opp_gf is not None else 0.0,
+               gf_gap if gf_gap is not None else 0.0,
+               fr_mean))
+    # 跨类归因一句话
+    valid = [(c, by_class[c]) for c in _OPP_CLASS_ORDER if by_class[c]]
+    if len(valid) >= 2:
+        wr = [(c, _rate(s, lambda r: r.get("outcome") == "WIN"), len(s)) for c, s in valid]
+        wr.sort(key=lambda x: x[1])
+        worst = wr[0]
+        best = wr[-1]
+        lines.append("  → 归因：对 %s 胜率最低（%.2f, N=%d），对 %s 胜率最高（%.2f, N=%d）；"
+                     "定位追分点看分项 gap。"
+                     % (worst[0], worst[1], worst[2], best[0], best[1], best[2]))
+    return "\n".join(lines)
+
+
 def _opp_section(reports):
     """对手分项与设卡段（P1-A）：opp 分项均值 + 设卡统计 + 资源/鲜度轨迹。"""
     comps, n_opp = opp_score_components(reports)
@@ -540,6 +637,9 @@ def build_analysis_report(reports):
           "TASK_90_REACH:  %.2f" % _rate(reports, lambda r: "task90_reached" in _segments_of(r)),
           "PROJ_ERROR:     %s" % _fmt_dist(_dist(proj_errs), "proj_err"),
           "MODE_SWITCHES:  %d total (%.2f/game)" % (mode_switch_freq(reports), mode_switch_freq(reports) / n if n else 0.0),
+          "",
+          "## 对手类分桶（Iter 32 群体归因，假设级）",
+          _opp_class_section(reports),
           "",
           "## 分项分均值（me，rules.py 从原始输入重算）",
           "  " + ", ".join("%s=%.1f" % (k, v) for k, v in me_score_components(reports).items()),

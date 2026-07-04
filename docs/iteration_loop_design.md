@@ -343,7 +343,7 @@ reports/match_*.compact.log   ← 【P1-B 新增】精简 trace，入库，我 p
 | Iter 29 | **P0** 设卡卡死修复 | 无 | ✅ 已合入（bug 修复） |
 | Iter 30 | **P1-B** 精简 trace | 无 | ✅ 已合入（纯观测） |
 | Iter 31 | **P1-A** client trace 富化 + parser 抽取 + aggregator 落盘 | 无 | ✅ 已合入（纯观测） |
-| Iter 32 | 用 codeagent 跑首轮真实对战 A/B 建立基线（codeagent 自动收集 `logs/match_*.log` 调 `analysis`，无需契约）+ analysis 群体归因段（对手类分桶） | codeagent 平台 | 纯观测，零策略风险 |
+| Iter 32 | analysis 群体归因段（对手类分桶）：对手策略分类器 + `build_analysis_report` 分桶段 + index/report 注入（纯观测） | 无 | ✅ 已合入（纯观测）；codeagent 首轮真实基线由用户在内网跑（Iter 32.5） |
 | Iter 33+ | **静态最优**：开 `ENABLE_STATIC_PLANNER` / 调冰阈值 / 鲜度感知选路，codeagent A/B 验证地板 755→770 | Iter 32 闭环 | 真实 A/B 正向才合入 |
 | Iter 34+ | **博弈最优**：对手策略分类器 + 对手类驱动策略切换（替代/重构 mode 杠杆），codeagent A/B | Iter 33 静态地板 | 真实 A/B 正向才合入 |
 | Iter 35+ | **P3 denial** 分支（按归因选）+ 阈值/开关校准 | Iter 34 对手分类 | 真实 A/B + N≥30 |
