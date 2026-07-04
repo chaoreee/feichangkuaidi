@@ -1,0 +1,215 @@
+[
+  {
+    "deliverFrame": 444,
+    "luckClass": "expected_loss",
+    "matchId": "match_20260704_111949_131_2696_vs_2986_6572a042",
+    "outcome": "LOSS",
+    "reportPath": "match_20260704_111949_131_2696_vs_2986_6572a042.report.json",
+    "score": 755,
+    "seed": null,
+    "segments": [
+      "delivered",
+      "task90_reached",
+      "mid_lead",
+      "weather_hit",
+      "opp_delivered"
+    ],
+    "source": "platform",
+    "taskBase": 150,
+    "variant": "baseline"
+  },
+  {
+    "deliverFrame": 444,
+    "luckClass": "expected_win",
+    "matchId": "match_20260704_111955_901_2696_vs_2619_2d66c5cf",
+    "outcome": "WIN",
+    "reportPath": "match_20260704_111955_901_2696_vs_2619_2d66c5cf.report.json",
+    "score": 758,
+    "seed": null,
+    "segments": [
+      "delivered",
+      "task90_reached",
+      "mid_lead",
+      "weather_hit",
+      "opp_delivered"
+    ],
+    "source": "platform",
+    "taskBase": 150,
+    "variant": "baseline"
+  },
+  {
+    "deliverFrame": 471,
+    "luckClass": "expected_win",
+    "matchId": "match_20260704_112001_376_2696_vs_2809_367c9bfc",
+    "outcome": "WIN",
+    "reportPath": "match_20260704_112001_376_2696_vs_2809_367c9bfc.report.json",
+    "score": 752,
+    "seed": null,
+    "segments": [
+      "delivered",
+      "task90_reached",
+      "mid_lead",
+      "weather_hit",
+      "contested",
+      "opp_delivered"
+    ],
+    "source": "platform",
+    "taskBase": 135,
+    "variant": "baseline"
+  },
+  {
+    "deliverFrame": 444,
+    "luckClass": "expected_win",
+    "matchId": "match_20260704_112009_413_2738_vs_2696_000ca0b0",
+    "outcome": "WIN",
+    "reportPath": "match_20260704_112009_413_2738_vs_2696_000ca0b0.report.json",
+    "score": 755,
+    "seed": null,
+    "segments": [
+      "delivered",
+      "task90_reached",
+      "mid_lead",
+      "weather_hit",
+      "opp_delivered"
+    ],
+    "source": "platform",
+    "taskBase": 150,
+    "variant": "baseline"
+  },
+  {
+    "deliverFrame": 444,
+    "luckClass": "expected_win",
+    "matchId": "match_20260704_112647_000_2696_vs_2839_9e036cb3",
+    "outcome": "WIN",
+    "reportPath": "match_20260704_112647_000_2696_vs_2839_9e036cb3.report.json",
+    "score": 758,
+    "seed": null,
+    "segments": [
+      "delivered",
+      "task90_reached",
+      "mid_lead",
+      "weather_hit",
+      "opp_delivered"
+    ],
+    "source": "platform",
+    "taskBase": 150,
+    "variant": "baseline"
+  },
+  {
+    "deliverFrame": 481,
+    "luckClass": "expected_win",
+    "matchId": "match_20260704_112708_791_2696_vs_2814_dc576a6c",
+    "outcome": "WIN",
+    "reportPath": "match_20260704_112708_791_2696_vs_2814_dc576a6c.report.json",
+    "score": 750,
+    "seed": null,
+    "segments": [
+      "delivered",
+      "task90_reached",
+      "mid_trail",
+      "weather_hit",
+      "contested",
+      "opp_delivered"
+    ],
+    "source": "platform",
+    "taskBase": 135,
+    "variant": "baseline"
+  },
+  {
+    "deliverFrame": 444,
+    "luckClass": "expected_loss",
+    "matchId": "match_20260704_112742_080_2614_vs_2696_1195a1ce",
+    "outcome": "LOSS",
+    "reportPath": "match_20260704_112742_080_2614_vs_2696_1195a1ce.report.json",
+    "score": 758,
+    "seed": null,
+    "segments": [
+      "delivered",
+      "task90_reached",
+      "mid_lead",
+      "weather_hit",
+      "opp_delivered"
+    ],
+    "source": "platform",
+    "taskBase": 150,
+    "variant": "baseline"
+  },
+  {
+    "deliverFrame": 444,
+    "luckClass": "expected_win",
+    "matchId": "match_20260704_113710_675_2696_vs_2735_83c17547",
+    "outcome": "WIN",
+    "reportPath": "match_20260704_113710_675_2696_vs_2735_83c17547.report.json",
+    "score": 758,
+    "seed": null,
+    "segments": [
+      "delivered",
+      "task90_reached",
+      "mid_trail",
+      "weather_hit",
+      "opp_undelivered"
+    ],
+    "source": "platform",
+    "taskBase": 150,
+    "variant": "baseline"
+  },
+  {
+    "deliverFrame": 448,
+    "luckClass": "expected_loss",
+    "matchId": "match_20260704_113730_877_2613_vs_2696_be032523",
+    "outcome": "LOSS",
+    "reportPath": "match_20260704_113730_877_2613_vs_2696_be032523.report.json",
+    "score": 757,
+    "seed": null,
+    "segments": [
+      "delivered",
+      "task90_reached",
+      "mid_trail",
+      "weather_hit",
+      "opp_delivered"
+    ],
+    "source": "platform",
+    "taskBase": 150,
+    "variant": "baseline"
+  },
+  {
+    "deliverFrame": 462,
+    "luckClass": "expected_win",
+    "matchId": "match_20260704_113753_998_2696_vs_2931_df0282a6",
+    "outcome": "WIN",
+    "reportPath": "match_20260704_113753_998_2696_vs_2931_df0282a6.report.json",
+    "score": 752,
+    "seed": null,
+    "segments": [
+      "delivered",
+      "task90_reached",
+      "mid_trail",
+      "weather_hit",
+      "contested",
+      "opp_delivered"
+    ],
+    "source": "platform",
+    "taskBase": 150,
+    "variant": "baseline"
+  },
+  {
+    "deliverFrame": 492,
+    "luckClass": "expected_win",
+    "matchId": "match_20260704_113812_983_2696_vs_2706_b041031a",
+    "outcome": "WIN",
+    "reportPath": "match_20260704_113812_983_2696_vs_2706_b041031a.report.json",
+    "score": 733,
+    "seed": null,
+    "segments": [
+      "delivered",
+      "task90_reached",
+      "mid_trail",
+      "weather_hit",
+      "contested",
+      "opp_delivered"
+    ],
+    "source": "platform",
+    "taskBase": 120,
+    "variant": "baseline"
+  }
+]
