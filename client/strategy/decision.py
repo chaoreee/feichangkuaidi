@@ -22,7 +22,8 @@ from core.game_map import GameMap
 from protocol import actions
 from protocol.enums import Action, Card, PlayerState, ResourceType
 from strategy.projection import (Projector, RiskMode, net_score_delta,
-                                  AVG_FRESHNESS_LOSS_PER_FRAME)
+                                  AVG_FRESHNESS_LOSS_PER_FRAME,
+                                  freshness_loss_for_path)
 from strategy.tuning import tuning_for_mode
 
 _IDLE_LIKE = (PlayerState.IDLE, PlayerState.COST_BANKRUPT, None)
@@ -57,6 +58,7 @@ class DecisionEngine:
         self._prev_state = None
         self._gate_scout_sent = False
         self._cooldown = {}          # nodeId -> 拉黑截止回合（拒绝反馈）
+        self._task_cooldown = {}     # taskId -> 冷却截止回合（CLAIM_TASK 被 OBJECT_BUSY 拒后防重试风暴）
         self._last_main_action = None
         self._squad_sent = set()     # (nodeId, kind) 已派出的小分队目标，避免重复
         # M8 博弈投影层（Layer 1，纯观测）：每帧构建只读投影总线，不改变任何动作。
@@ -357,6 +359,13 @@ class DecisionEngine:
         if code == "PROCESS_REQUIRED":
             self._processed_here = False  # 强制在当前节点先完成固定处理
             return
+        if la.get("action") == Action.CLAIM_TASK and code == "OBJECT_BUSY":
+            # 该皇榜已被占（实局 S10 连停 30+ 帧重发同任务→13 waitingStuck）；冷却该 taskId，
+            # 期间不再重发，避免停车烧用时分+鲜度。冷却过期自然恢复，与节点拉黑同模式。
+            tid = la.get("taskId")
+            if tid:
+                self._task_cooldown[tid] = (world.round or 0) + config.REJECT_TASK_COOLDOWN_ROUNDS
+            return
         if la.get("action") == Action.MOVE and code in _MOVE_BLOCK_CODES:
             tgt = la.get("targetNodeId")
             if tgt:
@@ -408,6 +417,8 @@ class DecisionEngine:
                 continue
             if t.get("taskTemplateId") in config.SKIP_TASK_TEMPLATES:
                 continue
+            if self._task_cooldown.get(t.get("taskId"), 0) > (world.round or 0):
+                continue  # 该 taskId 因 OBJECT_BUSY 冷却中（防重试风暴）→ 跳过，不再重发
             prot = t.get("protectionPlayerId") or 0
             if prot and prot != pid:
                 continue
@@ -611,7 +622,7 @@ class DecisionEngine:
         if (me.task_score or 0) >= seek_target or not terminal:
             return None
         pid = self.ctx.player_id
-        _, direct = gm.time_optimal_path(node, terminal)
+        p_direct, direct = gm.time_optimal_path(node, terminal)
         if direct == _INF:
             return None
         best, best_extra = None, _INF
@@ -627,8 +638,8 @@ class DecisionEngine:
             owner = t.get("ownerPlayerId") or 0
             if owner and owner != pid:
                 continue
-            _, c1 = gm.time_optimal_path(node, tn)
-            _, c2 = gm.time_optimal_path(tn, terminal)
+            p1, c1 = gm.time_optimal_path(node, tn)
+            p2, c2 = gm.time_optimal_path(tn, terminal)
             if c1 == _INF or c2 == _INF:
                 continue
             pr = t.get("processRound", 0) or 0
@@ -640,7 +651,10 @@ class DecisionEngine:
                                                              "reason": "time", "target": tn}))
                 continue
             task_pts = t.get("score", 0) or 0
-            if self._detour_net_delta(me, task_pts, extra) < tuning.action_min_net_score:
+            detour_path = (p1 + p2[1:]) if (p1 and p2) else None
+            extra_loss = (self._detour_extra_freshness_loss(world, gm, detour_path, p_direct, pr)
+                          if detour_path else extra * AVG_FRESHNESS_LOSS_PER_FRAME)
+            if self._detour_net_delta(me, task_pts, extra, extra_loss) < tuning.action_min_net_score:
                 self.trace_events.append(("CanAffordBlock", {"action": "DETOUR_TASK",
                                                              "reason": "dev", "target": tn}))
                 continue  # 净收益不足（分数质量地板）——不为它绕路
@@ -671,7 +685,7 @@ class DecisionEngine:
         if eta is None or opp is None:
             return None
         pid = self.ctx.player_id
-        _, direct = gm.time_optimal_path(node, terminal)
+        p_direct, direct = gm.time_optimal_path(node, terminal)
         if direct == _INF:
             return None
         opp_task = opp.task_score or 0
@@ -694,8 +708,8 @@ class DecisionEngine:
             score = t.get("score", 0) or 0
             if not self._crosses_milestone(opp_task, score):  # 抢占不影响对手里程碑 → 跳过
                 continue
-            _, c1 = gm.time_optimal_path(node, tn)
-            _, c2 = gm.time_optimal_path(tn, terminal)
+            p1, c1 = gm.time_optimal_path(node, tn)
+            p2, c2 = gm.time_optimal_path(tn, terminal)
             if c1 == _INF or c2 == _INF:
                 continue
             if c1 > opp_eta + config.TASK_DENY_ETA_MARGIN:  # 抢不过对手 → 不跑空趟
@@ -706,7 +720,10 @@ class DecisionEngine:
                 continue
             if not self._can_afford(world, gm, node, extra, terminal):
                 continue
-            if self._detour_net_delta(me, score, extra) < 0:  # 不做净负分（denial 之外不自伤）
+            detour_path = (p1 + p2[1:]) if (p1 and p2) else None
+            extra_loss = (self._detour_extra_freshness_loss(world, gm, detour_path, p_direct, pr)
+                          if detour_path else extra * AVG_FRESHNESS_LOSS_PER_FRAME)
+            if self._detour_net_delta(me, score, extra, extra_loss) < 0:  # 不做净负分（denial 之外不自伤）
                 continue
             if opp_eta < best_opp_eta:                # 选对手最快到达（最紧迫）的
                 best, best_opp_eta = tn, opp_eta
@@ -719,22 +736,42 @@ class DecisionEngine:
                 return True
         return False
 
-    def _detour_net_delta(self, me, task_pts, extra_frames):
+    def _detour_net_delta(self, me, task_pts, extra_frames, extra_freshness_loss=0.0):
         """绕路做任务的投影净收益 ΔEV（§3.3）。以本方投影为基线，计入额外耗时与鲜度损耗。
 
         缺投影或直达都无法交付时返回 -inf（拒绝绕路——连直达都交不了，绕路更无意义）。
+        `extra_freshness_loss` 由调用方按绕路 vs 直送的逐边路线损耗差计算（含任务处理停靠），
+        替代旧 `extra_frames × 0.06` 平摊——让 ΔEV 地板输入路线感知、首次可信。
         """
         mp = self.projection_bus.my_projection if self.projection_bus else None
         if mp is None or mp.deliver_frame is None:
             return _INF * -1
-        extra_loss = extra_frames * AVG_FRESHNESS_LOSS_PER_FRAME
         return net_score_delta(
             mp.deliver_frame, mp.projected_task_score, mp.projected_good_fruit,
             mp.projected_freshness,
             penalty=me.penalty_score or 0,
             duration=self.ctx.duration_round or 600,
             extra_task_score=task_pts, extra_frames=extra_frames,
-            extra_freshness_loss=extra_loss)
+            extra_freshness_loss=extra_freshness_loss)
+
+    def _weather_freshness_coef(self, world):
+        wtype = world.active_weather_type() if hasattr(world, "active_weather_type") else None
+        if not wtype:
+            return 1.0
+        return rules.FRESHNESS_WEATHER_COEF.get(wtype, 1.0)
+
+    def _detour_extra_freshness_loss(self, world, gm, detour_path, direct_path, task_pr=0):
+        """绕路相对直送的额外鲜度损耗（逐边路线感知）：detour 损耗 − direct 损耗 + 任务处理停靠损耗。
+
+        宫门验核停靠在 detour/direct 中对称（都过 gate），差不计；任务处理 processRound 不在
+        gm.process_nodes（任务点非固定处理站），单独按 BASE 损耗率补计。
+        """
+        wcoef = self._weather_freshness_coef(world)
+        loss = (freshness_loss_for_path(gm, detour_path, wcoef)
+                - freshness_loss_for_path(gm, direct_path, wcoef))
+        if task_pr:
+            loss += task_pr * rules.FRESHNESS_LOSS_BASE * wcoef
+        return loss
 
     # ---- 悬赏机会主义（M8 Layer 2 / P2 §5.2）----
 
@@ -788,12 +825,21 @@ class DecisionEngine:
             if not self._can_afford(world, gm, node, wait, terminal):
                 continue
             raw = b.get("rewardScore", 0) or 0
+            # 悬赏绕行/破卡等待的额外鲜度损耗：wait 帧属移动+停靠混合，按路线感知近似——
+            # 用 detour_path 相对 direct 的逐边损耗差（拿不到完整 detour path 时降级 BASE 停靠率）。
+            p_after, _ = gm.time_optimal_path(bn, terminal, blocked=blocked)
+            detour_path = (path_to + p_after[1:]) if (path_to and p_after) else None
+            if detour_path and direct != _INF:
+                p_direct, _ = gm.time_optimal_path(node, terminal, blocked=blocked)
+                extra_loss = self._detour_extra_freshness_loss(world, gm, detour_path, p_direct, 0)
+            else:
+                extra_loss = wait * rules.FRESHNESS_LOSS_BASE  # 停靠/等待损耗率（非 MOVE）
             delta = net_score_delta(
                 mp.deliver_frame, mp.projected_task_score, mp.projected_good_fruit,
                 mp.projected_freshness, penalty=me.penalty_score or 0,
                 duration=self.ctx.duration_round or 600,
                 extra_bounty=raw, extra_frames=wait, good_fruit_burned=plan[0],
-                extra_freshness_loss=wait * AVG_FRESHNESS_LOSS_PER_FRAME)
+                extra_freshness_loss=extra_loss)
             if delta < config.BOUNTY_MIN_NET_SCORE:
                 continue
             if len(path_to) == 2:            # 已相邻 → 破卡拿悬赏

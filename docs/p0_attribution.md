@@ -86,14 +86,14 @@
 
 ## 6. 重排后的优先级（替换 iteration_plan_v2 §10 的 24-29）
 
-| 顺序 | 内容 | 依据 |
-|---|---|---|
-| **下一步** | 修 CLAIM_TASK 重试风暴（§4.3，低风险清理） | 真实 13 waitingStuck |
-| **Phase B（重定义）** | 静态规划器：求解"交付时机 vs 质量积累"最优，而非"冲 90" | §3 败因 + §4.1 |
-| **Phase B 附** | 鲜度投影升级（修 ΔEV 输入 + sim freshness 偏差） | §5.2 |
-| **D1 提前** | GATE 验核 race（`ENABLE_GATE_RACE`） | §4.2 真实证据 |
-| Phase C | 阈值扫描 + 开关 A/B（需 sim 已校准，本报告达成） | §5 |
-| D2/D3 | 窗口对手出牌预测（需先补 oppCard trace）、deny 按 \|gap\| | 待 trace |
+| 顺序 | 内容 | 依据 | 状态 |
+|---|---|---|---|
+| **Iter 25 ✅** | 修 CLAIM_TASK 重试风暴（§4.3，低风险清理） | 真实 13 waitingStuck | 已修复（task 级冷却），待真实 trace 二次验证 |
+| **Iter 25 ✅** | 鲜度投影升级（修 ΔEV 输入 + sim freshness 偏差） | §5.2 | 已完成（逐边路线感知），ΔEV 地板首次可信，待真实 trace 验证精度 |
+| **下一步** | 全量 static_planner：求解"交付时机 vs 质量积累"最优（task 已封顶，真实杠杆待对手分项 trace 确认） | §3 败因 + §4.1 | 推迟到对手分项 trace 到货 |
+| **D1 提前** | GATE 验核 race（`ENABLE_GATE_RACE`） | §4.2 真实证据 | 待做 |
+| Phase C | 阈值扫描 + 开关 A/B（需 sim 已校准，本报告达成） | §5 | 待做 |
+| D2/D3 | 窗口对手出牌预测（需先补 oppCard trace）、deny 按 \|gap\| | 待 trace | 待做 |
 
 ## 7. 数据缺口（需后续 trace 补齐）
 - `windows[].oppCard` 全 null——D2 窗口预测无原料，需 client trace 补对手出牌。

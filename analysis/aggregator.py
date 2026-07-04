@@ -243,6 +243,7 @@ def build_index(reports, report_relpath=None):
             "matchId": mid,
             "source": r.get("source") or "unknown",
             "variant": r.get("variant") or "baseline",
+            "clientVersion": r.get("clientVersion"),
             "seed": r.get("seed"),
             "outcome": r.get("outcome"),
             "score": _me_total(r),

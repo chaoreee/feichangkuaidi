@@ -315,7 +315,7 @@ def main(argv):
     player_id, host, port = parse_args(argv)
     logger = MatchLogger(resolve_log_dir(), player_id)
     logger.trace("Startup", playerId=player_id, host=host, port=port,
-                 version=config.CLIENT_VERSION)
+                 version=config.code_version())
 
     client = TcpClient(host, port, logger)
     try:

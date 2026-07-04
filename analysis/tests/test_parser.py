@@ -62,6 +62,7 @@ class TestParseIdentityAndSchema(unittest.TestCase):
         self.assertEqual(r["playerId"], 1001)
         self.assertEqual(r["teamId"], "RED")
         self.assertEqual(r["seed"], 42)
+        self.assertEqual(r["clientVersion"], "1.0")  # Startup version 字段解析入 Report
         self.assertEqual(r["durationRound"], 600)
 
 

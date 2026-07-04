@@ -2,6 +2,61 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 25] - 2026-07-04 — CLAIM_TASK 重试修复 + 鲜度投影升级（路线感知）
+
+### 触发
+`docs/p0_attribution.md` §6 重排后的两个低风险可下手点。二者均不涉阈值/开关合入，
+符合 N=11<30 的"假设级"纪律（§3.7）。
+
+### Changed — CLAIM_TASK 重试风暴修复（`client/strategy/decision.py` + `client/config.py`）
+真实 trace：客户端在 S10 对已被 `OBJECT_BUSY` 拒绝的任务反复重发同 taskId（r270-296 连停
+30+ 帧），11 局 13 个 waitingStuck。根因：`_apply_rejection_feedback` 只处理 PROCESS_REQUIRED
+与 MOVE 拉黑，CLAIM_TASK 被拒后零处理 → 下帧 `_maybe_task` 仍见该任务 active 无 owner → 重发。
+- `config.py`：新增 `REJECT_TASK_COOLDOWN_ROUNDS = 6`。
+- `decision.py`：`__init__` 加 `self._task_cooldown = {}`；`_apply_rejection_feedback` 加
+  CLAIM_TASK+OBJECT_BUSY 分支（设 task 级冷却）；`_maybe_task` 跳过冷却中的 taskId。
+- 冷却过期自然恢复（与节点拉黑同模式），无需主动清理。
+
+### Changed — 鲜度投影升级（`client/strategy/projection.py` + `decision.py`）
+替换 `AVG_FRESHNESS_LOSS_PER_FRAME=0.06` 平摊为逐边路线感知，让投影分/gap/mode 与 ΔEV 地板
+输入首次可信（后续博弈层 race/guard 与未来静态规划器的前置阻塞）。
+- 新增 `freshness_loss_for_path(gm, path, weather_coef, verify_frames)`：逐边
+  `FRESHNESS_LOSS_MOVE[route_type] × frames_on_edge` + 途经处理站/宫门验核停靠
+  `FRESHNESS_LOSS_BASE × 帧`，乘天气鲜度系数；永不抛出。
+- `_project_player`：用 `time_optimal_path` 的 path + 活跃天气系数算 `proj_fresh`，替换
+  `frames_out × 0.06`。
+- ΔEV 调用方改路线感知：`_detour_net_delta` 签名增 `extra_freshness_loss`；新增
+  `_detour_extra_freshness_loss`（detour vs direct 逐边损耗差 + 任务处理停靠损耗）；
+  `_task_detour_target`/`_task_deny_target` 传入 detour_path；bounty wait 改 `FRESHNESS_LOSS_BASE`
+  停靠率（拿不到 path 时降级）。
+
+### 为何推迟全量静态规划器
+真实 trace 显示 task 双方近 180 封顶（TASK_90_REACH=1.00），"延时换 task"边际为 0；真实杠杆
+更像好果保全/路线而非"交付时机"。N=11 且看不到对手分项分时，规划器优化目标不稳定，贸然替换
+`_plan` 瀑布风险高、违反 §3.7。先让投影可信，待下一批 trace（含对手分项）确认杠杆后再建。
+
+### Changed — trace 版本戳（解决"log 不记录代码版本"）
+真实 trace 不记录代码版本 → 旧/新 client 行为无法区分（迭代后旧 log 失去归因价值）。
+`config.CLIENT_VERSION` 由静态 "1.0" 改为 iter 标签（`"iter25"`，每轮手动 bump）+ 新增
+`config.code_version()`（运行期拼 git 短 hash，平台无 git 时回落纯标签）。`main.py`/`sim_server.py`
+Startup trace 改用 `code_version()`；`parser` 解析 version 入 `Report.clientVersion`，`aggregator`
+`index.json` 附 `clientVersion`。支持"每轮即弃"工作流：按 clientVersion 区分 trace 所属代码版本。
+
+### 验收
+- 单测：新增 `test_task_cooldown.py`（4 项：冷却设置/跳过/过期恢复/非 OBJECT_BUSY 不触发/
+  MOVE 拉黑回归）+ `test_freshness_projection.py`（7 项：逐边和/天气系数/gate 排除/MOUNTAIN≠
+  平摊/空 path/投影接入）+ `test_parser.py` 补 clientVersion 断言。全量 **302 全过**
+  （client 242 + sim 18 + analysis 42）。
+- 仿真 50 局**零回归**：交付率 1.000、交付帧 mean 455.4、0 卡死、SimValidator 0 误差、
+  对账 ok=100/mismatch=0。投影升级在镜像自博弈不改动作（gap 恒 0→mode 恒 EVEN）；
+  CLAIM_TASK 冷却在 sim 不触发（sim 每玩家独立任务池不重发，CLAUDE 已注"sim 不复现客户端
+  重试 bug"）——二者待真实 trace 二次验证。
+- 端到端：trace Startup `version=iter25+<git短hash>` → `Report.clientVersion` → `index.json`。
+
+### 不做（推迟）
+全量 `strategy/static_planner.py`（待对手分项 trace 确认真实杠杆）；任何 `ENABLE_*` 开关/
+阈值改动（N<30 纪律）；D1 GATE race（独立迭代）。
+
 ## [Iteration 24] - 2026-07-04 — Phase 0 真实 trace 归因 + 仿真器保真度校准
 
 ### 触发

@@ -5,8 +5,28 @@
 """
 
 # ---- 客户端标识 ----
-CLIENT_VERSION = "1.0"
+# 人工版本标签：每轮迭代手动 bump（iter25/iter26/...）。这是"log 记录哪版代码"的主标签——
+# 解决真实 trace 不记录代码版本、旧/新 client 行为无法区分的问题（p0_attribution 工作流）。
+CLIENT_VERSION = "iter25"
 DEFAULT_PLAYER_NAME = "litchi-agent"
+
+
+def code_version():
+    """运行期代码版本 = CLIENT_VERSION + git 短 hash（自动补全，防忘 bump）。
+
+    git 不可用时（如平台 ZIP 运行无仓库）回落为纯 CLIENT_VERSION。仅 Startup 调用一次，
+    不在 import 期执行（不影响单测）。供 Startup trace 记录，使每局 trace 可溯源到代码版本。
+    """
+    try:
+        import subprocess
+        out = subprocess.check_output(
+            ["git", "rev-parse", "--short", "HEAD"],
+            stderr=subprocess.DEVNULL, timeout=2).decode().strip()
+        if out:
+            return f"{CLIENT_VERSION}+{out}"
+    except Exception:
+        pass
+    return CLIENT_VERSION
 
 # ---- 帧格式（协议 §1）----
 LENGTH_PREFIX_WIDTH = 5          # 5 位十进制长度前缀
@@ -42,6 +62,7 @@ GATE_SCOUT_MAX_FRAMES = 40         # 最大剩余帧（探路标记 45 帧有效
 
 # ---- 策略调参（M7 能力补全）----
 REJECT_BLOCK_ROUNDS = 4             # 被拒移动目标临时拉黑帧数（拒绝反馈，防止重复撞同一阻塞）
+REJECT_TASK_COOLDOWN_ROUNDS = 6     # CLAIM_TASK 被 OBJECT_BUSY 拒后该 taskId 冷却帧数（防重试风暴：真实 trace S10 连停 30+ 帧重发同任务）
 INTEL_RANGE = 15                    # 情报射程上限（累计路线距离，任务书 §3.3.4）
 TASK_DETOUR_MAX_EXTRA_FRAMES = 70   # 绕路做任务允许的最大额外帧（相对直达终点）
 REROUTE_VS_CLEAR_EXTRA = 20         # 绕行比直路多这么多帧时改为就地清障（清障≈6帧+1好果）

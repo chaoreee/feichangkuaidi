@@ -76,7 +76,7 @@ class _Side:
         self.team_id = team_id
         self.logger = MatchLogger(log_dir, player_id)
         self.logger.trace("Startup", playerId=player_id, host="sim", port=0,
-                          version=config.CLIENT_VERSION)
+                          version=config.code_version())
         self.logger.trace("Register", playerId=player_id, name=config.DEFAULT_PLAYER_NAME)
         self.logger.bind_match(start_data["matchId"])
         self.ctx = GameContext(player_id, team_id, camp, start_data)

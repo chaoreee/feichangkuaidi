@@ -80,6 +80,7 @@ class _Acc:
         self.player_id = None
         self.team_id = None
         self.seed = None
+        self.client_version = None
         self.duration_round = 600
         # 终局
         self.over = None
@@ -141,6 +142,9 @@ class _Acc:
     # ---- 事件 ----
     def _on_Startup(self, f):
         self.player_id = f.get("playerId", self.player_id)
+        v = f.get("version")
+        if v is not None and v != "":
+            self.client_version = str(v)  # 版本恒为字符串（trace 值推断可能把 "1.0" 转 float）
 
     def _on_Start(self, f):
         self.team_id = f.get("teamId")
@@ -432,6 +436,7 @@ def build_report(acc, source="platform", variant="baseline"):
         "playerId": acc.player_id,
         "teamId": acc.team_id,
         "seed": acc.seed,
+        "clientVersion": acc.client_version,
         "source": source,
         "variant": variant,
         "durationRound": acc.duration_round,

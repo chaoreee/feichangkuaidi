@@ -188,6 +188,36 @@ def _verify_frames(gm):
     return (info.get("processRound") if info else DEFAULT_VERIFY_FRAMES) or DEFAULT_VERIFY_FRAMES
 
 
+def freshness_loss_for_path(gm, path, weather_coef=1.0, verify_frames=0):
+    """按路线类型逐边累计交付路径的鲜度损耗（替换 AVG_FRESHNESS_LOSS_PER_FRAME 平摊）。
+
+    移动帧：FRESHNESS_LOSS_MOVE[route_type] × frames_on_edge；停靠帧（途经固定处理站）：
+    FRESHNESS_LOSS_BASE × processRound；宫门验核停靠：FRESHNESS_LOSS_BASE × verify_frames
+    （验核帧由调用方按是否已验核传入，gate 本身在处理站循环里排除避免重复）。均乘天气鲜度系数。
+
+    永不抛出：path 空/单点、edge 缺失、processRound 缺失均安全跳过。属观测层近似——天气用当前
+    快照系数（不预测未来天气窗口），急策系数不计（RUSH_PROTECT 仅终局触发且 0.2 会过度抵免）。
+    """
+    if not path or len(path) < 2:
+        return max(0.0, verify_frames) * rules.FRESHNESS_LOSS_BASE * weather_coef
+    loss = 0.0
+    gate = gm.gate_node
+    # 移动损耗 + 途经处理站停靠损耗（gate 排除，由 verify_frames 单独计）
+    for i in range(len(path) - 1):
+        e = gm.edge_between(path[i], path[i + 1])
+        if e is not None:
+            base = rules.FRESHNESS_LOSS_MOVE.get(e.route_type, rules.FRESHNESS_LOSS_BASE)
+            fr = rules.frames_on_edge(e.distance, e.route_type)
+            loss += fr * base * weather_coef
+        mid = path[i] if i > 0 else None
+        if mid and mid != gate and mid in gm.process_nodes:
+            pr = (gm.process_nodes[mid].get("processRound") or 0)
+            loss += pr * rules.FRESHNESS_LOSS_BASE * weather_coef
+    loss += max(0.0, verify_frames) * rules.FRESHNESS_LOSS_BASE * weather_coef
+    return loss
+
+
+
 class Projector:
     """构建 ProjectionBus。持有跨帧的 ModeMachine（滞后状态）。"""
 
@@ -237,10 +267,15 @@ class Projector:
         else:
             deliver_frame = rnd + travel
 
-        # 交付时鲜度与好果（跨 good→bad 阈值折损）粗估。
-        frames_out = travel if travel != _INF else 0
-        proj_fresh = max(0.0, pv.freshness - frames_out * AVG_FRESHNESS_LOSS_PER_FRAME)
-        lost = len(rules.crossed_good_to_bad_thresholds(pv.freshness, proj_fresh))
+        # 交付时鲜度与好果（跨 good→bad 阈值折损）：按路线类型逐边累计损耗（替换 0.06 平摊）。
+        path, _ = gm.time_optimal_path(ref, terminal)
+        wcoef = rules.FRESHNESS_WEATHER_COEF.get(world.active_weather_type(), 1.0) \
+            if world.active_weather_type() else 1.0
+        vframes = 0 if pv.verified else _verify_frames(gm)
+        loss = freshness_loss_for_path(gm, path, wcoef, verify_frames=vframes) \
+            if travel != _INF else 0.0
+        proj_fresh = max(0.0, (pv.freshness or 0.0) - loss)
+        lost = len(rules.crossed_good_to_bad_thresholds(pv.freshness or 0.0, proj_fresh))
         proj_good = max(0, (pv.good_fruit or 0) - lost)
 
         task_base = pv.task_score or 0
