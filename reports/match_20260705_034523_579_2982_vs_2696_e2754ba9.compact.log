@@ -1,0 +1,97 @@
+# match_20260705_034523_579_2982_vs_2696_e2754ba9 v=iter31 pid=2696 team=BLUE seed=None dur=600
+Map N=15 E=23
+N S01:S S02:C S03:P S04:D S05:W S06:M S07:S S08:M S09:S S10:K S11:P S12:J S13:P S14:G S15:F
+E S01-S02:30:R S02-S03:25:R S03-S07:54:R S07-S09:46:R S09-S10:40:R S10-S11:36:R S11-S12:20:R S12-S13:25:R S13-S14:18:R S14-S15:10:R S02-S04:20:R S04-S05:44:W S05-S07:46:B S01-S06:44:M S06-S08:54:M S08-S10:46:B S03-S06:38:B S05-S09:48:W S07-S08:42:M S04-S07:54:B S08-S09:64:B S11-S14:15:B S10-S13:27:B
+F r1 n=S01 st=IDLE ph=NORMAL gf=100 ts=0 on=S01 ots=0
+A r1 CLEAR target=S06 fresh=100
+A r1 SQUAD_CLEAR target=S08 fresh=100
+F r2 st=PROCESSING
+F r7 st=IDLE gf=99
+A r7 MOVE target=S06 fresh=99.7
+F r8 st=MOVING
+F r43 on=S02
+F r73 on=S04
+F r81 w=HOT
+F r86 n=S06 st=IDLE
+A r86 CLAIM_RESOURCE target=S06 res=ICE_BOX fresh=93.99
+A r86 SQUAD_CLEAR target=S10 fresh=93.99
+F r87 st=PROCESSING
+F r88 st=IDLE
+A r88 MOVE target=S08 fresh=93.84
+F r89 st=MOVING
+F r124 gf=98 fr90
+F r132 on=S05
+F r177 ofr90
+F r185 n=S08 st=IDLE
+A r185 CLAIM_TASK task=T_003 fresh=85.08
+F r186 st=PROCESSING
+F r189 st=IDLE ts=30
+A r189 CLAIM_TASK task=T_005 fresh=84.88
+F r190 st=PROCESSING
+F r193 st=IDLE ts=60
+A r193 CLAIM_RESOURCE target=S08 res=SHORT_HORSE fresh=84.68
+F r194 st=PROCESSING
+F r195 st=IDLE on=S09
+A r195 MOVE target=S10 fresh=84.58
+F r196 st=MOVING
+A r196 USE_RESOURCE res=SHORT_HORSE fresh=84.52
+A r197 MOVE target=S10 fresh=84.46
+F r232 w=MOUNTAIN_FOG
+F r251 on=S10
+F r265 n=S10 st=IDLE
+A r265 CLAIM_TASK task=T_006 fresh=80.38
+F r266 st=PROCESSING
+F r269 st=IDLE ts=90
+A r269 CLAIM_TASK task=T_008 fresh=80.18
+F r270 st=PROCESSING
+F r273 st=IDLE gf=97 ts=120 fr80
+A r273 CLAIM_TASK task=T_012 fresh=79.98
+F r274 st=PROCESSING
+F r277 st=IDLE ts=150
+ModeChange r277 EVEN->CONSERVATIVE reason=gap_above_threshold gap=None
+A r277 MOVE target=S13 fresh=79.78
+F r278 st=MOVING
+F r293 on=S13
+F r319 n=S13 st=IDLE
+A r319 USE_RESOURCE res=ICE_BOX fresh=77.26
+A r319 SQUAD_SCOUT target=S14 fresh=77.26
+F r320 on=S14
+A r320 PROCESS fresh=87.21
+F r321 st=PROCESSING
+F r325 st=IDLE
+A r325 MOVE target=S14 fresh=86.96
+F r326 st=MOVING
+A r330 FORCED_PASS target=S14 fresh=86.68
+F r331 st=WAITING
+F r342 w=HOT
+F r357 ofr80
+F r390 ph=RUSH
+A r390 RUSH_PROTECT fresh=82.66
+REJ r331 x60 MOVING_ACTION_FORBIDDEN FORCED_PASS S14
+F r439 fr80
+A r450 MOVE target=S14 fresh=79.4
+F r451 st=MOVING
+F r452 w=HEAVY_RAIN
+A r455 RUSH_PROTECT fresh=79.13
+F r456 st=WAITING
+F r537 ofr70
+ModeChange r560 CONSERVATIVE->AGGRESSIVE reason=gap_below_threshold gap=None
+A r575 MOVE target=S14 fresh=73.13
+F r576 st=MOVING
+F r583 on=S15
+F r590 n=S14 st=IDLE
+A r590 RUSH_PROTECT fresh=72.29
+F r591 st=WAITING
+A r591 VERIFY_GATE fresh=72.28
+F r592 st=VERIFYING
+F r597 st=IDLE vfy=1
+A r597 MOVE target=S15 fresh=72.22
+F r598 st=MOVING
+REJ r391 x180 MOVING_ACTION_FORBIDDEN RUSH_PROTECT None
+Traj fstart=100 fmin=72.19 fend=72.19 gstart=100 gend=97 onode=S15 ofend=68.56 ogend=93
+Proj my=80 oppDel=600 gap=-330 mode=AGGRESSIVE
+Conf min=0.300 med=0.575 max=0.850
+MidGap=306
+Over result=NORMAL reason=TIME_LIMIT round=600 winner=2982 iWon=False
+Score me total=80 del=False dframe=0 fresh=72.18 good=97 task=150 bounty=0 det=[bounty=0|delivery=0|freshness=0|goodFruit=0|penalty=0|tasks=80|time=0|total=80]
+Score opp total=410 del=True dframe=583 fresh=68.56 good=93 task=0 bounty=0 det=[bounty=0|delivery=120|freshness=123|goodFruit=167|penalty=0|tasks=0|time=0|total=410]
