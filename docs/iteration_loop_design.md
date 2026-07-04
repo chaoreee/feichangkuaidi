@@ -28,7 +28,7 @@
 
 ### 0.5 框架升级：codeagent 自动对战闭环（Iter 32 起）
 
-**新闭环**：Claude Code 改代码 → push GitHub → 内网 codeagent 拉取 → 对**平台真实对手群体**（代表性采样，含前十名但不限于）自动跑一轮对战 → 收 `match_*.log` → `analysis/` 解析聚合 → Claude 读**群体归因报告**定下一轮。**接口契约（输入 `codeagent/batch.yaml` / 输出 `reports/batches/<batch>.json` / A/B 按 opponent 配对）详见 `codeagent/README.md`**；能力假设：手动触发、可指定对手 id、一轮一个 client 版本、seed 不可控、结果落共享 reports 路径 Claude pull。
+**新闭环**：Claude Code 改代码 → push GitHub → 内网 codeagent 拉取 → 对**平台真实对手群体**（代表性采样，含前十名但不限于）自动跑一轮对战 → 收 `match_*.log` → `analysis/` 解析聚合 → Claude 读**群体归因报告**定下一轮。codeagent 自动收集 `logs/match_*.log` 调 `analysis` 生成 reports，**无需 repo 侧接口契约**。
 
 这打破了旧闭环的死锁（"不能不合 sim A/B → sim 无法验证博弈特征 → 特征永远关着 → 平台行为零变化"）：真实对战 A/B 现在可自动攒 N≥30，博弈特征终于有验证路径。
 
@@ -343,7 +343,7 @@ reports/match_*.compact.log   ← 【P1-B 新增】精简 trace，入库，我 p
 | Iter 29 | **P0** 设卡卡死修复 | 无 | ✅ 已合入（bug 修复） |
 | Iter 30 | **P1-B** 精简 trace | 无 | ✅ 已合入（纯观测） |
 | Iter 31 | **P1-A** client trace 富化 + parser 抽取 + aggregator 落盘 | 无 | ✅ 已合入（纯观测） |
-| Iter 32 | **框架接入**：codeagent 自动对战接口约定 + analysis 群体归因段（对手类分桶）+ 用当前 client 跑一轮验证观测-分析闭环 | codeagent 平台 | 纯观测闭环验证，零策略风险 |
+| Iter 32 | 用 codeagent 跑首轮真实对战 A/B 建立基线（codeagent 自动收集 `logs/match_*.log` 调 `analysis`，无需契约）+ analysis 群体归因段（对手类分桶） | codeagent 平台 | 纯观测，零策略风险 |
 | Iter 33+ | **静态最优**：开 `ENABLE_STATIC_PLANNER` / 调冰阈值 / 鲜度感知选路，codeagent A/B 验证地板 755→770 | Iter 32 闭环 | 真实 A/B 正向才合入 |
 | Iter 34+ | **博弈最优**：对手策略分类器 + 对手类驱动策略切换（替代/重构 mode 杠杆），codeagent A/B | Iter 33 静态地板 | 真实 A/B 正向才合入 |
 | Iter 35+ | **P3 denial** 分支（按归因选）+ 阈值/开关校准 | Iter 34 对手分类 | 真实 A/B + N≥30 |

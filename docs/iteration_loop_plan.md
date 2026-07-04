@@ -157,7 +157,7 @@ def _keep_moving(self, world, me, gm, node, terminal, gate):
 
 **两阶段目标**："静态最优解的基础上追求博弈最优解"。
 
-1. **框架接入（Iter 32，零策略风险）**：定义 codeagent 接口（输入 = git 分支/commit，输出 = `match_*.log` 落 `logs/`）；analysis 加**对手类分桶群体归因段**（用 P1-A 已抽轨迹/用冰/设卡聚类 speed/quality/guard-type）；用当前 client 跑一轮验证观测-分析闭环。
+1. **Iter 32（零策略风险）**：用 codeagent 跑首轮真实对战 A/B 建立基线（codeagent 自动收集 `logs/match_*.log` 调 `analysis` 生成 reports，无需 repo 侧契约）；analysis 加**对手类分桶群体归因段**（用 P1-A 已抽轨迹/用冰/设卡聚类 speed/quality/guard-type）。
 2. **静态最优（Iter 33+，先）**：抬地板 755→770，纯路线/冰鉴/鲜度积累、不读对手。开 `ENABLE_STATIC_PLANNER` 或调冰阈值，codeagent 真实 A/B 验证。证据最硬（鲜度 +19 唯一正杠杆）。
 3. **博弈最优（Iter 34+，后）**：对手感知策略切换。新增对手策略分类器；决策侧用对手类替代抽象 mode——现有 CONSERVATIVE/EVEN/AGGRESSIVE 拨动的是已封顶 task 绕路（无效杠杆），须把鲜度/冰/路线绑入档位。
 4. **P3 denial（Iter 35+）**：按归因选分支，codeagent A/B + N≥30。
