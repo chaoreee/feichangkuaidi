@@ -1,0 +1,387 @@
+{
+  "classification": {
+    "luckClass": "expected_loss",
+    "scoreMargin": -22,
+    "segments": [
+      "delivered",
+      "task90_reached",
+      "mid_even",
+      "weather_hit",
+      "opp_delivered"
+    ]
+  },
+  "clientVersion": "iter25",
+  "decisionTimeline": [
+    {
+      "detail": "CLEAR S06 cost 1",
+      "event": "BREAKTHROUGH",
+      "frame": 1
+    },
+    {
+      "detail": "T_003",
+      "event": "TASK_CLAIM",
+      "frame": 189
+    },
+    {
+      "detail": "T_005",
+      "event": "TASK_CLAIM",
+      "frame": 193
+    },
+    {
+      "detail": "T_009",
+      "event": "TASK_CLAIM",
+      "frame": 197
+    },
+    {
+      "detail": "SHORT_HORSE",
+      "event": "USE_HORSE",
+      "frame": 204
+    },
+    {
+      "detail": "T_008",
+      "event": "TASK_CLAIM",
+      "frame": 273
+    },
+    {
+      "detail": "T_011",
+      "event": "TASK_CLAIM",
+      "frame": 277
+    },
+    {
+      "detail": "fresh=76.8",
+      "event": "USE_ICE",
+      "frame": 331
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 430
+    }
+  ],
+  "delivery": {
+    "me": {
+      "frame": 448,
+      "freshness": 81.22,
+      "goodFruit": 97,
+      "verifyFrame": 434
+    },
+    "opp": {
+      "frame": 472,
+      "verifyFrame": null
+    },
+    "rushTriggerFrame": 430
+  },
+  "durationRound": 600,
+  "failures": {
+    "canAffordBlocked": [],
+    "decisionTimeouts": 0,
+    "invalidActions": 0,
+    "rejected": [],
+    "waitingStuck": []
+  },
+  "finalScore": {
+    "me": {
+      "bounty": 0,
+      "delivery": null,
+      "freshness": null,
+      "goodFruit": null,
+      "penalty": 0,
+      "task": null,
+      "time": null,
+      "total": 757
+    },
+    "opp": {
+      "bounty": 0,
+      "delivery": null,
+      "freshness": null,
+      "goodFruit": null,
+      "penalty": 0,
+      "task": null,
+      "time": null,
+      "total": 779
+    }
+  },
+  "matchId": "match_20260704_160423_202_2738_vs_2696_5ef82a00",
+  "opponentInteraction": {
+    "bounties": [],
+    "myGuards": [],
+    "oppGuards": [],
+    "windows": []
+  },
+  "outcome": "LOSS",
+  "playerId": 2696,
+  "projection": {
+    "actualMyScore": 757,
+    "confidence": {
+      "max": 0.73,
+      "median": 0.52,
+      "min": 0.3
+    },
+    "error": -3,
+    "modeSwitches": [],
+    "oppActualDeliver": 472,
+    "oppEtaPredictedDeliver": 472,
+    "projectedMyScore": 754
+  },
+  "resources": {
+    "horseUsed": "SHORT_HORSE@204",
+    "iceUsed": [
+      {
+        "frame": 331,
+        "freshnessBefore": 76.85
+      }
+    ],
+    "rushTactic": {
+      "frame": 430,
+      "type": "RUSH_PROTECT"
+    }
+  },
+  "schemaVersion": 2,
+  "seed": null,
+  "source": "platform",
+  "tasks": {
+    "me": {
+      "base": 150,
+      "claimed": [
+        {
+          "detourExtra": null,
+          "frame": 189,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 193,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 197,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 273,
+          "node": "S10",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 277,
+          "node": "S10",
+          "template": null
+        }
+      ],
+      "milestones": [
+        60,
+        90,
+        110
+      ]
+    },
+    "missedReachable90": null,
+    "opp": {
+      "base": 135,
+      "claimed": [
+        {
+          "frame": 87,
+          "taskScore": 30
+        },
+        {
+          "frame": 170,
+          "taskScore": 60
+        },
+        {
+          "frame": 174,
+          "taskScore": 90
+        },
+        {
+          "frame": 245,
+          "taskScore": 105
+        },
+        {
+          "frame": 302,
+          "taskScore": 135
+        }
+      ],
+      "milestones": [
+        60,
+        90,
+        110
+      ]
+    }
+  },
+  "teamId": "BLUE",
+  "trajectory": {
+    "freshness": {
+      "end": 81.22,
+      "min": 76.85,
+      "start": 100
+    },
+    "goodFruit": {
+      "badCrossings": [
+        90,
+        80
+      ],
+      "end": 97,
+      "start": 100
+    },
+    "opponent": {
+      "badFruitEnd": null,
+      "frames": [
+        {
+          "n": "S01",
+          "r": 1,
+          "s": "IDLE",
+          "ts": 0
+        },
+        {
+          "n": "S01",
+          "r": 2,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "n": "S02",
+          "r": 43,
+          "s": "IDLE",
+          "ts": 0
+        },
+        {
+          "n": "S02",
+          "r": 44,
+          "s": "PROCESSING",
+          "ts": 0
+        },
+        {
+          "n": "S02",
+          "r": 47,
+          "s": "IDLE",
+          "ts": 0
+        },
+        {
+          "n": "S02",
+          "r": 48,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "n": "S03",
+          "r": 82,
+          "s": "IDLE",
+          "ts": 0
+        },
+        {
+          "n": "S03",
+          "r": 83,
+          "s": "PROCESSING",
+          "ts": 0
+        },
+        {
+          "n": "S03",
+          "r": 84,
+          "s": "IDLE",
+          "ts": 0
+        },
+        {
+          "n": "S03",
+          "r": 85,
+          "s": "PROCESSING",
+          "ts": 0
+        },
+        {
+          "n": "S03",
+          "r": 87,
+          "s": "IDLE",
+          "ts": 30
+        },
+        {
+          "n": "S03",
+          "r": 88,
+          "s": "MOVING",
+          "ts": 30
+        },
+        {
+          "n": "S12",
+          "r": 385,
+          "s": "IDLE",
+          "ts": 135
+        },
+        {
+          "n": "S12",
+          "r": 387,
+          "s": "MOVING",
+          "ts": 135
+        },
+        {
+          "n": "S13",
+          "r": 421,
+          "s": "IDLE",
+          "ts": 135
+        },
+        {
+          "n": "S13",
+          "r": 422,
+          "s": "PROCESSING",
+          "ts": 135
+        },
+        {
+          "n": "S13",
+          "r": 426,
+          "s": "IDLE",
+          "ts": 135
+        },
+        {
+          "n": "S13",
+          "r": 427,
+          "s": "MOVING",
+          "ts": 135
+        },
+        {
+          "n": "S14",
+          "r": 451,
+          "s": "IDLE",
+          "ts": 135
+        },
+        {
+          "n": "S14",
+          "r": 452,
+          "s": "VERIFYING",
+          "ts": 135
+        },
+        {
+          "n": "S14",
+          "r": 457,
+          "s": "IDLE",
+          "ts": 135
+        },
+        {
+          "n": "S14",
+          "r": 458,
+          "s": "WAITING",
+          "ts": 135
+        },
+        {
+          "n": "S14",
+          "r": 459,
+          "s": "MOVING",
+          "ts": 135
+        },
+        {
+          "n": "S15",
+          "r": 472,
+          "s": "IDLE",
+          "ts": 135
+        }
+      ],
+      "freshnessEnd": 93.16,
+      "freshnessMin": 86.92,
+      "goodFruitEnd": 99,
+      "iceUsed": [],
+      "nodeEnd": "S15",
+      "verifyFrame": null
+    }
+  },
+  "variant": "baseline"
+}

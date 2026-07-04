@@ -1,0 +1,2908 @@
+{
+  "classification": {
+    "luckClass": "expected_loss",
+    "scoreMargin": -440,
+    "segments": [
+      "undelivered",
+      "task90_missed",
+      "mid_lead",
+      "weather_hit",
+      "opp_delivered"
+    ]
+  },
+  "clientVersion": "iter25",
+  "decisionTimeline": [
+    {
+      "detail": "CLEAR S06 cost 1",
+      "event": "BREAKTHROUGH",
+      "frame": 1
+    },
+    {
+      "detail": "T_003",
+      "event": "TASK_CLAIM",
+      "frame": 185
+    },
+    {
+      "detail": "T_005",
+      "event": "TASK_CLAIM",
+      "frame": 189
+    },
+    {
+      "detail": "SHORT_HORSE",
+      "event": "USE_HORSE",
+      "frame": 196
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 262
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 263
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 264
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 265
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 266
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 267
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 268
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 269
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 270
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 271
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 272
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 273
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 274
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 275
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 276
+    },
+    {
+      "detail": "EVEN->CONSERVATIVE",
+      "event": "MODE_CHANGE",
+      "frame": 277
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 277
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 278
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 279
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 280
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 281
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 282
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 283
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 284
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 285
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 286
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 287
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 288
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 289
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 290
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 291
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 292
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 293
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 294
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 295
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 296
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 297
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 298
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 299
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 300
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 301
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 302
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 303
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 304
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 305
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 306
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 307
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 308
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 309
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 310
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 311
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 312
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 313
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 314
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 315
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 316
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 317
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 318
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 319
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 320
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 321
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 322
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 323
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 324
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 325
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 326
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 327
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 328
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 329
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 330
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 331
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 332
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 333
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 334
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 335
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 336
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 337
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 338
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 339
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 340
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 341
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 342
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 343
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 344
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 345
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 346
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 347
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 348
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 349
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 350
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 351
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 352
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 353
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 354
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 355
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 356
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 357
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 358
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 359
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 360
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 361
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 362
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 363
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 364
+    },
+    {
+      "detail": "CONSERVATIVE->AGGRESSIVE",
+      "event": "MODE_CHANGE",
+      "frame": 365
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 365
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 366
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 367
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 368
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 369
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 370
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 371
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 372
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 373
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 374
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 375
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 376
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 377
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 378
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 379
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 380
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 381
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 382
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 383
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 384
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 385
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 386
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 387
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 388
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 389
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 390
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 391
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 392
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 393
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 394
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 395
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 396
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 397
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 398
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 399
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 400
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 401
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 402
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 403
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 404
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 405
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 406
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 407
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 408
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 409
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 410
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 411
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 412
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 413
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 414
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 415
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 416
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 417
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 418
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 419
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 420
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 421
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 422
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 423
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 424
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 425
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 426
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 427
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 428
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 429
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 430
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 431
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 432
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 433
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 434
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 435
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 436
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 437
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 438
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 439
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 440
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 441
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 442
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 443
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 444
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 445
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 446
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 447
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 448
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 449
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 450
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 451
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 452
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 453
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 454
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 455
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 456
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 457
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 458
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 459
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 460
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 461
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 462
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 463
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 464
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 465
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 466
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 467
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 468
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 469
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 470
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 471
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 472
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 473
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 474
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 475
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 476
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 477
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 478
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 479
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 480
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 481
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 482
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 483
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 484
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 485
+    },
+    {
+      "detail": "fresh=68.4",
+      "event": "USE_ICE",
+      "frame": 489
+    },
+    {
+      "detail": "RUSH_SPEED",
+      "event": "RUSH_TACTIC",
+      "frame": 490
+    }
+  ],
+  "delivery": {
+    "me": {
+      "frame": 0,
+      "freshness": 71.35,
+      "goodFruit": 94,
+      "verifyFrame": null
+    },
+    "opp": {
+      "frame": 427,
+      "verifyFrame": null
+    },
+    "rushTriggerFrame": 409
+  },
+  "durationRound": 600,
+  "failures": {
+    "canAffordBlocked": [
+      {
+        "action": "DETOUR_TASK",
+        "frame": 490,
+        "reason": "time",
+        "target": "S11"
+      },
+      {
+        "action": "DETOUR_TASK",
+        "frame": 490,
+        "reason": "time",
+        "target": "S12"
+      },
+      {
+        "action": "DETOUR_TASK",
+        "frame": 490,
+        "reason": "time",
+        "target": "S11"
+      },
+      {
+        "action": "DETOUR_TASK",
+        "frame": 490,
+        "reason": "time",
+        "target": "S13"
+      },
+      {
+        "action": "DETOUR_TASK",
+        "frame": 490,
+        "reason": "time",
+        "target": "S11"
+      },
+      {
+        "action": "DETOUR_TASK",
+        "frame": 490,
+        "reason": "time",
+        "target": "S12"
+      },
+      {
+        "action": "DETOUR_TASK",
+        "frame": 491,
+        "reason": "time",
+        "target": "S11"
+      },
+      {
+        "action": "DETOUR_TASK",
+        "frame": 491,
+        "reason": "time",
+        "target": "S12"
+      },
+      {
+        "action": "DETOUR_TASK",
+        "frame": 491,
+        "reason": "time",
+        "target": "S11"
+      },
+      {
+        "action": "DETOUR_TASK",
+        "frame": 491,
+        "reason": "time",
+        "target": "S13"
+      },
+      {
+        "action": "DETOUR_TASK",
+        "frame": 491,
+        "reason": "time",
+        "target": "S11"
+      },
+      {
+        "action": "DETOUR_TASK",
+        "frame": 491,
+        "reason": "time",
+        "target": "S12"
+      },
+      {
+        "action": "DETOUR_TASK",
+        "frame": 542,
+        "reason": "time",
+        "target": "S12"
+      },
+      {
+        "action": "DETOUR_TASK",
+        "frame": 570,
+        "reason": "time",
+        "target": "S11"
+      }
+    ],
+    "decisionTimeouts": 0,
+    "invalidActions": 0,
+    "rejected": [
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 262,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 263,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 264,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 265,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 266,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 267,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 268,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 269,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 270,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 271,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 272,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 273,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 274,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 275,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 276,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 277,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 278,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 279,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 280,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 281,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 282,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 283,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 284,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 285,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 286,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 287,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 288,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 289,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 290,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 291,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 292,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 293,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 294,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 295,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 296,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 297,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 298,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 299,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 300,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 301,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 302,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 303,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 304,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 305,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 306,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 307,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 308,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 309,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 310,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 311,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 312,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 313,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 314,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 315,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 316,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 317,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 318,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 319,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 320,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 321,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 322,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 323,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 324,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 325,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 326,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 327,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 328,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 329,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 330,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 331,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 332,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 333,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 334,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 335,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 336,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 337,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 338,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 339,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 340,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 341,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 342,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 343,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 344,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 345,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 346,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 347,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 348,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 349,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 350,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 351,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 352,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 353,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 354,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 355,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 356,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 357,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 358,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 359,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 360,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 361,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 362,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 363,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 364,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 365,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 366,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 367,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 368,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 369,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 370,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 371,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 372,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 373,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 374,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 375,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 376,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 377,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 378,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 379,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 380,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 381,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 382,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 383,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 384,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 385,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 386,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 387,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 388,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 389,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 390,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 391,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 392,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 393,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 394,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 395,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 396,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 397,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 398,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 399,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 400,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 401,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 402,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 403,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 404,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 405,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 406,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 407,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 408,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 409,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 410,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 411,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 412,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 413,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 414,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 415,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 416,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 417,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 418,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 419,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 420,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 421,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 422,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 423,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 424,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 425,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 426,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 427,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 428,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 429,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 430,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 431,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 432,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 433,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 434,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 435,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 436,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 437,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 438,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 439,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 440,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 441,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 442,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 443,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 444,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 445,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 446,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 447,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 448,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 449,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 450,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 451,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 452,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 453,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 454,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 455,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 456,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 457,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 458,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 459,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 460,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 461,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 462,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 463,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 464,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 465,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 466,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 467,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 468,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 469,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 470,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 471,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 472,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 473,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 474,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 475,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 476,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 477,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 478,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 479,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 480,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 481,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 482,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 483,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 484,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 485,
+        "target": "S10"
+      }
+    ],
+    "waitingStuck": []
+  },
+  "finalScore": {
+    "me": {
+      "bounty": 0,
+      "delivery": null,
+      "freshness": null,
+      "goodFruit": null,
+      "penalty": 0,
+      "task": null,
+      "time": null,
+      "total": 60
+    },
+    "opp": {
+      "bounty": 0,
+      "delivery": null,
+      "freshness": null,
+      "goodFruit": null,
+      "penalty": 0,
+      "task": null,
+      "time": null,
+      "total": 500
+    }
+  },
+  "matchId": "match_20260704_160352_074_2696_vs_2735_e22a15cc",
+  "opponentInteraction": {
+    "bounties": [],
+    "myGuards": [],
+    "oppGuards": [],
+    "windows": []
+  },
+  "outcome": "UNDELIVERED",
+  "playerId": 2696,
+  "projection": {
+    "actualMyScore": 60,
+    "confidence": {
+      "max": 0.85,
+      "median": 0.575,
+      "min": 0.3
+    },
+    "error": 0,
+    "modeSwitches": [
+      {
+        "frame": 277,
+        "from": "EVEN",
+        "gap": null,
+        "reason": "gap_above_threshold",
+        "to": "CONSERVATIVE"
+      },
+      {
+        "frame": 365,
+        "from": "CONSERVATIVE",
+        "gap": null,
+        "reason": "gap_below_threshold",
+        "to": "AGGRESSIVE"
+      }
+    ],
+    "oppActualDeliver": 427,
+    "oppEtaPredictedDeliver": 600,
+    "projectedMyScore": 60
+  },
+  "resources": {
+    "horseUsed": "SHORT_HORSE@196",
+    "iceUsed": [
+      {
+        "frame": 489,
+        "freshnessBefore": 68.37
+      }
+    ],
+    "rushTactic": {
+      "frame": 490,
+      "type": "RUSH_SPEED"
+    }
+  },
+  "schemaVersion": 2,
+  "seed": null,
+  "source": "platform",
+  "tasks": {
+    "me": {
+      "base": 60,
+      "claimed": [
+        {
+          "detourExtra": null,
+          "frame": 185,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 189,
+          "node": "S08",
+          "template": null
+        }
+      ],
+      "milestones": [
+        60
+      ]
+    },
+    "missedReachable90": null,
+    "opp": {
+      "base": 30,
+      "claimed": [
+        {
+          "frame": 75,
+          "taskScore": 30
+        }
+      ],
+      "milestones": []
+    }
+  },
+  "teamId": "RED",
+  "trajectory": {
+    "freshness": {
+      "end": 71.35,
+      "min": 68.37,
+      "start": 100
+    },
+    "goodFruit": {
+      "badCrossings": [
+        90,
+        80,
+        70
+      ],
+      "end": 94,
+      "start": 100
+    },
+    "opponent": {
+      "badFruitEnd": null,
+      "frames": [
+        {
+          "n": "S01",
+          "r": 1,
+          "s": "IDLE",
+          "ts": 0
+        },
+        {
+          "n": "S01",
+          "r": 2,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "n": "S02",
+          "r": 43,
+          "s": "IDLE",
+          "ts": 0
+        },
+        {
+          "n": "S02",
+          "r": 44,
+          "s": "PROCESSING",
+          "ts": 0
+        },
+        {
+          "n": "S02",
+          "r": 45,
+          "s": "IDLE",
+          "ts": 0
+        },
+        {
+          "n": "S02",
+          "r": 46,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "n": "S04",
+          "r": 73,
+          "s": "IDLE",
+          "ts": 0
+        },
+        {
+          "n": "S04",
+          "r": 74,
+          "s": "PROCESSING",
+          "ts": 0
+        },
+        {
+          "n": "S04",
+          "r": 75,
+          "s": "IDLE",
+          "ts": 30
+        },
+        {
+          "n": "S04",
+          "r": 76,
+          "s": "PROCESSING",
+          "ts": 30
+        },
+        {
+          "n": "S04",
+          "r": 82,
+          "s": "IDLE",
+          "ts": 30
+        },
+        {
+          "n": "S04",
+          "r": 83,
+          "s": "PROCESSING",
+          "ts": 30
+        },
+        {
+          "n": "S12",
+          "r": 345,
+          "s": "MOVING",
+          "ts": 30
+        },
+        {
+          "n": "S13",
+          "r": 379,
+          "s": "IDLE",
+          "ts": 30
+        },
+        {
+          "n": "S13",
+          "r": 380,
+          "s": "PROCESSING",
+          "ts": 30
+        },
+        {
+          "n": "S13",
+          "r": 384,
+          "s": "IDLE",
+          "ts": 30
+        },
+        {
+          "n": "S13",
+          "r": 385,
+          "s": "MOVING",
+          "ts": 30
+        },
+        {
+          "n": "S14",
+          "r": 409,
+          "s": "IDLE",
+          "ts": 30
+        },
+        {
+          "n": "S14",
+          "r": 410,
+          "s": "VERIFYING",
+          "ts": 30
+        },
+        {
+          "n": "S14",
+          "r": 415,
+          "s": "IDLE",
+          "ts": 30
+        },
+        {
+          "n": "S14",
+          "r": 416,
+          "s": "WAITING",
+          "ts": 30
+        },
+        {
+          "n": "S14",
+          "r": 417,
+          "s": "MOVING",
+          "ts": 30
+        },
+        {
+          "n": "S15",
+          "r": 427,
+          "s": "IDLE",
+          "ts": 30
+        },
+        {
+          "n": "S15",
+          "r": 428,
+          "s": "DELIVERED",
+          "ts": 30
+        }
+      ],
+      "freshnessEnd": 76.33,
+      "freshnessMin": 76.33,
+      "goodFruitEnd": 93,
+      "iceUsed": [],
+      "nodeEnd": "S15",
+      "verifyFrame": null
+    }
+  },
+  "variant": "baseline"
+}
