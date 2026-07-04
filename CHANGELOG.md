@@ -2,6 +2,31 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 33] - 2026-07-05 — 真实对战基线 P0.2：修复 MOVING_ACTION_FORBIDDEN 重试风暴致 3 局未交付（无条件合入）
+
+**触发**：Iter 32.5 codeagent 跑出 N=67 真实对战基线（`reports/`，clientVersion=iter31，4W→43W/67=64% 胜率，交付率 96%）。群体归因定位**3 局未交付（4%）**为最大失分点（每局 me≈67 必负）。三局 compact trace 同根因：到达对手设卡关隘 S10 后进入 `WAITING` 态，`_keep_moving` 回落 `_plan` 连发非 MOVE 节点动作，全被 `MOVING_ACTION_FORBIDDEN` 拒、连发成风暴烧光交付窗口：
+- `032341`：BREAK_GUARD×52 + USE_RESOURCE(ICE_BOX)×287
+- `035502`：BREAK_GUARD×54 + USE_RESOURCE(ICE_BOX)×201
+- `034523`：FORCED_PASS×60 + RUSH_PROTECT×180
+
+与 Iter 25（CLAIM_TASK+OBJECT_BUSY 风暴）、Iter 29（MOVE_BLOCKED_BY_GUARD 死锁）同源——拒绝反馈未被消费成"不重发"。`DELIVER`/`VERIFY_GATE` 不受 `MOVING_ACTION_FORBIDDEN` 影响（WAITING 态仍可交付/验核），故仅针对该码的 4 类动作冷却。
+
+**修复（Iter 25/29 拒绝冷却模式的泛化，零策略风险）**：
+- `config.py` 新增 `REJECT_ACTION_COOLDOWN_ROUNDS=8`。
+- `DecisionEngine` 新增 `_action_cooldown: (action,target,resource)->expiry`；`_apply_rejection_feedback` 对**非 MOVE 动作 + MOVING_ACTION_FORBIDDEN** 按签名冷却（USE_RESOURCE 区分 ICE_BOX/HORSE 不误伤）。
+- 新增 `_action_sig`/`_action_cooled` helper；4 个风暴发起点加冷却门——冷却中跳过 → `_plan` 落到 `_advance`(MOVE) 重路由绕行：
+  - `_freshness_rescue`（ICE_BOX 风暴源）
+  - `_maybe_rush_protect`（RUSH_PROTECT 风暴源）
+  - `_maybe_bounty`（BREAK_GUARD 风暴源，跳过被冷却的相邻悬赏候选，保留 MOVE 靠近分支）
+  - `_breakthrough`（FORCED_PASS/BREAK_GUARD/CLEAR 风暴源，逐替代动作冷却检查，全冷却则回落 MOVE）
+- `_window_card`：MOVING/WAITING 态只出 ABSTAIN（安全弃权，不烧资源/不触 MOVING_ACTION_FORBIDDEN）。
+
+**纪律**：纯 bug 修复（拒绝反馈消费），不改策略、不开 flag、不涉阈值；与 Iter 29 P0 同属"修交付卡死"无条件合入类。`CLIENT_VERSION` iter31→iter33。
+
+**验收**：391 单测全过（283 client[273+10 新 `test_action_cooldown.py`] + 90 analysis + 18 sim）；sim 50 种子回归门——DELIVERY_RATE 1.000、0 STUCK、对账 ok=100 mismatch=0、交付帧 mean 455.4 / 分 mean 747.8 均与基线一致零回归（镜像自博弈无设卡故路径不触发，验证冷却逻辑不破坏 baseline）。预期真实对战转化 3 局未交付→交付（+~2000 分、潜在 +3 胜），抬地板 729→~760。
+
+**未做（下一轮）**：群体归因另两条主线——① quality-route 桶（N=30, W=0.43, opp 鲜度 93.2 vs me 82.6）的鲜度杠杆（Phase B 静态规划器，需 codeagent 真实 A/B N≥30）；② guard-type 桶（N=9, W=0.67, me 528 分偏低）归因。均需用户用 codeagent 跑真实 A/B 验证。
+
 ## [Iteration 32] - 2026-07-05 — codeagent 真实对战基线准备：对手策略分类器 + analysis 群体归因段（对手类分桶，纯观测零策略风险）
 
 落地 `docs/iteration_loop_design.md` §0.5（Iter 32 框架升级）。codeagent 自动对战闭环取代手动收割：Claude Code 改代码 → push → 内网 codeagent 拉取 → 对平台真实对手群体自动跑一轮 → 收 `match_*.log` → `analysis` 解析聚合 → Claude 读**群体归因报告**定下一轮（codeagent 自收集自调 analysis，**repo 侧无需契约**）。本轮 repo 侧交付**对手策略分类器**与**群体归因段**，使新 reports 回流后 `analysis_report.md` 头部按对手类分桶看胜率/均分/分项差——为 Iter 33+ 静态最优 A/B 提供归因主线，把分析器从"单局时间线导向"转向"群体归因导向"。**纯观测/分析，零策略风险，不改任何运行期决策，client 零改动**。

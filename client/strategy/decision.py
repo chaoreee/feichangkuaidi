@@ -60,6 +60,9 @@ class DecisionEngine:
         self._gate_scout_sent = False
         self._cooldown = {}          # nodeId -> 拉黑截止回合（拒绝反馈）
         self._task_cooldown = {}     # taskId -> 冷却截止回合（CLAIM_TASK 被 OBJECT_BUSY 拒后防重试风暴）
+        self._action_cooldown = {}   # (action,target,resource) -> 冷却截止回合（非 MOVE 动作被
+                                      # MOVING_ACTION_FORBIDDEN 拒后防重试风暴：真实 trace WAITING 态连发
+                                      # BREAK_GUARD/USE_RESOURCE/RUSH_PROTECT/FORCED_PASS 50–287 帧致未交付）
         self._last_main_action = None
         self._squad_sent = set()     # (nodeId, kind) 已派出的小分队目标，避免重复
         # M8 博弈投影层（Layer 1，纯观测）：每帧构建只读投影总线，不改变任何动作。
@@ -142,9 +145,15 @@ class DecisionEngine:
         - 在途目标仍可达（未被对手设卡 / 不在冷却期）→ 重发 MOVE 续行（协议允许、不清进度）。
         - 在途目标已失效（被对手设卡 / 在冷却期）→ 丢弃在途目标，回落 _plan 全量重规划
           （_advance 绕行，无法绕行则 _breakthrough 发 FORCED_PASS / BREAK_GUARD）。
-          修复真实败局（vs2735）：对手在途设卡导致 MOVE_BLOCKED_BY_GUARD 连拒 224 帧、未交付——
-          拒绝反馈写入 _cooldown 却无人读取而死锁。与 Iter 8（卡 S14）同源，补其"在途目标失效"盲区。
-        - 无在途目标（已在节点却被报为等待）→ 按节点空闲重新规划。
+        - 无在途目标（已在节点却被报为等待）→ 按节点空闲重新规划（_plan：交付/验核/突破/绕行）。
+
+        Iter 29：修复 vs2735——对手在途设卡导致 MOVE_BLOCKED_BY_GUARD 连拒 224 帧未交付
+        （拒绝反馈写入 _cooldown 却无人读取而死锁）；丢弃失效在途目标回落 _plan。
+        Iter 33：_plan 在 WAITING 态发 BREAK_GUARD/USE_RESOURCE/RUSH_PROTECT/FORCED_PASS 会触
+        MOVING_ACTION_FORBIDDEN（DELIVER/VERIFY_GATE 不受影响），故各发起点加 MOVING_ACTION_FORBIDDEN
+        冷却门（_action_cooled）——冷却中跳过 → _plan 落到 _advance(MOVE) 重路由绕行，杜绝
+        连发风暴（真实 trace S10 WAITING 连发 ICE_BOX 201–287 帧 / BREAK_GUARD 52 帧 /
+        RUSH_PROTECT 180 帧 / FORCED_PASS 60 帧，烧光交付窗口致 3 局未交付）。
         """
         horse = self._maybe_horse(me, gm, terminal)
         if horse:
@@ -317,23 +326,41 @@ class DecisionEngine:
         if ns and ns.has_obstacle:
             t04 = self._find_t04(world, nxt)
             if t04 and self._can_afford(world, gm, me.current_node_id, t04.get("processRound", 6) or 6, terminal):
-                return [actions.claim_task(t04.get("taskId"))]
+                act = actions.claim_task(t04.get("taskId"))
+                if not self._action_cooled(world, act):
+                    return [act]
             # §5.1 行3：CONSERVATIVE(领先)锁好果——能负担时间税则强制通行不烧好果。
             if self._prefer_forced_pass(world, me, gm, nxt, terminal):
-                return [actions.forced_pass(nxt)]
+                act = actions.forced_pass(nxt)
+                if not self._action_cooled(world, act):
+                    return [act]
             if me.good_fruit > config.KEEP_GOOD_FRUIT_MIN:
-                return [actions.clear(nxt)]
-            return [actions.forced_pass(nxt)]
+                act = actions.clear(nxt)
+                if not self._action_cooled(world, act):
+                    return [act]
+            act = actions.forced_pass(nxt)
+            if not self._action_cooled(world, act):
+                return [act]
+            # 突破动作全在 MOVING_ACTION_FORBIDDEN 冷却中（WAITING 态连发被拒）：回落 MOVE，
+            # 若 nxt 仍阻塞则 MOVE 被拒→_cooldown[nxt]→_advance 重路由绕行，杜绝风暴。
+            return [actions.move(nxt)]
         owner = ns.active_guard_owner() if ns else None
         if owner and owner != me.team_id:
             if self._prefer_forced_pass(world, me, gm, nxt, terminal):
-                return [actions.forced_pass(nxt)]
+                act = actions.forced_pass(nxt)
+                if not self._action_cooled(world, act):
+                    return [act]
             plan = self._plan_attack(world, me, ns)
             if plan is not None:
                 g, b, bo = plan
-                return [actions.break_guard(nxt, good_fruit=g, bad_fruit=b,
-                                            rush_tactic=(Action.BREAK_ORDER if bo else None))]
-            return [actions.forced_pass(nxt)]
+                act = actions.break_guard(nxt, good_fruit=g, bad_fruit=b,
+                                          rush_tactic=(Action.BREAK_ORDER if bo else None))
+                if not self._action_cooled(world, act):
+                    return [act]
+            act = actions.forced_pass(nxt)
+            if not self._action_cooled(world, act):
+                return [act]
+            return [actions.move(nxt)]
         return [actions.move(nxt)]
 
     def _prefer_forced_pass(self, world, me, gm, nxt, terminal):
@@ -410,10 +437,33 @@ class DecisionEngine:
             if tid:
                 self._task_cooldown[tid] = (world.round or 0) + config.REJECT_TASK_COOLDOWN_ROUNDS
             return
+        if code == "MOVING_ACTION_FORBIDDEN" and la.get("action") != Action.MOVE:
+            # 非 MOVE 动作在 MOVING/WAITING 态被拒（真实 trace：到达对手设卡关隘 S10 后 WAITING，
+            # 连发 BREAK_GUARD 52 次 / USE_RESOURCE(ICE_BOX) 201–287 次 / RUSH_PROTECT 180 次 /
+            # FORCED_PASS 60 次，全 MOVING_ACTION_FORBIDDEN，烧光交付窗口致 3 局未交付）。
+            # 按动作签名冷却，期间各发起点跳过 → _plan 落到 _advance(MOVE) 重路由绕行，杜绝风暴。
+            sig = self._action_sig(la)
+            if sig:
+                self._action_cooldown[sig] = (world.round or 0) + config.REJECT_ACTION_COOLDOWN_ROUNDS
+            return
         if la.get("action") == Action.MOVE and code in _MOVE_BLOCK_CODES:
             tgt = la.get("targetNodeId")
             if tgt:
                 self._cooldown[tgt] = (world.round or 0) + config.REJECT_BLOCK_ROUNDS
+
+    def _action_sig(self, a):
+        """动作签名：(action, targetNodeId, resourceType)。用于 MOVING_ACTION_FORBIDDEN 冷却键。
+        同签名动作（如 USE_RESOURCE(ICE_BOX) vs (SHORT_HORSE)）区分冷却，互不误伤。"""
+        if not a:
+            return None
+        return (a.get("action"), a.get("targetNodeId"), a.get("resourceType"))
+
+    def _action_cooled(self, world, a):
+        """该动作签名是否仍在 MOVING_ACTION_FORBIDDEN 冷却期。"""
+        sig = self._action_sig(a)
+        if sig is None:
+            return False
+        return self._action_cooldown.get(sig, 0) > (world.round or 0)
 
     def _my_reject_code(self, world):
         pid = self.ctx.player_id
@@ -444,7 +494,11 @@ class DecisionEngine:
         if config.ENABLE_FRESHNESS_RACE and self._losing_freshness_race(world, me):
             threshold = max(threshold, config.ICE_BOX_RACE_USE_BELOW)
         if me.freshness < threshold:
-            return actions.use_resource(ResourceType.ICE_BOX)
+            act = actions.use_resource(ResourceType.ICE_BOX)
+            if self._action_cooled(world, act):
+                # MOVING_ACTION_FORBIDDEN 冷却中：WAITING 态用冰鉴被拒，跳过让 _plan 落到 _advance 重路由
+                return None
+            return act
         return None
 
     def _losing_freshness_race(self, world, me):
@@ -566,7 +620,11 @@ class DecisionEngine:
         if not world.is_rush or me.delivered or (me.rush_tactic_used_count or 0) > 0:
             return None
         if me.freshness < self.tuning.rush_protect_freshness_below:  # §5.1 行4：按档位
-            return actions.rush_protect()
+            act = actions.rush_protect()
+            if self._action_cooled(world, act):
+                # MOVING_ACTION_FORBIDDEN 冷却中：RUSH 态 WAITING 重发护果令被拒，跳过让 _plan 落到 _advance
+                return None
+            return act
         return None
 
     def _rush_speed_warranted(self, world, me, gm, node, terminal):
@@ -898,6 +956,10 @@ class DecisionEngine:
                 g, bad, bo = plan
                 action = actions.break_guard(bn, good_fruit=g, bad_fruit=bad,
                                              rush_tactic=(Action.BREAK_ORDER if bo else None))
+                if self._action_cooled(world, action):
+                    # BREAK_GUARD 在 MOVING_ACTION_FORBIDDEN 冷却中（WAITING 态连发被拒）：
+                    # 跳过此悬赏候选，不参与比较；_plan 落到 _advance 重路由绕行。
+                    continue
             else:                            # 未相邻 → 顺路靠近一步
                 action = actions.move(path_to[1])
             good_burned = g if action.get("action") == "BREAK_GUARD" else 0
@@ -1082,6 +1144,10 @@ class DecisionEngine:
         cid = c.get("contestId")
         if not cid:
             return None
+        # Iter 33：MOVING/WAITING 态只出 ABSTAIN（安全弃权，不烧资源/不触 MOVING_ACTION_FORBIDDEN）。
+        # 非弃权牌（兵争/验牒/强行/献贡）需 IDLE；行进中持守卫行动点 etc. 也不在途中强出致风暴。
+        if me.state in (PlayerState.MOVING, PlayerState.WAITING):
+            return actions.window_card(cid, Card.ABSTAIN)
         # 1) 无代价牌，按克制强度 兵争 > 验牒 > 免费强行（兵争在无代价牌中克制最广）。
         if (me.guard_action_point or 0) > 0:
             return actions.window_card(cid, Card.BING_ZHENG)

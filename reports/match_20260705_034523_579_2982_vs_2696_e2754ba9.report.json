@@ -1,0 +1,1793 @@
+{
+  "schemaVersion": 2,
+  "matchId": "match_20260705_034523_579_2982_vs_2696_e2754ba9",
+  "playerId": 2696,
+  "teamId": "BLUE",
+  "seed": null,
+  "clientVersion": "iter31",
+  "source": "platform",
+  "variant": "baseline",
+  "durationRound": 600,
+  "outcome": "UNDELIVERED",
+  "finalScore": {
+    "me": {
+      "total": 80,
+      "delivery": 0,
+      "task": 80,
+      "time": 0,
+      "goodFruit": 0,
+      "freshness": 0,
+      "bounty": 0,
+      "penalty": 0
+    },
+    "opp": {
+      "total": 410,
+      "delivery": 120,
+      "task": 0,
+      "time": 0,
+      "goodFruit": 167,
+      "freshness": 123,
+      "bounty": 0,
+      "penalty": 0
+    }
+  },
+  "delivery": {
+    "me": {
+      "frame": 0,
+      "verifyFrame": 597,
+      "goodFruit": 97,
+      "freshness": 72.19
+    },
+    "opp": {
+      "frame": 583
+    },
+    "rushTriggerFrame": 390
+  },
+  "tasks": {
+    "me": {
+      "base": 150,
+      "milestones": [
+        60,
+        90,
+        110
+      ],
+      "claimed": [
+        {
+          "template": null,
+          "node": "S08",
+          "frame": 185,
+          "detourExtra": null
+        },
+        {
+          "template": null,
+          "node": "S08",
+          "frame": 189,
+          "detourExtra": null
+        },
+        {
+          "template": null,
+          "node": "S10",
+          "frame": 265,
+          "detourExtra": null
+        },
+        {
+          "template": null,
+          "node": "S10",
+          "frame": 269,
+          "detourExtra": null
+        },
+        {
+          "template": null,
+          "node": "S10",
+          "frame": 273,
+          "detourExtra": null
+        }
+      ]
+    },
+    "opp": {
+      "base": 0,
+      "milestones": [],
+      "claimed": []
+    },
+    "missedReachable90": null
+  },
+  "resources": {
+    "iceUsed": [
+      {
+        "frame": 319,
+        "freshnessBefore": 77.26
+      }
+    ],
+    "horseUsed": "SHORT_HORSE@196",
+    "rushTactic": {
+      "type": "RUSH_PROTECT",
+      "frame": 590
+    }
+  },
+  "trajectory": {
+    "freshness": {
+      "start": 100,
+      "end": 72.19,
+      "min": 72.19
+    },
+    "goodFruit": {
+      "start": 100,
+      "end": 97,
+      "badCrossings": [
+        90,
+        80
+      ]
+    },
+    "opponent": {
+      "freshnessEnd": 68.56,
+      "goodFruitEnd": 93,
+      "nodeEnd": "S15"
+    }
+  },
+  "opponentInteraction": {
+    "windows": [],
+    "oppGuards": [],
+    "bounties": [],
+    "myGuards": []
+  },
+  "failures": {
+    "rejected": [
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 331,
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "S14"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      },
+      {
+        "frame": 391,
+        "action": "RUSH_PROTECT",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "target": "None"
+      }
+    ],
+    "waitingStuck": [
+      {
+        "fromFrame": 331,
+        "toFrame": 450,
+        "node": "S13"
+      },
+      {
+        "fromFrame": 456,
+        "toFrame": 575,
+        "node": "S13"
+      }
+    ],
+    "invalidActions": 0,
+    "decisionTimeouts": 0,
+    "canAffordBlocked": []
+  },
+  "projection": {
+    "modeSwitches": [
+      {
+        "frame": 277,
+        "from": "EVEN",
+        "to": "CONSERVATIVE",
+        "gap": null,
+        "reason": "gap_above_threshold"
+      },
+      {
+        "frame": 560,
+        "from": "CONSERVATIVE",
+        "to": "AGGRESSIVE",
+        "gap": null,
+        "reason": "gap_below_threshold"
+      }
+    ],
+    "confidence": {
+      "min": 0.3,
+      "median": 0.575,
+      "max": 0.85
+    },
+    "projectedMyScore": 80,
+    "actualMyScore": 80,
+    "error": 0,
+    "oppEtaPredictedDeliver": 600,
+    "oppActualDeliver": 583
+  },
+  "classification": {
+    "scoreMargin": -330,
+    "luckClass": "expected_loss",
+    "segments": [
+      "undelivered",
+      "task90_reached",
+      "mid_lead",
+      "weather_hit",
+      "opp_delivered"
+    ]
+  },
+  "decisionTimeline": [
+    {
+      "frame": 1,
+      "event": "BREAKTHROUGH",
+      "detail": "CLEAR S06"
+    },
+    {
+      "frame": 1,
+      "event": "ACTION",
+      "detail": "SQUAD_CLEAR S08"
+    },
+    {
+      "frame": 7,
+      "event": "ACTION",
+      "detail": "MOVE S06"
+    },
+    {
+      "frame": 86,
+      "event": "ACTION",
+      "detail": "CLAIM_RESOURCE S06"
+    },
+    {
+      "frame": 86,
+      "event": "ACTION",
+      "detail": "SQUAD_CLEAR S10"
+    },
+    {
+      "frame": 88,
+      "event": "ACTION",
+      "detail": "MOVE S08"
+    },
+    {
+      "frame": 185,
+      "event": "TASK_CLAIM",
+      "detail": "T_003"
+    },
+    {
+      "frame": 189,
+      "event": "TASK_CLAIM",
+      "detail": "T_005"
+    },
+    {
+      "frame": 193,
+      "event": "ACTION",
+      "detail": "CLAIM_RESOURCE S08"
+    },
+    {
+      "frame": 195,
+      "event": "ACTION",
+      "detail": "MOVE S10"
+    },
+    {
+      "frame": 196,
+      "event": "USE_HORSE",
+      "detail": "SHORT_HORSE"
+    },
+    {
+      "frame": 197,
+      "event": "ACTION",
+      "detail": "MOVE S10"
+    },
+    {
+      "frame": 265,
+      "event": "TASK_CLAIM",
+      "detail": "T_006"
+    },
+    {
+      "frame": 269,
+      "event": "TASK_CLAIM",
+      "detail": "T_008"
+    },
+    {
+      "frame": 273,
+      "event": "TASK_CLAIM",
+      "detail": "T_012"
+    },
+    {
+      "frame": 277,
+      "event": "MODE_CHANGE",
+      "detail": "EVEN->CONSERVATIVE"
+    },
+    {
+      "frame": 277,
+      "event": "ACTION",
+      "detail": "MOVE S13"
+    },
+    {
+      "frame": 319,
+      "event": "USE_ICE",
+      "detail": "fresh=77.3"
+    },
+    {
+      "frame": 319,
+      "event": "ACTION",
+      "detail": "SQUAD_SCOUT S14"
+    },
+    {
+      "frame": 320,
+      "event": "ACTION",
+      "detail": "PROCESS None"
+    },
+    {
+      "frame": 325,
+      "event": "ACTION",
+      "detail": "MOVE S14"
+    },
+    {
+      "frame": 330,
+      "event": "BREAKTHROUGH",
+      "detail": "FORCED_PASS S14"
+    },
+    {
+      "frame": 390,
+      "event": "RUSH_TACTIC",
+      "detail": "RUSH_PROTECT"
+    },
+    {
+      "frame": 331,
+      "event": "REJECTED",
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN x60"
+    },
+    {
+      "frame": 450,
+      "event": "ACTION",
+      "detail": "MOVE S14"
+    },
+    {
+      "frame": 455,
+      "event": "RUSH_TACTIC",
+      "detail": "RUSH_PROTECT"
+    },
+    {
+      "frame": 560,
+      "event": "MODE_CHANGE",
+      "detail": "CONSERVATIVE->AGGRESSIVE"
+    },
+    {
+      "frame": 575,
+      "event": "ACTION",
+      "detail": "MOVE S14"
+    },
+    {
+      "frame": 590,
+      "event": "RUSH_TACTIC",
+      "detail": "RUSH_PROTECT"
+    },
+    {
+      "frame": 591,
+      "event": "ACTION",
+      "detail": "VERIFY_GATE None"
+    },
+    {
+      "frame": 597,
+      "event": "ACTION",
+      "detail": "MOVE S15"
+    },
+    {
+      "frame": 391,
+      "event": "REJECTED",
+      "detail": "RUSH_PROTECT code=MOVING_ACTION_FORBIDDEN x180"
+    }
+  ]
+}

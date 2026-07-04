@@ -7,7 +7,7 @@
 # ---- 客户端标识 ----
 # 人工版本标签：每轮迭代手动 bump（iter25/iter26/...）。这是"log 记录哪版代码"的主标签——
 # 解决真实 trace 不记录代码版本、旧/新 client 行为无法区分的问题（p0_attribution 工作流）。
-CLIENT_VERSION = "iter31"
+CLIENT_VERSION = "iter33"
 DEFAULT_PLAYER_NAME = "litchi-agent"
 
 
@@ -63,6 +63,9 @@ GATE_SCOUT_MAX_FRAMES = 40         # 最大剩余帧（探路标记 45 帧有效
 # ---- 策略调参（M7 能力补全）----
 REJECT_BLOCK_ROUNDS = 4             # 被拒移动目标临时拉黑帧数（拒绝反馈，防止重复撞同一阻塞）
 REJECT_TASK_COOLDOWN_ROUNDS = 6     # CLAIM_TASK 被 OBJECT_BUSY 拒后该 taskId 冷却帧数（防重试风暴：真实 trace S10 连停 30+ 帧重发同任务）
+REJECT_ACTION_COOLDOWN_ROUNDS = 8   # 非 MOVE 动作被 MOVING_ACTION_FORBIDDEN 拒后该动作签名冷却帧数
+                                      # （防重试风暴：真实 trace WAITING 态重发 BREAK_GUARD/USE_RESOURCE/RUSH_PROTECT/
+                                      #  FORCED_PASS 连拒 50–287 帧致未交付；冷却中跳过使 _plan 落到 _advance(MOVE) 重路由）
 INTEL_RANGE = 15                    # 情报射程上限（累计路线距离，任务书 §3.3.4）
 TASK_DETOUR_MAX_EXTRA_FRAMES = 70   # 绕路做任务允许的最大额外帧（相对直达终点）
 REROUTE_VS_CLEAR_EXTRA = 20         # 绕行比直路多这么多帧时改为就地清障（清障≈6帧+1好果）
