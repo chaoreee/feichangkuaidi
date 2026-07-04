@@ -210,6 +210,62 @@ class TestPlanRoute(unittest.TestCase):
         path, _ = sp.plan_route(w, w.me, self.gm, "S01", "S05", None, self.ctx)
         self.assertIn(path[0], ("S01",))
 
+    def test_efficiency_gate_rejects_low_ratio_long_detour(self):
+        """长绕路(extra≥15) 投影增益为正但 gain/extra < MIN_ROUTE_EFFICIENCY → 保时间最优。
+
+        FAR_ICE+task：gain=+20、extra=77、ratio≈0.26。抬高 MIN_ROUTE_EFFICIENCY=0.5、
+        压低 MIN_ROUTE_GAIN=0（隔离效率门为唯一拒绝源）→ 效率门拒，保直送。
+        对应 v2 失败模式：投影 +7/+60=0.12 的低效长绕路被采纳致 −3.7。
+        """
+        ctx = GameContext(PID, "RED", 0, FAR_ICE_MAP)
+        gm = ctx.game_map
+        w = _joint_world(task=100, ice_nodes=["S03"], tasks=[_task("S03", 20, 3)])
+        old_gain = config.STATIC_PLANNER_MIN_ROUTE_GAIN
+        old_eff = config.STATIC_PLANNER_MIN_ROUTE_EFFICIENCY
+        config.STATIC_PLANNER_MIN_ROUTE_GAIN = 0.0      # 关绝对门，隔离效率门
+        config.STATIC_PLANNER_MIN_ROUTE_EFFICIENCY = 0.5  # > 0.26 → 拒
+        try:
+            path, _ = sp.plan_route(w, w.me, gm, "S01", "S05", "S05", ctx)
+            self.assertEqual(path, ["S01", "S05"])  # 效率门拒低效长绕路
+        finally:
+            config.STATIC_PLANNER_MIN_ROUTE_GAIN = old_gain
+            config.STATIC_PLANNER_MIN_ROUTE_EFFICIENCY = old_eff
+
+    def test_efficiency_gate_accepts_high_ratio_long_detour(self):
+        """长绕路 gain/extra ≥ MIN_ROUTE_EFFICIENCY → 改道（效率门放行）。
+
+        同 FAR_ICE+task（ratio≈0.26），MIN_ROUTE_EFFICIENCY=0.1（< 0.26）→ 放行改道。
+        证明效率门是阈值门而非"长绕路一律拒"。
+        """
+        ctx = GameContext(PID, "RED", 0, FAR_ICE_MAP)
+        gm = ctx.game_map
+        w = _joint_world(task=100, ice_nodes=["S03"], tasks=[_task("S03", 20, 3)])
+        old_gain = config.STATIC_PLANNER_MIN_ROUTE_GAIN
+        old_eff = config.STATIC_PLANNER_MIN_ROUTE_EFFICIENCY
+        config.STATIC_PLANNER_MIN_ROUTE_GAIN = 0.0
+        config.STATIC_PLANNER_MIN_ROUTE_EFFICIENCY = 0.1  # < 0.26 → 放行
+        try:
+            path, _ = sp.plan_route(w, w.me, gm, "S01", "S05", "S05", ctx)
+            self.assertEqual(path, ["S01", "S03", "S05"])  # 效率门放行
+        finally:
+            config.STATIC_PLANNER_MIN_ROUTE_GAIN = old_gain
+            config.STATIC_PLANNER_MIN_ROUTE_EFFICIENCY = old_eff
+
+    def test_short_detour_bypasses_efficiency_gate(self):
+        """短绕路(extra<15) 时间成本估计可信，跳过效率门，仅绝对增益门把关。
+
+        START_DATA 鲜度绕路 extra=6<15。即使 MIN_ROUTE_EFFICIENCY=999（若生效必拒），
+        仍因 extra<15 跳过效率门、过绝对增益门 → 改道。
+        """
+        w = _world(node="S01", fresh=100.0, good=100, verified=True, ice=0, task=150, rnd=100)
+        old_eff = config.STATIC_PLANNER_MIN_ROUTE_EFFICIENCY
+        config.STATIC_PLANNER_MIN_ROUTE_EFFICIENCY = 999.0  # 若对短绕路生效必拒
+        try:
+            path, _ = sp.plan_route(w, w.me, self.gm, "S01", "S05", "S05", self.ctx)
+            self.assertEqual(path, ["S01", "S03", "S05"])  # 短绕路跳过效率门 → 仍改道
+        finally:
+            config.STATIC_PLANNER_MIN_ROUTE_EFFICIENCY = old_eff
+
 
 class TestDecisionIntegration(unittest.TestCase):
     """flag-off 行为不变；flag-on 冰鉴阈值/囤积提升、路线走规划器。"""

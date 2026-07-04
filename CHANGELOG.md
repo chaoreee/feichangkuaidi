@@ -2,6 +2,30 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 28] - 2026-07-04 — Phase B v2 + ΔEV 每帧效率门（机制验证成功消除 v2 回归，samples 上仍中性，flag 保持关）
+
+落地 `docs/calibration_v1.md` §7「下一步候选①」。v2 失败根因：`plan_route` 改道门是**纯绝对增益门**（`gain ≥ STATIC_PLANNER_MIN_ROUTE_GAIN`），放行了投影 +7 / +60 帧 = 0.12/帧 的低效长绕路（实测 −3.7）。本轮给该门加一个**每帧效率维度**吸收投影对长绕路时间成本的系统性乐观（暴雨/山雾减速未建模、未来天气隐藏→不可彻底消除）。**sim A/B 机制验证成功——v2 的双重回归（−3.7 分、+60 帧）被消除，且无 task/分段回归；但 samples 图结构上无廉价鲜度，+0.1 CI 跨 0 中性，未过"mean 正向"门槛，flag 保持关。**
+
+### Added
+- `strategy/static_planner.py` 每帧效率门：`plan_route` 改道条件由「绝对增益门」升级为「绝对增益门 **与** 每帧效率门」——`gain/extra_frames < STATIC_PLANNER_MIN_ROUTE_EFFICIENCY` 时保时间最优。`extra` = 候选与时间最优的 deliver_frame 差（总时间成本：移动+停靠+验核+冰鉴使用）。
+- `_EFFICIENCY_MIN_EXTRA = 15`：效率门**仅对长绕路**（extra≥15 帧）生效——短绕路时间成本估计可信（天气暴露小），仅绝对增益门把关。精准定向 v2 根因（长绕路时间成本被低估），不误伤短绕路。
+- `config.py` `STATIC_PLANNER_MIN_ROUTE_EFFICIENCY = 0.2`：阈值校准依据 = v2 乐观修正率（实际 −3.7 vs 投影 +7 / 60 帧 ≈ 0.18/帧 = 修正后盈亏平衡 ratio）。0.2 拒 0.12（v2 鲜度长绕路，修正后为负）、纳 0.26（任务 +20/77 帧长绕路，修正后仍 +6 正）。
+- `tests/test_static_planner.py` `TestPlanRoute` 3 项效率门测试：`test_efficiency_gate_rejects_low_ratio_long_detour`（FAR_ICE+task ratio 0.26、阈值 0.5 → 拒）、`test_efficiency_gate_accepts_high_ratio_long_detour`（阈值 0.1 → 纳）、`test_short_detour_bypasses_efficiency_gate`（START_DATA extra=6<15、阈值 999 → 仍改道，证短绕路跳过效率门）。
+
+### Changed
+- `_best_score_for_path` 返回值 `(score, k)` → `(score, k, deliver_frame)`：透传 `project_route` 的 deliver_frame 供门控计算真实总时间成本。
+- `plan_route`：`best`/`time_best` 跟踪 deliver_frame；改道门控加效率维度（`extra >= _EFFICIENCY_MIN_EXTRA and gain/extra < min_eff`）。异常安全不变（外层 try/except 回落时间最优）。
+- 模块 docstring 更新为双门（绝对增益 + 每帧效率）表述。
+
+### Tests / A/B
+- 单测：268 client 全过（+3 新，零回归）。
+- sim A/B 50 种子：mean 747.9 vs baseline 747.8（**+0.1，95% CI [−1.8, +1.9] 中性**）、交付帧 460.9 vs 455.4（+5.5，v2 +60 被消除）、task_base 140/140 无回归、分段（delivered/task90/mid_even/weather/opp_delivered）全一致、0 STUCK、对账 0 误差。paired 50/50/100 ties。
+
+### Misc
+- `ENABLE_STATIC_PLANNER` 保持默认关（A/B 中性非正向，未过 §1.2 门槛；CLIENT_VERSION 不 bump）。代码保留作通用 variant 平台——机制验证成功（v2 回归消除）、异常安全、0 STUCK。
+- **不扫阈值逼正向**：乐观修正率 0.18/帧是物理下界——降阈值（<0.18）重新放行修正后为负的长绕路、重演 v2；升阈值更中性。samples 无正向交叉点，扫只会过拟合初赛图（违反通用原则）。
+- 详见 `docs/calibration_v1.md` §8。
+
 ## [Iteration 27] - 2026-07-04 — Phase B v2 联合规划器（task+ice+route 一体求解，A/B 仍未过门槛）
 
 针对 Iter 26 v1 评审结论（`project_route` 冻结 task_base、`plan_route` 候选集过窄、`_ice_detour_target` 分项式零和）落地真正联合求解。**sim A/B 仍未过门槛（−3.7），flag 保持关；但机制正确（多图自适应已证）、修了一个卡死 bug、根因从"分项零和"推进到"投影天气乐观（隐藏信息）"。**

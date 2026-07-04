@@ -139,3 +139,4 @@ ENABLE_STATIC_PLANNER = False
 STATIC_PLANNER_ICE_USE_BELOW = 91.0   # 冰鉴使用阈值（fresh<91 即用：在跌破 90 阈值带前补鲜度，防好果转坏）
 STATIC_PLANNER_ICE_KEEP = 3            # 期望持有冰鉴数（支撑质量路线多次使用；baseline CLAIM_ICE_BOX_KEEP=1）
 STATIC_PLANNER_MIN_ROUTE_GAIN = 0.5    # 候选路线投影分须高出时间最优此值才改道（避免噪声微改道；ΔEV 门）
+STATIC_PLANNER_MIN_ROUTE_EFFICIENCY = 0.2  # 改道候选每帧效率下限 gain/extra_frames，仅对长绕路(extra≥15帧)生效。≈v2 乐观修正率（实际−3.7 vs 投影+7 / 60帧≈0.18/帧）：拒0.12低效长绕路、纳0.26任务长绕路。sim A/B 校准

@@ -12,8 +12,9 @@ task 与 ice 争同一 spare-time 预算（零和），且 project_route 把 tas
 - `project_route`：沿路径交付、用 k 次冰鉴的投影终局分（复用 `core/rules.py` + 鲜度模型 +
   `_path_pickups` 的 task/ice 建模）。自动计入沿途 task 领取帧、ice 收集帧及其鲜度损耗。
 - `plan_route`：候选 = 时间最优 + 鲜度最优 + 经冰源/任务点 waypoint 的拼接路线；每候选用
-  `project_route`（× ice 用量 0..库存+沿途可收）投影终局分取最高，仅当高出时间最优
-  ≥ `STATIC_PLANNER_MIN_ROUTE_GAIN` 才改道。读 `start` 拓扑动态生成候选，不写死节点（通用）。
+  `project_route`（× ice 用量 0..库存+沿途可收）投影终局分取最高，仅当同时过绝对增益门
+  （≥ `STATIC_PLANNER_MIN_ROUTE_GAIN`）与每帧效率门（gain/extra ≥ `STATIC_PLANNER_MIN_ROUTE_EFFICIENCY`）
+  才改道。读 `start` 拓扑动态生成候选，不写死节点（通用）。
 
 冰鉴模型（对齐 sim/规则）：每次 `USE_RESOURCE(ICE_BOX)` +10 鲜度（封顶 100）、耗 1 动作帧
 （推迟交付 1 帧）、可阻止 1 次 good→bad 阈值跨越。默认关（`config.ENABLE_STATIC_PLANNER`）：
@@ -31,6 +32,7 @@ _ICE_CLAIM_FRAMES = 2        # 收集 1 篓冰鉴的读条帧（对齐 config.RE
 _TASK_CAP = 130              # task_score 封顶的 task_base 阈值；过此多做任务零边际（rules）
 _DEFAULT_VERIFY_FRAMES = 6   # gm 无 gate 信息时的回退
 _WAYPOINT_MAX_EXTRA = 80     # waypoint 绕路允许的最大额外帧（防候选爆炸；ΔEV 门才是真正过滤器）
+_EFFICIENCY_MIN_EXTRA = 15   # 每帧效率门仅对 extra≥此值的长绕路生效：短绕路时间成本估计可信，仅绝对增益门把关
 
 
 def _weather_coef(world):
@@ -196,9 +198,10 @@ def project_route(world, me, gm, path, terminal, ice_uses, ctx, weather_coef):
 
 
 def _best_score_for_path(world, me, gm, path, terminal, ctx, weather_coef):
-    """单路径上遍历冰鉴用量 0..(库存 + 沿途可收) 的最高投影分。返回 (score, k) 或 None。
+    """单路径上遍历冰鉴用量 0..(库存 + 沿途可收) 的最高投影分。返回 (score, k, deliver_frame) 或 None。
 
     ice 预算 = 当前库存 + `_path_pickups` 沿途可收集量（前瞻规划假设将收集到）。
+    透传最优 k 对应的 deliver_frame 供 plan_route 的每帧效率门计算真实总时间成本。
     """
     inv = 0
     if hasattr(me, "resource_count"):
@@ -207,13 +210,13 @@ def _best_score_for_path(world, me, gm, path, terminal, ctx, weather_coef):
     if probe is None:
         return None
     ice_budget = inv + probe.get("ice_collected", 0)
-    best = (probe["score"], 0)
+    best = (probe["score"], 0, probe["deliver_frame"])
     for k in range(1, ice_budget + 1):
         proj = project_route(world, me, gm, path, terminal, k, ctx, weather_coef)
         if proj is None:
             continue
         if proj["score"] > best[0]:
-            best = (proj["score"], k)
+            best = (proj["score"], k, proj["deliver_frame"])
     return best
 
 
@@ -325,20 +328,28 @@ def plan_route(world, me, gm, src, dst, terminal, ctx, blocked=None):
         time_best = _best_score_for_path(world, me, gm, p_time, terminal, ctx, wcoef) \
             if p_time else None
 
-        best = None  # (score, path)
+        best = None  # (score, path, deliver_frame)
         for path in uniq:
             scored = _best_score_for_path(world, me, gm, path, terminal, ctx, wcoef)
             if scored is None:
                 continue
             if best is None or scored[0] > best[0]:
-                best = (scored[0], path)
+                best = (scored[0], path, scored[2])
         if best is None:
             return (p_time or [], 0.0)
 
-        # ΔEV 改道门控：候选须高出时间最优 ≥ MIN_ROUTE_GAIN 才采用，否则保时间最优。
+        # ΔEV 改道门控：候选须同时过 (1) 绝对增益门 gain ≥ MIN_ROUTE_GAIN 与
+        # (2) 每帧效率门 gain/extra ≥ MIN_ROUTE_EFFICIENCY 才采用，否则保时间最优。
+        # 效率门仅对长绕路（extra ≥ _EFFICIENCY_MIN_EXTRA）生效：吸收投影对长绕路时间成本的
+        # 系统性乐观（暴雨/山雾减速未建模、未来天气隐藏）——拒 +7/+60=0.12/帧 的低效长绕路，
+        # 纳 +7/+10=0.7/帧 的高效绕路。短绕路时间成本估计可信，仅绝对增益门把关。
         best_path = best[1]
         if best_path != p_time and time_best is not None:
-            if best[0] - time_best[0] < getattr(config, "STATIC_PLANNER_MIN_ROUTE_GAIN", 0.5):
+            gain = best[0] - time_best[0]
+            extra = best[2] - time_best[2]   # 总交付帧差（移动+停靠+验核+冰鉴使用）
+            min_gain = getattr(config, "STATIC_PLANNER_MIN_ROUTE_GAIN", 0.5)
+            min_eff = getattr(config, "STATIC_PLANNER_MIN_ROUTE_EFFICIENCY", 0.3)
+            if gain < min_gain or (extra >= _EFFICIENCY_MIN_EXTRA and gain / extra < min_eff):
                 best_path = p_time
         return (best_path, best[0])
     except Exception:

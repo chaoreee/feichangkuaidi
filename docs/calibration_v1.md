@@ -89,4 +89,41 @@
 
 ---
 
-> 本日志为 Phase B 的 A/B 验收记录。v1（分项式）与 v2（联合）均未过门槛，flag 保持关；根因从"分项零和"推进到"投影天气乐观（隐藏信息）"。
+## 8. Iter 28 ΔEV 改道门加"每帧效率"维度（吸收投影天气乐观）
+
+落地 §7「下一步候选①」：给 `plan_route` 改道门加一个每帧效率维度，针对 v2 失败根因（纯绝对增益门放行 +7/+60=0.12/帧 的低效长绕路）。
+
+**机制**（`strategy/static_planner.py` `plan_route`）：改道条件由「绝对增益门」升级为「绝对增益门 **与** 每帧效率门」——
+
+```
+gain = best_score - time_score
+extra = best_deliver_frame - time_deliver_frame   # 总交付帧差（移动+停靠+验核+冰鉴使用）
+if gain < MIN_ROUTE_GAIN or (extra >= 15 and gain/extra < MIN_ROUTE_EFFICIENCY):
+    保时间最优
+```
+
+- 效率门**仅对长绕路**（`extra ≥ _EFFICIENCY_MIN_EXTRA=15` 帧）生效：短绕路时间成本估计可信（天气暴露小），仅绝对增益门把关。这是对 v2 根因的精准定向——长绕路时间成本被天气乐观低估，短绕路不受影响。
+- `_best_score_for_path` 扩返回 `(score, k, deliver_frame)`，透传 `project_route` 的 deliver_frame 供门控计算真实总时间成本。
+- 阈值 `STATIC_PLANNER_MIN_ROUTE_EFFICIENCY = 0.2`（config）。**校准依据**：v2 实际 −3.7 vs 投影 +7 / 60 帧 ≈ **0.18/帧**的乐观修正率——此即乐观修正后的盈亏平衡 ratio。0.2 恰好拒 0.12（v2 鲜度长绕路，修正后为负）、纳 0.26（任务 +20 / 77 帧长绕路，修正后仍 +6 正）。
+
+**A/B（50 种子）**：
+
+| 指标 | baseline | tuned(联合+效率门) | vs v2 |
+|---|---|---|---|
+| mean 终局分 | 747.8 | **747.9（+0.1，CI[−1.8,+1.9]）** | −3.7 → +0.1 |
+| 交付帧 mean | 455.4 | 460.9（+5.5） | +60 → +5.5 |
+| 交付率 | 1.000 | 1.000 | — |
+| STUCK | 0 | 0 | — |
+| task_base | 140 | 140 | 无 task 回归 |
+| 分段（delivered/task90/mid_even/weather/opp_delivered） | 100/100 | 100/100 | 全一致，无分段回归 |
+| 对账误差 | 0 | 0 | — |
+
+- paired：baseline wins 50 / tuned wins 50 / ties 100（N=200 达门槛）。
+
+**处置**：`ENABLE_STATIC_PLANNER` **保持默认关**。
+- **机制验证成功**：效率门消除了 v2 的双重回归——分数 −3.7→+0.1、交付帧 +60→+5.5、且无 task 回归（v1 曾 140→120）。门控机制正确、定向精准（只拒长绕路低效者，不误伤短绕路）。
+- **仍未过 §1.2 门槛**：+0.1 的 95% CI [−1.8, +1.9] 跨 0 → 统计中性，非"mean 正向"。samples 图结构上不提供廉价鲜度（与 v1/v2 同结论），效率门使 variant 在 samples 上**安全中性**，但无法逼出正向。
+- **不扫阈值逼正向**：乐观修正率 0.18/帧是物理下界——降阈值（<0.18）会重新放行修正后为负的长绕路、重演 v2；升阈值更趋中性。samples 上无交叉点能正向，扫阈值只会过拟合初赛图（违反通用原则，见 memory `map-general-strategy`）。
+- `CLIENT_VERSION` 不 bump（flag 默认关 → baseline 行为零变化）。代码保留作通用 variant 平台。
+
+**下一步**：接受 samples 中性，靠决赛新图（冰源与任务点共址、绕路短 ratio 高时）自然正向——效率门会纳那些 0.7/帧 的高效绕路而 v2 会因绝对门误纳低效者。继续收割真实 trace 至 N≥30 脱"假设级"；Phase D1 GATE 验核 race（真实 trace 已有 `OBJECT_BUSY` 证据）。
