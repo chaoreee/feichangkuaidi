@@ -1,0 +1,215 @@
+{
+  "classification": {
+    "luckClass": "expected_loss",
+    "scoreMargin": -24,
+    "segments": [
+      "delivered",
+      "task90_reached",
+      "mid_even",
+      "weather_hit",
+      "opp_delivered"
+    ]
+  },
+  "clientVersion": "iter25",
+  "decisionTimeline": [
+    {
+      "detail": "CLEAR S06 cost 1",
+      "event": "BREAKTHROUGH",
+      "frame": 1
+    },
+    {
+      "detail": "T_003",
+      "event": "TASK_CLAIM",
+      "frame": 190
+    },
+    {
+      "detail": "T_005",
+      "event": "TASK_CLAIM",
+      "frame": 194
+    },
+    {
+      "detail": "T_009",
+      "event": "TASK_CLAIM",
+      "frame": 198
+    },
+    {
+      "detail": "SHORT_HORSE",
+      "event": "USE_HORSE",
+      "frame": 205
+    },
+    {
+      "detail": "T_008",
+      "event": "TASK_CLAIM",
+      "frame": 274
+    },
+    {
+      "detail": "T_011",
+      "event": "TASK_CLAIM",
+      "frame": 278
+    },
+    {
+      "detail": "fresh=76.5",
+      "event": "USE_ICE",
+      "frame": 332
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 431
+    }
+  ],
+  "delivery": {
+    "me": {
+      "frame": 449,
+      "freshness": 80.92,
+      "goodFruit": 97,
+      "verifyFrame": 435
+    },
+    "opp": {
+      "frame": 472
+    },
+    "rushTriggerFrame": 431
+  },
+  "durationRound": 600,
+  "failures": {
+    "canAffordBlocked": [],
+    "decisionTimeouts": 0,
+    "invalidActions": 0,
+    "rejected": [],
+    "waitingStuck": []
+  },
+  "finalScore": {
+    "me": {
+      "bounty": 0,
+      "delivery": null,
+      "freshness": null,
+      "goodFruit": null,
+      "penalty": 0,
+      "task": null,
+      "time": null,
+      "total": 756
+    },
+    "opp": {
+      "bounty": 0,
+      "delivery": null,
+      "freshness": null,
+      "goodFruit": null,
+      "penalty": 0,
+      "task": null,
+      "time": null,
+      "total": 780
+    }
+  },
+  "matchId": "match_20260704_132253_539_2738_vs_2696_eb782592",
+  "opponentInteraction": {
+    "bounties": [],
+    "myGuards": [],
+    "oppGuards": [],
+    "windows": []
+  },
+  "outcome": "LOSS",
+  "playerId": 2696,
+  "projection": {
+    "actualMyScore": 756,
+    "confidence": {
+      "max": 0.73,
+      "median": 0.52,
+      "min": 0.3
+    },
+    "error": -3,
+    "modeSwitches": [],
+    "oppActualDeliver": 472,
+    "oppEtaPredictedDeliver": 472,
+    "projectedMyScore": 753
+  },
+  "resources": {
+    "horseUsed": "SHORT_HORSE@205",
+    "iceUsed": [
+      {
+        "frame": 332,
+        "freshnessBefore": 76.54
+      }
+    ],
+    "rushTactic": {
+      "frame": 431,
+      "type": "RUSH_PROTECT"
+    }
+  },
+  "schemaVersion": 1,
+  "seed": null,
+  "source": "platform",
+  "tasks": {
+    "me": {
+      "base": 150,
+      "claimed": [
+        {
+          "detourExtra": null,
+          "frame": 190,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 194,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 198,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 274,
+          "node": "S10",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 278,
+          "node": "S10",
+          "template": null
+        }
+      ],
+      "milestones": [
+        60,
+        90,
+        110
+      ]
+    },
+    "missedReachable90": null,
+    "opp": {
+      "base": 135,
+      "claimed": [],
+      "milestones": [
+        60,
+        90,
+        110
+      ]
+    }
+  },
+  "teamId": "BLUE",
+  "trajectory": {
+    "freshness": {
+      "end": 80.92,
+      "min": 76.54,
+      "start": 100
+    },
+    "goodFruit": {
+      "badCrossings": [
+        90,
+        80
+      ],
+      "end": 97,
+      "start": 100
+    },
+    "opponent": {
+      "freshnessEnd": 93.43,
+      "goodFruitEnd": 99,
+      "nodeEnd": "S15"
+    }
+  },
+  "variant": "baseline"
+}
