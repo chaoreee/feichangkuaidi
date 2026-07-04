@@ -2,6 +2,57 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 23] - 2026-07-04 — Phase A 高保真自博弈仿真器（in-process，物理复用 rules.py）
+
+### 触发
+`docs/iteration_plan_v2.md` Iter 23 / Phase A：替换不可信的 `mock_server.py`（@r48 交付、1 帧移动、
+无天气、对手静止），提供规则忠实、可复现、可 A/B 的实验台，作 Phase B 静态规划器与 Phase C 阈值校准的
+证据地基。用户并行去取真实 trace（Phase 0），Phase A 不依赖平台——所有 sim 结论标"待真实 trace 验证"。
+
+### 架构决策（与用户确认）
+**进程内自博弈**（非 TCP）：新建 `scripts/sim_server.py` 直接 import 真实 `DecisionEngine`/`WorldState`/
+`MatchLogger`/`rules`/`GameMap`，两侧引擎同进程跑；trace 复用 `client/main.py` 的 `_log_*` 辅助函数写出
+→ 与真实客户端同格式、`analysis/parser.py` 可读。确定性同种子 A/B 天然成立（`decision.py`/`projection.py`
+无 random/time，已验证）。不演练 main.py 的 socket 收发循环（与策略无关，已被 231 项 client 单测覆盖）。
+
+### Added
+- **`scripts/sim_engine.py`** — 忠实物理引擎（纯 stdlib，物理一律调 `core/rules.py`）：
+  - 移动按路线距离×耗时系数（`to_station_move_amount`/`per_frame_move_amount`/`frames_on_edge`），
+    advance-on-start；鲜度逐帧损耗（`freshness_loss`，移动用 `FRESHNESS_LOSS_MOVE[routeType]`，停靠用 BASE）
+    + 好→坏阈值跨越（`crossed_good_to_bad_thresholds`，每跨 1 篎转坏）；天气 4 次×60 帧+提前 30 预告
+    （§2.5，起始帧/类型 seed 定），暴雨命中水路/山雾命中山路按 `weather_move_multiplier`+鲜度系数；
+    探路标记 45 帧可用+处理/验核 -3（§6.4.1）；宫门验核 6 帧（§252）+破关令 -3 最低 3；
+    RUSH 触发四条件+450 强制（§6.5）；**路线边空动作 park WAITING+0 进度**（Iteration 8 真实败局行为）；
+    设卡 `guard_defense`/攻坚 `break_guard_attack_value`/强制通行 `guard_time_tax`/风化；动作拒绝码
+    （PROCESS_REQUIRED/MOVE_BLOCKED_BY_GUARD/MOVE_EDGE_NOT_FOUND/...）经 actionResults+events 回灌。
+  - 动作全家桶：MOVE/PROCESS/VERIFY_GATE/CLEAR/CLAIM_RESOURCE/CLAIM_TASK/USE_RESOURCE(ICE/HORSE/INTEL)/
+    SET_GUARD/BREAK_GUARD/FORCED_PASS/RUSH_PROTECT/RUSH_SPEED/SQUAD_*/DELIVER/WAIT。
+- **`scripts/sim_validator.py`** — `SimValidator.validate(engine, over_data)`：用 `rules.py` 从引擎终态
+  原始字段独立重算终局分，与 sim 报告的 over_data totalScore 逐项对账（两条独立代码路径），0 误差；
+  不匹配抛 `SimReconcileError`。
+- **`scripts/sim_server.py`** — 编排 + CLI：双 `DecisionEngine` 自博弈，复用 `main._log_frame/_log_actions/
+    _log_projection/_log_engine_events/_log_over/_log_map` 写 trace 到 `logs/sim/<variant>/match_<seed>_<pid>.log`；
+  matchId=`sim_<variant>_s<seed>`（聚合器按 seed 配对 A/B）；`python3 -m scripts.sim_server --games 50
+  --seeds 1..50 --variant baseline`，汇总交付率/交付帧分布/mean 分/对账/卡死，退出码反映回归。
+- **`scripts/tests/`** — 18 项单测：physics（移动帧数/鲜度/天气倍率/好→坏/设卡公式对齐 rules）、
+  stuck（空动作 park WAITING、续行前进、WAITING 恢复）、rush（390 前不触发/450 强制/RUSH 前验核拒/RUSH 后接受）、
+  validator（对账通过/篡改检出/交付场景）、endtoend（trace→parser→有效 Report）、determinism（同 seed 一致）。
+
+### 验收（plan §5，全过）
+- baseline vs baseline 50 局：**交付率 1.000（100/100）**，交付帧 428–459（mean 436.7，落在 [400,520]、非 ~r48），
+  **SimValidator 对账 0 误差**，**0 WAITING 卡死**；自博弈对称（50 expected_win / 50 expected_loss）。
+- `python3 -m analysis logs/sim/baseline/` 产出 `reports/`：`analysis_report.md` 分段视图齐全
+  （delivered/task90_reached/task90_missed/mid_lead/mid_trail/weather_hit/opp_delivered），对账 ok=100/mismatch=0，
+  `TASK_90_REACH=0.04`（已暴露 Phase B 杠杆：baseline 极少达 task-90）。
+- 回归：client 231 + analysis 42 单测全过（sim 不改 client 代码，零影响）。
+
+### 范围与待办（Phase A 不做，标"待完善/待真实 trace 验证"）
+- 悬赏(bounties)/窗口争夺(contests) 留空（client `ENABLE_*` 默认关，baseline 不触发，会低估博弈分）；
+  动态资源刷新不做（仅 visibleResources 一次性）；任务池 seed 合成（非平台真实任务池）；
+  天气作用区域近似为按路线类型匹配（HOT 全图/暴雨水路/山雾山路）。
+- 自博弈双方同配置→镜像走同路径→任务首到者得（RED 解析序先），产生系统性 RED 偏置；Phase B 静态规划器
+  需非对称对手或任务错位才能充分验证 task-90 逻辑。所有 sim 结论须 Phase 0 真实 trace 校准。
+
 ## [Iteration 22] - 2026-07-04 — 日志/分析架构重构：trace 完整性 + 单局报告落盘 + 时序还原
 
 ### 触发
