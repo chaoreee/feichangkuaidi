@@ -203,5 +203,46 @@ class TestBuildAnalysisReport(unittest.TestCase):
         self.assertIn("ok=1", md)
 
 
+class TestIndexAndTimelines(unittest.TestCase):
+    def test_build_index_fields_and_reportpath(self):
+        rs = [_report(match_id="m1", outcome="WIN", luck="expected_win", seed=11,
+                      segments=("delivered", "task90_reached")),
+              _report(match_id="m2", outcome="LOSS", luck="unlucky_loss", seed=12,
+                      me_total=400, me_task=70,
+                      segments=("delivered", "task90_missed"))]
+        idx = A.build_index(rs, report_relpath=lambda mid: "reports/%s.report.json" % mid)
+        self.assertEqual(len(idx), 2)
+        e = next(x for x in idx if x["matchId"] == "m1")
+        self.assertEqual(e["outcome"], "WIN")
+        self.assertEqual(e["luckClass"], "expected_win")
+        self.assertEqual(e["seed"], 11)
+        self.assertEqual(e["reportPath"], "reports/m1.report.json")
+        self.assertIn("task90_reached", e["segments"])
+
+    def test_build_timelines_for_anomaly_only(self):
+        # WIN expected_win 非异常 → 不入 timelines；unlucky_loss 入。
+        normal = _report(match_id="ok", outcome="WIN", luck="expected_win")
+        anomaly = _report(match_id="bad", outcome="LOSS", luck="unlucky_loss",
+                          me_total=400, me_task=70,
+                          segments=("delivered", "task90_missed"),
+                          proj_error=-80)
+        anomaly["decisionTimeline"] = [
+            {"frame": 120, "event": "TASK_CLAIM", "detail": "TK2"},
+            {"frame": 290, "event": "BREAKTHROUGH", "detail": "CLEAR S14 cost 1"},
+            {"frame": 450, "event": "RUSH_TACTIC", "detail": "RUSH_SPEED"},
+        ]
+        md = A.build_timelines([normal, anomaly])
+        self.assertIsNotNone(md)
+        self.assertIn("matchId=bad", md)
+        self.assertNotIn("matchId=ok", md)
+        self.assertIn("r120 TASK", md)
+        self.assertIn("r290 BREAK", md)
+        self.assertIn("r450 RUSH", md)
+
+    def test_build_timelines_none_when_no_anomaly(self):
+        rs = [_report(match_id="ok", outcome="WIN", luck="expected_win")]
+        self.assertIsNone(A.build_timelines(rs))
+
+
 if __name__ == "__main__":
     unittest.main()

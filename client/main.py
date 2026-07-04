@@ -181,16 +181,51 @@ def _handle_inquire(client, engine, logger, match_id, player_id, data):
         logger.trace("Error", round=rnd, error="send_failed", detail=str(exc))
         return
 
-    _log_actions(logger, rnd, actions, elapsed_ms, world)
+    _log_actions(logger, rnd, actions, elapsed_ms, world, engine)
     _log_engine_events(logger, rnd, engine)
 
 
-def _log_actions(logger, rnd, actions, elapsed_ms, world):
-    """每个动作写一行 Action trace；空动作（系统等待/心跳）也显式记录一行。"""
+def _log_map(logger, sdata):
+    """开局写一行 Map 事件：静态拓扑快照（节点 id:type / 边 from<->to:dist:type / 任务点）。
+
+    供赛后路线归因（漏 task-90 可达性、绕路合理性等）——这些分析需要地图拓扑，
+    而 Start 行只记了计数。trace 是唯一从平台回来的事实源，故拓扑必须写进 trace。
+    用 `[a|b|c]` 列表格式（parser._coerce 可还原），避免值内逗号破坏 ``, `` 字段分隔。
+    """
+    nodes = ["%s:%s" % (n.get("nodeId"), n.get("type") or n.get("nodeType"))
+             for n in (sdata.get("nodes") or []) if n.get("nodeId")]
+    edges = []
+    for e in (sdata.get("edges") or []):
+        frm = e.get("fromNodeId") or e.get("fromNode")
+        to = e.get("toNodeId") or e.get("toNode")
+        if not frm or not to:
+            continue
+        sep = "-" if e.get("bidirectional", True) else ">"
+        edges.append("%s%s%s:%s:%s" % (frm, sep, to, e.get("distance", 0),
+                                       e.get("routeType")))
+    tasks = ["%s:%s:%s" % (t.get("nodeId"), t.get("templateId"), t.get("score"))
+             for t in (sdata.get("tasks") or []) if t.get("nodeId")]
+    logger.trace("Map", nodes=nodes or None, edges=edges or None, tasks=tasks or None)
+
+
+def _log_actions(logger, rnd, actions, elapsed_ms, world, engine):
+    """每个动作写一行 Action trace；空动作（系统等待/心跳）也显式记录一行。
+
+    附决策时刻上下文 fresh/goodFruit/gap（held 好果用 goodFruit；动作消耗的好果仍用 good=），
+    使每个 Action 行自解释，AI 直读 trace 不必跨 Frame/Projection 行 join。
+    """
     over_budget = elapsed_ms > config.DECISION_BUDGET * 1000
     ms = elapsed_ms if over_budget else None  # 只在超预算时附带耗时，保持精简
+    me = world.me if world else None
+    bus = getattr(engine, "projection_bus", None) if engine else None
+    gap = round(bus.gap, 1) if bus is not None else None
+    ctx = {
+        "fresh": (round(me.freshness, 2) if me and me.freshness is not None else None),
+        "goodFruit": (me.good_fruit if me else None),
+        "gap": gap,
+    }
     if not actions:
-        logger.trace("Action", round=rnd, action="NONE", note="heartbeat", ms=ms)
+        logger.trace("Action", round=rnd, action="NONE", note="heartbeat", ms=ms, **ctx)
         return
     for action in actions:
         fields = _action_fields(action)
@@ -201,6 +236,7 @@ def _log_actions(logger, rnd, actions, elapsed_ms, world):
                 if c.get("contestId") == cid:
                     fields["contestType"] = c.get("contestType")
                     break
+        fields.update({k: v for k, v in ctx.items() if v is not None})
         logger.trace("Action", round=rnd, ms=ms, **fields)
         ms = None  # 耗时只标在本帧首行
 
@@ -253,8 +289,9 @@ def _log_projection(logger, rnd, engine):
 
 
 def _log_frame(logger, rnd, data, world):
-    """记录每帧关键状态与事件类型，供赛后分析（收到的数据/关键状态）。"""
+    """记录每帧关键状态与事件类型，供赛后分析（收到的数据/关键状态 + 对手逐帧 + 天气）。"""
     me = world.me if world else None
+    opp = world.opponent if world else None
     logger.trace(
         "Frame", round=rnd, phase=data.get("phase"),
         node=(me.current_node_id if me else None),
@@ -264,6 +301,12 @@ def _log_frame(logger, rnd, data, world):
         taskScore=(me.task_score if me else None),
         verified=(me.verified if me else None),
         delivered=(me.delivered if me else None),
+        oppNode=(opp.current_node_id if opp else None),
+        oppState=(opp.state if opp else None),
+        oppFresh=(opp.freshness if opp else None),
+        oppGood=(opp.good_fruit if opp else None),
+        oppTask=(opp.task_score if opp else None),
+        weather=(world.active_weather_type() if world else None),
         events=[e.get("type") for e in (world.events if world else [])] or None,
     )
 
@@ -304,6 +347,7 @@ def main(argv):
                      nodes=len(sdata.get("nodes", []) or []),
                      edges=len(sdata.get("edges", []) or []),
                      seed=seed)
+        _log_map(logger, sdata)
 
         # 3) ready（round 用 start.round，通常为 1）
         ready_round = sdata.get("round") or 1

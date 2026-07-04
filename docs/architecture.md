@@ -17,7 +17,7 @@
    采集   logs/（client 之外）：取回的 trace 入库（logs/real/ 平台、logs/sim/<variant>/ 仿真）
                           │ analysis/（仓库根，client 之外）parser 解析 trace → Report + aggregator 聚合
                           ▼
-   分析报告 docs/analysis_report.md（5-10KB，跨局对比 + 异常局标记）+ docs/ab_report.md
+   分析报告 reports/analysis_report.md（5-10KB，跨局对比 + 异常局标记）+ reports/ab_report.md
                           │ Claude Code 读聚合报告做归因（不直读 10w 字 trace）
                           ▼
    迭代闭环：结论回写 client / CLAUDE.md / CHANGELOG.md
@@ -49,7 +49,7 @@
                                        │ analysis/parser.parse_log 解析 trace → Report（schemaVersion=1）
                                        │ analysis/aggregator 聚合（跨局统计 + seed 配对 A/B + 异常局标记 + rules.py 对账）
                                        ▼
-                          docs/analysis_report.md（5-10KB，AI 消费的主文档）+ docs/ab_report.md
+                          reports/analysis_report.md（5-10KB，AI 消费的主文档）+ reports/ab_report.md
                                        │ Claude Code 读聚合报告 + 被标记单局 Report 做归因
                         回写 → CLAUDE.md / CHANGELOG.md / docs/delivery_spec.md / client/
 ```

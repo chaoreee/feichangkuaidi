@@ -10,9 +10,10 @@ venv/
 client/logs/*.log
 !client/logs/.gitkeep
 
-# 分析器生成的聚合报告（每次 python3 -m analysis 重新生成，不入库）
-docs/analysis_report.md
-docs/ab_report.md
+# 采集回的对局 trace（logs/）：仅内网采集与分析，**不入库不上传**（原始大体量数据，仅内网可见）。
+# 仓库只保留 logs/ 的目录骨架（.gitkeep + README）。
+# 分析产物 reports/ 入库上传——内网跑 analysis 生成后 commit/push，外部 Claude Code pull 读取。
+logs/**/*.log
 
 # 本地 IDE / 工具设置
 .claude/

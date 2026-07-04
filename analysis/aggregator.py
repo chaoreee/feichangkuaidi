@@ -227,6 +227,84 @@ def mode_switch_freq(reports):
     return sum(len((r.get("projection") or {}).get("modeSwitches") or []) for r in reports)
 
 
+# ---------------------------------------------------------------------------
+# 索引（index.json）：matchId → outcome/score/luckClass/segments/reportPath
+# ---------------------------------------------------------------------------
+
+def build_index(reports, report_relpath=None):
+    """供 AI 快速定位单局：按 outcome/luckClass/segments 过滤后下钻 report.json。
+
+    report_relpath(matchId) -> 相对路径字符串；None 则不附 reportPath。
+    """
+    out = []
+    for r in reports:
+        mid = r.get("matchId")
+        entry = {
+            "matchId": mid,
+            "source": r.get("source") or "unknown",
+            "variant": r.get("variant") or "baseline",
+            "seed": r.get("seed"),
+            "outcome": r.get("outcome"),
+            "score": _me_total(r),
+            "luckClass": (r.get("classification") or {}).get("luckClass"),
+            "segments": _segments_of(r),
+            "deliverFrame": _me_deliver_frame(r),
+            "taskBase": _me_task_base(r),
+        }
+        if report_relpath is not None and mid is not None:
+            entry["reportPath"] = report_relpath(mid)
+        out.append(entry)
+    return out
+
+
+# ---------------------------------------------------------------------------
+# 异常局时序摘要（timelines.md）：关键事件链，跨局看典型输赢模式
+# ---------------------------------------------------------------------------
+
+# timeline 事件渲染优先级（关键动作用更醒目的标记）
+_TL_MARK = {
+    "MODE_CHANGE": "MODE", "RUSH_TACTIC": "RUSH", "TASK_CLAIM": "TASK",
+    "BREAKTHROUGH": "BREAK", "SET_GUARD": "GUARD", "WINDOW_CARD": "WIND",
+    "REJECTED": "REJ", "USE_ICE": "ICE", "USE_HORSE": "HORSE", "BOUNTY": "BNTY",
+}
+
+
+def _timeline_line(report):
+    tl = (report.get("decisionTimeline") or [])
+    parts = []
+    for t in tl:
+        mark = _TL_MARK.get(t.get("event"), t.get("event"))
+        parts.append("r%s %s %s" % (t.get("frame"), mark, t.get("detail") or ""))
+    return " | ".join(parts)
+
+
+def build_timelines(reports, max_per_match=80):
+    """对异常局输出关键事件链 → timelines.md。仅异常局（假设来源），全语料验证后才动手。"""
+    flagged = flag_anomalies(reports)
+    if not flagged:
+        return None
+    L = ["# Anomaly Timelines — cumulative N=%d anomaly games" % len(flagged), "",
+         "> 仅异常局（UNDELIVERED / waitingStuck / projError>50 / unlucky_loss / lucky_win / loss+task<90）。",
+         "> 单局只作假设来源，决策须基于全语料聚合 + CI + 分段不回归（§3.3/§3.8）。", ""]
+    for r, reasons in flagged:
+        mid = r.get("matchId")
+        segs = ",".join(_segments_of(r)) or "-"
+        cls = (r.get("classification") or {}).get("luckClass") or "-"
+        score = _me_total(r)
+        L.append("## matchId=%s  outcome=%s  luck=%s  score=%s  segments=%s"
+                 % (mid, r.get("outcome"), cls, score if score is not None else "-", segs))
+        L.append("  flags: %s" % "; ".join(reasons))
+        line = _timeline_line(r)
+        if not line:
+            L.append("  (无 timeline 事件)")
+        elif len(line) > max_per_match * 60:
+            L.append("  " + line[:max_per_match * 60] + " ... (truncated)")
+        else:
+            L.append("  " + line)
+        L.append("")
+    return "\n".join(L)
+
+
 def me_score_components(reports):
     """各分项分均值（用 rules.py 从原始输入重算；trace 不直接携带分项分）。"""
     keys = ("delivery", "task", "time", "goodFruit", "freshness", "bounty")

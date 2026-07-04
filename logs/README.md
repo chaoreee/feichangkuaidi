@@ -1,8 +1,13 @@
-# logs/ — 对局语料采集目录（client 之外）
+# logs/ — 对局语料采集目录（client 之外，**仅内网**）
 
 这里存放**从赛题平台/仿真器取回的对局 trace 日志**（`match_*.log`），供仓库侧 `analysis/` 模块
 （**位于 client 之外**）事后解析、跨局聚合，再由 Claude Code 读聚合报告做归因。本目录不属于交付件
 （`client/`），只用于本地/仓库侧的分析闭环。
+
+> ⚠️ **内网边界**：`logs/**/*.log` 已 gitignore，**只在内网采集与分析，不上传 GitHub**（原始大体量数据）。
+> 仓库只保留 `logs/` 的目录骨架（`.gitkeep` + 本 README）。分析产物落 `reports/`（**入库上传**），
+> 内网跑完 `analysis` 后 `git add reports/ && git push`，外部 Claude Code `git pull` 即可读分析结果。
+> 外部环境**无 `logs/`、无需重跑 analysis**——`reports/` 即全部可见产物。
 
 > Iteration 21 起迭代方式为**分析器驱动证据型**（见 `docs/iteration_plan_v2.md`）：
 > client 只记 trace 日志、不含分析模块；`analysis/` 解析多份 trace → 结构化 `Report` → 跨局聚合报告。
@@ -37,15 +42,17 @@ trace 事件类型：`Startup / Register / Start / Ready / Frame / Action / Proj
 GuardDecision / Rejected / CanAffordBlock / Recv / Error / Over / Score / Shutdown`。
 其中 `Rejected`/`CanAffordBlock` 是 decision 内部信号（被拒动作 / canAfford 拦截）写成 trace 行，供分析器还原。
 
-## 采集流程
+## 采集流程（内网）
 
 1. 拿到一场对局的 `client/logs/match_*.log`。
-2. 复制到 `logs/real/`（平台）或 `logs/sim/<variant>/`（仿真）。
-3. 跑 `python3 -m analysis logs/real logs/sim --out-dir docs` →
-   `docs/analysis_report.md`（+ 存在 variant 时的 `docs/ab_report.md`）。
-4. Claude Code 读聚合报告（+ 被标记的 3-5 份单局 Report）做归因，**不直读原始 trace**；
-   仅当某单局报告指向某帧段可疑时，按帧段取一小段 `.log` 深挖。
-5. 同步更新 `CLAUDE.md`（能力矩阵 + 迭代日志）与 `CHANGELOG.md`。
+2. 复制到 `logs/real/`（平台）或 `logs/sim/<variant>/`（仿真）——**仅内网本地**，不入库。
+3. 跑 `python3 -m analysis logs/real logs/sim` → 产物落仓库根 `reports/`：
+   `analysis_report.md`（+ 存在 variant 时的 `ab_report.md`）+ 异常局 `timelines.md`
+   + 每局 `match_<id>.report.json` + `index.json`。
+4. `git add reports/ && git commit && git push` 上传 GitHub（`logs/` 不上传）。
+5. **外部 Claude Code**：`git pull` → 读 `reports/` 下聚合报告（+ 被标记单局 `*.report.json`）做归因，
+   **不直读原始 trace**；仅当某单局报告指向某帧段可疑时，回内网按帧段取一小段 `.log` 深挖。
+6. 同步更新 `CLAUDE.md`（能力矩阵 + 迭代日志）与 `CHANGELOG.md`。
 
 ## 分工边界（铁律）
 

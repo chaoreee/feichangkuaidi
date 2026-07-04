@@ -116,7 +116,12 @@ class _Acc:
         self.windows = []
         self.my_guards = []
         self.opp_guards = []
+        self.bounty_attempts = []
         self.timeline = []
+        # 对手逐帧（Frame 行携带 oppNode/oppFresh/oppGood）
+        self.opp_fresh_end = None
+        self.opp_good_end = None
+        self.opp_node = None
         # 失败
         self.rejected = []
         self.can_afford_blocked = []
@@ -163,6 +168,19 @@ class _Acc:
             if self.good_start is None:
                 self.good_start = good
             self.good_end = good
+        # 对手逐帧状态（Frame 行 opp* 字段）
+        opp_fresh = _num(f.get("oppFresh"))
+        opp_good = _num(f.get("oppGood"))
+        if opp_fresh is not None:
+            self.opp_fresh_end = opp_fresh
+        if opp_good is not None:
+            self.opp_good_end = opp_good
+        opp_node = f.get("oppNode")
+        if opp_node is not None:
+            self.opp_node = opp_node
+        # 天气命中（Frame 行 weather 字段；非空即本帧有生效天气）
+        if f.get("weather"):
+            self.weather_hit = True
         verified = bool(f.get("verified"))
         if verified and not self._prev_verified:
             self.verify_frame = rnd
@@ -234,8 +252,12 @@ class _Acc:
                 self.ice_used.append({"frame": rnd,
                                       "freshnessBefore": round(fresh_before, 2)
                                       if fresh_before is not None else None})
+                self._timeline_push(rnd, "USE_ICE",
+                                    "fresh=%s" % (round(fresh_before, 1)
+                                                  if fresh_before is not None else "?"))
             elif res in ("FAST_HORSE", "SHORT_HORSE"):
                 self.horse_used = "%s@%s" % (res, rnd)
+                self._timeline_push(rnd, "USE_HORSE", res)
         elif act == "RUSH_PROTECT":
             self.rush_tactic = {"type": "RUSH_PROTECT", "frame": rnd}
             self._timeline_push(rnd, "RUSH_TACTIC", "RUSH_PROTECT")
@@ -276,6 +298,18 @@ class _Acc:
             g["gap"] = _num(f.get("gap"))
             g["denial"] = _num(f.get("denial"))
 
+    def _on_Bounty(self, f):
+        # decision._maybe_bounty 触发时记一行 Bounty trace：target/reward/delta/extra/动作/烧好果
+        rec = {"frame": f.get("round"), "target": f.get("target"),
+               "reward": _num(f.get("reward")), "delta": _num(f.get("delta")),
+               "extraFrames": _num(f.get("extra")), "action": f.get("action"),
+               "goodBurned": _num(f.get("goodBurn")) or 0}
+        self.bounty_attempts.append(rec)
+        self._timeline_push(f.get("round"), "BOUNTY",
+                            "%s reward=%s delta=%s %s"
+                            % (f.get("target"), f.get("reward"),
+                               f.get("delta"), f.get("action")))
+
     def _on_Over(self, f):
         self.over = f
 
@@ -301,8 +335,8 @@ class _Acc:
         pass
 
     def _timeline_push(self, frame, event, detail):
-        if len(self.timeline) >= 60:
-            self.timeline.pop(0)
+        # 保留全量时序（去截断）：单局关键事件量级在百级，可全量承载；
+        # 截断会丢前半局根因（task 冲 90、中局切档等），违背时序还原初衷。
         self.timeline.append({"frame": frame, "event": event, "detail": detail})
 
 
@@ -422,9 +456,11 @@ def build_report(acc, source="platform", variant="baseline"):
             "freshness": {"start": acc.fresh_start, "end": acc.fresh_end, "min": acc.fresh_min},
             "goodFruit": {"start": acc.good_start, "end": acc.good_end,
                           "badCrossings": list(acc.bad_crossings)},
+            "opponent": {"freshnessEnd": acc.opp_fresh_end, "goodFruitEnd": acc.opp_good_end,
+                         "nodeEnd": acc.opp_node},
         },
         "opponentInteraction": {"windows": acc.windows, "oppGuards": acc.opp_guards,
-                                "bounties": [], "myGuards": acc.my_guards},
+                                "bounties": acc.bounty_attempts, "myGuards": acc.my_guards},
         "failures": {"rejected": acc.rejected, "waitingStuck": acc.waiting_stuck,
                      "invalidActions": 0, "decisionTimeouts": acc.decision_timeouts,
                      "canAffordBlocked": acc.can_afford_blocked},
@@ -460,8 +496,10 @@ def parse_log(path, source="platform", variant="baseline"):
                     continue
                 _clock, event, rest = m.groups()
                 f = _parse_fields(rest)
-                if acc.match_id is None:
-                    acc.match_id = f.get("matchId")
+                if not acc.match_id or acc.match_id == "-":
+                    mid = f.get("matchId")
+                    if mid and mid != "-":
+                        acc.match_id = mid
                 acc.feed(event, f)
     except Exception:
         return None

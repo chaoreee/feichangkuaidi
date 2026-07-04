@@ -2,6 +2,46 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 22] - 2026-07-04 — 日志/分析架构重构：trace 完整性 + 单局报告落盘 + 时序还原
+
+### 触发
+日志/分析架构三问：① client trace 有事实缺口（地图拓扑/对手逐帧/天气/悬赏未记，赛后归因撞墙）；
+② `decisionTimeline` 只存在于 parser 内存，CLI 不落盘 → AI 读不到时序；③ timeline 被 60 条 FIFO 截断，
+丢前半局根因。确立「**client trace = 传输格式（单文件·抗回传）/ repo 产物 = 分析格式（多文件·可重生成）**」
+分离原则：不拆 client 日志（平台回传契约只保证 `match_*.log`），而在 repo 侧拆多文件。
+
+### Added
+- **client trace 事实补全**（`client/main.py`、`client/strategy/decision.py`，仍单文件 `match_*.log`）：
+  - `Map` 事件：开局写一行拓扑快照（`nodes=[id:type|...]`、`edges=[from<->to:dist:type|...]`、`tasks=[...]`），
+    用 `[a|b]` 列表格式（parser 可还原）避免值内逗号破坏字段分隔。解锁赛后路线归因（漏 task-90 可达性、绕路合理性）。
+  - `Frame` 行加对手逐帧 `oppNode/oppState/oppFresh/oppGood/oppTask` + `weather`（生效天气类型）。
+  - `Action` 行加决策时刻 `fresh/goodFruit/gap`（每行自解释，AI 直读不必跨 Frame/Projection join；held 好果用
+    `goodFruit=`，动作消耗的好果仍用 `good=`）。
+  - `Bounty` 事件：`_maybe_bounty` 触发时记 `target/reward/delta/extra/action/goodBurn`（经 `trace_events` 落盘）。
+- **parser**（`analysis/parser.py`）：修 `weather_hit` 死字段（从 `Frame.weather` 置位，不再恒 False）；
+  `decisionTimeline` 去 60 条 FIFO 截断（保留全量时序）；`USE_RESOURCE`(ICE/HORSE) 入 timeline；
+  修 matchId 占位 `-` 恢复（Startup 行 bind 前占位→取后续真实 matchId）；捕获对手逐帧→`trajectory.opponent`
+  （freshnessEnd/goodFruitEnd/nodeEnd）；`Bounty` 事件→`opponentInteraction.bounties`。
+- **aggregator**（`analysis/aggregator.py`）：`build_index`（matchId→outcome/score/luckClass/segments/
+  deliverFrame/taskBase/reportPath）；`build_timelines`（异常局关键事件链，按帧序渲染
+  MODE/RUSH/TASK/BREAK/GUARD/WIND/REJ/ICE/HORSE/BNTY）。
+- **CLI**（`analysis/__main__.py`）：产出多文件（统一落仓库根 `reports/`，与规格文档 `docs/` 解耦）——每局
+  `reports/match_<id>.report.json`（含 `decisionTimeline`，落盘解决"读不到"）+ `reports/index.json`
+  + `reports/analysis_report.md` + `reports/ab_report.md` + `reports/timelines.md`（有异常局才生成）。
+  `--out-dir` 默认由 `docs/` 改为仓库根 `reports/`。
+
+### Tests
+- 新增 parser 7 + aggregator 3 共 +10 单测（合计 273：42 analysis + 231 client）全通过。
+  覆盖 weather_hit on/off、对手轨迹、Bounty 解析、USE_RESOURCE 入 timeline、timeline 不截断(>60 全保留)、
+  matchId 占位恢复、build_index 字段、build_timelines 仅异常局。
+- mock 端到端 @r48 交付零回归、对账 0 误差；合成异常 trace 验证 `timelines.md` 生成。
+
+### Misc
+- `.gitignore`：分析产物从 `docs/` 解耦到仓库根 `reports/`。**内网边界**——`logs/**/*.log` gitignore
+  （仅内网采集分析、不上传 GitHub）；`reports/` 入库上传（内网跑完 analysis 后 commit/push，
+  外部 Claude Code pull 读分析，外部无 logs/、无需重跑）。
+- 同步 CLAUDE.md（当前轮次 / §4.4 / §7 迭代日志）、architecture.md、delivery_spec.md、logs/README.md、iteration_plan_v2.md。
+
 ## [Iteration 21（续·修订）] - 2026-07-04 — 分析器基础设施落地（**分析模块移出 client，事后解析 trace**）
 
 ### 触发

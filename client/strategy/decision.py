@@ -802,9 +802,17 @@ class DecisionEngine:
                                              rush_tactic=(Action.BREAK_ORDER if bo else None))
             else:                            # 未相邻 → 顺路靠近一步
                 action = actions.move(path_to[1])
+            good_burned = g if action.get("action") == "BREAK_GUARD" else 0
             if best is None or delta > best[0]:
-                best = (delta, action)
-        return [best[1]] if best else None
+                best = (delta, action, {"target": bn, "reward": raw,
+                                        "delta": round(delta, 1), "extra": wait,
+                                        "action": action.get("action"),
+                                        "goodBurn": good_burned})
+        if best is None:
+            return None
+        # 记一行 Bounty trace 供赛后分析（悬赏机会主义触发快照；§5.2）
+        self.trace_events.append(("Bounty", best[2]))
+        return [best[1]]
 
     # ---- 小分队（M7：防御性预清障/削弱 + 探路宫门）----
 

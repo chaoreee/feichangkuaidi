@@ -332,5 +332,97 @@ class TestEdgeCases(unittest.TestCase):
         self.assertEqual(r["failures"]["decisionTimeouts"], 1)
 
 
+class TestNewTraceFields(unittest.TestCase):
+    """Iter 22 新增 trace 字段：weather_hit / 对手逐帧 / Bounty / USE_RESOURCE 入 timeline / timeline 不截断。"""
+
+    def _base_with_over(self, extra):
+        lines = [_emit("Startup", playerId=1001), _emit("Start", seed=7)] + extra + [
+            _emit("Over", winner=1001, iWon=True, overRound=470),
+            _emit("Score", me=True, total=700, delivered=True, deliverRound=470,
+                  fresh=78, goodFruit=92, taskScore=90, bountyScore=0),
+            _emit("Score", me=False, total=0, delivered=False),
+        ]
+        path = _write_log(lines)
+        try:
+            return parse_log(path)
+        finally:
+            os.unlink(path)
+
+    def test_weather_hit_from_frame_field(self):
+        r = self._base_with_over([
+            _emit("Frame", round=1, fresh=100, weather="HEAVY_RAIN"),
+            _emit("Frame", round=2, fresh=99),
+        ])
+        self.assertIn("weather_hit", r["classification"]["segments"])
+
+    def test_weather_absent_when_no_active_weather(self):
+        r = self._base_with_over([_emit("Frame", round=1, fresh=100)])
+        self.assertNotIn("weather_hit", r["classification"]["segments"])
+
+    def test_opponent_trajectory_captured(self):
+        r = self._base_with_over([
+            _emit("Frame", round=1, fresh=100, oppNode="S05",
+                  oppFresh=88, oppGood=70, oppTask=30),
+            _emit("Frame", round=2, fresh=99, oppNode="S06", oppFresh=85, oppGood=68),
+        ])
+        self.assertEqual(r["trajectory"]["opponent"]["nodeEnd"], "S06")
+        self.assertEqual(r["trajectory"]["opponent"]["freshnessEnd"], 85)
+        self.assertEqual(r["trajectory"]["opponent"]["goodFruitEnd"], 68)
+
+    def test_bounty_event_parsed(self):
+        r = self._base_with_over([
+            _emit("Frame", round=1, fresh=100),
+            _emit("Bounty", round=120, target="S10", reward=20, delta=18.5,
+                  extra=5, action="BREAK_GUARD", goodBurn=1),
+        ])
+        b = r["opponentInteraction"]["bounties"]
+        self.assertEqual(len(b), 1)
+        self.assertEqual(b[0]["target"], "S10")
+        self.assertEqual(b[0]["reward"], 20)
+        self.assertEqual(b[0]["delta"], 18.5)
+        self.assertEqual(b[0]["action"], "BREAK_GUARD")
+        self.assertEqual(b[0]["goodBurned"], 1)
+        self.assertIn("BOUNTY", [t["event"] for t in r["decisionTimeline"]])
+
+    def test_use_resource_in_timeline(self):
+        r = self._base_with_over([
+            _emit("Frame", round=12, fresh=79),
+            _emit("Action", round=12, action="USE_RESOURCE", resource="ICE_BOX"),
+            _emit("Frame", round=15, fresh=80),
+            _emit("Action", round=15, action="USE_RESOURCE", resource="FAST_HORSE"),
+        ])
+        marks = [t["event"] for t in r["decisionTimeline"]]
+        self.assertIn("USE_ICE", marks)
+        self.assertIn("USE_HORSE", marks)
+
+    def test_timeline_not_truncated(self):
+        # 旧实现 FIFO 截断到 60；去截断后 >60 条全保留。
+        extra = []
+        for i in range(80):
+            extra.append(_emit("Frame", round=i + 1, fresh=100))
+            extra.append(_emit("Action", round=i + 1, action="USE_RESOURCE",
+                               resource="ICE_BOX"))
+        r = self._base_with_over(extra)
+        ice = [t for t in r["decisionTimeline"] if t["event"] == "USE_ICE"]
+        self.assertEqual(len(ice), 80)
+
+    def test_matchid_recovers_from_placeholder_dash(self):
+        # Startup 行在 bind_match 前写入，matchId 占位为 "-"；parser 应恢复为真实 matchId。
+        lines = [
+            "00:00:00.000 Startup matchId=-, playerId=1001",
+            "00:00:00.000 Start matchId=mock_match_001, teamId=RED, seed=7",
+            _emit("Over", winner=1001, iWon=True, overRound=470),
+            _emit("Score", me=True, total=700, delivered=True, deliverRound=470,
+                  fresh=78, goodFruit=92, taskScore=90, bountyScore=0),
+            _emit("Score", me=False, total=0, delivered=False),
+        ]
+        path = _write_log(lines)
+        try:
+            r = parse_log(path)
+        finally:
+            os.unlink(path)
+        self.assertEqual(r["matchId"], "mock_match_001")
+
+
 if __name__ == "__main__":
     unittest.main()

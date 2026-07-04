@@ -12,5 +12,5 @@
 模块：
 - `parser.parse_log(path) -> Report`：单局 trace → 结构化 Report（schemaVersion=1）。
 - `aggregator`：跨局统计 / 场景分段 / 运气分类 / 异常局标记 / seed 配对 A/B / `rules.py` 对账自检。
-- `__main__`：CLI——扫描目录下的 `*.log`，解析+聚合，写出 `docs/analysis_report.md`(+`ab_report.md`)。
+- `__main__`：CLI——扫描目录下的 `*.log`，解析+聚合，写出 `reports/analysis_report.md`(+`ab_report.md`+`timelines.md`+单局`*.report.json`+`index.json`)。
 """

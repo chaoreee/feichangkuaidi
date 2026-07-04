@@ -12,6 +12,7 @@ source/variant 推断（可被 --source/--variant 覆盖）：
 """
 
 import argparse
+import json
 import os
 import sys
 
@@ -67,8 +68,8 @@ def collect_reports(dirs, source_override, variant_override):
 def main(argv):
     ap = argparse.ArgumentParser(description="Parse match trace logs and aggregate analysis reports.")
     ap.add_argument("dirs", nargs="+", help="directories to scan for match_*.log")
-    ap.add_argument("--out-dir", default=os.path.join(_ROOT, "docs"),
-                    help="output directory for analysis_report.md / ab_report.md")
+    ap.add_argument("--out-dir", default=os.path.join(_ROOT, "reports"),
+                    help="output directory for all analysis artifacts (default: repo-root reports/)")
     ap.add_argument("--source", default=None, help="override source tag for all logs")
     ap.add_argument("--variant", default=None, help="override variant tag for all logs")
     args = ap.parse_args(argv)
@@ -78,19 +79,54 @@ def main(argv):
         print("no valid match logs found in %s" % " ".join(args.dirs), file=sys.stderr)
         return 1
 
+    # 所有分析产物（聚合 md + 单局 report.json + index + timelines）统一落 --out-dir
+    # （默认仓库根 reports/，与规格文档 docs/ 解耦——docs 只放规格，reports 放派生分析结果）。
     os.makedirs(args.out_dir, exist_ok=True)
+
+    # 1) 单局 Report JSON（含 decisionTimeline）—— AI 下钻单局的入口
+    def _safe_name(mid):
+        return str(mid).replace(os.sep, "_").replace("/", "_")
+
+    def _report_relpath(mid):
+        return "%s.report.json" % _safe_name(mid)
+
+    for r in reports:
+        mid = r.get("matchId") or "unknown"
+        rpath = os.path.join(args.out_dir, "%s.report.json" % _safe_name(mid))
+        with open(rpath, "w", encoding="utf-8") as fh:
+            json.dump(r, fh, ensure_ascii=False, indent=2, sort_keys=True)
+    print("wrote %d report.json to %s" % (len(reports), args.out_dir))
+
+    # 2) 索引 index.json —— 按 outcome/luckClass/segments 快速定位单局
+    index = aggregator.build_index(reports, report_relpath=_report_relpath)
+    index_path = os.path.join(args.out_dir, "index.json")
+    with open(index_path, "w", encoding="utf-8") as fh:
+        json.dump(index, fh, ensure_ascii=False, indent=2, sort_keys=True)
+    print("wrote %s" % index_path)
+
+    # 3) 跨局聚合报告 analysis_report.md
     main_md = aggregator.build_analysis_report(reports)
     main_path = os.path.join(args.out_dir, "analysis_report.md")
     with open(main_path, "w", encoding="utf-8") as fh:
         fh.write(main_md)
     print("wrote %s (N=%d)" % (main_path, len(reports)))
 
+    # 4) A/B 配对报告 ab_report.md（有配对才生成）
     ab = aggregator.ab_report(reports)
     if ab:
         ab_path = os.path.join(args.out_dir, "ab_report.md")
         with open(ab_path, "w", encoding="utf-8") as fh:
             fh.write(ab + "\n")
         print("wrote %s" % ab_path)
+
+    # 5) 异常局时序摘要 timelines.md（有异常局才生成）
+    tl_md = aggregator.build_timelines(reports)
+    if tl_md:
+        tl_path = os.path.join(args.out_dir, "timelines.md")
+        with open(tl_path, "w", encoding="utf-8") as fh:
+            fh.write(tl_md + "\n")
+        print("wrote %s" % tl_path)
+
     if skipped:
         print("skipped %d log(s)" % len(skipped), file=sys.stderr)
     return 0
