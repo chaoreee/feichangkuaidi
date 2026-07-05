@@ -6,6 +6,7 @@ import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+import config  # noqa: E402
 from core.world_state import WorldState  # noqa: E402
 from strategy.decision import DecisionEngine, GameContext  # noqa: E402
 
@@ -52,6 +53,12 @@ class TestEconomy(unittest.TestCase):
     def setUp(self):
         self.ctx = GameContext(PID, "RED", 0, START_DATA)
         self.gm = self.ctx.game_map
+        # Iter 36 §2：flag 默认开（抬冰鉴阈值到 91）。本类测 baseline 81 阈值行为。
+        self._old_sp = config.ENABLE_STATIC_PLANNER
+        config.ENABLE_STATIC_PLANNER = False
+
+    def tearDown(self):
+        config.ENABLE_STATIC_PLANNER = self._old_sp
 
     def act(self, **kw):
         kw.setdefault("game_map", self.gm)

@@ -44,9 +44,13 @@ class TestFreshnessRace(unittest.TestCase):
     def setUp(self):
         self._saved = config.ENABLE_FRESHNESS_RACE
         config.ENABLE_FRESHNESS_RACE = True
+        # Iter 36 §2：flag 默认开（抬冰鉴阈值到 91）。本类测 baseline 81/race 88 阈值行为，须 flag-off。
+        self._old_sp = config.ENABLE_STATIC_PLANNER
+        config.ENABLE_STATIC_PLANNER = False
 
     def tearDown(self):
         config.ENABLE_FRESHNESS_RACE = self._saved
+        config.ENABLE_STATIC_PLANNER = self._old_sp
 
     def _rescue(self, me_fresh, opp_fresh, me_ice=1):
         eng = DecisionEngine(GameContext(PID, "RED", 0, SD))
@@ -116,6 +120,14 @@ class TestResourceRace(unittest.TestCase):
 
 
 class TestRaceDefaultsOff(unittest.TestCase):
+    def setUp(self):
+        # Iter 36 §2：static_planner 默认开（抬冰鉴阈值到 91）。本类测 baseline 行为，须 flag-off。
+        self._old_sp = config.ENABLE_STATIC_PLANNER
+        config.ENABLE_STATIC_PLANNER = False
+
+    def tearDown(self):
+        config.ENABLE_STATIC_PLANNER = self._old_sp
+
     def test_defaults(self):
         self.assertFalse(config.ENABLE_FRESHNESS_RACE)
         self.assertFalse(config.ENABLE_RESOURCE_DENY)

@@ -125,6 +125,15 @@ class TestRerouteVsClear(unittest.TestCase):
 
 
 class TestTaskDetour(unittest.TestCase):
+    def setUp(self):
+        # Iter 36 §2：flag 默认开（开时 _task_detour_target 被跳过，由 plan_route 接管）。
+        # 本类测 baseline 任务绕路逻辑，须 flag-off。
+        self._old_sp = config.ENABLE_STATIC_PLANNER
+        config.ENABLE_STATIC_PLANNER = False
+
+    def tearDown(self):
+        config.ENABLE_STATIC_PLANNER = self._old_sp
+
     def test_detour_to_offroute_task(self):
         # 菱形：直达经 SA(先定义→默认路径)，任务在 ST(等距旁路) → 绕去 ST 只多 processRound
         m = _map(

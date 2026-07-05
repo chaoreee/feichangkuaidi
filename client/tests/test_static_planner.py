@@ -273,6 +273,12 @@ class TestDecisionIntegration(unittest.TestCase):
     def setUp(self):
         self.ctx = GameContext(PID, "RED", 0, START_DATA)
         self.gm = self.ctx.game_map
+        # Iter 36 §2：flag 默认开。本类测 flag-off baseline 行为（test_flag_on_* 各自强制开）。
+        self._old_sp = config.ENABLE_STATIC_PLANNER
+        config.ENABLE_STATIC_PLANNER = False
+
+    def tearDown(self):
+        config.ENABLE_STATIC_PLANNER = self._old_sp
 
     def test_flag_off_select_path_equals_time_optimal(self):
         w = _world(node="S01", fresh=100.0, verified=True)

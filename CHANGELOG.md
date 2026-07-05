@@ -2,6 +2,45 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 36] - 2026-07-05 — 资源感知路线重评 §1 + §2 stage：大路双冰鉴杠杆确认 +20（马感知 walker）→ 开 static_planner 合入默认（sim 回归门全过）
+
+触发：Iter 35 §5.3 提「马的密度是 quality-route 鲜度 gap 真因」+ `samples/map_config.json` `gameplay.resources`（V4.2-MEDIUM schema）揭示 me 山路漏领 S03/S07 双冰鉴 + S09 快马。`docs/iter36_plan.md` 排「方案 B：资源感知路线重评」。
+
+### Added（§1 纯观测）
+- `analysis/route_planner_eval.py`：逐帧 walker（**马感知**——FAST/SHORT 按 `HORSE_DURATION` 帧持续、每帧 tick 含停靠；不复用 `static_planner.project_route` 因其 `path_frames` 恒 `base_move=1000` 无马建模）+ 冰鉴 post-hoc 最优（`+10×N` 封顶 100、抵 crossing，对齐 static_planner）+ 处理站/验核停靠，`core/rules.py` 严格投影终局分。
+  - `walk_route`：逐帧模拟移动（buff 决定 base_move）/处理/验核/领取/使用，马策略对齐 client `_maybe_claim`/`_maybe_horse`（无库存才领、无 buff 才用、FAST 优先；buff 活跃期到新马节点领而不使 `HORSE_BUFF_CONFLICT`）。
+  - `evaluate_all`：五命名候选（山路/水路/大路/S07混合/S09混合）+ Dijkstra 帧/鲜度最优，算 Δ vs 山路。
+  - `static_planner_pick`：构造 world/me/gm/ctx from samples，跑 `plan_route` 真实图选择。
+  - `cross_validate_opponent`：从 `reports/*.compact.log` 提取对手 `on=` 节点序列，按资源节点签名分类（大路=S03∧S07、山路=S06∧S08、水路=S04∧S05）。
+  - CLI `python3 -m analysis.route_planner_eval` → `reports/route_eval.json`(<100KB)/`route_eval.md`。
+- `analysis/tests/test_route_planner_eval.py`：10 项单测（单边帧/损耗手算、马减帧、冰鉴 post-hoc、大路 Δ>0、候选边存在性、frame_optimal=山路、static_planner 选大路、对手签名分类）。
+
+### 结论（§1，纯观测）
+- **大路 `S01→S02→S03→S07→S09→S10→S13→S14→S15` 净 +20 vs 山路**：端鲜度 99.2 vs 87.5、好果 100 vs 99、交付 +30 帧；Δ 鲜度 +21 / 好果 +2 / 用时 −3。
+- **机制是第 2 冰鉴**（S03+S07 双冰鉴 +10×2 封顶 100），非马/路线类型（FAST 仅覆盖 S09→S10 ~20 帧省 4 帧、路线类型净 +1.8）——Iter 35「马的密度」假设在此图上贡献小。
+- **+20 须开 `ENABLE_STATIC_PLANNER`**：baseline `CLAIM_ICE_BOX_KEEP=1` 大路上鲜度到 S07 仍 ~91>81 → 不用冰 → 不领 S07 冰鉴，仅 1 冰鉴（+8）；`STATIC_PLANNER_ICE_KEEP=3` 预囤 2 冰鉴才兑现。
+- §1.3：`plan_route` 在真实图选大路（即使无马建模，凭 2 冰鉴+ROAD 低损耗投影分最高）。
+- §1.4：对手 `on=` 签名分类 51%（34/67）走大路（低置信，on= 稀疏）；me 山路是少数派（3%）。
+
+### Changed（§2 stage — 合入默认）
+- `client/config.py`：`ENABLE_STATIC_PLANNER = False → True`（`STATIC_PLANNER_ICE_KEEP=3` 预囤 2 冰鉴、`STATIC_PLANNER_ICE_USE_BELOW=91`）；`CLIENT_VERSION = "iter34" → "iter36"`。
+- §1 确认 +20 杠杆 + §1.3 证 `plan_route` 真实图选大路 → §2 开 flag 既改路线（→大路）又改冰鉴领取（→2 冰鉴），协同兑现 +20。
+
+### Tests（§2 回归门）
+- sim 50 种子 A/B（`logs/sim/baseline` vs `logs/sim/tuned --static-planner`，`reports/sim_iter36_ab/ab_report.md`）：
+  - MEAN_SCORE 712→742（**+30.0** CI[27.6,32.5]；对称自博弈两侧都走大路都得双冰鉴→对称增益，**非真实收益证据**）。
+  - DELIVERY_RATE 1.00/1.00、TASK_90_REACH 1.00/1.00、交付帧 413→445(+32，仍远<600)、PAIRED 52/52/96 ties（对称）。
+  - 0 STUCK / 0 对账 / 分段不回归 → **回归门全过**。
+- 7 项测 flag-off baseline 行为的单测加显式 `setUp` force-off（原来依赖默认关，flag 默认开后失效）：`test_static_planner.TestDecisionIntegration`、`test_economy.TestEconomy`、`test_advanced.TestTaskDetour`、`test_freshness_resource_race.TestFreshnessRace`/`TestRaceDefaultsOff`；`test_economy` 补 `import config`。
+- 414 全过（111 analysis + 285 client + 18 sim）。
+
+### §3 判决（留待 codeagent）
+- §3 = codeagent 真实 A/B N≥30 同时验证 Iter 33+34+36（交付率 96%→~100%、好果 97→98、me 改走大路鲜度 82.6→90+/quality-route 桶 W 0.43→?）；正向固化、负则回退 flag（§0.5 纪律）。
+- 风险：大路多 ~30 帧，对手设卡/天气恶化时 `_can_afford` 时间守卫兜底回落山路（plan_route 已含 ΔEV 改道门 + 效率门）。
+
+### Misc
+- 详见 `docs/iter36_route_eval.md` / `reports/route_eval.json` / `reports/sim_iter36_ab/ab_report.md`。
+
 ## [Iteration 35] - 2026-07-05 — 路线绕行归因：证伪「路线是鲜度杠杆」（Iter 34 勘误自身勘误），不 stage 策略改动
 
 **触发**：Iter 34 合入后复核 compact.log，§1「路线非杠杆」结论已勘误撤销，roadmap 排「Iter 35 山路绕行归因 + 路线鲜度感知修复」。本轮用 67 局 compact.log 全量重建 me 实际路线做硬核算。详见 `docs/iter35_route_audit.md`。

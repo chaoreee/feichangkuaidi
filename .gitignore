@@ -15,6 +15,9 @@ client/logs/*.log
 # 分析产物 reports/ 入库上传——内网跑 analysis 生成后 commit/push，外部 Claude Code pull 读取。
 logs/**/*.log
 
+# sim 回归门产物（ephemeral：镜像自博弈 A/B，仅本地验回归用，不入库）
+reports/sim_*/
+
 # 本地 IDE / 工具设置
 .claude/
 .idea/
