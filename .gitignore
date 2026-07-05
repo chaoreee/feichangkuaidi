@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 运行期 client 写出的 trace 日志（本地/mock 跑出的噪声不入库；保留目录占位）
+# 交付件（client/）在平台运行时也写这里，随包下载后再复制到根目录 logs/ 提交分析。
+client/logs/*.log
+!client/logs/.gitkeep
+
+# 根 logs/ 下的本地/mock 跑批噪声（保留 README 与目录占位）
+logs/*.log
+logs/*.out
+logs/*.err
+
+# 杂散输出
+client/err.txt
+client/out.txt
+
+# analysis/ 生成的报告（产物，不入库；保留目录占位）
+reports/*.md
+!reports/.gitkeep
+
+# 本地 IDE / 工具设置
+.claude/
+.idea/
+.vscode/
+.DS_Store

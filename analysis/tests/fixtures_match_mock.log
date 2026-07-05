@@ -1,0 +1,940 @@
+10:24:35.648 Startup matchId=-, playerId=1001, host=127.0.0.1, port=8091, version=1.0
+10:24:35.676 Register matchId=-, playerId=1001, name=litchi-agent
+10:24:35.676 Start matchId=mock_match_001, teamId=RED, camp=0, durationRound=600, nodes=15, edges=21
+10:24:35.676 Ready matchId=mock_match_001, round=1
+10:24:35.677 Frame matchId=mock_match_001, round=1, phase=NORMAL, node=S01, state=IDLE, fresh=100, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.677 Action matchId=mock_match_001, round=1, action=MOVE, target=S02
+10:24:35.677 Action matchId=mock_match_001, round=1, action=SQUAD_CLEAR, target=S13
+10:24:35.678 Frame matchId=mock_match_001, round=2, phase=NORMAL, node=S01, state=MOVING, fresh=99.95, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[SQUAD_DISPATCH]
+10:24:35.678 Action matchId=mock_match_001, round=2, action=MOVE, target=S02
+10:24:35.678 Frame matchId=mock_match_001, round=3, phase=NORMAL, node=S02, state=IDLE, fresh=99.9, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[NODE_ENTER]
+10:24:35.678 Action matchId=mock_match_001, round=3, action=PROCESS
+10:24:35.678 Frame matchId=mock_match_001, round=4, phase=NORMAL, node=S02, state=PROCESSING, fresh=99.85, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.678 Action matchId=mock_match_001, round=4, action=NONE, note=heartbeat
+10:24:35.679 Frame matchId=mock_match_001, round=5, phase=NORMAL, node=S02, state=PROCESSING, fresh=99.8, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[OBSTACLE_CLEAR]
+10:24:35.679 Action matchId=mock_match_001, round=5, action=NONE, note=heartbeat
+10:24:35.679 Frame matchId=mock_match_001, round=6, phase=NORMAL, node=S02, state=PROCESSING, fresh=99.75, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.679 Action matchId=mock_match_001, round=6, action=NONE, note=heartbeat
+10:24:35.679 Frame matchId=mock_match_001, round=7, phase=NORMAL, node=S02, state=PROCESSING, fresh=99.7, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.679 Action matchId=mock_match_001, round=7, action=NONE, note=heartbeat
+10:24:35.679 Frame matchId=mock_match_001, round=8, phase=NORMAL, node=S02, state=IDLE, fresh=99.65, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[PROCESS_COMPLETE]
+10:24:35.680 Action matchId=mock_match_001, round=8, action=MOVE, target=S04
+10:24:35.680 Frame matchId=mock_match_001, round=9, phase=NORMAL, node=S02, state=MOVING, fresh=99.6, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.680 Action matchId=mock_match_001, round=9, action=MOVE, target=S04
+10:24:35.680 Frame matchId=mock_match_001, round=10, phase=NORMAL, node=S04, state=IDLE, fresh=99.55, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[NODE_ENTER]
+10:24:35.680 Action matchId=mock_match_001, round=10, action=PROCESS
+10:24:35.680 Frame matchId=mock_match_001, round=11, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.5, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.680 Action matchId=mock_match_001, round=11, action=NONE, note=heartbeat
+10:24:35.681 Frame matchId=mock_match_001, round=12, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.45, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.681 Action matchId=mock_match_001, round=12, action=NONE, note=heartbeat
+10:24:35.681 Frame matchId=mock_match_001, round=13, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.4, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.681 Action matchId=mock_match_001, round=13, action=NONE, note=heartbeat
+10:24:35.681 Frame matchId=mock_match_001, round=14, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.35, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.681 Action matchId=mock_match_001, round=14, action=NONE, note=heartbeat
+10:24:35.681 Frame matchId=mock_match_001, round=15, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.3, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.681 Action matchId=mock_match_001, round=15, action=NONE, note=heartbeat
+10:24:35.681 Frame matchId=mock_match_001, round=16, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.25, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.681 Action matchId=mock_match_001, round=16, action=NONE, note=heartbeat
+10:24:35.681 Frame matchId=mock_match_001, round=17, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.2, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.681 Action matchId=mock_match_001, round=17, action=NONE, note=heartbeat
+10:24:35.682 Frame matchId=mock_match_001, round=18, phase=NORMAL, node=S04, state=IDLE, fresh=99.15, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[PROCESS_COMPLETE]
+10:24:35.682 Action matchId=mock_match_001, round=18, action=CLAIM_RESOURCE, target=S04, resource=SHORT_HORSE
+10:24:35.682 Frame matchId=mock_match_001, round=19, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.1, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.682 Action matchId=mock_match_001, round=19, action=NONE, note=heartbeat
+10:24:35.682 Frame matchId=mock_match_001, round=20, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.05, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.682 Action matchId=mock_match_001, round=20, action=NONE, note=heartbeat
+10:24:35.682 Frame matchId=mock_match_001, round=21, phase=NORMAL, node=S04, state=IDLE, fresh=99, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[RESOURCE_CLAIM]
+10:24:35.683 Action matchId=mock_match_001, round=21, action=MOVE, target=S05
+10:24:35.683 Frame matchId=mock_match_001, round=22, phase=NORMAL, node=S04, state=MOVING, fresh=98.95, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.683 Action matchId=mock_match_001, round=22, action=USE_RESOURCE, resource=SHORT_HORSE
+10:24:35.683 Frame matchId=mock_match_001, round=23, phase=NORMAL, node=S05, state=IDLE, fresh=98.9, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[RESOURCE_USE|NODE_ENTER]
+10:24:35.684 Action matchId=mock_match_001, round=23, action=PROCESS
+10:24:35.684 Frame matchId=mock_match_001, round=24, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.85, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.684 Action matchId=mock_match_001, round=24, action=NONE, note=heartbeat
+10:24:35.684 Frame matchId=mock_match_001, round=25, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.8, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.684 Action matchId=mock_match_001, round=25, action=NONE, note=heartbeat
+10:24:35.684 Frame matchId=mock_match_001, round=26, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.75, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.684 Action matchId=mock_match_001, round=26, action=NONE, note=heartbeat
+10:24:35.684 Frame matchId=mock_match_001, round=27, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.7, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.684 Action matchId=mock_match_001, round=27, action=NONE, note=heartbeat
+10:24:35.684 Frame matchId=mock_match_001, round=28, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.65, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.684 Action matchId=mock_match_001, round=28, action=NONE, note=heartbeat
+10:24:35.686 Frame matchId=mock_match_001, round=29, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.6, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.686 Action matchId=mock_match_001, round=29, action=NONE, note=heartbeat
+10:24:35.686 Frame matchId=mock_match_001, round=30, phase=NORMAL, node=S05, state=IDLE, fresh=98.55, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[PROCESS_COMPLETE]
+10:24:35.686 Action matchId=mock_match_001, round=30, action=MOVE, target=S09
+10:24:35.686 Frame matchId=mock_match_001, round=31, phase=NORMAL, node=S05, state=MOVING, fresh=98.5, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.687 Action matchId=mock_match_001, round=31, action=MOVE, target=S09
+10:24:35.687 Frame matchId=mock_match_001, round=32, phase=NORMAL, node=S09, state=IDLE, fresh=98.45, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[NODE_ENTER]
+10:24:35.687 Action matchId=mock_match_001, round=32, action=CLAIM_TASK, task=TK1
+10:24:35.687 Frame matchId=mock_match_001, round=33, phase=NORMAL, node=S09, state=PROCESSING, fresh=98.4, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.687 Action matchId=mock_match_001, round=33, action=NONE, note=heartbeat
+10:24:35.687 Frame matchId=mock_match_001, round=34, phase=NORMAL, node=S09, state=PROCESSING, fresh=98.35, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.687 Action matchId=mock_match_001, round=34, action=NONE, note=heartbeat
+10:24:35.687 Frame matchId=mock_match_001, round=35, phase=NORMAL, node=S09, state=PROCESSING, fresh=98.3, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:24:35.687 Action matchId=mock_match_001, round=35, action=NONE, note=heartbeat
+10:24:35.687 Frame matchId=mock_match_001, round=36, phase=NORMAL, node=S09, state=IDLE, fresh=98.25, goodFruit=100, taskScore=30, verified=False, delivered=False, events=[TASK_COMPLETE]
+10:24:35.688 Action matchId=mock_match_001, round=36, action=CLAIM_RESOURCE, target=S09, resource=FAST_HORSE
+10:24:35.688 Frame matchId=mock_match_001, round=37, phase=NORMAL, node=S09, state=PROCESSING, fresh=98.2, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.688 Action matchId=mock_match_001, round=37, action=NONE, note=heartbeat
+10:24:35.688 Frame matchId=mock_match_001, round=38, phase=NORMAL, node=S09, state=PROCESSING, fresh=98.15, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.688 Action matchId=mock_match_001, round=38, action=NONE, note=heartbeat
+10:24:35.688 Frame matchId=mock_match_001, round=39, phase=NORMAL, node=S09, state=IDLE, fresh=98.1, goodFruit=100, taskScore=30, verified=False, delivered=False, events=[RESOURCE_CLAIM]
+10:24:35.688 Action matchId=mock_match_001, round=39, action=MOVE, target=S10
+10:24:35.689 Frame matchId=mock_match_001, round=40, phase=NORMAL, node=S09, state=MOVING, fresh=98.05, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.689 Action matchId=mock_match_001, round=40, action=USE_RESOURCE, resource=FAST_HORSE
+10:24:35.689 Frame matchId=mock_match_001, round=41, phase=NORMAL, node=S10, state=IDLE, fresh=98, goodFruit=100, taskScore=30, verified=False, delivered=False, events=[RESOURCE_USE|NODE_ENTER]
+10:24:35.689 Action matchId=mock_match_001, round=41, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.689 Frame matchId=mock_match_001, round=42, phase=NORMAL, node=S10, state=IDLE, fresh=97.95, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.690 Action matchId=mock_match_001, round=42, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.690 Frame matchId=mock_match_001, round=43, phase=NORMAL, node=S10, state=IDLE, fresh=97.9, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.690 Action matchId=mock_match_001, round=43, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.690 Frame matchId=mock_match_001, round=44, phase=NORMAL, node=S10, state=IDLE, fresh=97.85, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.690 Action matchId=mock_match_001, round=44, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.690 Frame matchId=mock_match_001, round=45, phase=NORMAL, node=S10, state=IDLE, fresh=97.8, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.690 Action matchId=mock_match_001, round=45, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.691 Frame matchId=mock_match_001, round=46, phase=NORMAL, node=S10, state=IDLE, fresh=97.75, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.691 Action matchId=mock_match_001, round=46, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.691 Frame matchId=mock_match_001, round=47, phase=NORMAL, node=S10, state=IDLE, fresh=97.7, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.691 Action matchId=mock_match_001, round=47, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.691 Frame matchId=mock_match_001, round=48, phase=NORMAL, node=S10, state=IDLE, fresh=97.65, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.692 Action matchId=mock_match_001, round=48, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.692 Frame matchId=mock_match_001, round=49, phase=NORMAL, node=S10, state=IDLE, fresh=97.6, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.692 Action matchId=mock_match_001, round=49, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.692 Frame matchId=mock_match_001, round=50, phase=NORMAL, node=S10, state=IDLE, fresh=97.55, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.692 Action matchId=mock_match_001, round=50, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.694 Frame matchId=mock_match_001, round=51, phase=NORMAL, node=S10, state=IDLE, fresh=97.5, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.694 Action matchId=mock_match_001, round=51, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.694 Frame matchId=mock_match_001, round=52, phase=NORMAL, node=S10, state=IDLE, fresh=97.45, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.694 Action matchId=mock_match_001, round=52, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.694 Frame matchId=mock_match_001, round=53, phase=NORMAL, node=S10, state=IDLE, fresh=97.4, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.694 Action matchId=mock_match_001, round=53, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.695 Frame matchId=mock_match_001, round=54, phase=NORMAL, node=S10, state=IDLE, fresh=97.35, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.695 Action matchId=mock_match_001, round=54, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.695 Frame matchId=mock_match_001, round=55, phase=NORMAL, node=S10, state=IDLE, fresh=97.3, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.695 Action matchId=mock_match_001, round=55, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.695 Frame matchId=mock_match_001, round=56, phase=NORMAL, node=S10, state=IDLE, fresh=97.25, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.696 Action matchId=mock_match_001, round=56, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.696 Frame matchId=mock_match_001, round=57, phase=NORMAL, node=S10, state=IDLE, fresh=97.2, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.696 Action matchId=mock_match_001, round=57, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.696 Frame matchId=mock_match_001, round=58, phase=NORMAL, node=S10, state=IDLE, fresh=97.15, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.696 Action matchId=mock_match_001, round=58, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.697 Frame matchId=mock_match_001, round=59, phase=NORMAL, node=S10, state=IDLE, fresh=97.1, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.697 Action matchId=mock_match_001, round=59, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.697 Frame matchId=mock_match_001, round=60, phase=NORMAL, node=S10, state=IDLE, fresh=97.05, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.697 Action matchId=mock_match_001, round=60, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.697 Frame matchId=mock_match_001, round=61, phase=NORMAL, node=S10, state=IDLE, fresh=97, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.698 Action matchId=mock_match_001, round=61, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.698 Frame matchId=mock_match_001, round=62, phase=NORMAL, node=S10, state=IDLE, fresh=96.95, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.698 Action matchId=mock_match_001, round=62, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.698 Frame matchId=mock_match_001, round=63, phase=NORMAL, node=S10, state=IDLE, fresh=96.9, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.698 Action matchId=mock_match_001, round=63, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.698 Frame matchId=mock_match_001, round=64, phase=NORMAL, node=S10, state=IDLE, fresh=96.85, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.699 Action matchId=mock_match_001, round=64, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.699 Frame matchId=mock_match_001, round=65, phase=NORMAL, node=S10, state=IDLE, fresh=96.8, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.699 Action matchId=mock_match_001, round=65, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.699 Frame matchId=mock_match_001, round=66, phase=NORMAL, node=S10, state=IDLE, fresh=96.75, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.699 Action matchId=mock_match_001, round=66, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.699 Frame matchId=mock_match_001, round=67, phase=NORMAL, node=S10, state=IDLE, fresh=96.7, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.701 Action matchId=mock_match_001, round=67, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.701 Frame matchId=mock_match_001, round=68, phase=NORMAL, node=S10, state=IDLE, fresh=96.65, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.701 Action matchId=mock_match_001, round=68, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.701 Frame matchId=mock_match_001, round=69, phase=NORMAL, node=S10, state=IDLE, fresh=96.6, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.701 Action matchId=mock_match_001, round=69, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.702 Frame matchId=mock_match_001, round=70, phase=NORMAL, node=S10, state=IDLE, fresh=96.55, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.702 Action matchId=mock_match_001, round=70, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.702 Frame matchId=mock_match_001, round=71, phase=NORMAL, node=S10, state=IDLE, fresh=96.5, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.702 Action matchId=mock_match_001, round=71, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.702 Frame matchId=mock_match_001, round=72, phase=NORMAL, node=S10, state=IDLE, fresh=96.45, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.703 Action matchId=mock_match_001, round=72, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.703 Frame matchId=mock_match_001, round=73, phase=NORMAL, node=S10, state=IDLE, fresh=96.4, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.703 Action matchId=mock_match_001, round=73, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.703 Frame matchId=mock_match_001, round=74, phase=NORMAL, node=S10, state=IDLE, fresh=96.35, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.703 Action matchId=mock_match_001, round=74, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.703 Frame matchId=mock_match_001, round=75, phase=NORMAL, node=S10, state=IDLE, fresh=96.3, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.704 Action matchId=mock_match_001, round=75, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.704 Frame matchId=mock_match_001, round=76, phase=NORMAL, node=S10, state=IDLE, fresh=96.25, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.704 Action matchId=mock_match_001, round=76, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.704 Frame matchId=mock_match_001, round=77, phase=NORMAL, node=S10, state=IDLE, fresh=96.2, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.704 Action matchId=mock_match_001, round=77, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.704 Frame matchId=mock_match_001, round=78, phase=NORMAL, node=S10, state=IDLE, fresh=96.15, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.705 Action matchId=mock_match_001, round=78, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.705 Frame matchId=mock_match_001, round=79, phase=NORMAL, node=S10, state=IDLE, fresh=96.1, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.705 Action matchId=mock_match_001, round=79, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.705 Frame matchId=mock_match_001, round=80, phase=NORMAL, node=S10, state=IDLE, fresh=96.05, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.705 Action matchId=mock_match_001, round=80, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.706 Frame matchId=mock_match_001, round=81, phase=NORMAL, node=S10, state=IDLE, fresh=96, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.706 Action matchId=mock_match_001, round=81, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.706 Frame matchId=mock_match_001, round=82, phase=NORMAL, node=S10, state=IDLE, fresh=95.95, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.706 Action matchId=mock_match_001, round=82, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.706 Frame matchId=mock_match_001, round=83, phase=NORMAL, node=S10, state=IDLE, fresh=95.9, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.708 Action matchId=mock_match_001, round=83, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.708 Frame matchId=mock_match_001, round=84, phase=NORMAL, node=S10, state=IDLE, fresh=95.85, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.708 Action matchId=mock_match_001, round=84, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.708 Frame matchId=mock_match_001, round=85, phase=NORMAL, node=S10, state=IDLE, fresh=95.8, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.708 Action matchId=mock_match_001, round=85, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.709 Frame matchId=mock_match_001, round=86, phase=NORMAL, node=S10, state=IDLE, fresh=95.75, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.709 Action matchId=mock_match_001, round=86, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.709 Frame matchId=mock_match_001, round=87, phase=NORMAL, node=S10, state=IDLE, fresh=95.7, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.709 Action matchId=mock_match_001, round=87, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.709 Frame matchId=mock_match_001, round=88, phase=NORMAL, node=S10, state=IDLE, fresh=95.65, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.710 Action matchId=mock_match_001, round=88, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.710 Frame matchId=mock_match_001, round=89, phase=NORMAL, node=S10, state=IDLE, fresh=95.6, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.710 Action matchId=mock_match_001, round=89, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.710 Frame matchId=mock_match_001, round=90, phase=NORMAL, node=S10, state=IDLE, fresh=95.55, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.710 Action matchId=mock_match_001, round=90, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.711 Frame matchId=mock_match_001, round=91, phase=NORMAL, node=S10, state=IDLE, fresh=95.5, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.711 Action matchId=mock_match_001, round=91, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.711 Frame matchId=mock_match_001, round=92, phase=NORMAL, node=S10, state=IDLE, fresh=95.45, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.711 Action matchId=mock_match_001, round=92, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.712 Frame matchId=mock_match_001, round=93, phase=NORMAL, node=S10, state=IDLE, fresh=95.4, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.712 Action matchId=mock_match_001, round=93, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.712 Frame matchId=mock_match_001, round=94, phase=NORMAL, node=S10, state=IDLE, fresh=95.35, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.712 Action matchId=mock_match_001, round=94, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.712 Frame matchId=mock_match_001, round=95, phase=NORMAL, node=S10, state=IDLE, fresh=95.3, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.714 Action matchId=mock_match_001, round=95, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.714 Frame matchId=mock_match_001, round=96, phase=NORMAL, node=S10, state=IDLE, fresh=95.25, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.714 Action matchId=mock_match_001, round=96, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.714 Frame matchId=mock_match_001, round=97, phase=NORMAL, node=S10, state=IDLE, fresh=95.2, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.714 Action matchId=mock_match_001, round=97, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.715 Frame matchId=mock_match_001, round=98, phase=NORMAL, node=S10, state=IDLE, fresh=95.15, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.715 Action matchId=mock_match_001, round=98, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.715 Frame matchId=mock_match_001, round=99, phase=NORMAL, node=S10, state=IDLE, fresh=95.1, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.715 Action matchId=mock_match_001, round=99, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.715 Frame matchId=mock_match_001, round=100, phase=NORMAL, node=S10, state=IDLE, fresh=95.05, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.715 Action matchId=mock_match_001, round=100, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.716 Frame matchId=mock_match_001, round=101, phase=NORMAL, node=S10, state=IDLE, fresh=95, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.716 Action matchId=mock_match_001, round=101, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.716 Frame matchId=mock_match_001, round=102, phase=NORMAL, node=S10, state=IDLE, fresh=94.95, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.716 Action matchId=mock_match_001, round=102, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.716 Frame matchId=mock_match_001, round=103, phase=NORMAL, node=S10, state=IDLE, fresh=94.9, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.716 Action matchId=mock_match_001, round=103, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.717 Frame matchId=mock_match_001, round=104, phase=NORMAL, node=S10, state=IDLE, fresh=94.85, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.717 Action matchId=mock_match_001, round=104, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.717 Frame matchId=mock_match_001, round=105, phase=NORMAL, node=S10, state=IDLE, fresh=94.8, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.717 Action matchId=mock_match_001, round=105, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.717 Frame matchId=mock_match_001, round=106, phase=NORMAL, node=S10, state=IDLE, fresh=94.75, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.718 Action matchId=mock_match_001, round=106, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.718 Frame matchId=mock_match_001, round=107, phase=NORMAL, node=S10, state=IDLE, fresh=94.7, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.718 Action matchId=mock_match_001, round=107, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.718 Frame matchId=mock_match_001, round=108, phase=NORMAL, node=S10, state=IDLE, fresh=94.65, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.718 Action matchId=mock_match_001, round=108, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.718 Frame matchId=mock_match_001, round=109, phase=NORMAL, node=S10, state=IDLE, fresh=94.6, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.719 Action matchId=mock_match_001, round=109, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.719 Frame matchId=mock_match_001, round=110, phase=NORMAL, node=S10, state=IDLE, fresh=94.55, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.719 Action matchId=mock_match_001, round=110, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.719 Frame matchId=mock_match_001, round=111, phase=NORMAL, node=S10, state=IDLE, fresh=94.5, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.719 Action matchId=mock_match_001, round=111, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.720 Frame matchId=mock_match_001, round=112, phase=NORMAL, node=S10, state=IDLE, fresh=94.45, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.720 Action matchId=mock_match_001, round=112, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.720 Frame matchId=mock_match_001, round=113, phase=NORMAL, node=S10, state=IDLE, fresh=94.4, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.720 Action matchId=mock_match_001, round=113, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.721 Frame matchId=mock_match_001, round=114, phase=NORMAL, node=S10, state=IDLE, fresh=94.35, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.721 Action matchId=mock_match_001, round=114, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.721 Frame matchId=mock_match_001, round=115, phase=NORMAL, node=S10, state=IDLE, fresh=94.3, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.721 Action matchId=mock_match_001, round=115, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.721 Frame matchId=mock_match_001, round=116, phase=NORMAL, node=S10, state=IDLE, fresh=94.25, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.722 Action matchId=mock_match_001, round=116, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.722 Frame matchId=mock_match_001, round=117, phase=NORMAL, node=S10, state=IDLE, fresh=94.2, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.722 Action matchId=mock_match_001, round=117, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.722 Frame matchId=mock_match_001, round=118, phase=NORMAL, node=S10, state=IDLE, fresh=94.15, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.722 Action matchId=mock_match_001, round=118, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.723 Frame matchId=mock_match_001, round=119, phase=NORMAL, node=S10, state=IDLE, fresh=94.1, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.723 Action matchId=mock_match_001, round=119, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.723 Frame matchId=mock_match_001, round=120, phase=NORMAL, node=S10, state=IDLE, fresh=94.05, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.723 Action matchId=mock_match_001, round=120, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.723 Frame matchId=mock_match_001, round=121, phase=NORMAL, node=S10, state=IDLE, fresh=94, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.725 Action matchId=mock_match_001, round=121, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.725 Frame matchId=mock_match_001, round=122, phase=NORMAL, node=S10, state=IDLE, fresh=93.95, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.725 Action matchId=mock_match_001, round=122, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.725 Frame matchId=mock_match_001, round=123, phase=NORMAL, node=S10, state=IDLE, fresh=93.9, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.726 Action matchId=mock_match_001, round=123, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.726 Frame matchId=mock_match_001, round=124, phase=NORMAL, node=S10, state=IDLE, fresh=93.85, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.726 Action matchId=mock_match_001, round=124, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.726 Frame matchId=mock_match_001, round=125, phase=NORMAL, node=S10, state=IDLE, fresh=93.8, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.726 Action matchId=mock_match_001, round=125, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.726 Frame matchId=mock_match_001, round=126, phase=NORMAL, node=S10, state=IDLE, fresh=93.75, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.727 Action matchId=mock_match_001, round=126, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.727 Frame matchId=mock_match_001, round=127, phase=NORMAL, node=S10, state=IDLE, fresh=93.7, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.727 Action matchId=mock_match_001, round=127, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.727 Frame matchId=mock_match_001, round=128, phase=NORMAL, node=S10, state=IDLE, fresh=93.65, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.727 Action matchId=mock_match_001, round=128, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.728 Frame matchId=mock_match_001, round=129, phase=NORMAL, node=S10, state=IDLE, fresh=93.6, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.728 Action matchId=mock_match_001, round=129, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.728 Frame matchId=mock_match_001, round=130, phase=NORMAL, node=S10, state=IDLE, fresh=93.55, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.728 Action matchId=mock_match_001, round=130, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.728 Frame matchId=mock_match_001, round=131, phase=NORMAL, node=S10, state=IDLE, fresh=93.5, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.729 Action matchId=mock_match_001, round=131, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.729 Frame matchId=mock_match_001, round=132, phase=NORMAL, node=S10, state=IDLE, fresh=93.45, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.729 Action matchId=mock_match_001, round=132, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.729 Frame matchId=mock_match_001, round=133, phase=NORMAL, node=S10, state=IDLE, fresh=93.4, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.729 Action matchId=mock_match_001, round=133, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.729 Frame matchId=mock_match_001, round=134, phase=NORMAL, node=S10, state=IDLE, fresh=93.35, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.730 Action matchId=mock_match_001, round=134, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.730 Frame matchId=mock_match_001, round=135, phase=NORMAL, node=S10, state=IDLE, fresh=93.3, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.730 Action matchId=mock_match_001, round=135, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.730 Frame matchId=mock_match_001, round=136, phase=NORMAL, node=S10, state=IDLE, fresh=93.25, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.730 Action matchId=mock_match_001, round=136, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.731 Frame matchId=mock_match_001, round=137, phase=NORMAL, node=S10, state=IDLE, fresh=93.2, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.731 Action matchId=mock_match_001, round=137, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.731 Frame matchId=mock_match_001, round=138, phase=NORMAL, node=S10, state=IDLE, fresh=93.15, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.731 Action matchId=mock_match_001, round=138, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.731 Frame matchId=mock_match_001, round=139, phase=NORMAL, node=S10, state=IDLE, fresh=93.1, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.732 Action matchId=mock_match_001, round=139, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.732 Frame matchId=mock_match_001, round=140, phase=NORMAL, node=S10, state=IDLE, fresh=93.05, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.732 Action matchId=mock_match_001, round=140, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.732 Frame matchId=mock_match_001, round=141, phase=NORMAL, node=S10, state=IDLE, fresh=93, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.732 Action matchId=mock_match_001, round=141, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.732 Frame matchId=mock_match_001, round=142, phase=NORMAL, node=S10, state=IDLE, fresh=92.95, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.734 Action matchId=mock_match_001, round=142, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.734 Frame matchId=mock_match_001, round=143, phase=NORMAL, node=S10, state=IDLE, fresh=92.9, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.734 Action matchId=mock_match_001, round=143, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.734 Frame matchId=mock_match_001, round=144, phase=NORMAL, node=S10, state=IDLE, fresh=92.85, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.734 Action matchId=mock_match_001, round=144, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.735 Frame matchId=mock_match_001, round=145, phase=NORMAL, node=S10, state=IDLE, fresh=92.8, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.735 Action matchId=mock_match_001, round=145, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.735 Frame matchId=mock_match_001, round=146, phase=NORMAL, node=S10, state=IDLE, fresh=92.75, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.735 Action matchId=mock_match_001, round=146, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.735 Frame matchId=mock_match_001, round=147, phase=NORMAL, node=S10, state=IDLE, fresh=92.7, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.736 Action matchId=mock_match_001, round=147, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.736 Frame matchId=mock_match_001, round=148, phase=NORMAL, node=S10, state=IDLE, fresh=92.65, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.736 Action matchId=mock_match_001, round=148, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.736 Frame matchId=mock_match_001, round=149, phase=NORMAL, node=S10, state=IDLE, fresh=92.6, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.736 Action matchId=mock_match_001, round=149, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.737 Frame matchId=mock_match_001, round=150, phase=NORMAL, node=S10, state=IDLE, fresh=92.55, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.737 Action matchId=mock_match_001, round=150, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.737 Frame matchId=mock_match_001, round=151, phase=NORMAL, node=S10, state=IDLE, fresh=92.5, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.737 Action matchId=mock_match_001, round=151, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.737 Frame matchId=mock_match_001, round=152, phase=NORMAL, node=S10, state=IDLE, fresh=92.45, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.738 Action matchId=mock_match_001, round=152, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.738 Frame matchId=mock_match_001, round=153, phase=NORMAL, node=S10, state=IDLE, fresh=92.4, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.738 Action matchId=mock_match_001, round=153, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.738 Frame matchId=mock_match_001, round=154, phase=NORMAL, node=S10, state=IDLE, fresh=92.35, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.738 Action matchId=mock_match_001, round=154, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.738 Frame matchId=mock_match_001, round=155, phase=NORMAL, node=S10, state=IDLE, fresh=92.3, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.740 Action matchId=mock_match_001, round=155, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.740 Frame matchId=mock_match_001, round=156, phase=NORMAL, node=S10, state=IDLE, fresh=92.25, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.740 Action matchId=mock_match_001, round=156, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.740 Frame matchId=mock_match_001, round=157, phase=NORMAL, node=S10, state=IDLE, fresh=92.2, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.740 Action matchId=mock_match_001, round=157, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.741 Frame matchId=mock_match_001, round=158, phase=NORMAL, node=S10, state=IDLE, fresh=92.15, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.741 Action matchId=mock_match_001, round=158, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.741 Frame matchId=mock_match_001, round=159, phase=NORMAL, node=S10, state=IDLE, fresh=92.1, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.741 Action matchId=mock_match_001, round=159, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.741 Frame matchId=mock_match_001, round=160, phase=NORMAL, node=S10, state=IDLE, fresh=92.05, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.742 Action matchId=mock_match_001, round=160, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.742 Frame matchId=mock_match_001, round=161, phase=NORMAL, node=S10, state=IDLE, fresh=92, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.742 Action matchId=mock_match_001, round=161, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.742 Frame matchId=mock_match_001, round=162, phase=NORMAL, node=S10, state=IDLE, fresh=91.95, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.742 Action matchId=mock_match_001, round=162, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.743 Frame matchId=mock_match_001, round=163, phase=NORMAL, node=S10, state=IDLE, fresh=91.9, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.743 Action matchId=mock_match_001, round=163, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.743 Frame matchId=mock_match_001, round=164, phase=NORMAL, node=S10, state=IDLE, fresh=91.85, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.743 Action matchId=mock_match_001, round=164, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.743 Frame matchId=mock_match_001, round=165, phase=NORMAL, node=S10, state=IDLE, fresh=91.8, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.744 Action matchId=mock_match_001, round=165, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.744 Frame matchId=mock_match_001, round=166, phase=NORMAL, node=S10, state=IDLE, fresh=91.75, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.744 Action matchId=mock_match_001, round=166, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.744 Frame matchId=mock_match_001, round=167, phase=NORMAL, node=S10, state=IDLE, fresh=91.7, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.744 Action matchId=mock_match_001, round=167, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.744 Frame matchId=mock_match_001, round=168, phase=NORMAL, node=S10, state=IDLE, fresh=91.65, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.745 Action matchId=mock_match_001, round=168, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.745 Frame matchId=mock_match_001, round=169, phase=NORMAL, node=S10, state=IDLE, fresh=91.6, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.745 Action matchId=mock_match_001, round=169, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.745 Frame matchId=mock_match_001, round=170, phase=NORMAL, node=S10, state=IDLE, fresh=91.55, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.745 Action matchId=mock_match_001, round=170, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.746 Frame matchId=mock_match_001, round=171, phase=NORMAL, node=S10, state=IDLE, fresh=91.5, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.746 Action matchId=mock_match_001, round=171, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.746 Frame matchId=mock_match_001, round=172, phase=NORMAL, node=S10, state=IDLE, fresh=91.45, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.746 Action matchId=mock_match_001, round=172, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.746 Frame matchId=mock_match_001, round=173, phase=NORMAL, node=S10, state=IDLE, fresh=91.4, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.747 Action matchId=mock_match_001, round=173, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.747 Frame matchId=mock_match_001, round=174, phase=NORMAL, node=S10, state=IDLE, fresh=91.35, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.747 Action matchId=mock_match_001, round=174, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.747 Frame matchId=mock_match_001, round=175, phase=NORMAL, node=S10, state=IDLE, fresh=91.3, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.747 Action matchId=mock_match_001, round=175, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.749 Frame matchId=mock_match_001, round=176, phase=NORMAL, node=S10, state=IDLE, fresh=91.25, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.749 Action matchId=mock_match_001, round=176, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.749 Frame matchId=mock_match_001, round=177, phase=NORMAL, node=S10, state=IDLE, fresh=91.2, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.749 Action matchId=mock_match_001, round=177, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.749 Frame matchId=mock_match_001, round=178, phase=NORMAL, node=S10, state=IDLE, fresh=91.15, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.750 Action matchId=mock_match_001, round=178, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.750 Frame matchId=mock_match_001, round=179, phase=NORMAL, node=S10, state=IDLE, fresh=91.1, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.750 Action matchId=mock_match_001, round=179, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.750 Frame matchId=mock_match_001, round=180, phase=NORMAL, node=S10, state=IDLE, fresh=91.05, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.750 Action matchId=mock_match_001, round=180, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.750 Frame matchId=mock_match_001, round=181, phase=NORMAL, node=S10, state=IDLE, fresh=91, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.751 Action matchId=mock_match_001, round=181, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.751 Frame matchId=mock_match_001, round=182, phase=NORMAL, node=S10, state=IDLE, fresh=90.95, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.751 Action matchId=mock_match_001, round=182, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.751 Frame matchId=mock_match_001, round=183, phase=NORMAL, node=S10, state=IDLE, fresh=90.9, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.751 Action matchId=mock_match_001, round=183, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.752 Frame matchId=mock_match_001, round=184, phase=NORMAL, node=S10, state=IDLE, fresh=90.85, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.752 Action matchId=mock_match_001, round=184, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.752 Frame matchId=mock_match_001, round=185, phase=NORMAL, node=S10, state=IDLE, fresh=90.8, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.752 Action matchId=mock_match_001, round=185, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.752 Frame matchId=mock_match_001, round=186, phase=NORMAL, node=S10, state=IDLE, fresh=90.75, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.753 Action matchId=mock_match_001, round=186, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.753 Frame matchId=mock_match_001, round=187, phase=NORMAL, node=S10, state=IDLE, fresh=90.7, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.753 Action matchId=mock_match_001, round=187, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.753 Frame matchId=mock_match_001, round=188, phase=NORMAL, node=S10, state=IDLE, fresh=90.65, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.753 Action matchId=mock_match_001, round=188, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.754 Frame matchId=mock_match_001, round=189, phase=NORMAL, node=S10, state=IDLE, fresh=90.6, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.754 Action matchId=mock_match_001, round=189, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.754 Frame matchId=mock_match_001, round=190, phase=NORMAL, node=S10, state=IDLE, fresh=90.55, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.754 Action matchId=mock_match_001, round=190, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.754 Frame matchId=mock_match_001, round=191, phase=NORMAL, node=S10, state=IDLE, fresh=90.5, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.755 Action matchId=mock_match_001, round=191, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.755 Frame matchId=mock_match_001, round=192, phase=NORMAL, node=S10, state=IDLE, fresh=90.45, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.755 Action matchId=mock_match_001, round=192, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.755 Frame matchId=mock_match_001, round=193, phase=NORMAL, node=S10, state=IDLE, fresh=90.4, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.755 Action matchId=mock_match_001, round=193, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.755 Frame matchId=mock_match_001, round=194, phase=NORMAL, node=S10, state=IDLE, fresh=90.35, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.757 Action matchId=mock_match_001, round=194, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.757 Frame matchId=mock_match_001, round=195, phase=NORMAL, node=S10, state=IDLE, fresh=90.3, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.757 Action matchId=mock_match_001, round=195, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.757 Frame matchId=mock_match_001, round=196, phase=NORMAL, node=S10, state=IDLE, fresh=90.25, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.757 Action matchId=mock_match_001, round=196, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.758 Frame matchId=mock_match_001, round=197, phase=NORMAL, node=S10, state=IDLE, fresh=90.2, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.758 Action matchId=mock_match_001, round=197, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.758 Frame matchId=mock_match_001, round=198, phase=NORMAL, node=S10, state=IDLE, fresh=90.15, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.758 Action matchId=mock_match_001, round=198, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.758 Frame matchId=mock_match_001, round=199, phase=NORMAL, node=S10, state=IDLE, fresh=90.1, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.759 Action matchId=mock_match_001, round=199, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.759 Frame matchId=mock_match_001, round=200, phase=NORMAL, node=S10, state=IDLE, fresh=90.05, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.759 Action matchId=mock_match_001, round=200, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.759 Frame matchId=mock_match_001, round=201, phase=NORMAL, node=S10, state=IDLE, fresh=90, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.759 Action matchId=mock_match_001, round=201, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.760 Frame matchId=mock_match_001, round=202, phase=NORMAL, node=S10, state=IDLE, fresh=89.95, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.760 Action matchId=mock_match_001, round=202, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.760 Frame matchId=mock_match_001, round=203, phase=NORMAL, node=S10, state=IDLE, fresh=89.9, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.760 Action matchId=mock_match_001, round=203, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.760 Frame matchId=mock_match_001, round=204, phase=NORMAL, node=S10, state=IDLE, fresh=89.85, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.761 Action matchId=mock_match_001, round=204, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.761 Frame matchId=mock_match_001, round=205, phase=NORMAL, node=S10, state=IDLE, fresh=89.8, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.761 Action matchId=mock_match_001, round=205, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.761 Frame matchId=mock_match_001, round=206, phase=NORMAL, node=S10, state=IDLE, fresh=89.75, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.761 Action matchId=mock_match_001, round=206, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.761 Frame matchId=mock_match_001, round=207, phase=NORMAL, node=S10, state=IDLE, fresh=89.7, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.762 Action matchId=mock_match_001, round=207, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.762 Frame matchId=mock_match_001, round=208, phase=NORMAL, node=S10, state=IDLE, fresh=89.65, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.762 Action matchId=mock_match_001, round=208, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.762 Frame matchId=mock_match_001, round=209, phase=NORMAL, node=S10, state=IDLE, fresh=89.6, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.762 Action matchId=mock_match_001, round=209, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.763 Frame matchId=mock_match_001, round=210, phase=NORMAL, node=S10, state=IDLE, fresh=89.55, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.763 Action matchId=mock_match_001, round=210, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.763 Frame matchId=mock_match_001, round=211, phase=NORMAL, node=S10, state=IDLE, fresh=89.5, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.763 Action matchId=mock_match_001, round=211, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.763 Frame matchId=mock_match_001, round=212, phase=NORMAL, node=S10, state=IDLE, fresh=89.45, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.764 Action matchId=mock_match_001, round=212, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.764 Frame matchId=mock_match_001, round=213, phase=NORMAL, node=S10, state=IDLE, fresh=89.4, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.764 Action matchId=mock_match_001, round=213, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.764 Frame matchId=mock_match_001, round=214, phase=NORMAL, node=S10, state=IDLE, fresh=89.35, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.764 Action matchId=mock_match_001, round=214, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.765 Frame matchId=mock_match_001, round=215, phase=NORMAL, node=S10, state=IDLE, fresh=89.3, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.765 Action matchId=mock_match_001, round=215, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.765 Frame matchId=mock_match_001, round=216, phase=NORMAL, node=S10, state=IDLE, fresh=89.25, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.765 Action matchId=mock_match_001, round=216, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.765 Frame matchId=mock_match_001, round=217, phase=NORMAL, node=S10, state=IDLE, fresh=89.2, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.767 Action matchId=mock_match_001, round=217, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.767 Frame matchId=mock_match_001, round=218, phase=NORMAL, node=S10, state=IDLE, fresh=89.15, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.767 Action matchId=mock_match_001, round=218, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.767 Frame matchId=mock_match_001, round=219, phase=NORMAL, node=S10, state=IDLE, fresh=89.1, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.767 Action matchId=mock_match_001, round=219, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.767 Frame matchId=mock_match_001, round=220, phase=NORMAL, node=S10, state=IDLE, fresh=89.05, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.768 Action matchId=mock_match_001, round=220, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.768 Frame matchId=mock_match_001, round=221, phase=NORMAL, node=S10, state=IDLE, fresh=89, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.768 Action matchId=mock_match_001, round=221, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.768 Frame matchId=mock_match_001, round=222, phase=NORMAL, node=S10, state=IDLE, fresh=88.95, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.768 Action matchId=mock_match_001, round=222, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.768 Frame matchId=mock_match_001, round=223, phase=NORMAL, node=S10, state=IDLE, fresh=88.9, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.769 Action matchId=mock_match_001, round=223, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.769 Frame matchId=mock_match_001, round=224, phase=NORMAL, node=S10, state=IDLE, fresh=88.85, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.769 Action matchId=mock_match_001, round=224, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.769 Frame matchId=mock_match_001, round=225, phase=NORMAL, node=S10, state=IDLE, fresh=88.8, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.769 Action matchId=mock_match_001, round=225, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.770 Frame matchId=mock_match_001, round=226, phase=NORMAL, node=S10, state=IDLE, fresh=88.75, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.770 Action matchId=mock_match_001, round=226, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.770 Frame matchId=mock_match_001, round=227, phase=NORMAL, node=S10, state=IDLE, fresh=88.7, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.770 Action matchId=mock_match_001, round=227, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.770 Frame matchId=mock_match_001, round=228, phase=NORMAL, node=S10, state=IDLE, fresh=88.65, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.771 Action matchId=mock_match_001, round=228, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.771 Frame matchId=mock_match_001, round=229, phase=NORMAL, node=S10, state=IDLE, fresh=88.6, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.771 Action matchId=mock_match_001, round=229, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.771 Frame matchId=mock_match_001, round=230, phase=NORMAL, node=S10, state=IDLE, fresh=88.55, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.771 Action matchId=mock_match_001, round=230, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.771 Frame matchId=mock_match_001, round=231, phase=NORMAL, node=S10, state=IDLE, fresh=88.5, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.772 Action matchId=mock_match_001, round=231, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.772 Frame matchId=mock_match_001, round=232, phase=NORMAL, node=S10, state=IDLE, fresh=88.45, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.772 Action matchId=mock_match_001, round=232, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.772 Frame matchId=mock_match_001, round=233, phase=NORMAL, node=S10, state=IDLE, fresh=88.4, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.772 Action matchId=mock_match_001, round=233, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.772 Frame matchId=mock_match_001, round=234, phase=NORMAL, node=S10, state=IDLE, fresh=88.35, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.774 Action matchId=mock_match_001, round=234, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.774 Frame matchId=mock_match_001, round=235, phase=NORMAL, node=S10, state=IDLE, fresh=88.3, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.774 Action matchId=mock_match_001, round=235, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.774 Frame matchId=mock_match_001, round=236, phase=NORMAL, node=S10, state=IDLE, fresh=88.25, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.774 Action matchId=mock_match_001, round=236, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.775 Frame matchId=mock_match_001, round=237, phase=NORMAL, node=S10, state=IDLE, fresh=88.2, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.775 Action matchId=mock_match_001, round=237, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.775 Frame matchId=mock_match_001, round=238, phase=NORMAL, node=S10, state=IDLE, fresh=88.15, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.775 Action matchId=mock_match_001, round=238, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.775 Frame matchId=mock_match_001, round=239, phase=NORMAL, node=S10, state=IDLE, fresh=88.1, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.776 Action matchId=mock_match_001, round=239, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.776 Frame matchId=mock_match_001, round=240, phase=NORMAL, node=S10, state=IDLE, fresh=88.05, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.776 Action matchId=mock_match_001, round=240, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.776 Frame matchId=mock_match_001, round=241, phase=NORMAL, node=S10, state=IDLE, fresh=88, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.776 Action matchId=mock_match_001, round=241, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.776 Frame matchId=mock_match_001, round=242, phase=NORMAL, node=S10, state=IDLE, fresh=87.95, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.777 Action matchId=mock_match_001, round=242, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.777 Frame matchId=mock_match_001, round=243, phase=NORMAL, node=S10, state=IDLE, fresh=87.9, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.777 Action matchId=mock_match_001, round=243, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.777 Frame matchId=mock_match_001, round=244, phase=NORMAL, node=S10, state=IDLE, fresh=87.85, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.777 Action matchId=mock_match_001, round=244, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.778 Frame matchId=mock_match_001, round=245, phase=NORMAL, node=S10, state=IDLE, fresh=87.8, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.778 Action matchId=mock_match_001, round=245, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.778 Frame matchId=mock_match_001, round=246, phase=NORMAL, node=S10, state=IDLE, fresh=87.75, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.778 Action matchId=mock_match_001, round=246, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.778 Frame matchId=mock_match_001, round=247, phase=NORMAL, node=S10, state=IDLE, fresh=87.7, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.778 Action matchId=mock_match_001, round=247, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.779 Frame matchId=mock_match_001, round=248, phase=NORMAL, node=S10, state=IDLE, fresh=87.65, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.779 Action matchId=mock_match_001, round=248, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.779 Frame matchId=mock_match_001, round=249, phase=NORMAL, node=S10, state=IDLE, fresh=87.6, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.779 Action matchId=mock_match_001, round=249, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.779 Frame matchId=mock_match_001, round=250, phase=NORMAL, node=S10, state=IDLE, fresh=87.55, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:24:35.780 Action matchId=mock_match_001, round=250, action=SET_GUARD, target=S10, extraGood=1
+10:24:35.780 Over matchId=mock_match_001, resultType=DRAW, reason=TIME_LIMIT, overRound=250
+10:24:35.780 Score matchId=mock_match_001, player=1001, me=True, total=0, delivered=False, deliverRound=0, retired=False, fresh=87.5, goodFruit=100, taskScore=30
+10:24:35.780 Score matchId=mock_match_001, player=9999, me=False, total=0, delivered=False, retired=False
+10:24:35.780 Shutdown matchId=mock_match_001
+10:27:45.683 Startup matchId=-, playerId=1001, host=127.0.0.1, port=8092, version=1.0
+10:27:45.698 Register matchId=-, playerId=1001, name=litchi-agent
+10:27:45.699 Start matchId=mock_match_001, teamId=RED, camp=0, durationRound=600, nodes=15, edges=21
+10:27:45.699 Ready matchId=mock_match_001, round=1
+10:27:45.699 Frame matchId=mock_match_001, round=1, phase=NORMAL, node=S01, state=IDLE, fresh=100, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.700 Action matchId=mock_match_001, round=1, action=MOVE, target=S02
+10:27:45.700 Action matchId=mock_match_001, round=1, action=SQUAD_CLEAR, target=S13
+10:27:45.700 Frame matchId=mock_match_001, round=2, phase=NORMAL, node=S01, state=MOVING, fresh=99.95, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[SQUAD_DISPATCH]
+10:27:45.700 Action matchId=mock_match_001, round=2, action=MOVE, target=S02
+10:27:45.700 Frame matchId=mock_match_001, round=3, phase=NORMAL, node=S02, state=IDLE, fresh=99.9, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[NODE_ENTER]
+10:27:45.701 Action matchId=mock_match_001, round=3, action=PROCESS
+10:27:45.701 Frame matchId=mock_match_001, round=4, phase=NORMAL, node=S02, state=PROCESSING, fresh=99.85, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.701 Action matchId=mock_match_001, round=4, action=NONE, note=heartbeat
+10:27:45.701 Frame matchId=mock_match_001, round=5, phase=NORMAL, node=S02, state=PROCESSING, fresh=99.8, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[OBSTACLE_CLEAR]
+10:27:45.701 Action matchId=mock_match_001, round=5, action=NONE, note=heartbeat
+10:27:45.701 Frame matchId=mock_match_001, round=6, phase=NORMAL, node=S02, state=PROCESSING, fresh=99.75, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.701 Action matchId=mock_match_001, round=6, action=NONE, note=heartbeat
+10:27:45.701 Frame matchId=mock_match_001, round=7, phase=NORMAL, node=S02, state=PROCESSING, fresh=99.7, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.702 Action matchId=mock_match_001, round=7, action=NONE, note=heartbeat
+10:27:45.702 Frame matchId=mock_match_001, round=8, phase=NORMAL, node=S02, state=IDLE, fresh=99.65, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[PROCESS_COMPLETE]
+10:27:45.702 Action matchId=mock_match_001, round=8, action=MOVE, target=S04
+10:27:45.702 Frame matchId=mock_match_001, round=9, phase=NORMAL, node=S02, state=MOVING, fresh=99.6, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.703 Action matchId=mock_match_001, round=9, action=MOVE, target=S04
+10:27:45.703 Frame matchId=mock_match_001, round=10, phase=NORMAL, node=S04, state=IDLE, fresh=99.55, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[NODE_ENTER]
+10:27:45.703 Action matchId=mock_match_001, round=10, action=PROCESS
+10:27:45.703 Frame matchId=mock_match_001, round=11, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.5, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.703 Action matchId=mock_match_001, round=11, action=NONE, note=heartbeat
+10:27:45.703 Frame matchId=mock_match_001, round=12, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.45, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.703 Action matchId=mock_match_001, round=12, action=NONE, note=heartbeat
+10:27:45.703 Frame matchId=mock_match_001, round=13, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.4, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.704 Action matchId=mock_match_001, round=13, action=NONE, note=heartbeat
+10:27:45.704 Frame matchId=mock_match_001, round=14, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.35, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.704 Action matchId=mock_match_001, round=14, action=NONE, note=heartbeat
+10:27:45.704 Frame matchId=mock_match_001, round=15, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.3, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.704 Action matchId=mock_match_001, round=15, action=NONE, note=heartbeat
+10:27:45.704 Frame matchId=mock_match_001, round=16, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.25, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.704 Action matchId=mock_match_001, round=16, action=NONE, note=heartbeat
+10:27:45.704 Frame matchId=mock_match_001, round=17, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.2, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.704 Action matchId=mock_match_001, round=17, action=NONE, note=heartbeat
+10:27:45.705 Frame matchId=mock_match_001, round=18, phase=NORMAL, node=S04, state=IDLE, fresh=99.15, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[PROCESS_COMPLETE]
+10:27:45.705 Action matchId=mock_match_001, round=18, action=CLAIM_RESOURCE, target=S04, resource=SHORT_HORSE
+10:27:45.705 Frame matchId=mock_match_001, round=19, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.1, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.705 Action matchId=mock_match_001, round=19, action=NONE, note=heartbeat
+10:27:45.705 Frame matchId=mock_match_001, round=20, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.05, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.705 Action matchId=mock_match_001, round=20, action=NONE, note=heartbeat
+10:27:45.705 Frame matchId=mock_match_001, round=21, phase=NORMAL, node=S04, state=IDLE, fresh=99, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[RESOURCE_CLAIM]
+10:27:45.706 Action matchId=mock_match_001, round=21, action=MOVE, target=S05
+10:27:45.706 Frame matchId=mock_match_001, round=22, phase=NORMAL, node=S04, state=MOVING, fresh=98.95, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.706 Action matchId=mock_match_001, round=22, action=USE_RESOURCE, resource=SHORT_HORSE
+10:27:45.706 Frame matchId=mock_match_001, round=23, phase=NORMAL, node=S05, state=IDLE, fresh=98.9, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[RESOURCE_USE|NODE_ENTER]
+10:27:45.707 Action matchId=mock_match_001, round=23, action=PROCESS
+10:27:45.707 Frame matchId=mock_match_001, round=24, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.85, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.707 Action matchId=mock_match_001, round=24, action=NONE, note=heartbeat
+10:27:45.707 Frame matchId=mock_match_001, round=25, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.8, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.707 Action matchId=mock_match_001, round=25, action=NONE, note=heartbeat
+10:27:45.707 Frame matchId=mock_match_001, round=26, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.75, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.707 Action matchId=mock_match_001, round=26, action=NONE, note=heartbeat
+10:27:45.707 Frame matchId=mock_match_001, round=27, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.7, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.707 Action matchId=mock_match_001, round=27, action=NONE, note=heartbeat
+10:27:45.707 Frame matchId=mock_match_001, round=28, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.65, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.708 Action matchId=mock_match_001, round=28, action=NONE, note=heartbeat
+10:27:45.708 Frame matchId=mock_match_001, round=29, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.6, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.708 Action matchId=mock_match_001, round=29, action=NONE, note=heartbeat
+10:27:45.708 Frame matchId=mock_match_001, round=30, phase=NORMAL, node=S05, state=IDLE, fresh=98.55, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[PROCESS_COMPLETE]
+10:27:45.708 Action matchId=mock_match_001, round=30, action=MOVE, target=S09
+10:27:45.709 Frame matchId=mock_match_001, round=31, phase=NORMAL, node=S05, state=MOVING, fresh=98.5, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.709 Action matchId=mock_match_001, round=31, action=MOVE, target=S09
+10:27:45.709 Frame matchId=mock_match_001, round=32, phase=NORMAL, node=S09, state=IDLE, fresh=98.45, goodFruit=100, taskScore=0, verified=False, delivered=False, events=[NODE_ENTER]
+10:27:45.709 Action matchId=mock_match_001, round=32, action=CLAIM_TASK, task=TK1
+10:27:45.709 Frame matchId=mock_match_001, round=33, phase=NORMAL, node=S09, state=PROCESSING, fresh=98.4, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.709 Action matchId=mock_match_001, round=33, action=NONE, note=heartbeat
+10:27:45.709 Frame matchId=mock_match_001, round=34, phase=NORMAL, node=S09, state=PROCESSING, fresh=98.35, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.709 Action matchId=mock_match_001, round=34, action=NONE, note=heartbeat
+10:27:45.710 Frame matchId=mock_match_001, round=35, phase=NORMAL, node=S09, state=PROCESSING, fresh=98.3, goodFruit=100, taskScore=0, verified=False, delivered=False
+10:27:45.710 Action matchId=mock_match_001, round=35, action=NONE, note=heartbeat
+10:27:45.710 Frame matchId=mock_match_001, round=36, phase=NORMAL, node=S09, state=IDLE, fresh=98.25, goodFruit=100, taskScore=30, verified=False, delivered=False, events=[TASK_COMPLETE]
+10:27:45.710 Action matchId=mock_match_001, round=36, action=CLAIM_RESOURCE, target=S09, resource=FAST_HORSE
+10:27:45.710 Frame matchId=mock_match_001, round=37, phase=NORMAL, node=S09, state=PROCESSING, fresh=98.2, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:27:45.710 Action matchId=mock_match_001, round=37, action=NONE, note=heartbeat
+10:27:45.710 Frame matchId=mock_match_001, round=38, phase=NORMAL, node=S09, state=PROCESSING, fresh=98.15, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:27:45.710 Action matchId=mock_match_001, round=38, action=NONE, note=heartbeat
+10:27:45.710 Frame matchId=mock_match_001, round=39, phase=NORMAL, node=S09, state=IDLE, fresh=98.1, goodFruit=100, taskScore=30, verified=False, delivered=False, events=[RESOURCE_CLAIM]
+10:27:45.711 Action matchId=mock_match_001, round=39, action=MOVE, target=S10
+10:27:45.711 Frame matchId=mock_match_001, round=40, phase=NORMAL, node=S09, state=MOVING, fresh=98.05, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:27:45.711 Action matchId=mock_match_001, round=40, action=USE_RESOURCE, resource=FAST_HORSE
+10:27:45.711 Frame matchId=mock_match_001, round=41, phase=NORMAL, node=S10, state=IDLE, fresh=98, goodFruit=100, taskScore=30, verified=False, delivered=False, events=[RESOURCE_USE|NODE_ENTER]
+10:27:45.712 Action matchId=mock_match_001, round=41, action=SET_GUARD, target=S10, extraGood=1
+10:27:45.712 Frame matchId=mock_match_001, round=42, phase=NORMAL, node=S10, state=PROCESSING, fresh=97.95, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:27:45.712 Action matchId=mock_match_001, round=42, action=NONE, note=heartbeat
+10:27:45.712 Frame matchId=mock_match_001, round=43, phase=NORMAL, node=S10, state=PROCESSING, fresh=97.9, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:27:45.712 Action matchId=mock_match_001, round=43, action=NONE, note=heartbeat
+10:27:45.712 Frame matchId=mock_match_001, round=44, phase=NORMAL, node=S10, state=PROCESSING, fresh=97.85, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:27:45.712 Action matchId=mock_match_001, round=44, action=NONE, note=heartbeat
+10:27:45.712 Frame matchId=mock_match_001, round=45, phase=NORMAL, node=S10, state=PROCESSING, fresh=97.8, goodFruit=100, taskScore=30, verified=False, delivered=False
+10:27:45.712 Action matchId=mock_match_001, round=45, action=NONE, note=heartbeat
+10:27:45.713 Frame matchId=mock_match_001, round=46, phase=NORMAL, node=S10, state=IDLE, fresh=97.75, goodFruit=99, taskScore=30, verified=False, delivered=False, events=[GUARD_SET]
+10:27:45.713 Action matchId=mock_match_001, round=46, action=MOVE, target=S11
+10:27:45.713 Action matchId=mock_match_001, round=46, action=SQUAD_REINFORCE, target=S10
+10:27:45.713 Frame matchId=mock_match_001, round=47, phase=NORMAL, node=S10, state=MOVING, fresh=97.7, goodFruit=99, taskScore=30, verified=False, delivered=False, events=[SQUAD_DISPATCH]
+10:27:45.713 Action matchId=mock_match_001, round=47, action=MOVE, target=S11
+10:27:45.714 Frame matchId=mock_match_001, round=48, phase=NORMAL, node=S11, state=IDLE, fresh=97.65, goodFruit=99, taskScore=30, verified=False, delivered=False, events=[NODE_ENTER]
+10:27:45.714 Action matchId=mock_match_001, round=48, action=PROCESS
+10:27:45.714 Frame matchId=mock_match_001, round=49, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.6, goodFruit=99, taskScore=30, verified=False, delivered=False
+10:27:45.714 Action matchId=mock_match_001, round=49, action=NONE, note=heartbeat
+10:27:45.714 Frame matchId=mock_match_001, round=50, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.55, goodFruit=99, taskScore=30, verified=False, delivered=False
+10:27:45.714 Action matchId=mock_match_001, round=50, action=NONE, note=heartbeat
+10:27:45.714 Frame matchId=mock_match_001, round=51, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.5, goodFruit=99, taskScore=30, verified=False, delivered=False
+10:27:45.714 Action matchId=mock_match_001, round=51, action=NONE, note=heartbeat
+10:27:45.715 Frame matchId=mock_match_001, round=52, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.45, goodFruit=99, taskScore=30, verified=False, delivered=False
+10:27:45.715 Action matchId=mock_match_001, round=52, action=NONE, note=heartbeat
+10:27:45.715 Frame matchId=mock_match_001, round=53, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.4, goodFruit=99, taskScore=30, verified=False, delivered=False
+10:27:45.715 Action matchId=mock_match_001, round=53, action=NONE, note=heartbeat
+10:27:45.715 Frame matchId=mock_match_001, round=54, phase=NORMAL, node=S11, state=IDLE, fresh=97.35, goodFruit=99, taskScore=30, verified=False, delivered=False, events=[PROCESS_COMPLETE]
+10:27:45.715 Action matchId=mock_match_001, round=54, action=CLAIM_TASK, task=TK2
+10:27:45.715 Frame matchId=mock_match_001, round=55, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.3, goodFruit=99, taskScore=30, verified=False, delivered=False
+10:27:45.715 Action matchId=mock_match_001, round=55, action=NONE, note=heartbeat
+10:27:45.716 Frame matchId=mock_match_001, round=56, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.25, goodFruit=99, taskScore=30, verified=False, delivered=False
+10:27:45.716 Action matchId=mock_match_001, round=56, action=NONE, note=heartbeat
+10:27:45.716 Frame matchId=mock_match_001, round=57, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.2, goodFruit=99, taskScore=30, verified=False, delivered=False
+10:27:45.716 Action matchId=mock_match_001, round=57, action=NONE, note=heartbeat
+10:27:45.716 Frame matchId=mock_match_001, round=58, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.15, goodFruit=99, taskScore=30, verified=False, delivered=False
+10:27:45.716 Action matchId=mock_match_001, round=58, action=NONE, note=heartbeat
+10:27:45.716 Frame matchId=mock_match_001, round=59, phase=NORMAL, node=S11, state=IDLE, fresh=97.1, goodFruit=99, taskScore=60, verified=False, delivered=False, events=[TASK_COMPLETE]
+10:27:45.717 Action matchId=mock_match_001, round=59, action=MOVE, target=S12
+10:27:45.717 Frame matchId=mock_match_001, round=60, phase=NORMAL, node=S11, state=MOVING, fresh=97.05, goodFruit=99, taskScore=60, verified=False, delivered=False
+10:27:45.717 Action matchId=mock_match_001, round=60, action=MOVE, target=S12
+10:27:45.717 Frame matchId=mock_match_001, round=61, phase=NORMAL, node=S12, state=IDLE, fresh=97, goodFruit=99, taskScore=60, verified=False, delivered=False, events=[NODE_ENTER]
+10:27:45.717 Action matchId=mock_match_001, round=61, action=MOVE, target=S13
+10:27:45.718 Frame matchId=mock_match_001, round=62, phase=NORMAL, node=S12, state=MOVING, fresh=96.95, goodFruit=99, taskScore=60, verified=False, delivered=False
+10:27:45.718 Action matchId=mock_match_001, round=62, action=MOVE, target=S13
+10:27:45.718 Frame matchId=mock_match_001, round=63, phase=NORMAL, node=S13, state=IDLE, fresh=96.9, goodFruit=99, taskScore=60, verified=False, delivered=False, events=[NODE_ENTER]
+10:27:45.718 Action matchId=mock_match_001, round=63, action=PROCESS
+10:27:45.718 Action matchId=mock_match_001, round=63, action=SQUAD_SCOUT, target=S14
+10:27:45.718 Frame matchId=mock_match_001, round=64, phase=NORMAL, node=S13, state=PROCESSING, fresh=96.85, goodFruit=99, taskScore=60, verified=False, delivered=False, events=[SQUAD_DISPATCH]
+10:27:45.718 Action matchId=mock_match_001, round=64, action=NONE, note=heartbeat
+10:27:45.718 Frame matchId=mock_match_001, round=65, phase=NORMAL, node=S13, state=PROCESSING, fresh=96.8, goodFruit=99, taskScore=60, verified=False, delivered=False
+10:27:45.718 Action matchId=mock_match_001, round=65, action=NONE, note=heartbeat
+10:27:45.719 Frame matchId=mock_match_001, round=66, phase=NORMAL, node=S13, state=PROCESSING, fresh=96.75, goodFruit=99, taskScore=60, verified=False, delivered=False
+10:27:45.719 Action matchId=mock_match_001, round=66, action=NONE, note=heartbeat
+10:27:45.719 Frame matchId=mock_match_001, round=67, phase=NORMAL, node=S13, state=PROCESSING, fresh=96.7, goodFruit=99, taskScore=60, verified=False, delivered=False, events=[SCOUT_MARKER_ADD]
+10:27:45.719 Action matchId=mock_match_001, round=67, action=NONE, note=heartbeat
+10:27:45.719 Frame matchId=mock_match_001, round=68, phase=NORMAL, node=S13, state=PROCESSING, fresh=96.65, goodFruit=99, taskScore=60, verified=False, delivered=False
+10:27:45.719 Action matchId=mock_match_001, round=68, action=NONE, note=heartbeat
+10:27:45.719 Frame matchId=mock_match_001, round=69, phase=NORMAL, node=S13, state=IDLE, fresh=96.6, goodFruit=99, taskScore=60, verified=False, delivered=False, events=[PROCESS_COMPLETE]
+10:27:45.719 Action matchId=mock_match_001, round=69, action=CLAIM_TASK, task=TK3
+10:27:45.720 Frame matchId=mock_match_001, round=70, phase=NORMAL, node=S13, state=PROCESSING, fresh=96.55, goodFruit=99, taskScore=60, verified=False, delivered=False
+10:27:45.720 Action matchId=mock_match_001, round=70, action=NONE, note=heartbeat
+10:27:45.720 Frame matchId=mock_match_001, round=71, phase=NORMAL, node=S13, state=PROCESSING, fresh=96.5, goodFruit=99, taskScore=60, verified=False, delivered=False
+10:27:45.720 Action matchId=mock_match_001, round=71, action=NONE, note=heartbeat
+10:27:45.720 Frame matchId=mock_match_001, round=72, phase=NORMAL, node=S13, state=PROCESSING, fresh=96.45, goodFruit=99, taskScore=60, verified=False, delivered=False
+10:27:45.720 Action matchId=mock_match_001, round=72, action=NONE, note=heartbeat
+10:27:45.720 Frame matchId=mock_match_001, round=73, phase=NORMAL, node=S13, state=IDLE, fresh=96.4, goodFruit=99, taskScore=90, verified=False, delivered=False, events=[TASK_COMPLETE]
+10:27:45.720 Action matchId=mock_match_001, round=73, action=MOVE, target=S14
+10:27:45.721 Frame matchId=mock_match_001, round=74, phase=NORMAL, node=S13, state=MOVING, fresh=96.35, goodFruit=99, taskScore=90, verified=False, delivered=False
+10:27:45.721 Action matchId=mock_match_001, round=74, action=MOVE, target=S14
+10:27:45.721 Frame matchId=mock_match_001, round=75, phase=RUSH, node=S14, state=IDLE, fresh=96.3, goodFruit=99, taskScore=90, verified=False, delivered=False, events=[NODE_ENTER|RUSH_START]
+10:27:45.721 Action matchId=mock_match_001, round=75, action=VERIFY_GATE
+10:27:45.721 Frame matchId=mock_match_001, round=76, phase=RUSH, node=S14, state=VERIFYING, fresh=96.25, goodFruit=99, taskScore=90, verified=False, delivered=False, events=[SCOUT_MARKER_CONSUME]
+10:27:45.721 Action matchId=mock_match_001, round=76, action=NONE, note=heartbeat
+10:27:45.721 Frame matchId=mock_match_001, round=77, phase=RUSH, node=S14, state=VERIFYING, fresh=96.2, goodFruit=99, taskScore=90, verified=False, delivered=False
+10:27:45.721 Action matchId=mock_match_001, round=77, action=NONE, note=heartbeat
+10:27:45.721 Frame matchId=mock_match_001, round=78, phase=RUSH, node=S14, state=VERIFYING, fresh=96.15, goodFruit=99, taskScore=90, verified=False, delivered=False
+10:27:45.722 Action matchId=mock_match_001, round=78, action=NONE, note=heartbeat
+10:27:45.722 Frame matchId=mock_match_001, round=79, phase=RUSH, node=S14, state=IDLE, fresh=96.1, goodFruit=99, taskScore=90, verified=True, delivered=False, events=[VERIFY_GATE_COMPLETE]
+10:27:45.722 Action matchId=mock_match_001, round=79, action=MOVE, target=S15
+10:27:45.722 Frame matchId=mock_match_001, round=80, phase=RUSH, node=S14, state=MOVING, fresh=96.05, goodFruit=99, taskScore=90, verified=True, delivered=False
+10:27:45.722 Action matchId=mock_match_001, round=80, action=MOVE, target=S15
+10:27:45.722 Frame matchId=mock_match_001, round=81, phase=RUSH, node=S15, state=IDLE, fresh=96, goodFruit=99, taskScore=90, verified=True, delivered=False, events=[NODE_ENTER]
+10:27:45.722 Action matchId=mock_match_001, round=81, action=DELIVER
+10:27:45.722 Over matchId=mock_match_001, resultType=NORMAL, reason=ALL_DELIVERED, overRound=81, winner=1001, iWon=True
+10:27:45.722 Score matchId=mock_match_001, player=1001, me=True, total=0, delivered=True, deliverRound=81, retired=False, fresh=95.95, goodFruit=99, taskScore=90
+10:27:45.722 Score matchId=mock_match_001, player=9999, me=False, total=0, delivered=False, retired=False
+10:27:45.722 Shutdown matchId=mock_match_001
+11:26:29.692 Startup matchId=-, playerId=1001, host=127.0.0.1, port=8092, version=1.0
+11:26:29.711 Register matchId=-, playerId=1001, name=litchi-agent
+11:26:29.711 Ready matchId=mock_match_001, round=1
+11:26:29.711 Start matchId=mock_match_001, teamId=RED, camp=0, durationRound=600, nodes=15, edges=21, gate=S14, terminals=[S15], processNodes=[S02|S04|S05|S11|S13|S14]
+11:26:29.712 Frame matchId=mock_match_001, round=1, phase=NORMAL, node=S01, state=IDLE, fresh=100, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.712 Block matchId=mock_match_001, round=1, node=S13, obstacle=ROCKFALL, guardDef=0
+11:26:29.712 Budget matchId=mock_match_001, round=1, est=441, left=599
+11:26:29.712 Action matchId=mock_match_001, round=1, action=MOVE, target=S02
+11:26:29.712 Action matchId=mock_match_001, round=1, action=SQUAD_CLEAR, target=S13
+11:26:29.712 Frame matchId=mock_match_001, round=2, phase=NORMAL, node=S01, state=MOVING, fresh=99.95, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[SQUAD_DISPATCH]
+11:26:29.713 Budget matchId=mock_match_001, round=2, est=441, left=598
+11:26:29.713 Action matchId=mock_match_001, round=2, action=MOVE, target=S02
+11:26:29.713 Frame matchId=mock_match_001, round=3, phase=NORMAL, node=S02, state=IDLE, fresh=99.9, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[NODE_ENTER]
+11:26:29.713 Budget matchId=mock_match_001, round=3, est=393, left=597
+11:26:29.713 Action matchId=mock_match_001, round=3, action=PROCESS
+11:26:29.713 Frame matchId=mock_match_001, round=4, phase=NORMAL, node=S02, state=PROCESSING, fresh=99.85, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.713 Budget matchId=mock_match_001, round=4, est=393, left=596
+11:26:29.713 Action matchId=mock_match_001, round=4, action=NONE, note=heartbeat
+11:26:29.713 Frame matchId=mock_match_001, round=5, phase=NORMAL, node=S02, state=PROCESSING, fresh=99.8, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[OBSTACLE_CLEAR]
+11:26:29.713 Block matchId=mock_match_001, round=5, node=S13, cleared=True
+11:26:29.714 Budget matchId=mock_match_001, round=5, est=393, left=595
+11:26:29.714 Action matchId=mock_match_001, round=5, action=NONE, note=heartbeat
+11:26:29.714 Frame matchId=mock_match_001, round=6, phase=NORMAL, node=S02, state=PROCESSING, fresh=99.75, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.714 Budget matchId=mock_match_001, round=6, est=393, left=594
+11:26:29.714 Action matchId=mock_match_001, round=6, action=NONE, note=heartbeat
+11:26:29.714 Frame matchId=mock_match_001, round=7, phase=NORMAL, node=S02, state=PROCESSING, fresh=99.7, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.714 Budget matchId=mock_match_001, round=7, est=393, left=593
+11:26:29.714 Action matchId=mock_match_001, round=7, action=NONE, note=heartbeat
+11:26:29.714 Frame matchId=mock_match_001, round=8, phase=NORMAL, node=S02, state=IDLE, fresh=99.65, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[PROCESS_COMPLETE]
+11:26:29.715 Budget matchId=mock_match_001, round=8, est=393, left=592
+11:26:29.715 Action matchId=mock_match_001, round=8, action=MOVE, target=S04
+11:26:29.715 Frame matchId=mock_match_001, round=9, phase=NORMAL, node=S02, state=MOVING, fresh=99.6, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.715 Budget matchId=mock_match_001, round=9, est=393, left=591
+11:26:29.715 Action matchId=mock_match_001, round=9, action=MOVE, target=S04
+11:26:29.715 Frame matchId=mock_match_001, round=10, phase=NORMAL, node=S04, state=IDLE, fresh=99.55, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[NODE_ENTER]
+11:26:29.715 Budget matchId=mock_match_001, round=10, est=357, left=590
+11:26:29.715 Action matchId=mock_match_001, round=10, action=PROCESS
+11:26:29.715 Frame matchId=mock_match_001, round=11, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.5, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.715 Budget matchId=mock_match_001, round=11, est=357, left=589
+11:26:29.715 Action matchId=mock_match_001, round=11, action=NONE, note=heartbeat
+11:26:29.716 Frame matchId=mock_match_001, round=12, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.45, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.716 Budget matchId=mock_match_001, round=12, est=357, left=588
+11:26:29.716 Action matchId=mock_match_001, round=12, action=NONE, note=heartbeat
+11:26:29.716 Frame matchId=mock_match_001, round=13, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.4, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.716 Budget matchId=mock_match_001, round=13, est=357, left=587
+11:26:29.716 Action matchId=mock_match_001, round=13, action=NONE, note=heartbeat
+11:26:29.716 Frame matchId=mock_match_001, round=14, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.35, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.716 Budget matchId=mock_match_001, round=14, est=357, left=586
+11:26:29.716 Action matchId=mock_match_001, round=14, action=NONE, note=heartbeat
+11:26:29.716 Frame matchId=mock_match_001, round=15, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.3, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.716 Budget matchId=mock_match_001, round=15, est=357, left=585
+11:26:29.716 Action matchId=mock_match_001, round=15, action=NONE, note=heartbeat
+11:26:29.717 Frame matchId=mock_match_001, round=16, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.25, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.717 Budget matchId=mock_match_001, round=16, est=357, left=584
+11:26:29.717 Action matchId=mock_match_001, round=16, action=NONE, note=heartbeat
+11:26:29.717 Frame matchId=mock_match_001, round=17, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.2, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.717 Budget matchId=mock_match_001, round=17, est=357, left=583
+11:26:29.717 Action matchId=mock_match_001, round=17, action=NONE, note=heartbeat
+11:26:29.717 Frame matchId=mock_match_001, round=18, phase=NORMAL, node=S04, state=IDLE, fresh=99.15, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[PROCESS_COMPLETE]
+11:26:29.717 Budget matchId=mock_match_001, round=18, est=357, left=582
+11:26:29.717 Action matchId=mock_match_001, round=18, action=CLAIM_RESOURCE, target=S04, resource=SHORT_HORSE
+11:26:29.718 Frame matchId=mock_match_001, round=19, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.1, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.718 Budget matchId=mock_match_001, round=19, est=357, left=581
+11:26:29.718 Action matchId=mock_match_001, round=19, action=NONE, note=heartbeat
+11:26:29.718 Frame matchId=mock_match_001, round=20, phase=NORMAL, node=S04, state=PROCESSING, fresh=99.05, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.718 Budget matchId=mock_match_001, round=20, est=357, left=580
+11:26:29.718 Action matchId=mock_match_001, round=20, action=NONE, note=heartbeat
+11:26:29.718 Frame matchId=mock_match_001, round=21, phase=NORMAL, node=S04, state=IDLE, fresh=99, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[RESOURCE_CLAIM]
+11:26:29.718 Budget matchId=mock_match_001, round=21, est=357, left=579
+11:26:29.718 Action matchId=mock_match_001, round=21, action=MOVE, target=S05
+11:26:29.720 Frame matchId=mock_match_001, round=22, phase=NORMAL, node=S04, state=MOVING, fresh=98.95, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.720 Budget matchId=mock_match_001, round=22, est=357, left=578
+11:26:29.720 Action matchId=mock_match_001, round=22, action=USE_RESOURCE, resource=SHORT_HORSE
+11:26:29.720 Frame matchId=mock_match_001, round=23, phase=NORMAL, node=S05, state=IDLE, fresh=98.9, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[RESOURCE_USE|NODE_ENTER]
+11:26:29.720 Budget matchId=mock_match_001, round=23, est=296, left=577
+11:26:29.720 Action matchId=mock_match_001, round=23, action=PROCESS
+11:26:29.720 Frame matchId=mock_match_001, round=24, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.85, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.720 Budget matchId=mock_match_001, round=24, est=296, left=576
+11:26:29.720 Action matchId=mock_match_001, round=24, action=NONE, note=heartbeat
+11:26:29.720 Frame matchId=mock_match_001, round=25, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.8, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.721 Budget matchId=mock_match_001, round=25, est=296, left=575
+11:26:29.721 Action matchId=mock_match_001, round=25, action=NONE, note=heartbeat
+11:26:29.721 Frame matchId=mock_match_001, round=26, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.75, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.721 Budget matchId=mock_match_001, round=26, est=296, left=574
+11:26:29.721 Action matchId=mock_match_001, round=26, action=NONE, note=heartbeat
+11:26:29.721 Frame matchId=mock_match_001, round=27, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.7, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.721 Budget matchId=mock_match_001, round=27, est=296, left=573
+11:26:29.721 Action matchId=mock_match_001, round=27, action=NONE, note=heartbeat
+11:26:29.721 Frame matchId=mock_match_001, round=28, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.65, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.721 Budget matchId=mock_match_001, round=28, est=296, left=572
+11:26:29.721 Action matchId=mock_match_001, round=28, action=NONE, note=heartbeat
+11:26:29.721 Frame matchId=mock_match_001, round=29, phase=NORMAL, node=S05, state=PROCESSING, fresh=98.6, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.721 Budget matchId=mock_match_001, round=29, est=296, left=571
+11:26:29.721 Action matchId=mock_match_001, round=29, action=NONE, note=heartbeat
+11:26:29.722 Frame matchId=mock_match_001, round=30, phase=NORMAL, node=S05, state=IDLE, fresh=98.55, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[PROCESS_COMPLETE]
+11:26:29.722 Budget matchId=mock_match_001, round=30, est=296, left=570
+11:26:29.722 Action matchId=mock_match_001, round=30, action=MOVE, target=S09
+11:26:29.722 Frame matchId=mock_match_001, round=31, phase=NORMAL, node=S05, state=MOVING, fresh=98.5, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.722 Budget matchId=mock_match_001, round=31, est=296, left=569
+11:26:29.722 Action matchId=mock_match_001, round=31, action=MOVE, target=S09
+11:26:29.723 Frame matchId=mock_match_001, round=32, phase=NORMAL, node=S09, state=IDLE, fresh=98.45, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[NODE_ENTER]
+11:26:29.723 Budget matchId=mock_match_001, round=32, est=236, left=568
+11:26:29.723 Action matchId=mock_match_001, round=32, action=CLAIM_TASK, task=TK1
+11:26:29.723 Frame matchId=mock_match_001, round=33, phase=NORMAL, node=S09, state=PROCESSING, fresh=98.4, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.723 Budget matchId=mock_match_001, round=33, est=236, left=567
+11:26:29.723 Action matchId=mock_match_001, round=33, action=NONE, note=heartbeat
+11:26:29.723 Frame matchId=mock_match_001, round=34, phase=NORMAL, node=S09, state=PROCESSING, fresh=98.35, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.723 Budget matchId=mock_match_001, round=34, est=236, left=566
+11:26:29.723 Action matchId=mock_match_001, round=34, action=NONE, note=heartbeat
+11:26:29.723 Frame matchId=mock_match_001, round=35, phase=NORMAL, node=S09, state=PROCESSING, fresh=98.3, goodFruit=100, taskScore=0, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.724 Budget matchId=mock_match_001, round=35, est=236, left=565
+11:26:29.724 Action matchId=mock_match_001, round=35, action=NONE, note=heartbeat
+11:26:29.724 Frame matchId=mock_match_001, round=36, phase=NORMAL, node=S09, state=IDLE, fresh=98.25, goodFruit=100, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[TASK_COMPLETE]
+11:26:29.724 Budget matchId=mock_match_001, round=36, est=236, left=564
+11:26:29.724 Action matchId=mock_match_001, round=36, action=CLAIM_RESOURCE, target=S09, resource=FAST_HORSE
+11:26:29.724 Frame matchId=mock_match_001, round=37, phase=NORMAL, node=S09, state=PROCESSING, fresh=98.2, goodFruit=100, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.724 Budget matchId=mock_match_001, round=37, est=236, left=563
+11:26:29.724 Action matchId=mock_match_001, round=37, action=NONE, note=heartbeat
+11:26:29.724 Frame matchId=mock_match_001, round=38, phase=NORMAL, node=S09, state=PROCESSING, fresh=98.15, goodFruit=100, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.724 Budget matchId=mock_match_001, round=38, est=236, left=562
+11:26:29.724 Action matchId=mock_match_001, round=38, action=NONE, note=heartbeat
+11:26:29.725 Frame matchId=mock_match_001, round=39, phase=NORMAL, node=S09, state=IDLE, fresh=98.1, goodFruit=100, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[RESOURCE_CLAIM]
+11:26:29.725 Budget matchId=mock_match_001, round=39, est=236, left=561
+11:26:29.725 Action matchId=mock_match_001, round=39, action=MOVE, target=S10
+11:26:29.725 Frame matchId=mock_match_001, round=40, phase=NORMAL, node=S09, state=MOVING, fresh=98.05, goodFruit=100, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.725 Budget matchId=mock_match_001, round=40, est=236, left=560
+11:26:29.725 Action matchId=mock_match_001, round=40, action=USE_RESOURCE, resource=FAST_HORSE
+11:26:29.726 Frame matchId=mock_match_001, round=41, phase=NORMAL, node=S10, state=IDLE, fresh=98, goodFruit=100, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[RESOURCE_USE|NODE_ENTER]
+11:26:29.726 Budget matchId=mock_match_001, round=41, est=177, left=559
+11:26:29.726 Action matchId=mock_match_001, round=41, action=SET_GUARD, target=S10, extraGood=1
+11:26:29.726 Frame matchId=mock_match_001, round=42, phase=NORMAL, node=S10, state=PROCESSING, fresh=97.95, goodFruit=100, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.726 Budget matchId=mock_match_001, round=42, est=177, left=558
+11:26:29.726 Action matchId=mock_match_001, round=42, action=NONE, note=heartbeat
+11:26:29.726 Frame matchId=mock_match_001, round=43, phase=NORMAL, node=S10, state=PROCESSING, fresh=97.9, goodFruit=100, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.726 Budget matchId=mock_match_001, round=43, est=177, left=557
+11:26:29.726 Action matchId=mock_match_001, round=43, action=NONE, note=heartbeat
+11:26:29.726 Frame matchId=mock_match_001, round=44, phase=NORMAL, node=S10, state=PROCESSING, fresh=97.85, goodFruit=100, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.726 Budget matchId=mock_match_001, round=44, est=177, left=556
+11:26:29.726 Action matchId=mock_match_001, round=44, action=NONE, note=heartbeat
+11:26:29.726 Frame matchId=mock_match_001, round=45, phase=NORMAL, node=S10, state=PROCESSING, fresh=97.8, goodFruit=100, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.726 Budget matchId=mock_match_001, round=45, est=177, left=555
+11:26:29.726 Action matchId=mock_match_001, round=45, action=NONE, note=heartbeat
+11:26:29.727 Frame matchId=mock_match_001, round=46, phase=NORMAL, node=S10, state=IDLE, fresh=97.75, goodFruit=99, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[GUARD_SET]
+11:26:29.727 Block matchId=mock_match_001, round=46, node=S10, guardOwner=RED, guardDef=4
+11:26:29.727 Budget matchId=mock_match_001, round=46, est=177, left=554
+11:26:29.727 Action matchId=mock_match_001, round=46, action=MOVE, target=S11
+11:26:29.727 Action matchId=mock_match_001, round=46, action=SQUAD_REINFORCE, target=S10
+11:26:29.727 Frame matchId=mock_match_001, round=47, phase=NORMAL, node=S10, state=MOVING, fresh=97.7, goodFruit=99, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[SQUAD_DISPATCH]
+11:26:29.727 Block matchId=mock_match_001, round=47, node=S10, guardOwner=RED, guardDef=6
+11:26:29.727 Budget matchId=mock_match_001, round=47, est=177, left=553
+11:26:29.727 Action matchId=mock_match_001, round=47, action=MOVE, target=S11
+11:26:29.728 Frame matchId=mock_match_001, round=48, phase=NORMAL, node=S11, state=IDLE, fresh=97.65, goodFruit=99, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[NODE_ENTER]
+11:26:29.728 Budget matchId=mock_match_001, round=48, est=120, left=552
+11:26:29.728 Action matchId=mock_match_001, round=48, action=PROCESS
+11:26:29.728 Frame matchId=mock_match_001, round=49, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.6, goodFruit=99, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.728 Budget matchId=mock_match_001, round=49, est=120, left=551
+11:26:29.728 Action matchId=mock_match_001, round=49, action=NONE, note=heartbeat
+11:26:29.728 Frame matchId=mock_match_001, round=50, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.55, goodFruit=99, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.728 Budget matchId=mock_match_001, round=50, est=120, left=550
+11:26:29.728 Action matchId=mock_match_001, round=50, action=NONE, note=heartbeat
+11:26:29.728 Frame matchId=mock_match_001, round=51, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.5, goodFruit=99, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.728 Budget matchId=mock_match_001, round=51, est=120, left=549
+11:26:29.728 Action matchId=mock_match_001, round=51, action=NONE, note=heartbeat
+11:26:29.729 Frame matchId=mock_match_001, round=52, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.45, goodFruit=99, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.729 Budget matchId=mock_match_001, round=52, est=120, left=548
+11:26:29.729 Action matchId=mock_match_001, round=52, action=NONE, note=heartbeat
+11:26:29.729 Frame matchId=mock_match_001, round=53, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.4, goodFruit=99, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.729 Budget matchId=mock_match_001, round=53, est=120, left=547
+11:26:29.729 Action matchId=mock_match_001, round=53, action=NONE, note=heartbeat
+11:26:29.729 Frame matchId=mock_match_001, round=54, phase=NORMAL, node=S11, state=IDLE, fresh=97.35, goodFruit=99, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[PROCESS_COMPLETE]
+11:26:29.729 Budget matchId=mock_match_001, round=54, est=120, left=546
+11:26:29.729 Action matchId=mock_match_001, round=54, action=CLAIM_TASK, task=TK2
+11:26:29.730 Frame matchId=mock_match_001, round=55, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.3, goodFruit=99, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.730 Budget matchId=mock_match_001, round=55, est=120, left=545
+11:26:29.730 Action matchId=mock_match_001, round=55, action=NONE, note=heartbeat
+11:26:29.730 Frame matchId=mock_match_001, round=56, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.25, goodFruit=99, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.730 Budget matchId=mock_match_001, round=56, est=120, left=544
+11:26:29.730 Action matchId=mock_match_001, round=56, action=NONE, note=heartbeat
+11:26:29.730 Frame matchId=mock_match_001, round=57, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.2, goodFruit=99, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.730 Budget matchId=mock_match_001, round=57, est=120, left=543
+11:26:29.730 Action matchId=mock_match_001, round=57, action=NONE, note=heartbeat
+11:26:29.730 Frame matchId=mock_match_001, round=58, phase=NORMAL, node=S11, state=PROCESSING, fresh=97.15, goodFruit=99, taskScore=30, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.730 Budget matchId=mock_match_001, round=58, est=120, left=542
+11:26:29.730 Action matchId=mock_match_001, round=58, action=NONE, note=heartbeat
+11:26:29.730 Frame matchId=mock_match_001, round=59, phase=NORMAL, node=S11, state=IDLE, fresh=97.1, goodFruit=99, taskScore=60, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[TASK_COMPLETE]
+11:26:29.731 Budget matchId=mock_match_001, round=59, est=120, left=541
+11:26:29.731 Action matchId=mock_match_001, round=59, action=MOVE, target=S12
+11:26:29.731 Frame matchId=mock_match_001, round=60, phase=NORMAL, node=S11, state=MOVING, fresh=97.05, goodFruit=99, taskScore=60, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.731 Budget matchId=mock_match_001, round=60, est=120, left=540
+11:26:29.731 Action matchId=mock_match_001, round=60, action=MOVE, target=S12
+11:26:29.731 Frame matchId=mock_match_001, round=61, phase=NORMAL, node=S12, state=IDLE, fresh=97, goodFruit=99, taskScore=60, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[NODE_ENTER]
+11:26:29.731 Budget matchId=mock_match_001, round=61, est=90, left=539
+11:26:29.731 Action matchId=mock_match_001, round=61, action=MOVE, target=S13
+11:26:29.733 Frame matchId=mock_match_001, round=62, phase=NORMAL, node=S12, state=MOVING, fresh=96.95, goodFruit=99, taskScore=60, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.733 Budget matchId=mock_match_001, round=62, est=90, left=538
+11:26:29.733 Action matchId=mock_match_001, round=62, action=MOVE, target=S13
+11:26:29.733 Frame matchId=mock_match_001, round=63, phase=NORMAL, node=S13, state=IDLE, fresh=96.9, goodFruit=99, taskScore=60, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[NODE_ENTER]
+11:26:29.733 Budget matchId=mock_match_001, round=63, est=48, left=537
+11:26:29.733 Action matchId=mock_match_001, round=63, action=PROCESS
+11:26:29.733 Action matchId=mock_match_001, round=63, action=SQUAD_SCOUT, target=S14
+11:26:29.733 Frame matchId=mock_match_001, round=64, phase=NORMAL, node=S13, state=PROCESSING, fresh=96.85, goodFruit=99, taskScore=60, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[SQUAD_DISPATCH]
+11:26:29.733 Budget matchId=mock_match_001, round=64, est=48, left=536
+11:26:29.733 Action matchId=mock_match_001, round=64, action=NONE, note=heartbeat
+11:26:29.733 Frame matchId=mock_match_001, round=65, phase=NORMAL, node=S13, state=PROCESSING, fresh=96.8, goodFruit=99, taskScore=60, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.733 Budget matchId=mock_match_001, round=65, est=48, left=535
+11:26:29.733 Action matchId=mock_match_001, round=65, action=NONE, note=heartbeat
+11:26:29.733 Frame matchId=mock_match_001, round=66, phase=NORMAL, node=S13, state=PROCESSING, fresh=96.75, goodFruit=99, taskScore=60, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.734 Budget matchId=mock_match_001, round=66, est=48, left=534
+11:26:29.734 Action matchId=mock_match_001, round=66, action=NONE, note=heartbeat
+11:26:29.734 Frame matchId=mock_match_001, round=67, phase=NORMAL, node=S13, state=PROCESSING, fresh=96.7, goodFruit=99, taskScore=60, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[SCOUT_MARKER_ADD]
+11:26:29.734 Budget matchId=mock_match_001, round=67, est=48, left=533
+11:26:29.734 Action matchId=mock_match_001, round=67, action=NONE, note=heartbeat
+11:26:29.734 Frame matchId=mock_match_001, round=68, phase=NORMAL, node=S13, state=PROCESSING, fresh=96.65, goodFruit=99, taskScore=60, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.734 Budget matchId=mock_match_001, round=68, est=48, left=532
+11:26:29.734 Action matchId=mock_match_001, round=68, action=NONE, note=heartbeat
+11:26:29.734 Frame matchId=mock_match_001, round=69, phase=NORMAL, node=S13, state=IDLE, fresh=96.6, goodFruit=99, taskScore=60, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[PROCESS_COMPLETE]
+11:26:29.734 Budget matchId=mock_match_001, round=69, est=48, left=531
+11:26:29.734 Action matchId=mock_match_001, round=69, action=CLAIM_TASK, task=TK3
+11:26:29.734 Frame matchId=mock_match_001, round=70, phase=NORMAL, node=S13, state=PROCESSING, fresh=96.55, goodFruit=99, taskScore=60, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.735 Budget matchId=mock_match_001, round=70, est=48, left=530
+11:26:29.735 Action matchId=mock_match_001, round=70, action=NONE, note=heartbeat
+11:26:29.735 Frame matchId=mock_match_001, round=71, phase=NORMAL, node=S13, state=PROCESSING, fresh=96.5, goodFruit=99, taskScore=60, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.735 Budget matchId=mock_match_001, round=71, est=48, left=529
+11:26:29.735 Action matchId=mock_match_001, round=71, action=NONE, note=heartbeat
+11:26:29.735 Frame matchId=mock_match_001, round=72, phase=NORMAL, node=S13, state=PROCESSING, fresh=96.45, goodFruit=99, taskScore=60, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.735 Budget matchId=mock_match_001, round=72, est=48, left=528
+11:26:29.735 Action matchId=mock_match_001, round=72, action=NONE, note=heartbeat
+11:26:29.735 Frame matchId=mock_match_001, round=73, phase=NORMAL, node=S13, state=IDLE, fresh=96.4, goodFruit=99, taskScore=90, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[TASK_COMPLETE]
+11:26:29.735 Budget matchId=mock_match_001, round=73, est=48, left=527
+11:26:29.735 Action matchId=mock_match_001, round=73, action=MOVE, target=S14
+11:26:29.736 Frame matchId=mock_match_001, round=74, phase=NORMAL, node=S13, state=MOVING, fresh=96.35, goodFruit=99, taskScore=90, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.736 Budget matchId=mock_match_001, round=74, est=48, left=526
+11:26:29.736 Action matchId=mock_match_001, round=74, action=MOVE, target=S14
+11:26:29.736 Frame matchId=mock_match_001, round=75, phase=RUSH, node=S14, state=IDLE, fresh=96.3, goodFruit=99, taskScore=90, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[NODE_ENTER|RUSH_START]
+11:26:29.736 Budget matchId=mock_match_001, round=75, est=22, left=525
+11:26:29.736 Action matchId=mock_match_001, round=75, action=VERIFY_GATE
+11:26:29.736 Frame matchId=mock_match_001, round=76, phase=RUSH, node=S14, state=VERIFYING, fresh=96.25, goodFruit=99, taskScore=90, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[SCOUT_MARKER_CONSUME]
+11:26:29.736 Budget matchId=mock_match_001, round=76, est=22, left=524
+11:26:29.736 Action matchId=mock_match_001, round=76, action=NONE, note=heartbeat
+11:26:29.736 Frame matchId=mock_match_001, round=77, phase=RUSH, node=S14, state=VERIFYING, fresh=96.2, goodFruit=99, taskScore=90, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.736 Budget matchId=mock_match_001, round=77, est=22, left=523
+11:26:29.736 Action matchId=mock_match_001, round=77, action=NONE, note=heartbeat
+11:26:29.737 Frame matchId=mock_match_001, round=78, phase=RUSH, node=S14, state=VERIFYING, fresh=96.15, goodFruit=99, taskScore=90, verified=False, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.737 Budget matchId=mock_match_001, round=78, est=22, left=522
+11:26:29.737 Action matchId=mock_match_001, round=78, action=NONE, note=heartbeat
+11:26:29.737 Frame matchId=mock_match_001, round=79, phase=RUSH, node=S14, state=IDLE, fresh=96.1, goodFruit=99, taskScore=90, verified=True, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[VERIFY_GATE_COMPLETE]
+11:26:29.737 Budget matchId=mock_match_001, round=79, est=16, left=521
+11:26:29.737 Action matchId=mock_match_001, round=79, action=MOVE, target=S15
+11:26:29.737 Frame matchId=mock_match_001, round=80, phase=RUSH, node=S14, state=MOVING, fresh=96.05, goodFruit=99, taskScore=90, verified=True, delivered=False, opp=S01|IDLE|0|0|0|F|F
+11:26:29.737 Budget matchId=mock_match_001, round=80, est=16, left=520
+11:26:29.737 Action matchId=mock_match_001, round=80, action=MOVE, target=S15
+11:26:29.737 Frame matchId=mock_match_001, round=81, phase=RUSH, node=S15, state=IDLE, fresh=96, goodFruit=99, taskScore=90, verified=True, delivered=False, opp=S01|IDLE|0|0|0|F|F, events=[NODE_ENTER]
+11:26:29.738 Budget matchId=mock_match_001, round=81, est=2, left=519
+11:26:29.738 Action matchId=mock_match_001, round=81, action=DELIVER
+11:26:29.738 Over matchId=mock_match_001, resultType=NORMAL, reason=ALL_DELIVERED, overRound=81, winner=1001, iWon=True
+11:26:29.738 Score matchId=mock_match_001, player=1001, me=True, total=0, delivered=True, deliverRound=81, retired=False, fresh=95.95, goodFruit=99, taskScore=90
+11:26:29.738 Score matchId=mock_match_001, player=9999, me=False, total=0, delivered=False, retired=False
+11:26:29.738 Shutdown matchId=mock_match_001

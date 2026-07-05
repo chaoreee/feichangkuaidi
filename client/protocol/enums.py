@@ -1,0 +1,117 @@
+"""协议枚举常量（字段名/枚举值大小写敏感，协议 §3）。
+
+集中定义避免散落的魔法字符串；策略/解析层统一引用。
+"""
+
+
+class MsgName:
+    REGISTRATION = "registration"
+    READY = "ready"
+    ACTION = "action"
+    START = "start"
+    INQUIRE = "inquire"
+    OVER = "over"
+    ERROR = "error"
+
+
+class Phase:
+    NORMAL = "NORMAL"
+    RUSH = "RUSH"
+    ENDED = "ENDED"
+
+
+class Team:
+    RED = "RED"
+    BLUE = "BLUE"
+    NEUTRAL = "NEUTRAL"
+
+
+class PlayerState:
+    IDLE = "IDLE"
+    MOVING = "MOVING"
+    WAITING = "WAITING"
+    PROCESSING = "PROCESSING"
+    CONTESTING = "CONTESTING"
+    RESTING = "RESTING"
+    FORCED_PASSING = "FORCED_PASSING"
+    VERIFYING = "VERIFYING"
+    COST_BANKRUPT = "COST_BANKRUPT"
+    DELIVERED = "DELIVERED"
+    RETIRED = "RETIRED"
+
+
+class Action:
+    # 主车队动作
+    WAIT = "WAIT"
+    MOVE = "MOVE"
+    DELIVER = "DELIVER"
+    VERIFY_GATE = "VERIFY_GATE"
+    SET_GUARD = "SET_GUARD"
+    BREAK_GUARD = "BREAK_GUARD"
+    FORCED_PASS = "FORCED_PASS"
+    CLAIM_RESOURCE = "CLAIM_RESOURCE"
+    USE_RESOURCE = "USE_RESOURCE"
+    CLAIM_TASK = "CLAIM_TASK"
+    CLEAR = "CLEAR"
+    PROCESS = "PROCESS"
+    DOCK = "DOCK"
+    # 小分队动作
+    SQUAD_SCOUT = "SQUAD_SCOUT"
+    SQUAD_CLEAR = "SQUAD_CLEAR"
+    SQUAD_REINFORCE = "SQUAD_REINFORCE"
+    SQUAD_WEAKEN = "SQUAD_WEAKEN"
+    # 窗口
+    WINDOW_CARD = "WINDOW_CARD"
+    # 终局急策
+    RUSH_SPEED = "RUSH_SPEED"
+    RUSH_PROTECT = "RUSH_PROTECT"
+    BREAK_ORDER = "BREAK_ORDER"  # 仅作为 rushTactic 绑定，不独立发送
+
+
+class ResourceType:
+    ICE_BOX = "ICE_BOX"
+    FAST_HORSE = "FAST_HORSE"
+    SHORT_HORSE = "SHORT_HORSE"
+    BOAT_RIGHT = "BOAT_RIGHT"
+    PASS_TOKEN = "PASS_TOKEN"
+    OFFICIAL_PERMIT = "OFFICIAL_PERMIT"
+    INTEL = "INTEL"
+
+
+class Card:
+    YAN_DIE = "YAN_DIE"
+    QIANG_XING = "QIANG_XING"
+    XIAN_GONG = "XIAN_GONG"
+    BING_ZHENG = "BING_ZHENG"
+    ABSTAIN = "ABSTAIN"
+
+
+class RouteType:
+    ROAD = "ROAD"
+    WATER = "WATER"
+    MOUNTAIN = "MOUNTAIN"
+    BRANCH = "BRANCH"
+
+
+class ContestType:
+    RESOURCE = "RESOURCE"
+    TASK = "TASK"
+    GATE = "GATE"
+    DOCK = "DOCK"
+    PASS = "PASS"
+    OBSTACLE = "OBSTACLE"
+
+
+class Weather:
+    HOT = "HOT"
+    HEAVY_RAIN = "HEAVY_RAIN"
+    MOUNTAIN_FOG = "MOUNTAIN_FOG"
+
+
+# 立即返回的协议层错误码（协议 §11）——收到即当前包未进入规则结算
+IMMEDIATE_ERROR_CODES = frozenset({
+    "INVALID_LENGTH_PREFIX", "INVALID_JSON", "INVALID_ACTION_TYPE",
+    "ACTION_REJECTED", "MATCH_ID_MISMATCH", "ACTION_TOO_LATE",
+    "DUPLICATE_ACTION", "PLAYER_ADDRESS_MISMATCH", "PLAYER_NOT_ALLOWED",
+    "MATCH_ALREADY_STARTED", "PLAYER_LIMIT_EXCEEDED",
+})
