@@ -68,6 +68,16 @@ class TestEconomy(unittest.TestCase):
         a = self.act(freshness=95.0, resources={"ICE_BOX": 1})
         self.assertNotEqual(a, {"action": "USE_RESOURCE", "resourceType": "ICE_BOX"})
 
+    def test_ice_box_fires_just_above_80_threshold(self):
+        # Iter 34：阈值 78→81，在跌破 80 好果转坏阈值前用冰鉴救回 1 篓好果
+        a = self.act(freshness=80.5, resources={"ICE_BOX": 1})
+        self.assertEqual(a, {"action": "USE_RESOURCE", "resourceType": "ICE_BOX"})
+
+    def test_no_ice_box_at_82(self):
+        # 82 仍高于阈值 81，不使用冰鉴（保留给真正跌破时）
+        a = self.act(freshness=82.0, resources={"ICE_BOX": 1})
+        self.assertNotEqual(a, {"action": "USE_RESOURCE", "resourceType": "ICE_BOX"})
+
     # 任务
     def test_claim_task_at_node(self):
         tasks = [{"taskId": "TK", "taskTemplateId": "T01", "nodeId": "SA", "score": 30,

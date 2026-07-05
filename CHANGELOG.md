@@ -2,6 +2,34 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 34] - 2026-07-05 — quality-route 鲜度杠杆证伪 + 冰鉴阈值保鲜修复（弱优于，无条件合入）
+
+**触发**：Iter 32.5 N=67 群体归因 quality-route 桶（N=30, W=0.43, opp 鲜度 93.2 vs me 82.6, gap +10.5）→ roadmap 排「Iter34+ 静态最优：Phase B 静态规划器路线重选」。本轮用真实地图拓扑 + 全量鲜度模型做硬核算**证伪路线杠杆**，定位真正根因，落地一个数学弱优于的冰鉴阈值修复。详见 `docs/iter34_route_lever_analysis.md`。
+
+### Finding — A. 路线选择不是鲜度杠杆（roadmap 修正）
+- 取真实 compact.log Map 拓扑（15 节点 23 边），Dijkstra 三准则独立求解：
+  - 时间最优（min frames）/ 鲜度最优（min loss）/ 分数最优（min score-cost）**三路完全重合**：`S01→S02→S04→S05(W)→S09(W)→S10→S13→S14→S15`，322 帧 / 16.98 鲜度损耗。
+  - 时间最优路已走 WATER 边——WATER 同时是 `ROUTE_TIME_COEF` 最低（最快）与 `FRESHNESS_LOSS_MOVE` 最低（最保鲜）的路线类型。**本图不存在"更长的低损耗替代路"**。
+- **修正 roadmap**：Phase B 静态规划器（`ENABLE_STATIC_PLANNER`，默认关）核心是鲜度感知路线重选，前提已被证伪。Iter 26–28 sim A/B 中性的真正原因是真实图本身无廉价鲜度路线，非仅 samples 图。**静态规划器是 quality-route 鲜度 gap 的错误工具，Iter 34 不开启，后续不再为其投入 A/B。**
+
+### Finding — B. 真正根因是冰鉴时机（操作层，非路线层）
+- 代表性 quality-route 败局：同路同天气，我方 total_loss=26.64 vs 对手 13.79（差一倍）。端鲜度公式 `end=100−loss+10×ice`（任务书 §3.3.1：冰鉴 +10、好果转坏不可逆）**与冰鉴时机无关**——gap 不在端鲜度，在 MIN 鲜度。
+- 我方 MIN 77.26（78-阈值在跌 80 后才用冰鉴，80 已转坏 → 2 坏果）；对手 MIN 85.28（80 之上用，只跌 90 → 1 坏果）。冰鉴在 78-阈值下只能护 70，而本图端鲜度 83 ≥ 70，70 本不会触底 → **冰鉴被浪费**。
+
+### Changed — C. `ICE_BOX_USE_BELOW` 78 → 81（弱优于，无条件合入）
+- `config.py`：`ICE_BOX_USE_BELOW = 81.0`（+ 注释说明 80 阈值保护机理）。在跌破 80 好果转坏阈值前用冰鉴（80.x→90.x），端鲜度不变但 MIN 鲜度从 ~77 抬到 ~81，80 阈值不再触发 → 救回 1 篓好果（+1.8 分）。
+- **弱优于证明**（任务书规则下）：端鲜度 F=100−L+10。中损耗区间（80≤F<90，真实图 F=83.36 正属此）78 在跌 80 后用、81 在跌 80 前用 → 81 严格省 1 坏果；其余区间（F≥90 或 F<80）两者坏果数相同。**永不更差，真实图严格省 1**。与 Iter 25/29/33 同属"弱优于/bug-fix 纪律无条件合入"，非阈值赌博。
+- 不取 91（`STATIC_PLANNER_ICE_USE_BELOW`）：91 在 F<90 路线与 81 等价（90 终被跌），却在低损耗路线过早触发浪费库存；81 仅在鲜度实跌向 80 时触发，更保守。
+- `CLIENT_VERSION` iter33→iter34。
+
+### Tests — D. 验收
+- `tests/test_economy.py` 新增 `test_ice_box_fires_just_above_80_threshold`（freshness=80.5 触发）+ `test_no_ice_box_at_82`（82 不触发）。client **285 全过**（283+2）。
+- sim 50 种子回归门：**1.000 交付 / 0 STUCK / 0 对账误差 / mean 747.8（=Iter33 基线零回归）**。sim 中性是 no-op 而非无效——sim 鲜度损耗更高（端鲜度 ~75.6 < 80，§4.4 残留偏差），80 终被跌穿、81 与 78 等价；**收益仅在真实图（端鲜度 83 ≥ 80）显现**。这正是 sim 无法验证、须真实 A/B 的部分，但弱优于性质保证不劣化。
+
+### Misc — E. 残留 gap 与 Iter 35+ 候选
+- 81-阈值救回 1 好果（97→98）仍差对手 1（98 vs 99），且对手端鲜度 96.21 vs 我方 83.36（−13）无法仅靠冰鉴时机解释（端鲜度时机无关）——疑似对手更密集用马（降移动帧/鲜度损耗）或我方绕路领资源（S07 绕路 +33 帧）。受 sparse 对手轨迹所限无法确证。
+- Iter 35 候选（须 codeagent 真实 A/B N≥30，不预合入）：A. 马匹密集领取；B. 冰鉴/马绕路 ROI 评估；C. 多冰鉴囤积（`CLAIM_ICE_BOX_KEEP` 1→2）。
+
 ## [Iteration 33] - 2026-07-05 — 真实对战基线 P0.2：修复 MOVING_ACTION_FORBIDDEN 重试风暴致 3 局未交付（无条件合入）
 
 **触发**：Iter 32.5 codeagent 跑出 N=67 真实对战基线（`reports/`，clientVersion=iter31，4W→43W/67=64% 胜率，交付率 96%）。群体归因定位**3 局未交付（4%）**为最大失分点（每局 me≈67 必负）。三局 compact trace 同根因：到达对手设卡关隘 S10 后进入 `WAITING` 态，`_keep_moving` 回落 `_plan` 连发非 MOVE 节点动作，全被 `MOVING_ACTION_FORBIDDEN` 拒、连发成风暴烧光交付窗口：
