@@ -142,80 +142,112 @@ class _WalkState:
         self.stop_frames = 0
 
 
-def _tick_move(st, rt):
-    """移动一帧：buff 决定 base_move，推进 move_accum，扣鲜度，tick buff。"""
+def _wtype_at(weather_seq, frame_round):
+    """返回 frame_round（1-indexed round）处生效的天气类型；weather_seq=None → None（无天气）。
+
+    weather_seq = [(start_round, wtype), ...] 升序；某 round 取最后一个 start≤round 的事件，
+    无则 None（=CLEAR，coef 1.0、移动倍率 1000）。
+    """
+    if not weather_seq:
+        return None
+    wt = None
+    for start, wtype in weather_seq:
+        if start <= frame_round:
+            wt = wtype
+        else:
+            break
+    return wt
+
+
+def _tick_move(st, rt, weather_seq=None):
+    """移动一帧：buff 决定 base_move，推进 move_accum，扣鲜度，tick buff。
+
+    weather_seq 非 None 时按当前帧生效天气：移动倍率 `weather_move_multiplier(rt, wtype)`
+    （HEAVY_RAIN+WATER=1350、MOUNTAIN_FOG+MOUNTAIN=1100，余 1000）、鲜度系数
+    `FRESHNESS_WEATHER_COEF`（HOT 1.5、HEAVY_RAIN 1.3、MOUNTAIN_FOG 1.0）。None=无天气（原行为）。
+    """
     base = st.buff_base if st.buff_rem > 0 else rules.BASE_MOVE_NONE
-    per = rules.per_frame_move_amount(base, 1000)
-    st.move_accum += per
     st.frame += 1
+    wtype = _wtype_at(weather_seq, st.frame)
+    wmult = rules.weather_move_multiplier(rt, wtype) if wtype else 1000
+    wcoef = rules.FRESHNESS_WEATHER_COEF.get(wtype, 1.0) if wtype else 1.0
+    per = rules.per_frame_move_amount(base, wmult)
+    st.move_accum += per
     st.move_frames += 1
     if st.buff_rem > 0:
         st.buff_rem -= 1
-    st.fresh = max(0.0, st.fresh - rules.FRESHNESS_LOSS_MOVE[rt])
+    st.fresh = max(0.0, st.fresh - rules.FRESHNESS_LOSS_MOVE[rt] * wcoef)
 
 
-def _tick_stop(st, n):
-    """停靠 n 帧：每帧扣 BASE 鲜度、tick buff。"""
+def _tick_stop(st, n, weather_seq=None):
+    """停靠 n 帧：每帧扣 BASE 鲜度（×天气系数）、tick buff。"""
     for _ in range(n):
         st.frame += 1
+        wtype = _wtype_at(weather_seq, st.frame)
+        wcoef = rules.FRESHNESS_WEATHER_COEF.get(wtype, 1.0) if wtype else 1.0
         st.stop_frames += 1
         if st.buff_rem > 0:
             st.buff_rem -= 1
-        st.fresh = max(0.0, st.fresh - rules.FRESHNESS_LOSS_BASE)
+        st.fresh = max(0.0, st.fresh - rules.FRESHNESS_LOSS_BASE * wcoef)
 
 
-def _move_leg(st, gm, a, b):
+def _move_leg(st, gm, a, b, weather_seq=None):
     e = gm.edge_between(a, b)
     if e is None:
         return False
     amount = rules.to_station_move_amount(e.distance, e.route_type)
     rt = e.route_type
     while st.move_accum < amount:
-        _tick_move(st, rt)
+        _tick_move(st, rt, weather_seq)
     st.move_accum = 0  # 到站清零（对齐 sim，余量浪费）
     return True
 
 
 def walk_route(gm, path, res_by_node, opts):
-    """逐帧走完 path → 投影 dict。详见模块 docstring。"""
+    """逐帧走完 path → 投影 dict。详见模块 docstring。
+
+    opts 可含 `weather_seq`（[(start_round, wtype), ...]）：非 None 时逐帧应用真实天气
+    （移动倍率 + 鲜度系数）；None=无天气（coef=1.0，原 §1 口径）。
+    """
     st = _WalkState()
     proc = gm.process_nodes
     gate = gm.gate_node
     verify = opts.get("verify_frames", _VERIFY_FRAMES)
+    weather_seq = opts.get("weather_seq")
     ok = True
     for i, node in enumerate(path):
         if i > 0:
-            if not _move_leg(st, gm, path[i - 1], node):
+            if not _move_leg(st, gm, path[i - 1], node, weather_seq):
                 ok = False
                 break
         # 1. 处理站停靠（非 gate、非起点；client _plan 行为）
         if i > 0 and node in proc and node != gate:
-            _tick_stop(st, proc[node].get("processRound", 0) or 0)
+            _tick_stop(st, proc[node].get("processRound", 0) or 0, weather_seq)
         # 2. 领冰鉴（每冰源节点 1 篓）
         if node not in st.ice_claimed and res_by_node.get(node, {}).get("ICE_BOX", 0) > 0:
-            _tick_stop(st, _CLAIM_ROUND)
+            _tick_stop(st, _CLAIM_ROUND, weather_seq)
             st.ice_inv += 1
             st.ice_claimed.add(node)
         # 3. 领马（无库存时；FAST 优先）
         if st.horse_inv is None:
             rstock = res_by_node.get(node, {})
             if rstock.get("FAST_HORSE", 0) > 0 and node not in st.horse_claimed:
-                _tick_stop(st, _CLAIM_ROUND)
+                _tick_stop(st, _CLAIM_ROUND, weather_seq)
                 st.horse_inv = "FAST_HORSE"
                 st.horse_claimed.add(node)
             elif rstock.get("SHORT_HORSE", 0) > 0 and node not in st.horse_claimed:
-                _tick_stop(st, _CLAIM_ROUND)
+                _tick_stop(st, _CLAIM_ROUND, weather_seq)
                 st.horse_inv = "SHORT_HORSE"
                 st.horse_claimed.add(node)
         # 4. 用马（无 buff 时）
         if st.horse_inv is not None and st.buff_rem == 0:
-            _tick_stop(st, _USE_ROUND)
+            _tick_stop(st, _USE_ROUND, weather_seq)
             st.buff_rem = rules.HORSE_DURATION[st.horse_inv]
             st.buff_base = rules.BASE_MOVE[st.horse_inv]
             st.horse_inv = None
         # 5. 宫门验核
         if node == gate and not st.verified:
-            _tick_stop(st, verify)
+            _tick_stop(st, verify, weather_seq)
             st.verified = True
     if not ok or (gate in path and not st.verified):
         return None

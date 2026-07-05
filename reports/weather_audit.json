@@ -1,0 +1,4663 @@
+{
+  "aggregate": {
+    "delta_clear": 20.0,
+    "delta_real_max": 22.0,
+    "delta_real_mean": 20.7,
+    "delta_real_min": 20.0,
+    "delta_real_nonpositive": 0,
+    "delta_real_positive": 67,
+    "delta_real_std": 0.73,
+    "fresh_delta_mean": 12.118,
+    "n": 67,
+    "shrinkage_mean": 0.7,
+    "verdict": "稳住：真实天气下大路仍净正，且无单局反劣（+20 不缩水或缩水可忽略）"
+  },
+  "games": [
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.805,
+        "good": 1,
+        "score": 22.0
+      },
+      "extra_frame_weather": [
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.179,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_031517_015_2696_vs_2986_43603109",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 80.374,
+        "good": 99,
+        "ice": 1,
+        "score": 771.0
+      },
+      "shrinkage": 2.0,
+      "weather_seq": [
+        [
+          84,
+          "HOT"
+        ],
+        [
+          235,
+          "HEAVY_RAIN"
+        ],
+        [
+          345,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 261,
+        "clear_rounds": 113,
+        "phases": [
+          [
+            1,
+            83,
+            "CLEAR"
+          ],
+          [
+            84,
+            234,
+            "HOT"
+          ],
+          [
+            235,
+            344,
+            "HEAVY_RAIN"
+          ],
+          [
+            345,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.811,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.136,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_031529_282_2696_vs_2809_02155fe3",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.325,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          110,
+          "HOT"
+        ],
+        [
+          220,
+          "HEAVY_RAIN"
+        ],
+        [
+          330,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 265,
+        "clear_rounds": 109,
+        "phases": [
+          [
+            1,
+            109,
+            "CLEAR"
+          ],
+          [
+            110,
+            219,
+            "HOT"
+          ],
+          [
+            220,
+            329,
+            "HEAVY_RAIN"
+          ],
+          [
+            330,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.034,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "MOUNTAIN_FOG",
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 95.722,
+        "good": 100,
+        "ice": 2,
+        "score": 798.0
+      },
+      "matchId": "match_20260705_031541_933_2905_vs_2696_03cfcc34",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 83.688,
+        "good": 99,
+        "ice": 1,
+        "score": 777.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          93,
+          "HOT"
+        ],
+        [
+          203,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          354,
+          "HOT"
+        ],
+        [
+          464,
+          "HEAVY_RAIN"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 131,
+        "clear_rounds": 243,
+        "phases": [
+          [
+            1,
+            92,
+            "CLEAR"
+          ],
+          [
+            93,
+            202,
+            "HOT"
+          ],
+          [
+            203,
+            353,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            354,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.15,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "MOUNTAIN_FOG",
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.495,
+        "good": 100,
+        "ice": 2,
+        "score": 796.0
+      },
+      "matchId": "match_20260705_031550_422_2696_vs_2614_c2d42d20",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 82.345,
+        "good": 99,
+        "ice": 1,
+        "score": 775.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          89,
+          "HOT"
+        ],
+        [
+          240,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          350,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 176,
+        "clear_rounds": 198,
+        "phases": [
+          [
+            1,
+            88,
+            "CLEAR"
+          ],
+          [
+            89,
+            239,
+            "HOT"
+          ],
+          [
+            240,
+            349,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            350,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.004,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.064,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_031942_192_2696_vs_2735_9653307c",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.06,
+        "good": 99,
+        "ice": 1,
+        "score": 772.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          91,
+          "HOT"
+        ],
+        [
+          201,
+          "HEAVY_RAIN"
+        ],
+        [
+          352,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 284,
+        "clear_rounds": 90,
+        "phases": [
+          [
+            1,
+            90,
+            "CLEAR"
+          ],
+          [
+            91,
+            200,
+            "HOT"
+          ],
+          [
+            201,
+            351,
+            "HEAVY_RAIN"
+          ],
+          [
+            352,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.343,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.222,
+        "good": 100,
+        "ice": 2,
+        "score": 795.0
+      },
+      "matchId": "match_20260705_031947_982_2696_vs_2814_d75a96f7",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.879,
+        "good": 99,
+        "ice": 1,
+        "score": 774.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          114,
+          "HEAVY_RAIN"
+        ],
+        [
+          224,
+          "HOT"
+        ],
+        [
+          334,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 220,
+        "clear_rounds": 154,
+        "phases": [
+          [
+            1,
+            113,
+            "CLEAR"
+          ],
+          [
+            114,
+            223,
+            "HEAVY_RAIN"
+          ],
+          [
+            224,
+            333,
+            "HOT"
+          ],
+          [
+            334,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.042,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.278,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_032002_726_2696_vs_2613_eee58165",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.236,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          99,
+          "HOT"
+        ],
+        [
+          209,
+          "HEAVY_RAIN"
+        ],
+        [
+          360,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 276,
+        "clear_rounds": 98,
+        "phases": [
+          [
+            1,
+            98,
+            "CLEAR"
+          ],
+          [
+            99,
+            208,
+            "HOT"
+          ],
+          [
+            209,
+            359,
+            "HEAVY_RAIN"
+          ],
+          [
+            360,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.66,
+        "good": 1,
+        "score": 22.0
+      },
+      "extra_frame_weather": [
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.305,
+        "good": 100,
+        "ice": 2,
+        "score": 795.0
+      },
+      "matchId": "match_20260705_032245_069_2696_vs_2743_a9cad475",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.645,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 2.0,
+      "weather_seq": [
+        [
+          100,
+          "HOT"
+        ],
+        [
+          210,
+          "HEAVY_RAIN"
+        ],
+        [
+          320,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          471,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 220,
+        "clear_rounds": 154,
+        "phases": [
+          [
+            1,
+            99,
+            "CLEAR"
+          ],
+          [
+            100,
+            209,
+            "HOT"
+          ],
+          [
+            210,
+            319,
+            "HEAVY_RAIN"
+          ],
+          [
+            320,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.855,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 92.889,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_032303_894_2931_vs_2696_51909d49",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.034,
+        "good": 99,
+        "ice": 1,
+        "score": 772.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          101,
+          "HOT"
+        ],
+        [
+          211,
+          "HEAVY_RAIN"
+        ],
+        [
+          321,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 274,
+        "clear_rounds": 100,
+        "phases": [
+          [
+            1,
+            100,
+            "CLEAR"
+          ],
+          [
+            101,
+            210,
+            "HOT"
+          ],
+          [
+            211,
+            320,
+            "HEAVY_RAIN"
+          ],
+          [
+            321,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.061,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 92.479,
+        "good": 100,
+        "ice": 2,
+        "score": 792.0
+      },
+      "matchId": "match_20260705_032317_062_2619_vs_2696_858c850a",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 80.418,
+        "good": 99,
+        "ice": 1,
+        "score": 771.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          86,
+          "HOT"
+        ],
+        [
+          237,
+          "HEAVY_RAIN"
+        ],
+        [
+          347,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 289,
+        "clear_rounds": 85,
+        "phases": [
+          [
+            1,
+            85,
+            "CLEAR"
+          ],
+          [
+            86,
+            236,
+            "HOT"
+          ],
+          [
+            237,
+            346,
+            "HEAVY_RAIN"
+          ],
+          [
+            347,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.607,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.303,
+        "good": 100,
+        "ice": 2,
+        "score": 795.0
+      },
+      "matchId": "match_20260705_032322_930_2696_vs_2839_666cbdc6",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.696,
+        "good": 99,
+        "ice": 1,
+        "score": 774.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          108,
+          "HOT"
+        ],
+        [
+          218,
+          "HEAVY_RAIN"
+        ],
+        [
+          328,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 220,
+        "clear_rounds": 154,
+        "phases": [
+          [
+            1,
+            107,
+            "CLEAR"
+          ],
+          [
+            108,
+            217,
+            "HOT"
+          ],
+          [
+            218,
+            327,
+            "HEAVY_RAIN"
+          ],
+          [
+            328,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.04,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 95.469,
+        "good": 100,
+        "ice": 2,
+        "score": 797.0
+      },
+      "matchId": "match_20260705_032341_729_2696_vs_2744_c2e99980",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 83.429,
+        "good": 99,
+        "ice": 1,
+        "score": 777.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          106,
+          "HOT"
+        ],
+        [
+          216,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          326,
+          "HEAVY_RAIN"
+        ],
+        [
+          477,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 159,
+        "clear_rounds": 215,
+        "phases": [
+          [
+            1,
+            105,
+            "CLEAR"
+          ],
+          [
+            106,
+            215,
+            "HOT"
+          ],
+          [
+            216,
+            325,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            326,
+            374,
+            "HEAVY_RAIN"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.56,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.303,
+        "good": 100,
+        "ice": 2,
+        "score": 795.0
+      },
+      "matchId": "match_20260705_032607_121_2696_vs_2632_7815f95e",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.743,
+        "good": 99,
+        "ice": 1,
+        "score": 774.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          116,
+          "HOT"
+        ],
+        [
+          226,
+          "HEAVY_RAIN"
+        ],
+        [
+          336,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 220,
+        "clear_rounds": 154,
+        "phases": [
+          [
+            1,
+            115,
+            "CLEAR"
+          ],
+          [
+            116,
+            225,
+            "HOT"
+          ],
+          [
+            226,
+            335,
+            "HEAVY_RAIN"
+          ],
+          [
+            336,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.042,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.278,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_032613_428_2696_vs_2643_929c3501",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.236,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          99,
+          "HOT"
+        ],
+        [
+          209,
+          "HEAVY_RAIN"
+        ],
+        [
+          360,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 276,
+        "clear_rounds": 98,
+        "phases": [
+          [
+            1,
+            98,
+            "CLEAR"
+          ],
+          [
+            99,
+            208,
+            "HOT"
+          ],
+          [
+            209,
+            359,
+            "HEAVY_RAIN"
+          ],
+          [
+            360,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.735,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.885,
+        "good": 100,
+        "ice": 2,
+        "score": 796.0
+      },
+      "matchId": "match_20260705_032619_799_2738_vs_2696_aeb3b7a3",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 83.15,
+        "good": 99,
+        "ice": 1,
+        "score": 776.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          103,
+          "HOT"
+        ],
+        [
+          213,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          323,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 162,
+        "clear_rounds": 212,
+        "phases": [
+          [
+            1,
+            102,
+            "CLEAR"
+          ],
+          [
+            103,
+            212,
+            "HOT"
+          ],
+          [
+            213,
+            322,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            323,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.773,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.329,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_032629_625_2696_vs_2626_33d4652e",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.556,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          117,
+          "HOT"
+        ],
+        [
+          227,
+          "HEAVY_RAIN"
+        ],
+        [
+          337,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 258,
+        "clear_rounds": 116,
+        "phases": [
+          [
+            1,
+            116,
+            "CLEAR"
+          ],
+          [
+            117,
+            226,
+            "HOT"
+          ],
+          [
+            227,
+            336,
+            "HEAVY_RAIN"
+          ],
+          [
+            337,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 21,
+        "fresh": 12.233,
+        "good": 1,
+        "score": 22.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 95.503,
+        "good": 100,
+        "ice": 2,
+        "score": 797.0
+      },
+      "matchId": "match_20260705_032839_487_2769_vs_2696_4d342ec0",
+      "mountain": {
+        "deliver_frame": 353,
+        "fresh": 83.27,
+        "good": 99,
+        "ice": 1,
+        "score": 775.0
+      },
+      "shrinkage": 2.0,
+      "weather_seq": [
+        [
+          80,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          231,
+          "HOT"
+        ],
+        [
+          341,
+          "HEAVY_RAIN"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 144,
+        "clear_rounds": 230,
+        "phases": [
+          [
+            1,
+            79,
+            "CLEAR"
+          ],
+          [
+            80,
+            230,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            231,
+            340,
+            "HOT"
+          ],
+          [
+            341,
+            374,
+            "HEAVY_RAIN"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.764,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.386,
+        "good": 100,
+        "ice": 2,
+        "score": 794.0
+      },
+      "matchId": "match_20260705_032936_382_2769_vs_2696_7d05a069",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.622,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          119,
+          "HOT"
+        ],
+        [
+          229,
+          "HEAVY_RAIN"
+        ],
+        [
+          339,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 256,
+        "clear_rounds": 118,
+        "phases": [
+          [
+            1,
+            118,
+            "CLEAR"
+          ],
+          [
+            119,
+            228,
+            "HOT"
+          ],
+          [
+            229,
+            338,
+            "HEAVY_RAIN"
+          ],
+          [
+            339,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.825,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.054,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_032950_334_2696_vs_2616_6befd7c6",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.229,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          107,
+          "HOT"
+        ],
+        [
+          217,
+          "HEAVY_RAIN"
+        ],
+        [
+          327,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 268,
+        "clear_rounds": 106,
+        "phases": [
+          [
+            1,
+            106,
+            "CLEAR"
+          ],
+          [
+            107,
+            216,
+            "HOT"
+          ],
+          [
+            217,
+            326,
+            "HEAVY_RAIN"
+          ],
+          [
+            327,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.625,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.299,
+        "good": 100,
+        "ice": 2,
+        "score": 795.0
+      },
+      "matchId": "match_20260705_033007_128_2618_vs_2696_feec0db4",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.674,
+        "good": 99,
+        "ice": 1,
+        "score": 774.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          105,
+          "HOT"
+        ],
+        [
+          215,
+          "HEAVY_RAIN"
+        ],
+        [
+          325,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 220,
+        "clear_rounds": 154,
+        "phases": [
+          [
+            1,
+            104,
+            "CLEAR"
+          ],
+          [
+            105,
+            214,
+            "HOT"
+          ],
+          [
+            215,
+            324,
+            "HEAVY_RAIN"
+          ],
+          [
+            325,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.032,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.224,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_033026_049_2696_vs_2884_d028e61d",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.192,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          97,
+          "HOT"
+        ],
+        [
+          207,
+          "HEAVY_RAIN"
+        ],
+        [
+          358,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 278,
+        "clear_rounds": 96,
+        "phases": [
+          [
+            1,
+            96,
+            "CLEAR"
+          ],
+          [
+            97,
+            206,
+            "HOT"
+          ],
+          [
+            207,
+            357,
+            "HEAVY_RAIN"
+          ],
+          [
+            358,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.63,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.297,
+        "good": 100,
+        "ice": 2,
+        "score": 795.0
+      },
+      "matchId": "match_20260705_033356_439_2612_vs_2696_79f8a1a2",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.667,
+        "good": 99,
+        "ice": 1,
+        "score": 774.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          104,
+          "HOT"
+        ],
+        [
+          214,
+          "HEAVY_RAIN"
+        ],
+        [
+          324,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 220,
+        "clear_rounds": 154,
+        "phases": [
+          [
+            1,
+            103,
+            "CLEAR"
+          ],
+          [
+            104,
+            213,
+            "HOT"
+          ],
+          [
+            214,
+            323,
+            "HEAVY_RAIN"
+          ],
+          [
+            324,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.004,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.064,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_033400_595_2823_vs_2696_23a64b9d",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.06,
+        "good": 99,
+        "ice": 1,
+        "score": 772.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          91,
+          "HOT"
+        ],
+        [
+          201,
+          "HEAVY_RAIN"
+        ],
+        [
+          352,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 284,
+        "clear_rounds": 90,
+        "phases": [
+          [
+            1,
+            90,
+            "CLEAR"
+          ],
+          [
+            91,
+            200,
+            "HOT"
+          ],
+          [
+            201,
+            351,
+            "HEAVY_RAIN"
+          ],
+          [
+            352,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.73,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.91,
+        "good": 100,
+        "ice": 2,
+        "score": 796.0
+      },
+      "matchId": "match_20260705_033413_374_2696_vs_2743_7868eac0",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 83.18,
+        "good": 99,
+        "ice": 1,
+        "score": 776.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          104,
+          "HOT"
+        ],
+        [
+          214,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          324,
+          "HOT"
+        ],
+        [
+          475,
+          "HEAVY_RAIN"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 161,
+        "clear_rounds": 213,
+        "phases": [
+          [
+            1,
+            103,
+            "CLEAR"
+          ],
+          [
+            104,
+            213,
+            "HOT"
+          ],
+          [
+            214,
+            323,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            324,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.71,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 95.175,
+        "good": 100,
+        "ice": 2,
+        "score": 797.0
+      },
+      "matchId": "match_20260705_033832_456_2696_vs_2837_3694b507",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 83.465,
+        "good": 99,
+        "ice": 1,
+        "score": 777.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          114,
+          "HOT"
+        ],
+        [
+          224,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          334,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 151,
+        "clear_rounds": 223,
+        "phases": [
+          [
+            1,
+            113,
+            "CLEAR"
+          ],
+          [
+            114,
+            223,
+            "HOT"
+          ],
+          [
+            224,
+            333,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            334,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.848,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 92.948,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_033845_004_2751_vs_2696_6a358ff8",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.1,
+        "good": 99,
+        "ice": 1,
+        "score": 772.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          103,
+          "HOT"
+        ],
+        [
+          213,
+          "HEAVY_RAIN"
+        ],
+        [
+          323,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 272,
+        "clear_rounds": 102,
+        "phases": [
+          [
+            1,
+            102,
+            "CLEAR"
+          ],
+          [
+            103,
+            212,
+            "HOT"
+          ],
+          [
+            213,
+            322,
+            "HEAVY_RAIN"
+          ],
+          [
+            323,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.081,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "HOT",
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.107,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_033851_868_2696_vs_2625_82269158",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.026,
+        "good": 99,
+        "ice": 1,
+        "score": 772.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          97,
+          "HEAVY_RAIN"
+        ],
+        [
+          207,
+          "HOT"
+        ],
+        [
+          358,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          468,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 261,
+        "clear_rounds": 113,
+        "phases": [
+          [
+            1,
+            96,
+            "CLEAR"
+          ],
+          [
+            97,
+            206,
+            "HEAVY_RAIN"
+          ],
+          [
+            207,
+            357,
+            "HOT"
+          ],
+          [
+            358,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.1,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "MOUNTAIN_FOG",
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.44,
+        "good": 100,
+        "ice": 2,
+        "score": 795.0
+      },
+      "matchId": "match_20260705_033857_744_2696_vs_2718_f193ac8c",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 82.34,
+        "good": 99,
+        "ice": 1,
+        "score": 775.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          87,
+          "HOT"
+        ],
+        [
+          238,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          348,
+          "HOT"
+        ],
+        [
+          458,
+          "HEAVY_RAIN"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 178,
+        "clear_rounds": 196,
+        "phases": [
+          [
+            1,
+            86,
+            "CLEAR"
+          ],
+          [
+            87,
+            237,
+            "HOT"
+          ],
+          [
+            238,
+            347,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            348,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.789,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.246,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_034141_786_2814_vs_2696_c8a3e26c",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.457,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          114,
+          "HOT"
+        ],
+        [
+          224,
+          "HEAVY_RAIN"
+        ],
+        [
+          334,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 261,
+        "clear_rounds": 113,
+        "phases": [
+          [
+            1,
+            113,
+            "CLEAR"
+          ],
+          [
+            114,
+            223,
+            "HOT"
+          ],
+          [
+            224,
+            333,
+            "HEAVY_RAIN"
+          ],
+          [
+            334,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.773,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.329,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_034221_932_2611_vs_2696_f7c154b7",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.556,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          117,
+          "HOT"
+        ],
+        [
+          227,
+          "HEAVY_RAIN"
+        ],
+        [
+          337,
+          "HOT"
+        ],
+        [
+          447,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 258,
+        "clear_rounds": 116,
+        "phases": [
+          [
+            1,
+            116,
+            "CLEAR"
+          ],
+          [
+            117,
+            226,
+            "HOT"
+          ],
+          [
+            227,
+            336,
+            "HEAVY_RAIN"
+          ],
+          [
+            337,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.055,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 92.451,
+        "good": 100,
+        "ice": 2,
+        "score": 792.0
+      },
+      "matchId": "match_20260705_034226_105_2696_vs_2900_4b7981b8",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 80.396,
+        "good": 99,
+        "ice": 1,
+        "score": 771.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          85,
+          "HOT"
+        ],
+        [
+          236,
+          "HEAVY_RAIN"
+        ],
+        [
+          346,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 290,
+        "clear_rounds": 84,
+        "phases": [
+          [
+            1,
+            84,
+            "CLEAR"
+          ],
+          [
+            85,
+            235,
+            "HOT"
+          ],
+          [
+            236,
+            345,
+            "HEAVY_RAIN"
+          ],
+          [
+            346,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.761,
+        "good": 1,
+        "score": 22.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.179,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_034232_584_2696_vs_2943_72e48edd",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 80.418,
+        "good": 99,
+        "ice": 1,
+        "score": 771.0
+      },
+      "shrinkage": 2.0,
+      "weather_seq": [
+        [
+          86,
+          "HOT"
+        ],
+        [
+          237,
+          "HEAVY_RAIN"
+        ],
+        [
+          347,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 261,
+        "clear_rounds": 113,
+        "phases": [
+          [
+            1,
+            85,
+            "CLEAR"
+          ],
+          [
+            86,
+            236,
+            "HOT"
+          ],
+          [
+            237,
+            346,
+            "HEAVY_RAIN"
+          ],
+          [
+            347,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.717,
+        "good": 1,
+        "score": 22.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.179,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_034251_239_2639_vs_2696_0e0add10",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 80.462,
+        "good": 99,
+        "ice": 1,
+        "score": 771.0
+      },
+      "shrinkage": 2.0,
+      "weather_seq": [
+        [
+          88,
+          "HOT"
+        ],
+        [
+          239,
+          "HEAVY_RAIN"
+        ],
+        [
+          349,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 261,
+        "clear_rounds": 113,
+        "phases": [
+          [
+            1,
+            87,
+            "CLEAR"
+          ],
+          [
+            88,
+            238,
+            "HOT"
+          ],
+          [
+            239,
+            348,
+            "HEAVY_RAIN"
+          ],
+          [
+            349,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.0,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.28,
+        "good": 100,
+        "ice": 2,
+        "score": 795.0
+      },
+      "matchId": "match_20260705_034523_579_2982_vs_2696_e2754ba9",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 82.28,
+        "good": 99,
+        "ice": 1,
+        "score": 775.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          81,
+          "HOT"
+        ],
+        [
+          232,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          342,
+          "HOT"
+        ],
+        [
+          452,
+          "HEAVY_RAIN"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 184,
+        "clear_rounds": 190,
+        "phases": [
+          [
+            1,
+            80,
+            "CLEAR"
+          ],
+          [
+            81,
+            231,
+            "HOT"
+          ],
+          [
+            232,
+            341,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            342,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.8,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.191,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_034541_877_2696_vs_2934_8b767223",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.391,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          112,
+          "HOT"
+        ],
+        [
+          222,
+          "HEAVY_RAIN"
+        ],
+        [
+          332,
+          "HOT"
+        ],
+        [
+          442,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 263,
+        "clear_rounds": 111,
+        "phases": [
+          [
+            1,
+            111,
+            "CLEAR"
+          ],
+          [
+            112,
+            221,
+            "HOT"
+          ],
+          [
+            222,
+            331,
+            "HEAVY_RAIN"
+          ],
+          [
+            332,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.831,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.028,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_034613_729_2696_vs_2720_d7a0258c",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.197,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          106,
+          "HOT"
+        ],
+        [
+          216,
+          "HEAVY_RAIN"
+        ],
+        [
+          326,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 269,
+        "clear_rounds": 105,
+        "phases": [
+          [
+            1,
+            105,
+            "CLEAR"
+          ],
+          [
+            106,
+            215,
+            "HOT"
+          ],
+          [
+            216,
+            325,
+            "HEAVY_RAIN"
+          ],
+          [
+            326,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.369,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.222,
+        "good": 100,
+        "ice": 2,
+        "score": 795.0
+      },
+      "matchId": "match_20260705_034809_346_2696_vs_2707_8d330c1f",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.853,
+        "good": 99,
+        "ice": 1,
+        "score": 774.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          110,
+          "HEAVY_RAIN"
+        ],
+        [
+          220,
+          "HOT"
+        ],
+        [
+          330,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          440,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 220,
+        "clear_rounds": 154,
+        "phases": [
+          [
+            1,
+            109,
+            "CLEAR"
+          ],
+          [
+            110,
+            219,
+            "HEAVY_RAIN"
+          ],
+          [
+            220,
+            329,
+            "HOT"
+          ],
+          [
+            330,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.551,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.305,
+        "good": 100,
+        "ice": 2,
+        "score": 795.0
+      },
+      "matchId": "match_20260705_034826_188_2757_vs_2696_3d508cdb",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.754,
+        "good": 99,
+        "ice": 1,
+        "score": 774.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          118,
+          "HOT"
+        ],
+        [
+          228,
+          "HEAVY_RAIN"
+        ],
+        [
+          338,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          448,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 220,
+        "clear_rounds": 154,
+        "phases": [
+          [
+            1,
+            117,
+            "CLEAR"
+          ],
+          [
+            118,
+            227,
+            "HOT"
+          ],
+          [
+            228,
+            337,
+            "HEAVY_RAIN"
+          ],
+          [
+            338,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.545,
+        "good": 1,
+        "score": 22.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.627,
+        "good": 100,
+        "ice": 2,
+        "score": 794.0
+      },
+      "matchId": "match_20260705_034845_553_2696_vs_2622_fc56d675",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.082,
+        "good": 99,
+        "ice": 1,
+        "score": 772.0
+      },
+      "shrinkage": 2.0,
+      "weather_seq": [
+        [
+          92,
+          "HOT"
+        ],
+        [
+          202,
+          "HEAVY_RAIN"
+        ],
+        [
+          353,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 261,
+        "clear_rounds": 113,
+        "phases": [
+          [
+            1,
+            91,
+            "CLEAR"
+          ],
+          [
+            92,
+            201,
+            "HOT"
+          ],
+          [
+            202,
+            352,
+            "HEAVY_RAIN"
+          ],
+          [
+            353,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.735,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.885,
+        "good": 100,
+        "ice": 2,
+        "score": 796.0
+      },
+      "matchId": "match_20260705_035148_333_2965_vs_2696_a461b1c8",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 83.15,
+        "good": 99,
+        "ice": 1,
+        "score": 776.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          103,
+          "HOT"
+        ],
+        [
+          213,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          323,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 162,
+        "clear_rounds": 212,
+        "phases": [
+          [
+            1,
+            102,
+            "CLEAR"
+          ],
+          [
+            103,
+            212,
+            "HOT"
+          ],
+          [
+            213,
+            322,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            323,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.4,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.636,
+        "good": 100,
+        "ice": 2,
+        "score": 794.0
+      },
+      "matchId": "match_20260705_035200_953_2696_vs_2693_0f10daed",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.236,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          99,
+          "HOT"
+        ],
+        [
+          209,
+          "HEAVY_RAIN"
+        ],
+        [
+          360,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          470,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 261,
+        "clear_rounds": 113,
+        "phases": [
+          [
+            1,
+            98,
+            "CLEAR"
+          ],
+          [
+            99,
+            208,
+            "HOT"
+          ],
+          [
+            209,
+            359,
+            "HEAVY_RAIN"
+          ],
+          [
+            360,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.783,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.273,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_035208_096_2696_vs_2629_21f17d53",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.49,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          115,
+          "HOT"
+        ],
+        [
+          225,
+          "HEAVY_RAIN"
+        ],
+        [
+          335,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 260,
+        "clear_rounds": 114,
+        "phases": [
+          [
+            1,
+            114,
+            "CLEAR"
+          ],
+          [
+            115,
+            224,
+            "HOT"
+          ],
+          [
+            225,
+            334,
+            "HEAVY_RAIN"
+          ],
+          [
+            335,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.033,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 95.532,
+        "good": 100,
+        "ice": 2,
+        "score": 797.0
+      },
+      "matchId": "match_20260705_035438_691_2729_vs_2696_0f0c79ef",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 83.499,
+        "good": 99,
+        "ice": 1,
+        "score": 777.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          110,
+          "HOT"
+        ],
+        [
+          220,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          330,
+          "HEAVY_RAIN"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 155,
+        "clear_rounds": 219,
+        "phases": [
+          [
+            1,
+            109,
+            "CLEAR"
+          ],
+          [
+            110,
+            219,
+            "HOT"
+          ],
+          [
+            220,
+            329,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            330,
+            374,
+            "HEAVY_RAIN"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.037,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.251,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_035502_420_2696_vs_2695_bc9ebbc3",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.214,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          98,
+          "HOT"
+        ],
+        [
+          208,
+          "HEAVY_RAIN"
+        ],
+        [
+          359,
+          "HOT"
+        ],
+        [
+          469,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 277,
+        "clear_rounds": 97,
+        "phases": [
+          [
+            1,
+            97,
+            "CLEAR"
+          ],
+          [
+            98,
+            207,
+            "HOT"
+          ],
+          [
+            208,
+            358,
+            "HEAVY_RAIN"
+          ],
+          [
+            359,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 22,
+        "fresh": 12.239,
+        "good": 1,
+        "score": 22.0
+      },
+      "extra_frame_weather": [
+        "HOT",
+        "HEAVY_RAIN"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.634,
+        "good": 100,
+        "ice": 2,
+        "score": 796.0
+      },
+      "matchId": "match_20260705_035555_511_2769_vs_2696_46f8b95a",
+      "mountain": {
+        "deliver_frame": 352,
+        "fresh": 82.395,
+        "good": 99,
+        "ice": 1,
+        "score": 774.0
+      },
+      "shrinkage": 2.0,
+      "weather_seq": [
+        [
+          95,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          205,
+          "HOT"
+        ],
+        [
+          356,
+          "HEAVY_RAIN"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 170,
+        "clear_rounds": 204,
+        "phases": [
+          [
+            1,
+            94,
+            "CLEAR"
+          ],
+          [
+            95,
+            204,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            205,
+            355,
+            "HOT"
+          ],
+          [
+            356,
+            374,
+            "HEAVY_RAIN"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.05,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "MOUNTAIN_FOG",
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.385,
+        "good": 100,
+        "ice": 2,
+        "score": 795.0
+      },
+      "matchId": "match_20260705_035613_625_2696_vs_2753_15afaaef",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 82.335,
+        "good": 99,
+        "ice": 1,
+        "score": 775.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          85,
+          "HOT"
+        ],
+        [
+          236,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          346,
+          "HOT"
+        ],
+        [
+          456,
+          "HEAVY_RAIN"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 180,
+        "clear_rounds": 194,
+        "phases": [
+          [
+            1,
+            84,
+            "CLEAR"
+          ],
+          [
+            85,
+            235,
+            "HOT"
+          ],
+          [
+            236,
+            345,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            346,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 24,
+        "fresh": 12.027,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 95.329,
+        "good": 100,
+        "ice": 2,
+        "score": 797.0
+      },
+      "matchId": "match_20260705_035704_393_3022_vs_2696_0163f2e0",
+      "mountain": {
+        "deliver_frame": 350,
+        "fresh": 83.302,
+        "good": 99,
+        "ice": 1,
+        "score": 776.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          110,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          220,
+          "HOT"
+        ],
+        [
+          330,
+          "HEAVY_RAIN"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 155,
+        "clear_rounds": 219,
+        "phases": [
+          [
+            1,
+            109,
+            "CLEAR"
+          ],
+          [
+            110,
+            219,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            220,
+            329,
+            "HOT"
+          ],
+          [
+            330,
+            374,
+            "HEAVY_RAIN"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.032,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.224,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_035710_456_2696_vs_2941_53bd0b8b",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.192,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          97,
+          "HOT"
+        ],
+        [
+          207,
+          "HEAVY_RAIN"
+        ],
+        [
+          358,
+          "HOT"
+        ],
+        [
+          468,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 278,
+        "clear_rounds": 96,
+        "phases": [
+          [
+            1,
+            96,
+            "CLEAR"
+          ],
+          [
+            97,
+            206,
+            "HOT"
+          ],
+          [
+            207,
+            357,
+            "HEAVY_RAIN"
+          ],
+          [
+            358,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.72,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 95.01,
+        "good": 100,
+        "ice": 2,
+        "score": 797.0
+      },
+      "matchId": "match_20260705_035839_022_2696_vs_2943_aebb0814",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 83.29,
+        "good": 99,
+        "ice": 1,
+        "score": 776.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          108,
+          "HOT"
+        ],
+        [
+          218,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          328,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 157,
+        "clear_rounds": 217,
+        "phases": [
+          [
+            1,
+            107,
+            "CLEAR"
+          ],
+          [
+            108,
+            217,
+            "HOT"
+          ],
+          [
+            218,
+            327,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            328,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.815,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.108,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_035936_138_2629_vs_2696_728889f4",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.293,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          109,
+          "HOT"
+        ],
+        [
+          219,
+          "HEAVY_RAIN"
+        ],
+        [
+          329,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 266,
+        "clear_rounds": 108,
+        "phases": [
+          [
+            1,
+            108,
+            "CLEAR"
+          ],
+          [
+            109,
+            218,
+            "HOT"
+          ],
+          [
+            219,
+            328,
+            "HEAVY_RAIN"
+          ],
+          [
+            329,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.769,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.358,
+        "good": 100,
+        "ice": 2,
+        "score": 794.0
+      },
+      "matchId": "match_20260705_035954_569_2696_vs_2931_c1a7cc4d",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.589,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          118,
+          "HOT"
+        ],
+        [
+          228,
+          "HEAVY_RAIN"
+        ],
+        [
+          338,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 257,
+        "clear_rounds": 117,
+        "phases": [
+          [
+            1,
+            117,
+            "CLEAR"
+          ],
+          [
+            118,
+            227,
+            "HOT"
+          ],
+          [
+            228,
+            337,
+            "HEAVY_RAIN"
+          ],
+          [
+            338,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.783,
+        "good": 1,
+        "score": 22.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.179,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_041523_948_2696_vs_2769_5fc233e7",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 80.396,
+        "good": 99,
+        "ice": 1,
+        "score": 771.0
+      },
+      "shrinkage": 2.0,
+      "weather_seq": [
+        [
+          85,
+          "HOT"
+        ],
+        [
+          236,
+          "HEAVY_RAIN"
+        ],
+        [
+          346,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 261,
+        "clear_rounds": 113,
+        "phases": [
+          [
+            1,
+            84,
+            "CLEAR"
+          ],
+          [
+            85,
+            235,
+            "HOT"
+          ],
+          [
+            236,
+            345,
+            "HEAVY_RAIN"
+          ],
+          [
+            346,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.702,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 95.347,
+        "good": 100,
+        "ice": 2,
+        "score": 797.0
+      },
+      "matchId": "match_20260705_042923_363_2629_vs_2696_1feaa765",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 83.645,
+        "good": 99,
+        "ice": 1,
+        "score": 777.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          120,
+          "HOT"
+        ],
+        [
+          230,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          340,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 145,
+        "clear_rounds": 229,
+        "phases": [
+          [
+            1,
+            119,
+            "CLEAR"
+          ],
+          [
+            120,
+            229,
+            "HOT"
+          ],
+          [
+            230,
+            339,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            340,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.524,
+        "good": 1,
+        "score": 22.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.628,
+        "good": 100,
+        "ice": 2,
+        "score": 794.0
+      },
+      "matchId": "match_20260705_042936_815_2769_vs_2696_d9c65f15",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.104,
+        "good": 99,
+        "ice": 1,
+        "score": 772.0
+      },
+      "shrinkage": 2.0,
+      "weather_seq": [
+        [
+          93,
+          "HOT"
+        ],
+        [
+          203,
+          "HEAVY_RAIN"
+        ],
+        [
+          354,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 261,
+        "clear_rounds": 113,
+        "phases": [
+          [
+            1,
+            92,
+            "CLEAR"
+          ],
+          [
+            93,
+            202,
+            "HOT"
+          ],
+          [
+            203,
+            353,
+            "HEAVY_RAIN"
+          ],
+          [
+            354,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.524,
+        "good": 1,
+        "score": 22.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.628,
+        "good": 100,
+        "ice": 2,
+        "score": 794.0
+      },
+      "matchId": "match_20260705_044542_861_2769_vs_2696_a348d7e6",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.104,
+        "good": 99,
+        "ice": 1,
+        "score": 772.0
+      },
+      "shrinkage": 2.0,
+      "weather_seq": [
+        [
+          93,
+          "HOT"
+        ],
+        [
+          203,
+          "HEAVY_RAIN"
+        ],
+        [
+          354,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 261,
+        "clear_rounds": 113,
+        "phases": [
+          [
+            1,
+            92,
+            "CLEAR"
+          ],
+          [
+            93,
+            202,
+            "HOT"
+          ],
+          [
+            203,
+            353,
+            "HEAVY_RAIN"
+          ],
+          [
+            354,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 23,
+        "fresh": 12.17,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 95.165,
+        "good": 100,
+        "ice": 2,
+        "score": 797.0
+      },
+      "matchId": "match_20260705_045439_001_2769_vs_2696_aa634923",
+      "mountain": {
+        "deliver_frame": 351,
+        "fresh": 82.995,
+        "good": 99,
+        "ice": 1,
+        "score": 776.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          100,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          210,
+          "HOT"
+        ],
+        [
+          320,
+          "HEAVY_RAIN"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 165,
+        "clear_rounds": 209,
+        "phases": [
+          [
+            1,
+            99,
+            "CLEAR"
+          ],
+          [
+            100,
+            209,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            210,
+            319,
+            "HOT"
+          ],
+          [
+            320,
+            374,
+            "HEAVY_RAIN"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.739,
+        "good": 1,
+        "score": 22.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.179,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_045831_556_2696_vs_2639_b4457bc7",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 80.44,
+        "good": 99,
+        "ice": 1,
+        "score": 771.0
+      },
+      "shrinkage": 2.0,
+      "weather_seq": [
+        [
+          87,
+          "HOT"
+        ],
+        [
+          238,
+          "HEAVY_RAIN"
+        ],
+        [
+          348,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 261,
+        "clear_rounds": 113,
+        "phases": [
+          [
+            1,
+            86,
+            "CLEAR"
+          ],
+          [
+            87,
+            237,
+            "HOT"
+          ],
+          [
+            238,
+            347,
+            "HEAVY_RAIN"
+          ],
+          [
+            348,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 24,
+        "fresh": 11.984,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 95.442,
+        "good": 100,
+        "ice": 2,
+        "score": 797.0
+      },
+      "matchId": "match_20260705_050154_418_2696_vs_2629_531053ee",
+      "mountain": {
+        "deliver_frame": 350,
+        "fresh": 83.458,
+        "good": 99,
+        "ice": 1,
+        "score": 777.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          117,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          227,
+          "HOT"
+        ],
+        [
+          337,
+          "HEAVY_RAIN"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 148,
+        "clear_rounds": 226,
+        "phases": [
+          [
+            1,
+            116,
+            "CLEAR"
+          ],
+          [
+            117,
+            226,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            227,
+            336,
+            "HOT"
+          ],
+          [
+            337,
+            374,
+            "HEAVY_RAIN"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.541,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.306,
+        "good": 100,
+        "ice": 2,
+        "score": 795.0
+      },
+      "matchId": "match_20260705_051135_263_2714_vs_2696_eb968e85",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.765,
+        "good": 99,
+        "ice": 1,
+        "score": 774.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          120,
+          "HOT"
+        ],
+        [
+          230,
+          "HEAVY_RAIN"
+        ],
+        [
+          340,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          450,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 220,
+        "clear_rounds": 154,
+        "phases": [
+          [
+            1,
+            119,
+            "CLEAR"
+          ],
+          [
+            120,
+            229,
+            "HOT"
+          ],
+          [
+            230,
+            339,
+            "HEAVY_RAIN"
+          ],
+          [
+            340,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.023,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.171,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_051242_458_2764_vs_2696_3654f694",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.148,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          95,
+          "HOT"
+        ],
+        [
+          205,
+          "HEAVY_RAIN"
+        ],
+        [
+          356,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 280,
+        "clear_rounds": 94,
+        "phases": [
+          [
+            1,
+            94,
+            "CLEAR"
+          ],
+          [
+            95,
+            204,
+            "HOT"
+          ],
+          [
+            205,
+            355,
+            "HEAVY_RAIN"
+          ],
+          [
+            356,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.504,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.63,
+        "good": 100,
+        "ice": 2,
+        "score": 794.0
+      },
+      "matchId": "match_20260705_051401_595_2696_vs_2769_04cfffcc",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.126,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          94,
+          "HOT"
+        ],
+        [
+          204,
+          "HEAVY_RAIN"
+        ],
+        [
+          355,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 261,
+        "clear_rounds": 113,
+        "phases": [
+          [
+            1,
+            93,
+            "CLEAR"
+          ],
+          [
+            94,
+            203,
+            "HOT"
+          ],
+          [
+            204,
+            354,
+            "HEAVY_RAIN"
+          ],
+          [
+            355,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.019,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HEAVY_RAIN",
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 93.145,
+        "good": 100,
+        "ice": 2,
+        "score": 793.0
+      },
+      "matchId": "match_20260705_051503_949_2696_vs_2836_6b0185fb",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.126,
+        "good": 99,
+        "ice": 1,
+        "score": 773.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          94,
+          "HOT"
+        ],
+        [
+          204,
+          "HEAVY_RAIN"
+        ],
+        [
+          355,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 281,
+        "clear_rounds": 93,
+        "phases": [
+          [
+            1,
+            93,
+            "CLEAR"
+          ],
+          [
+            94,
+            203,
+            "HOT"
+          ],
+          [
+            204,
+            354,
+            "HEAVY_RAIN"
+          ],
+          [
+            355,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.722,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.985,
+        "good": 100,
+        "ice": 2,
+        "score": 796.0
+      },
+      "matchId": "match_20260705_052840_469_2696_vs_2836_87c81102",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 83.263,
+        "good": 99,
+        "ice": 1,
+        "score": 776.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          107,
+          "HOT"
+        ],
+        [
+          217,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          327,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 158,
+        "clear_rounds": 216,
+        "phases": [
+          [
+            1,
+            106,
+            "CLEAR"
+          ],
+          [
+            107,
+            216,
+            "HOT"
+          ],
+          [
+            217,
+            326,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            327,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.707,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 95.202,
+        "good": 100,
+        "ice": 2,
+        "score": 797.0
+      },
+      "matchId": "match_20260705_053343_274_2696_vs_2769_b079b337",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 83.495,
+        "good": 99,
+        "ice": 1,
+        "score": 777.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          115,
+          "HOT"
+        ],
+        [
+          225,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          335,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 150,
+        "clear_rounds": 224,
+        "phases": [
+          [
+            1,
+            114,
+            "CLEAR"
+          ],
+          [
+            115,
+            224,
+            "HOT"
+          ],
+          [
+            225,
+            334,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            335,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 12.607,
+        "good": 1,
+        "score": 21.0
+      },
+      "extra_frame_weather": [
+        "MOUNTAIN_FOG"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 94.303,
+        "good": 100,
+        "ice": 2,
+        "score": 795.0
+      },
+      "matchId": "match_20260705_053813_114_2629_vs_2696_dcafe321",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 81.696,
+        "good": 99,
+        "ice": 1,
+        "score": 774.0
+      },
+      "shrinkage": 1.0,
+      "weather_seq": [
+        [
+          108,
+          "HOT"
+        ],
+        [
+          218,
+          "HEAVY_RAIN"
+        ],
+        [
+          328,
+          "MOUNTAIN_FOG"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 220,
+        "clear_rounds": 154,
+        "phases": [
+          [
+            1,
+            107,
+            "CLEAR"
+          ],
+          [
+            108,
+            217,
+            "HOT"
+          ],
+          [
+            218,
+            327,
+            "HEAVY_RAIN"
+          ],
+          [
+            328,
+            374,
+            "MOUNTAIN_FOG"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.71,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 95.175,
+        "good": 100,
+        "ice": 2,
+        "score": 797.0
+      },
+      "matchId": "match_20260705_054945_303_2696_vs_2769_03d28bc4",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 83.465,
+        "good": 99,
+        "ice": 1,
+        "score": 777.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          114,
+          "HOT"
+        ],
+        [
+          224,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          334,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 151,
+        "clear_rounds": 223,
+        "phases": [
+          [
+            1,
+            113,
+            "CLEAR"
+          ],
+          [
+            114,
+            223,
+            "HOT"
+          ],
+          [
+            224,
+            333,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            334,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    },
+    {
+      "delta_clear": 20.0,
+      "delta_real": {
+        "deliver_frame": 30,
+        "fresh": 11.702,
+        "good": 1,
+        "score": 20.0
+      },
+      "extra_frame_weather": [
+        "HOT"
+      ],
+      "mainroad": {
+        "deliver_frame": 374,
+        "fresh": 95.347,
+        "good": 100,
+        "ice": 2,
+        "score": 797.0
+      },
+      "matchId": "match_20260705_060013_755_2769_vs_2696_acc94683",
+      "mountain": {
+        "deliver_frame": 344,
+        "fresh": 83.645,
+        "good": 99,
+        "ice": 1,
+        "score": 777.0
+      },
+      "shrinkage": 0.0,
+      "weather_seq": [
+        [
+          120,
+          "HOT"
+        ],
+        [
+          230,
+          "MOUNTAIN_FOG"
+        ],
+        [
+          340,
+          "HOT"
+        ]
+      ],
+      "weather_summary": {
+        "bad_rounds": 145,
+        "clear_rounds": 229,
+        "phases": [
+          [
+            1,
+            119,
+            "CLEAR"
+          ],
+          [
+            120,
+            229,
+            "HOT"
+          ],
+          [
+            230,
+            339,
+            "MOUNTAIN_FOG"
+          ],
+          [
+            340,
+            374,
+            "HOT"
+          ]
+        ]
+      }
+    }
+  ]
+}

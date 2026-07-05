@@ -38,8 +38,19 @@
 - §3 = codeagent 真实 A/B N≥30 同时验证 Iter 33+34+36（交付率 96%→~100%、好果 97→98、me 改走大路鲜度 82.6→90+/quality-route 桶 W 0.43→?）；正向固化、负则回退 flag（§0.5 纪律）。
 - 风险：大路多 ~30 帧，对手设卡/天气恶化时 `_can_afford` 时间守卫兜底回落山路（plan_route 已含 ΔEV 改道门 + 效率门）。
 
+### Added（§1.5 真实天气审计，纯观测）
+- `analysis/route_weather_audit.py`：从 `reports/*.compact.log` 重构逐帧天气序列（`F rN w=TYPE`→分段），逐局重跑马感知 walker（山路 vs 大路）算 Δ_real，对比 §1 的 coef=1.0 上界（+20）。
+- `route_planner_eval.walk_route` 加 `weather_seq` opt（默认 None=原 §1 口径，向后兼容）：逐帧应用真实天气——移动倍率 `weather_move_multiplier(rt, wtype)`（HEAVY_RAIN+WATER=1350、MOUNTAIN_FOG+MOUNTAIN=1100）、鲜度系数 `FRESHNESS_WEATHER_COEF`（HOT 1.5、HEAVY_RAIN 1.3、MOUNTAIN_FOG 1.0）。
+- `analysis/tests/test_route_weather_audit.py`：16 项单测（天气解析、_wtype_at、_weather_summary 截断、audit_game 各天气下大路净正、walk_route weather_seq 回归）。
+
+### 结论（§1.5）
+- **大路 +20 在真实天气下不缩水反略增**：Δ_real 均值 **+20.70**（std 0.73，min +20.00 / max +22.00）、缩水均值 **+0.70**、67/67 净正 0 反劣。
+- 机制：① MOUNTAIN_FOG 减速山路 MOUNTAIN 边（倍率 1100）→ 山路多帧多损耗，大路 ROAD 不受减速 → Δ +1~+2；② HOT/HEAVY_RAIN 同倍惩罚双方鲜度，但大路 2 冰鉴抵 2 crossing vs 山路 1 → 好果优势扩大（中性）。两效合 → 均值 +0.70。
+- 判决：**§3 真实 A/B 无须先加天气感知门**，排除了「大路多 30 帧在天气下缩水」这一最大未知风险，可直接跑。
+
 ### Misc
-- 详见 `docs/iter36_route_eval.md` / `reports/route_eval.json` / `reports/sim_iter36_ab/ab_report.md`。
+- 详见 `docs/iter36_route_eval.md` / `docs/iter36_weather_audit.md` / `reports/route_eval.json` / `reports/weather_audit.json` / `reports/sim_iter36_ab/ab_report.md`。
+- 全套 430 测试过（127 analysis + 285 client + 18 sim）。
 
 ## [Iteration 35] - 2026-07-05 — 路线绕行归因：证伪「路线是鲜度杠杆」（Iter 34 勘误自身勘误），不 stage 策略改动
 
