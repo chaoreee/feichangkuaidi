@@ -2,30 +2,34 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
-## [Iteration 38] - 2026-07-05 — Iter 36 §3 真实 A/B 判负 → 回退 `ENABLE_STATIC_PLANNER` 默认关（纯回退零策略风险）
+## [Iteration 36 §3] - 2026-07-05 — §3 真实 A/B 无定论（INCONCLUSIVE）：static_planner 真实对局是行为 no-op，flag 保持开
 
-**触发**：用户上传 `reports/iter36_ab/` 40 局 iter36 平台真实对战 trace（对前 30 名），与 `reports/` 顶层 67 局 iter31 老基线做 §3 真实 A/B（非配对两样本）。`python3 -m analysis reports/iter36_ab/ reports/ --out-dir reports/iter36_ab_out/` 产 `version_ab_report.md`。
+**触发**：用户上传 `reports/iter36_ab/` 40 局 iter36 平台真实对战 trace（对前 30 名），与 `reports/` 顶层 67 局 iter31 老基线做 §3 真实 A/B（非配对两样本）。`python3 -m analysis reports/iter36_ab/ reports/ --out-dir reports/iter36_ab_out/` 产 `version_ab_report.md` + `section3_verdict.md`。
 
-### §3 判决 — 负向（详见 `reports/iter36_ab_out/section3_verdict.md`）
-- iter36(new N=40) vs iter31(old N=67)：胜率 0.64→0.42（CI[−0.40,−0.00]）、交付率 0.96→0.85（未交付 3→6）、均分 729→649（Δ−80.7 CI[−165.8,+4.5]）、task90 0.97→0.85、8/8 分段回归全 ⚠。
-- **混杂排除**：两批对手池分布有偏移（iter36 批 guard-type 多、speed-route 少、expected_win 17 vs 43），但 **27 共同对手 head-to-head** 仍 iter36 劣——交付 96%→88%、胜率 67%→41%、交付均分 762→754。铁证对手：opp=2769（老 11/11 全胜 → 新 1/2）、2629（5/5→0/2）、2735（交付 413 帧 → 未交付 600 帧卡死 S10）。
-- **根因①**：大路 `S01→S02→S03→S07→S09→S10→S13→S14→S15` 穿 S10/S14 设卡关隘。6 局未交付中 4 局卡 S10/S14 的 `MOVE_BLOCKED_BY_GUARD`+`MOVING_ACTION_FORBIDDEN` 风暴至 600 帧。Iter 29（在途目标失效回落 `_plan`）+ Iter 33（非 MOVE 动作 8 帧签名冷却）的修复被 static_planner 反复把目标指回 S10 架空——8 帧签名冷却对"唯一通路持久设卡"无效。
-- **根因②**：+20 鲜度收益是 sim 自博弈假象（双方都不设卡、不争冰）。真实交付局鲜度 148.1→147.4 持平、task −7、总分 −8——大路多 30 帧转化为卡死风险 + task 绕路丢分，鲜度收益被对抗吞没。`route_weather_audit` 的"大路 +20 不缩水"是在假设无人设卡的逐帧 walker 上得出，缺对抗维度。
-- **sim 回归门教训**：Iter 36 §2 sim 50 种子全绿（+30 对称增益/1.000 交付/0 STUCK），但 sim 无进攻设卡→大路永不被封。**sim 回归门对"影响 guard 暴露面的路线类改动"无效**——只能证"不回归"，不能证"对抗下正向"。这是"sim 降为回归门、真实 A/B 升为合入门"纪律的价值兑现。
+### §3 判决 — 无定论（详见 `reports/iter36_ab_out/section3_verdict.md`）
 
-### Changed — 回退（client/config.py）
-- `ENABLE_STATIC_PLANNER = True → False`（默认关，代码保留作 variant）。注释记录 §3 负向判决 + 共同对手铁证 + 根因。
-- `CLIENT_VERSION = iter37 → iter38`（标记回退点，区分失败的 iter36 部署）。
-- **保留** Iter 33（MOVING_ACTION_FORBIDDEN 风暴修复）+ Iter 34（冰鉴阈值 78→81）——独立于路线、低风险；但本次 §3 因与 static_planner 同包未能单独验证，留待下一轮真实 A/B 单独证。
-- 未删 static_planner 代码：§0.5 字面"验证为负则删"，但大路双冰鉴 +20 在无设卡条件下真实存在，guard-aware 改造（`plan_route` 排除对手已设卡 waypoint / 节点级冷却强制绕路）是可期迭代方向，故暂作 flag-off variant 保留。
+**表观数字**：iter36(new N=40) vs iter31(old N=67) 胜率 0.64→0.42、交付 0.96→0.85（未交付 3→6）、均分 729→649、8/8 分段回归 ⚠。但表观劣化 ≠ client 回归——两批是各自随机对手池的非配对样本。
 
-### Tests / 验证
-- sim 50 种子 flag-off 回归门：1.000 交付 / 0 STUCK / 0 对账 / mean 711.9（与 iter36 §2 flag-off baseline 一致，回退干净）。
+**① 路线/资源下钻证伪"大路致负"假设**（初版曾据此判负，已勘误撤销）：
+- **0/40 局 iter36 走 canonical 大路** `S01→S02→S03→S07→S09→S10`（须走 E03 S03→S07）；iter31 亦 0/67。两版都走 `S01→S06→S08→S10` 山路骨架。CLAUDE.md §1.3"plan_route 真实图选大路"是静态图结论，实战有资源/任务 waypoint 时不成立——plan_route 要么不选大路、要么被 ΔEV/效率门否决。
+- **S10 是双方必经咽喉**（S10→S13 E24 是去宫门唯一捷径），iter31 也穿 S10 并交付。故"大路穿 S10 设卡杀区"是假命题。
+- **冰鉴/马/时机两版完全一致**：ICE_BOX 领取 1.00 vs 0.97、使用 1.01 vs 0.97（ICE_KEEP=3 未生效）；S10 到达帧 268 vs 267、交付帧 406 vs 409。
+- **static_planner flag-on 在真实对局里行为 ≈ flag-off（no-op）**：同路线、同冰鉴数、同时机。+20 双冰鉴机制从未激活——这是交付局鲜度持平 148.1→147.4、task −7、总分 −8 的真因（no-op 无收益），非"大路被设卡吞没收益"。static_planner 是 no-op ⇒ 它不可能是表观回归主因。
+
+**② 表观回归主要来自对手池构成混杂**：iter31 批把弱对手 2769 刷了 11 次（全胜）、iter36 批仅匹配 2 次。去掉 2769 偏斜后，27 共同对手 head-to-head 胜率（57% vs 40%, p=0.17）与交付率（94% vs 87%, p=0.29）差异均在噪声内，不显著。初版把 2769（11W→1W）当"铁证"实为样本构成差异。
+
+### 判决与动作
+- **flag 保持开**（`ENABLE_STATIC_PLANNER=True`），不回退，不 bump CLIENT_VERSION（仍 iter37）。§0.5 纪律：正向固化 / 负则回退 / **无定论不动**。static_planner 既未兑现 +20（no-op）也未被证有害，回退无依据。
+- 真正待解：**plan_route 实战为何不选大路**——须 instrument 决策日志查是 waypoint 候选挤出还是 ΔEV/效率门否决。修通后大路双冰鉴 +20 才可能兑现。
+- Iter 33/34 与 static_planner 同包未单独验证。
+
+### 教训
+- 非配对两样本 A/B 对"单对手重复刷分"极敏感（2769 案例）。后续真实 A/B 须平衡对手池构成（每对手等额采样）或配对采样，否则混杂无法消除。
+- 归因须基于实际 trace 下钻，不可从配置 flag + 单节点出现（S10）反推路线选择。
+
+### Tests
+- sim 50 种子 flag-on 回归门：1.000 交付 / 0 STUCK / 0 对账（行为与 iter36 §2 一致，no-op 已隐含）。
 - 全 452 测试通过（135 analysis + 299 client + 18 scripts）。
-
-### 下一站
-- Iter 38 部署 → 平台真实 A/B 单独验 Iter 33/34 + 对手类观测层对账。
-- Iter 39+ guard-aware 路线候选 + Iter 33 风暴修复强化（节点级冷却）。
 
 ## [Iteration 37] - 2026-07-05 — §3 决策管线加固 + Iter 37 §1 运行期对手类观测层（纯观测，零策略风险）
 
