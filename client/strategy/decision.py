@@ -25,6 +25,7 @@ from strategy.projection import (Projector, RiskMode, net_score_delta,
                                   AVG_FRESHNESS_LOSS_PER_FRAME,
                                   freshness_loss_for_path)
 from strategy import static_planner
+from strategy.opponent_tracker import OpponentTracker, CLASS_UNKNOWN
 from strategy.tuning import tuning_for_mode
 
 _IDLE_LIKE = (PlayerState.IDLE, PlayerState.COST_BANKRUPT, None)
@@ -71,6 +72,10 @@ class DecisionEngine:
         self.mode_change = None      # (from_mode, to_mode, reason, round) 仅切档当帧非空，供 trace
         self.opponent_eta = None     # P3 §6.1 对手轨迹 ETA（纯观测，只作争夺判断输入）
         self.guard_decision = None   # P4 §7 条件化设卡当帧决策细节（供 trace），未设卡为 None
+        # Iter 37 §1 运行期对手类追踪（纯观测，不改动作）：每帧累积对手信号 → opp_class。
+        # 供 main 写 Projection.oppClass，赛后与离线 opponentClassifier 对账验证一致 & 定稳定点。
+        self.opp_tracker = OpponentTracker()
+        self.opp_class = CLASS_UNKNOWN
         # M8 Layer 2（P2 档位调参）：当前档位的策略参数；缺投影时回落 EVEN=既有默认。
         self.tuning = tuning_for_mode(RiskMode.EVEN)
         # 本帧产生的"日志事件"（被拒动作 / canAfford 拦截等内部信号，正常无 logger 依赖）：
@@ -135,6 +140,12 @@ class DecisionEngine:
             self.mode_change = None
             self.opponent_eta = None
             self.tuning = tuning_for_mode(RiskMode.EVEN)
+        # Iter 37 §1 对手类追踪（纯观测，独立 try——投影失败不影响追踪，追踪失败不影响决策）
+        try:
+            self.opp_tracker.update(world)
+            self.opp_class, _ = self.opp_tracker.classify()
+        except Exception:
+            self.opp_class = CLASS_UNKNOWN
 
     # ---- 主计划（空闲态，在节点）----
 

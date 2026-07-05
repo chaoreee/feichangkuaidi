@@ -294,7 +294,8 @@ def _log_projection(logger, rnd, engine):
         mode=bus.mode.value,
         myDeliver=my.deliver_frame if my else None,
         oppDeliver=opp.deliver_frame if opp else None,
-        confidence=round(opp.confidence, 2) if opp else None)
+        confidence=round(opp.confidence, 2) if opp else None,
+        oppClass=getattr(engine, "opp_class", None))
     mc = getattr(engine, "mode_change", None)
     if mc:
         from_mode, to_mode, reason, _ = mc

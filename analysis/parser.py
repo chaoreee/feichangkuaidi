@@ -109,6 +109,7 @@ class _Acc:
         self.conf_samples = []
         self.last_my_score = None
         self.last_opp_deliver_proj = None
+        self.runtime_opp_class = None  # Iter 37 §1 运行期对手类（末帧 Projection.oppClass）
         # 资源 / 急策 / 动作
         self.ice_used = []
         self.horse_used = None
@@ -336,6 +337,10 @@ class _Acc:
         # 中局快照：r300 前持续更新，取最后一帧 gap 作为中局分差（_mid_done 在 _on_Frame r300 时置位）
         if not self._mid_done and gap is not None:
             self.mid_gap = round(gap, 1)
+        # Iter 37 §1 运行期对手类（每帧覆盖，末帧即终局估计）
+        oc = f.get("oppClass")
+        if oc:
+            self.runtime_opp_class = oc
 
     def _on_ModeChange(self, f):
         self.mode_switches.append({
@@ -618,6 +623,7 @@ def build_report(acc, source="platform", variant="baseline"):
             "error": proj_error,
             "oppEtaPredictedDeliver": acc.last_opp_deliver_proj,
             "oppActualDeliver": opp_deliver,
+            "runtimeOpponentClass": acc.runtime_opp_class,
         },
         "classification": {
             "scoreMargin": score_margin,

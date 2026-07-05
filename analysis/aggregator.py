@@ -434,6 +434,160 @@ def ab_pair(reports):
     return baseline_name, variant_name, pairs
 
 
+def _welch_diff_ci(a_vals, b_vals):
+    """两独立样本均值差 CI：返回 (mean_a - mean_b, half_width)。
+
+    真实对战 A/B 非配对（老/新 client 各对随机对手池），用 Welch's interval
+    （不假设等方差）。任一侧 n<2 → hw=inf。None 值剔除。
+    """
+    a = [v for v in a_vals if v is not None]
+    b = [v for v in b_vals if v is not None]
+    if not a or not b:
+        return None, None
+    ma, mb = statistics.mean(a), statistics.mean(b)
+    if len(a) < 2 and len(b) < 2:
+        return ma - mb, float("inf")
+    va = statistics.variance(a) if len(a) >= 2 else 0.0
+    vb = statistics.variance(b) if len(b) >= 2 else 0.0
+    se = math.sqrt(va / len(a) + vb / len(b))
+    return ma - mb, 1.96 * se
+
+
+def _rate_diff_ci(a_reports, b_reports, pred):
+    """两独立样本率差 CI：返回 (rate_a - rate_b, half_width)。"""
+    ra = _rate(a_reports, pred) if a_reports else 0.0
+    rb = _rate(b_reports, pred) if b_reports else 0.0
+    na, nb = len(a_reports), len(b_reports)
+    if na < 2 or nb < 2:
+        return ra - rb, float("inf")
+    se = math.sqrt(ra * (1 - ra) / na + rb * (1 - rb) / nb)
+    return ra - rb, 1.96 * se
+
+
+def _version_key(r):
+    """clientVersion 归一化：`iter36+abc1234` / `iter36-abc` → `iter36`。
+
+    code_version() = CLIENT_VERSION[+git_hash]；缺省回落 `unknown`。
+    """
+    cv = r.get("clientVersion") or "unknown"
+    for sep in ("+", "-"):
+        if sep in cv:
+            return cv.split(sep)[0]
+    return cv
+
+
+def version_ab_report(reports):
+    """按 clientVersion 分桶的**非配对**两样本 A/B（§3 真实对战合入门）。
+
+    真实 trace seed=null 无法配对（`ab_pair` 仅 sim 适用）；老/新 client 各对
+    随机对手池打 → 两独立样本。old = 最早 iter，new = 最新 iter。
+
+    输出：per-version N/胜率/交付率/均分±CI/鲜度/好果/交付帧/task90/stuck/未交付；
+    DELTA（new-old）的胜率差 CI + 均分差 Welch CI；分段回归（任一回归即不合入）；
+    对手类/运气分布混杂守卫（偏移则归因谨慎）；低样本标记。
+
+    **仅比 source==platform 的真实对战**（sim 走 `ab_report` seed 配对，混入无意义）。
+    """
+    reports = [r for r in reports if (r.get("source") or "platform") == "platform"]
+    by_ver = {}
+    for r in reports:
+        by_ver.setdefault(_version_key(r), []).append(r)
+    versions = sorted(by_ver.keys())
+    if len(versions) < 2:
+        return None
+    old, new = versions[0], versions[-1]
+    old_rs, new_rs = by_ver[old], by_ver[new]
+
+    def _stats(rs):
+        n = len(rs)
+        scores = _nums(rs, _me_total)
+        frames = _nums(rs, _me_deliver_frame)
+        fresh = _nums(rs, _me_freshness)
+        good = _nums(rs, _me_good_fruit)
+        return {
+            "n": n,
+            "win": _rate(rs, lambda r: r.get("outcome") == "WIN") if n else 0.0,
+            "deliver": _rate(rs, lambda r: r.get("outcome") in ("WIN", "LOSS", "TIE")) if n else 0.0,
+            "mean_score": statistics.mean(scores) if scores else 0.0,
+            "score_ci": _ci95(scores),
+            "mean_frame": statistics.mean(frames) if frames else 0.0,
+            "mean_fresh": statistics.mean(fresh) if fresh else 0.0,
+            "mean_good": statistics.mean(good) if good else 0.0,
+            "task90": _rate(rs, lambda r: "task90_reached" in _segments_of(r)) if n else 0.0,
+            "stuck": sum(len(((r.get("failures") or {}).get("waitingStuck") or [])) for r in rs),
+            "undelivered": sum(1 for r in rs if r.get("outcome") == "UNDELIVERED"),
+        }
+
+    os_, ns_ = _stats(old_rs), _stats(new_rs)
+    score_diff, score_hw = _welch_diff_ci(_nums(new_rs, _me_total), _nums(old_rs, _me_total))
+    win_diff, win_hw = _rate_diff_ci(new_rs, old_rs, lambda r: r.get("outcome") == "WIN")
+    low_sample = len(old_rs) < AB_MIN_SAMPLE or len(new_rs) < AB_MIN_SAMPLE
+
+    seg_reg = []
+    for name in SEGMENT_NAMES:
+        oseg = [r for r in old_rs if name in _segments_of(r)]
+        nseg = [r for r in new_rs if name in _segments_of(r)]
+        if not oseg or not nseg:
+            continue
+        om = statistics.mean([_me_total(r) for r in oseg if _me_total(r) is not None] or [0])
+        nm = statistics.mean([_me_total(r) for r in nseg if _me_total(r) is not None] or [0])
+        if nm < om - 5:
+            seg_reg.append("  %-18s old %.0f / new %.0f (%+.0f)  ⚠ 成功路径劣化"
+                           % (name, om, nm, nm - om))
+
+    def _opp_class_dist(rs):
+        d = {}
+        for r in rs:
+            d[_opp_class(r)] = d.get(_opp_class(r), 0) + 1
+        return ", ".join("%s=%d" % (k, d[k]) for k in _OPP_CLASS_ORDER if d.get(k)) or "n/a"
+
+    def _luck_dist(rs):
+        d = {}
+        for r in rs:
+            lc = (r.get("classification") or {}).get("luckClass") or "unknown"
+            d[lc] = d.get(lc, 0) + 1
+        return ", ".join("%s=%d" % (k, d[k]) for k in sorted(d)) or "n/a"
+
+    def _line(rs, s):
+        return ("%s (N=%d): W %.2f, deliver %.2f, mean %.0f %s, fresh %.1f, "
+                "good %.1f, frame %.0f, task90 %.2f, stuck %d, undelivered %d"
+                % (rs, s["n"], s["win"], s["deliver"], s["mean_score"],
+                   _fmt_ci(s["score_ci"]), s["mean_fresh"], s["mean_good"],
+                   s["mean_frame"], s["task90"], s["stuck"], s["undelivered"]))
+
+    lines = ["# A/B by ClientVersion (unpaired, §3 real) — %s(old) vs %s(new)" % (old, new), ""]
+    lines.append(("SAMPLE NOTE: N_old=%d / N_new=%d，任一 <%d 标'假设级'，不合入（§3.7）"
+                  % (len(old_rs), len(new_rs), AB_MIN_SAMPLE)) if low_sample
+                 else "SAMPLE NOTE: N_old=%d / N_new=%d 达 A/B 门槛"
+                 % (len(old_rs), len(new_rs)))
+    lines += ["",
+              "> 真实对战**非配对**：老/新 client 各对随机对手池打，两独立样本。"
+              "对手池/运气分布偏移时见下方 CONFOUND 守卫，DELTA 不可全归因于 client 改动。",
+              "", "## 各版本概览", _line(old, os_), _line(new, ns_), "",
+              "## DELTA (new − old)"]
+    if score_diff is not None:
+        lines.append("  MEAN_SCORE   %+.1f  95%% CI %s"
+                     % (score_diff, _fmt_ci((score_diff, score_hw)) if score_hw is not None else "n/a"))
+    lines.append("  WIN_RATE     %+.2f  95%% CI %s"
+                 % (win_diff, _fmt_ci((win_diff, win_hw))))
+    lines.append("  DELIVERY     %+.2f" % (ns_["deliver"] - os_["deliver"]))
+    lines.append("  FRESHNESS    %+.1f" % (ns_["mean_fresh"] - os_["mean_fresh"]))
+    lines.append("  GOODFRUIT    %+.1f" % (ns_["mean_good"] - os_["mean_good"]))
+    lines.append("  FRAME        %+.0f" % (ns_["mean_frame"] - os_["mean_frame"]))
+    lines.append("  STUCK        %+d" % (ns_["stuck"] - os_["stuck"]))
+    lines.append("  UNDELIVERED  %+d" % (ns_["undelivered"] - os_["undelivered"]))
+    if seg_reg:
+        lines += ["", "## SEGMENT REGRESSION（任一回归即不合入，§3.8）"] + seg_reg
+    else:
+        lines += ["", "## SEGMENT REGRESSION: 无劣化"]
+    lines += ["", "## CONFOUND 守卫（分布偏移则归因谨慎）",
+              "  OPP_CLASS  old: %s" % _opp_class_dist(old_rs),
+              "             new: %s" % _opp_class_dist(new_rs),
+              "  LUCK       old: %s" % _luck_dist(old_rs),
+              "             new: %s" % _luck_dist(new_rs)]
+    return "\n".join(lines)
+
+
 def ab_report(reports):
     paired = ab_pair(reports)
     if not paired:
@@ -573,6 +727,31 @@ def _opp_class_section(reports):
     return "\n".join(lines)
 
 
+def runtime_opp_class_agreement(reports):
+    """Iter 37 §1 运行期对手类 vs 赛后离线分类对账（纯观测验证）。
+
+    运行期 OpponentTracker 每帧累积信号给 class（末帧写入 Projection.oppClass →
+    report.projection.runtimeOpponentClass）；离线 classify_opponent 用终局快照。
+    两者判定逻辑同源（阈值镜像），应高度一致；不一致暴露运行期累积 bug 或中段翻转未稳定。
+    返回 (agree, disagree, no_runtime) 计数与一句话归因。
+    """
+    agree = disagree = no_runtime = 0
+    disagree_samples = []
+    for r in reports:
+        rt = (r.get("projection") or {}).get("runtimeOpponentClass")
+        offline = _opp_class(r)
+        if not rt:
+            no_runtime += 1
+            continue
+        if rt == offline:
+            agree += 1
+        else:
+            disagree += 1
+            if len(disagree_samples) < 5:
+                disagree_samples.append((r.get("matchId"), rt, offline))
+    return agree, disagree, no_runtime, disagree_samples
+
+
 def _opp_section(reports):
     """对手分项与设卡段（P1-A）：opp 分项均值 + 设卡统计 + 资源/鲜度轨迹。"""
     comps, n_opp = opp_score_components(reports)
@@ -641,6 +820,18 @@ def build_analysis_report(reports):
           "## 对手类分桶（Iter 32 群体归因，假设级）",
           _opp_class_section(reports),
           "",
+          "## 运行期对手类对账（Iter 37 §1，纯观测）",]
+    agree, disagree, no_runtime, samples = runtime_opp_class_agreement(reports)
+    L.append("  runtime vs offline: agree=%d disagree=%d no_runtime=%d"
+             % (agree, disagree, no_runtime))
+    if disagree:
+        L.append("  不一致样本（mid=matchId, runtime, offline）:")
+        for mid, rt, off in samples:
+            L.append("    - %s runtime=%s offline=%s" % (mid, rt, off))
+        L.append("  → 不一致暴露运行期累积 bug 或中段翻转未稳定，须核查后再接策略（§2）")
+    else:
+        L.append("  → 运行期与离线一致，分类器可信赖，§2 策略切换可接")
+    L += ["",
           "## 分项分均值（me，rules.py 从原始输入重算）",
           "  " + ", ".join("%s=%.1f" % (k, v) for k, v in me_score_components(reports).items()),
           "",

@@ -98,6 +98,7 @@ class _Match:
         self.last_opp_deliver = None
         self.last_gap = None
         self.last_mode = None
+        self.last_opp_class = None
         self.conf_samples = []
         self.mid_gap = None
         self._mid_done = False
@@ -303,6 +304,9 @@ class _Match:
         mode = f.get("mode")
         if mode is not None:
             self.last_mode = mode
+        oc = f.get("oppClass")
+        if oc:
+            self.last_opp_class = oc
         conf = _num(f.get("confidence"))
         if conf is not None:
             self.conf_samples.append(conf)
@@ -439,7 +443,8 @@ class _Match:
         # 投影摘要
         self.out.append(_kv("Proj", **{
             "my": self.last_my, "oppDel": self.last_opp_deliver,
-            "gap": self.last_gap, "mode": self.last_mode}))
+            "gap": self.last_gap, "mode": self.last_mode,
+            "oppClass": self.last_opp_class}))
         if self.conf_samples:
             self.out.append("Conf min=%.3f med=%.3f max=%.3f" % (
                 min(self.conf_samples),
@@ -600,6 +605,7 @@ class _PState:
         self.last_opp_deliver = None
         self.last_gap = None
         self.last_mode = None
+        self.last_opp_class = None
         self.conf_min = self.conf_med = self.conf_max = None
         self.mid_gap = None
         # 结算
@@ -923,6 +929,9 @@ def _parse_proj(st, rest):
     st.last_opp_deliver = _num(kv.get("oppDel"))
     st.last_gap = _num(kv.get("gap"))
     st.last_mode = kv.get("mode")
+    oc = kv.get("oppClass")
+    if oc and oc != "None":
+        st.last_opp_class = oc
 
 
 def _parse_conf(st, rest):
@@ -1043,6 +1052,7 @@ def _build_compact_report(st):
             "error": proj_error,
             "oppEtaPredictedDeliver": st.last_opp_deliver,
             "oppActualDeliver": opp_deliver,
+            "runtimeOpponentClass": st.last_opp_class,
         },
         "classification": {
             "scoreMargin": score_margin,

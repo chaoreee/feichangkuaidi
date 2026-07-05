@@ -2,6 +2,34 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 37] - 2026-07-05 — §3 决策管线加固 + Iter 37 §1 运行期对手类观测层（纯观测，零策略风险）
+
+**触发**：用户已在平台开始 iter36 client 对前 30 名的 §3 真实 A/B（跑数据期间），并行推进两条不依赖 §3 结果的轨道：①让 §3 决策瞬间干净利落；②为 Iter 37 博弈最优提前打观测地基。CLIENT_VERSION iter36→iter37。
+
+### Added — §3 决策管线加固（analysis 侧，纯观测）
+- `aggregator.version_ab_report(reports)`：按 `clientVersion` 归一化（`iter36+hash`→`iter36`）分桶的**非配对两样本 A/B**。真实 trace `seed=null` 无法配对（`ab_pair` 仅 sim seed 配对），老/新 client 各对随机对手池打→两独立样本。`old=min(iter)` vs `new=max(iter)`：per-version N/胜率/交付率/均分±CI95/鲜度/好果/交付帧/task90/stuck/未交付；DELTA 两样本均分差 Welch CI（`_welch_diff_ci`）+ 胜率差 CI（`_rate_diff_ci`）；分段回归（任一劣化即不合入）；对手类/运气分布**混杂守卫**（偏移则归因谨慎）；低样本标记。**仅比 `source==platform`**（sim 走 `ab_report` seed 配对，混入无意义）。
+- `__main__.collect_reports` 扩三源：`*.report.json`（prio1，最全）/ `*.compact.log`（prio2，parse_compact 还原）/ `match_*.log`（prio0，parse_log），按 matchId 去重保最高优先级。§3 须同框老基线（iter31 N=67，仅存 report.json/compact.log）与新 iter36 trace，故三源皆读。修两个 bug：①`match_*.compact.log` 同时匹配首条 `match_*.log` 分支→按扩展名特异性排序先判；②report.json 源 `compact_trace` 返回空串会覆盖已有 compact.log→仅对原始 match_*.log 派生。
+- `__main__._infer_source` 识别 `sim_*` 前缀目录（`reports/sim_iter36_ab/` 原误标 platform 混入真实 A/B）。
+- `__main__` 落盘 `reports/version_ab_report.md`（≥2 clientVersion 且 platform 才生成）。
+
+### Added — Iter 37 §1 运行期对手类观测层（client+analysis，纯观测不改动作）
+- `client/strategy/opponent_tracker.py` `OpponentTracker`：每帧 `update(world)` 累积对手可观测信号——设卡次数（新出现的对手 active guard 节点计数，己方设卡不计）、用冰次数（ICE_BOX 库存递减量累计，领冰的增量不计）、鲜度 min&last、好果 last、任务 last、交付帧（首次 delivered=True 的 round）。`classify()` 返回 `(class, signals)`，判定阈值镜像 `analysis/opponent_classifier.py`（**SSOT 在 analysis 侧**，client 自包含不可 import analysis；guard>quality>speed 优先级一致）。首帧无 prev 基线不计数、无 opponent 安全跳过。
+- `decision._update_projection`：每帧 `opp_tracker.update` + `self.opp_class=classify()`，独立 try（投影失败不影响追踪，追踪失败不影响决策）。
+- `main._log_projection`：Projection 行加 `oppClass` 字段（每帧当前估计，末帧即终局）。
+- `parser._on_Projection` + compact `_parse_proj`/`_on_Projection`：取末帧 oppClass → `report.projection.runtimeOpponentClass`（compact Proj 行亦加 oppClass，round-trip 一致）。
+- `aggregator.runtime_opp_class_agreement`：对账运行期 vs 离线分类（agree/disagree/no_runtime + 不一致样本），`build_analysis_report` 加「运行期对手类对账」段。
+
+### Tests
+- 8 项 aggregator 新单测（version_ab_report 多版本/单版本/sim 过滤/低样本/分段回归 + Welch/rate CI + version_key 归一化）；10 项 OpponentTracker 单测（设卡计数/己方不计/用冰递减/鲜度 min&last/交付帧/三分类/无 opponent 安全/guard 覆盖 quality）。
+- 全量：135 analysis（+8）+ 299 client（+10）全过。
+- **sim 50 种子回归门**：1.000 交付 / mean 741.9 / 0 STUCK / 0 对账失败（与 iter36 baseline 一致——观测层行为中性零回归）。
+- **runtime vs offline 对账**：sim 50 局 **50/50 一致**（分类器可信赖，§2 策略切换可接）。
+
+### Misc
+- `config.CLIENT_VERSION` iter36→iter37。
+- **§2 策略消费（`ENABLE_OPPONENT_CLASS_STRATEGY` + per-class 参数）留 §3 数据回流后定**——per-class 该做什么差异取决于 §3 告知 iter36 之后还输在哪。遵守「纯观测先、验证为正才接策略」纪律。
+- 下一站：§3 数据回流 → `python3 -m analysis <新iter36 trace目录> reports/` 产 `version_ab_report.md` → 决策 iter36 合入/回退 flag → 据输在哪定 Iter 37 §2 per-class 策略参数。
+
 ## [Iteration 36] - 2026-07-05 — 资源感知路线重评 §1 + §2 stage：大路双冰鉴杠杆确认 +20（马感知 walker）→ 开 static_planner 合入默认（sim 回归门全过）
 
 触发：Iter 35 §5.3 提「马的密度是 quality-route 鲜度 gap 真因」+ `samples/map_config.json` `gameplay.resources`（V4.2-MEDIUM schema）揭示 me 山路漏领 S03/S07 双冰鉴 + S09 快马。`docs/iter36_plan.md` 排「方案 B：资源感知路线重评」。

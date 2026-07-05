@@ -2,6 +2,7 @@
 seed 配对 A/B + CI + 分段回归 + `rules.py` 对账自检。
 """
 
+import math
 import os
 import sys
 import unittest
@@ -19,12 +20,13 @@ def _report(match_id="m1", outcome="WIN", variant="baseline", seed=None, source=
             opp_total=0, opp_delivered=False, me_delivered=True,
             segments=("delivered", "task90_reached"), luck="expected_win",
             proj_error=None, waiting_stuck=(), rejected=(),
-            me_bounty=0, me_penalty=0):
+            me_bounty=0, me_penalty=0, client_version="iter36"):
     """构造一份合法 Report（schemaVersion=1）。me_total 默认对账自洽。"""
     return {
         "schemaVersion": 1,
         "matchId": match_id, "playerId": 1001, "teamId": "RED",
         "seed": seed, "source": source, "variant": variant, "durationRound": 600,
+        "clientVersion": client_version,
         "outcome": outcome,
         "finalScore": {"me": {"total": me_total, "delivery": None, "task": None,
                               "time": None, "goodFruit": None, "freshness": None,
@@ -316,6 +318,78 @@ class TestOppStatsP1A(unittest.TestCase):
         self.assertIn("blocked_me_frames=4", md)
         self.assertIn("OPP_ICE_USED: 2 total", md)
         self.assertIn("OPP_FRESHNESS", md)
+
+
+class TestVersionAB(unittest.TestCase):
+    """§3 真实对战版本 A/B（非配对两样本）。
+
+    真实 trace seed=null 无法配对；老/新 client 各对随机对手池打→两独立样本。
+    """
+
+    def test_single_version_returns_none(self):
+        reps = [_report(match_id="a", client_version="iter36", source="platform"),
+                _report(match_id="b", client_version="iter36+abc", source="platform")]
+        self.assertIsNone(A.version_ab_report(reps))  # 同 iter 归一化为一版
+
+    def test_sim_filtered_out(self):
+        # sim 源不入真实 A/B（走 ab_report seed 配对）
+        reps = ([_report(match_id="o%d" % i, client_version="iter31", source="sim")
+                 for i in range(35)] +
+                [_report(match_id="n%d" % i, client_version="iter36", source="sim")
+                 for i in range(35)])
+        self.assertIsNone(A.version_ab_report(reps))
+
+    def test_two_versions_emits_delta_and_ci(self):
+        old = [_report(match_id="o%d" % i, client_version="iter31", source="platform",
+                       me_total=755, me_fresh=80.0, me_good=97)
+               for i in range(35)]
+        new = [_report(match_id="n%d" % i, client_version="iter36+def", source="platform",
+                       me_total=775, me_fresh=87.0, me_good=100)
+               for i in range(35)]
+        text = A.version_ab_report(old + new)
+        self.assertIsNotNone(text)
+        self.assertIn("iter31", text)
+        self.assertIn("iter36", text)  # +def 已归一化
+        self.assertIn("MEAN_SCORE", text)
+        self.assertIn("WIN_RATE", text)
+        self.assertIn("95% CI", text)
+        self.assertIn("CONFOUND", text)
+
+    def test_version_key_normalizes_git_hash(self):
+        self.assertEqual(A._version_key({"clientVersion": "iter36+abc1234"}), "iter36")
+        self.assertEqual(A._version_key({"clientVersion": "iter36-abc"}), "iter36")
+        self.assertEqual(A._version_key({"clientVersion": "iter36"}), "iter36")
+        self.assertEqual(A._version_key({}), "unknown")
+
+    def test_low_sample_flag(self):
+        old = [_report(match_id="o%d" % i, client_version="iter31", source="platform") for i in range(5)]
+        new = [_report(match_id="n%d" % i, client_version="iter36", source="platform") for i in range(5)]
+        text = A.version_ab_report(old + new)
+        self.assertIn("假设级", text)
+
+    def test_segment_regression_flagged(self):
+        old = [_report(match_id="o%d" % i, client_version="iter31", source="platform", me_total=790,
+                       segments=["delivered", "task90_reached"]) for i in range(35)]
+        new = [_report(match_id="n%d" % i, client_version="iter36", source="platform", me_total=760,
+                       segments=["delivered", "task90_reached"]) for i in range(35)]
+        text = A.version_ab_report(old + new)
+        self.assertIn("SEGMENT REGRESSION", text)
+        self.assertIn("task90_reached", text)
+
+    def test_welch_diff_ci(self):
+        a = [700.0] * 20 + [760.0] * 20  # mean 730
+        b = [750.0] * 40                  # mean 750
+        diff, hw = A._welch_diff_ci(a, b)
+        self.assertAlmostEqual(diff, -20.0, delta=0.01)
+        self.assertGreater(hw, 0)
+        self.assertFalse(math.isinf(hw))
+
+    def test_rate_diff_ci(self):
+        rs_a = [{"outcome": "WIN"}] * 14 + [{"outcome": "LOSS"}] * 6   # 0.7
+        rs_b = [{"outcome": "WIN"}] * 6 + [{"outcome": "LOSS"}] * 14   # 0.3
+        diff, hw = A._rate_diff_ci(rs_a, rs_b, lambda r: r.get("outcome") == "WIN")
+        self.assertAlmostEqual(diff, 0.4, delta=0.01)
+        self.assertFalse(math.isinf(hw))
 
 
 if __name__ == "__main__":
