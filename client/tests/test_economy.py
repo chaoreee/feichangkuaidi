@@ -53,7 +53,7 @@ class TestEconomy(unittest.TestCase):
     def setUp(self):
         self.ctx = GameContext(PID, "RED", 0, START_DATA)
         self.gm = self.ctx.game_map
-        # Iter 36 §2：flag 默认开（抬冰鉴阈值到 91）。本类测 baseline 81 阈值行为。
+        # Iter 38：flag 默认关。本类测 baseline ICE_BOX_USE_BELOW=90 阈值行为（Iter 39：81→90）。
         self._old_sp = config.ENABLE_STATIC_PLANNER
         config.ENABLE_STATIC_PLANNER = False
 
@@ -75,15 +75,26 @@ class TestEconomy(unittest.TestCase):
         a = self.act(freshness=95.0, resources={"ICE_BOX": 1})
         self.assertNotEqual(a, {"action": "USE_RESOURCE", "resourceType": "ICE_BOX"})
 
-    def test_ice_box_fires_just_above_80_threshold(self):
-        # Iter 34：阈值 78→81，在跌破 80 好果转坏阈值前用冰鉴救回 1 篓好果
-        a = self.act(freshness=80.5, resources={"ICE_BOX": 1})
+    def test_ice_box_fires_just_below_90_threshold(self):
+        # Iter 39：阈值 81→90（弱优于最优点）。freshness=89.5 < 90 → 用冰鉴
+        a = self.act(freshness=89.5, resources={"ICE_BOX": 1})
         self.assertEqual(a, {"action": "USE_RESOURCE", "resourceType": "ICE_BOX"})
 
-    def test_no_ice_box_at_82(self):
-        # 82 仍高于阈值 81，不使用冰鉴（保留给真正跌破时）
-        a = self.act(freshness=82.0, resources={"ICE_BOX": 1})
+    def test_no_ice_box_at_91(self):
+        # 91 高于阈值 90，不使用冰鉴（保留给真正跌破时）
+        a = self.act(freshness=91.0, resources={"ICE_BOX": 1})
         self.assertNotEqual(a, {"action": "USE_RESOURCE", "resourceType": "ICE_BOX"})
+
+    def test_ice_box_threshold_90_no_cap_waste(self):
+        # Iter 39 弱优于证明：阈值 90 用冰时 fresh=89.x→+10=99.x，无封顶浪费（91 才浪费）。
+        # 端鲜度与时机无关（=110−loss）；阈值 90 仅把 pre-ice 鲜度从 80.x 抬到 89.x，离 80 转坏阈值更远。
+        # 这里只断言阈值边界行为；端鲜度/弱优于由 rules.py 单测与 docs 证明保证。
+        self.assertEqual(config.ICE_BOX_USE_BELOW, 90.0)
+        # 90 边界：fresh=89.9 触发用冰，fresh=90.0 不触发（严格 <）
+        self.assertEqual(self.act(freshness=89.9, resources={"ICE_BOX": 1}),
+                         {"action": "USE_RESOURCE", "resourceType": "ICE_BOX"})
+        self.assertNotEqual(self.act(freshness=90.0, resources={"ICE_BOX": 1}),
+                            {"action": "USE_RESOURCE", "resourceType": "ICE_BOX"})
 
     # 任务
     def test_claim_task_at_node(self):

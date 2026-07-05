@@ -81,6 +81,7 @@ class DecisionEngine:
         # 本帧产生的"日志事件"（被拒动作 / canAfford 拦截等内部信号，正常无 logger 依赖）：
         # main.py 在 decide 返回后取出并写成 trace 行，供赛后分析器解析。每帧 decide 开头清空。
         self.trace_events = []
+        self._last_plan_route = None  # Iter 39 诊断：上次 plan_route 选中路径，用于切换时落 trace
 
     def decide(self, world):
         me = world.me
@@ -289,8 +290,28 @@ class DecisionEngine:
         """
         if config.ENABLE_STATIC_PLANNER and terminal is not None:
             try:
+                debug = {}
                 path, _ = static_planner.plan_route(
-                    world, me, gm, src, dst, terminal, self.ctx, blocked=blocked)
+                    world, me, gm, src, dst, terminal, self.ctx, blocked=blocked, debug=debug)
+                # Iter 39 诊断：路线切换时落 trace（揭示实战为何选/不选大路）
+                sel = tuple(path) if path else None
+                if sel and sel != self._last_plan_route:
+                    self._last_plan_route = sel
+                    if debug:
+                        g = debug.get("gate") or {}
+                        wb = debug.get("winner") or {}
+                        tb = debug.get("time_best") or {}
+                        self.trace_events.append(("PlanRoute", {
+                            "src": debug.get("src"),
+                            "nCand": debug.get("n_cand"),
+                            "winner": "->".join(wb.get("path") or []),
+                            "wScore": wb.get("score"),
+                            "timeBest": "->".join(tb.get("path") or []),
+                            "tScore": tb.get("score"),
+                            "gain": g.get("gain"), "extra": g.get("extra"),
+                            "gate": g.get("reason"),
+                            "blocked": ",".join(debug.get("blocked") or []) or None,
+                        }))
                 if path and len(path) > 1:
                     cost = static_planner.path_frames(gm, path)
                     if cost != _INF:

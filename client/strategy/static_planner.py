@@ -293,7 +293,7 @@ def _build_candidates(world, me, gm, src, terminal, blocked, p_time, p_fresh):
     return candidates
 
 
-def plan_route(world, me, gm, src, dst, terminal, ctx, blocked=None):
+def plan_route(world, me, gm, src, dst, terminal, ctx, blocked=None, debug=None):
     """选投影终局分最高的**完整交付路线**（联合 task/ice/freshness/time）。
 
     flag-on 时规划 src→terminal 的完整交付路线（`dst` 仅保留签名兼容，作异常回落目标）：
@@ -301,6 +301,11 @@ def plan_route(world, me, gm, src, dst, terminal, ctx, blocked=None):
     每候选用 `project_route`（自动建模沿途 task 领取 + ice 收集 + ice 用量 0..预算）投影终局分，
     取最高；仅当高出时间最优 ≥ `STATIC_PLANNER_MIN_ROUTE_GAIN` 才改道，否则保时间最优。
     永不抛出：异常/不可达回落时间最优路径。
+
+    `debug`（Iter 39 诊断）：传入 dict 时填入候选/门控摘要（**纯观测，不影响返回**），
+    供 decision 层在路线切换时落 trace——揭示实战为何选/不选大路（候选集 vs ΔEV/效率门 vs
+    时间最优）。Iter 36 §3 实测 0/40 选 canonical 大路，离线复现（裸图/带 task/带天气）均选大路，
+    差异在不可离线复现的实战状态（动态障碍/对手已领冰源/平台图漂移），须实战 trace 决策日志定位。
     """
     import config
     blocked = frozenset(blocked or ())
@@ -329,10 +334,12 @@ def plan_route(world, me, gm, src, dst, terminal, ctx, blocked=None):
             if p_time else None
 
         best = None  # (score, path, deliver_frame)
+        cand_scores = []  # [(path, score, deliver_frame)] 供 debug
         for path in uniq:
             scored = _best_score_for_path(world, me, gm, path, terminal, ctx, wcoef)
             if scored is None:
                 continue
+            cand_scores.append((path, scored[0], scored[2]))
             if best is None or scored[0] > best[0]:
                 best = (scored[0], path, scored[2])
         if best is None:
@@ -344,13 +351,42 @@ def plan_route(world, me, gm, src, dst, terminal, ctx, blocked=None):
         # 系统性乐观（暴雨/山雾减速未建模、未来天气隐藏）——拒 +7/+60=0.12/帧 的低效长绕路，
         # 纳 +7/+10=0.7/帧 的高效绕路。短绕路时间成本估计可信，仅绝对增益门把关。
         best_path = best[1]
+        gain = extra = None
+        gate_passed = True
+        gate_reason = "best_is_time_optimal"
         if best_path != p_time and time_best is not None:
             gain = best[0] - time_best[0]
             extra = best[2] - time_best[2]   # 总交付帧差（移动+停靠+验核+冰鉴使用）
             min_gain = getattr(config, "STATIC_PLANNER_MIN_ROUTE_GAIN", 0.5)
             min_eff = getattr(config, "STATIC_PLANNER_MIN_ROUTE_EFFICIENCY", 0.3)
-            if gain < min_gain or (extra >= _EFFICIENCY_MIN_EXTRA and gain / extra < min_eff):
+            if gain < min_gain:
+                gate_passed = False
+                gate_reason = "gain<min_gain"
                 best_path = p_time
+            elif extra >= _EFFICIENCY_MIN_EXTRA and gain / extra < min_eff:
+                gate_passed = False
+                gate_reason = "efficiency"
+                best_path = p_time
+            else:
+                gate_reason = "passed"
+        # Iter 39 诊断：纯观测填 debug（不影响返回）
+        if isinstance(debug, dict):
+            cand_summary = [
+                {"path": list(p), "score": round(sc, 1), "dF": dF,
+                 "ice": _path_pickups(world, me, p)[2]}
+                for (p, sc, dF) in sorted(cand_scores, key=lambda x: -x[1])[:6]
+            ]
+            debug.clear()
+            debug.update({
+                "src": src, "n_cand": len(cand_scores),
+                "time_best": {"score": round(time_best[0], 1), "dF": time_best[2],
+                              "path": list(p_time)} if time_best else None,
+                "winner": {"score": round(best[0], 1), "dF": best[2], "path": list(best[1])},
+                "gate": {"gain": round(gain, 1) if gain is not None else None,
+                         "extra": extra, "passed": gate_passed, "reason": gate_reason},
+                "candidates": cand_summary,
+                "blocked": sorted(blocked),
+            })
         return (best_path, best[0])
     except Exception:
         try:

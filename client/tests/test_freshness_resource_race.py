@@ -44,7 +44,7 @@ class TestFreshnessRace(unittest.TestCase):
     def setUp(self):
         self._saved = config.ENABLE_FRESHNESS_RACE
         config.ENABLE_FRESHNESS_RACE = True
-        # Iter 36 §2：flag 默认开（抬冰鉴阈值到 91）。本类测 baseline 81/race 88 阈值行为，须 flag-off。
+        # Iter 39：baseline ICE_BOX_USE_BELOW=90（弱优于最优点）、race 阈值 92。本类测 baseline 90/race 92，须 flag-off。
         self._old_sp = config.ENABLE_STATIC_PLANNER
         config.ENABLE_STATIC_PLANNER = False
 
@@ -59,23 +59,24 @@ class TestFreshnessRace(unittest.TestCase):
         return a.get("action") if a else None
 
     def test_uses_ice_box_early_when_losing_race(self):
-        # 常态阈值 78：鲜度 85 本不用；但对手 100 领先≥10 → 劣势 → 提前用(阈值 88)。
-        self.assertEqual(self._rescue(me_fresh=85.0, opp_fresh=100.0), "USE_RESOURCE")
+        # baseline 90：鲜度 91 本不用；但对手 101 领先≥10 → 劣势 → 提前用(阈值 92)。
+        self.assertEqual(self._rescue(me_fresh=91.0, opp_fresh=101.0), "USE_RESOURCE")
 
     def test_no_early_use_when_freshness_comparable(self):
-        # 对手鲜度与我方相近(未拉开 10) → 不属劣势，鲜度 85 仍不提前用。
-        self.assertIsNone(self._rescue(me_fresh=85.0, opp_fresh=88.0))
+        # 对手鲜度与我方相近(未拉开 10) → 不属劣势，鲜度 91 仍不提前用(91 not < baseline 90)。
+        self.assertIsNone(self._rescue(me_fresh=91.0, opp_fresh=92.0))
 
     def test_still_uses_below_normal_threshold(self):
-        # 常态阈值内(70<78)无论 race 与否都用。
+        # 常态阈值内(70<90)无论 race 与否都用。
         self.assertEqual(self._rescue(me_fresh=70.0, opp_fresh=70.0), "USE_RESOURCE")
 
     def test_no_ice_box_no_action(self):
-        self.assertIsNone(self._rescue(me_fresh=85.0, opp_fresh=100.0, me_ice=0))
+        self.assertIsNone(self._rescue(me_fresh=91.0, opp_fresh=101.0, me_ice=0))
 
     def test_flag_off_no_early_use(self):
         config.ENABLE_FRESHNESS_RACE = False
-        self.assertIsNone(self._rescue(me_fresh=85.0, opp_fresh=100.0))
+        # race 关：鲜度 91 高于 baseline 90 → 不用。
+        self.assertIsNone(self._rescue(me_fresh=91.0, opp_fresh=101.0))
 
 
 class TestResourceRace(unittest.TestCase):
@@ -121,7 +122,7 @@ class TestResourceRace(unittest.TestCase):
 
 class TestRaceDefaultsOff(unittest.TestCase):
     def setUp(self):
-        # Iter 36 §2：static_planner 默认开（抬冰鉴阈值到 91）。本类测 baseline 行为，须 flag-off。
+        # Iter 38：static_planner 默认关。本类测 baseline ICE_BOX_USE_BELOW=90 行为。
         self._old_sp = config.ENABLE_STATIC_PLANNER
         config.ENABLE_STATIC_PLANNER = False
 
@@ -132,11 +133,13 @@ class TestRaceDefaultsOff(unittest.TestCase):
         self.assertFalse(config.ENABLE_FRESHNESS_RACE)
         self.assertFalse(config.ENABLE_RESOURCE_DENY)
 
-    def test_freshness_rescue_baseline_below_78(self):
-        # 默认关：鲜度 85 不用冰鉴（仅常态 <78 才用），行为不变。
+    def test_freshness_rescue_baseline_at_90(self):
+        # 默认关：鲜度 91 高于 baseline 90 → 不用冰鉴；鲜度 89 低于 90 → 用。
         eng = DecisionEngine(GameContext(PID, "RED", 0, SD))
-        w = _world(me_fresh=85.0, opp_fresh=100.0, me_ice=1)
-        self.assertIsNone(eng._freshness_rescue(w, w.me))
+        w_hi = _world(me_fresh=91.0, opp_fresh=100.0, me_ice=1)
+        self.assertIsNone(eng._freshness_rescue(w_hi, w_hi.me))
+        w_lo = _world(me_fresh=89.0, opp_fresh=100.0, me_ice=1)
+        self.assertEqual(eng._freshness_rescue(w_lo, w_lo.me).get("action"), "USE_RESOURCE")
 
 
 if __name__ == "__main__":

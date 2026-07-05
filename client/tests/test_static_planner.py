@@ -288,20 +288,22 @@ class TestDecisionIntegration(unittest.TestCase):
         self.assertEqual(path, tp)
         self.assertEqual(cost, tc)
 
-    def test_flag_on_freshness_rescue_uses_raised_threshold(self):
-        """flag-on：鲜度 90（≥baseline 阈值 78 但 < STATIC_PLANNER 91）→ 用冰鉴。"""
-        w = _world(node="S01", fresh=90.0, ice=2)
+    def test_flag_on_freshness_rescue_uses_threshold_90(self):
+        """flag-on：STATIC_PLANNER_ICE_USE_BELOW=90（Iter 39 对齐 L1 baseline 90，无封顶浪费）。
+        鲜度 89.5 < 90 → 用冰鉴；鲜度 90 不触发。flag-on 不再"抬高"阈值——L1 baseline 90 已是最优点。"""
         eng = DecisionEngine(self.ctx)
         old = config.ENABLE_STATIC_PLANNER
         config.ENABLE_STATIC_PLANNER = True
         try:
-            act = eng._freshness_rescue(w, w.me)
-            self.assertIsNotNone(act)  # 90 < 91 → 触发
+            w_lo = _world(node="S01", fresh=89.5, ice=2)
+            w_hi = _world(node="S01", fresh=90.0, ice=2)
+            self.assertIsNotNone(eng._freshness_rescue(w_lo, w_lo.me))
+            self.assertIsNone(eng._freshness_rescue(w_hi, w_hi.me))
         finally:
             config.ENABLE_STATIC_PLANNER = old
 
     def test_flag_off_freshness_rescue_skips_at_90(self):
-        """flag-off：鲜度 90 ≥ baseline 阈值 78 → 不用冰鉴（baseline 行为不变）。"""
+        """flag-off：鲜度 90 ≥ baseline 阈值 90 → 不用冰鉴（baseline 行为不变）。"""
         w = _world(node="S01", fresh=90.0, ice=2)
         eng = DecisionEngine(self.ctx)
         self.assertIsNone(eng._freshness_rescue(w, w.me))

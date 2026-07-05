@@ -2,6 +2,52 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 39] - 2026-07-05 — 鲜度杠杆诊断 + L1 冰鉴阈值 81→90 弱优于 + plan_route 决策日志 instrumentation + flag 诊断模式重开
+
+### 背景
+用户要求基于现有 `reports/`（N=67 真实对局）设计最后一轮迭代，无 A/B 轮次。归因复确：
+quality-route 桶（N=30, W=0.43）17 负，分差 100% = 鲜度(−24)+好果(−4)，task/delivery/time 全打平。
+鲜度 gap 物理上 = 路线(冰鉴数)+马(FAST vs SHORT) 耦合。+20 大路杠杆是唯一指向鲜度维度的杠杆，
+但 Iter 36 §3 实战 0/40 选大路。
+
+### L1：ICE_BOX_USE_BELOW 81→90（弱优于，无条件合入，零路线/交付风险）
+- **机制证明**（Iter 34 框架推到最优点）：冰鉴 +10 一次性封顶 100，端鲜度 = 110−total_loss 与时机无关。
+  阈值 θ 下逐帧 fresh：θ=90 在 [t90,t81] post-ice(99.9→90.9)，θ=81 同区间 pre-ice(89.9→80.9)，
+  t81 后两版收敛 → **fresh₉₀ ≥ fresh₈₁ 逐帧成立、[t90,t81] 严格大**。θ=90 用冰 fresh 89.9→99.9 无封顶
+  浪费（91 才浪费）→ 90 是无浪费最大阈值=最优点。单调衰减下端鲜度/用冰数/好果数与 81 完全相同，
+  仅天气峰值（非单调，67/67 局 weather_hit）下严格更安全（pre-ice 89.9 vs 80.9，离 80 转坏阈值远 9 分）。
+- `ICE_BOX_RACE_USE_BELOW` 88→92（baseline 抬到 90 后，race 阈值须 >90 才仍"提前"；92 微浪费但劣势局优先护 80 阈值）。
+- CLIENT_VERSION iter38→iter39。
+
+### L2 诊断：plan_route 实战不选大路根因离线复现
+离线复现 plan_route 选路（`analysis/route_planner_eval._static_planner_world`）：
+- **裸图（tasks=[]）**：选大路 +23（score 478 vs 山路 455），门通过。
+- **注入真实 S08 task（×3）+ 各节点 task**：仍选大路（两路均 task 封顶 130→180，task_delta 相等）。
+- **HEAVY_RAIN（coef 1.3）**：仍选大路。
+- **从 S06 出发（mid-game）**：大路不可达（回溯非简单路径）→ 选山路。
+
+**排除根因**：①马速建模（`path_frames` 恒 base_move=1000 不建模马，但门仍通过 → 非根因）；
+②task-ice 零和（两路均 task 封顶 → 非根因）；③ICE_KEEP（未坏，与路线选择鸡生蛋）。
+**真因在不可离线复现的实战状态**：动态障碍（blocked 含 S03/S07）/ 对手已领 S03/S07 冰源（resource_available=False）/ 平台图漂移。
+
+### L2 实施：instrumentation + flag 诊断模式重开（不盲改路线逻辑）
+- `static_planner.plan_route` 加 `debug=None` 出参：传入 dict 时填 `{src, n_cand, time_best, winner, gate{gain,extra,passed,reason}, candidates[top6], blocked}`。**纯观测，不影响返回**。
+- `decision._select_path` 路线切换时（`sel != self._last_plan_route`）落 `PlanRoute` trace 事件（main `_log_engine_events` 通用落盘）：
+  `src/nCand/winner/wScore/timeBest/tScore/gain/extra/gate/blocked`。下一批真实 trace 即可定位实战真因。
+- `STATIC_PLANNER_ICE_USE_BELOW` 91→90 对齐 L1（flag-on 不再"抬高"冰鉴阈值——L1 baseline 90 已是最优点）。
+- `ENABLE_STATIC_PLANNER=True`（诊断模式）：实战 no-op 时行为=baseline（Iter 36 已证，安全零回归）；
+  若实战状态偶不触发阻碍则大路可能 fire 兑现 +20。合入门仍为真实 A/B N≥30 正向（Iter 38 纪律）。
+
+### Tests / Gate
+- 300 client + 135 analysis + 18 sim = **453 全过**。
+- sim 50 种子回归门：1.000 交付 / 0 STUCK / 0 对账 / mean 741.9（+30 对称 artifact，非收益证据）。
+- PlanRoute instrumentation 在 sim trace 验证 fire（每局 ~8 次路线切换行）。
+- 分析管线（`python3 -m analysis`）解析 PlanRoute 不崩溃、sizeguard 全过。
+
+### Misc
+- 关键遗留（待真实 trace）：plan_route 实战不选大路真因——instrument 已就位，下一批 trace 的 `PlanRoute` 行即可定位（查 blocked 是否含 S03/S07、winner vs timeBest 分项、n_cand 是否含大路候选）。
+- Iter 38 纪律不变：sim 仅回归门、静态投影仅假设生成、合入门仅真实 A/B N≥30 正向。
+
 ## [Iteration 38] - 2026-07-05 — 排除静态地图仿真/投影对策略的影响：flag 回退关 + 文档勘误 + 纪律成文
 
 **触发**：屡次发现静态地图结果误导最终策略——①sim 镜像自博弈 A/B（`scripts/sim_server` 50 种子）：Iter 26–28 据"sim 未过门槛"把 `static_planner` 挡关 ~10 轮、Iter 36 §2 据"sim +30 对称增益"作合入依据之一；②离线静态图 rules.py 投影（`analysis/route_planner_eval.py` §1 +20、`route_weather_audit.py` §1.5）：§1.3 据静态图断言"plan_route 真实图选大路"并据此开 flag，但 §3 真实 A/B 证伪（实战 0/40 选大路、no-op、+20 未兑现）。
