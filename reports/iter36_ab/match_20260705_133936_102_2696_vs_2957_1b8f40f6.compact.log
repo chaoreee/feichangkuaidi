@@ -1,0 +1,97 @@
+# match_20260705_133936_102_2696_vs_2957_1b8f40f6 v=iter36 pid=2696 team=RED seed=None dur=600
+Map N=15 E=23
+N S01:S S02:C S03:P S04:D S05:W S06:M S07:S S08:M S09:S S10:K S11:P S12:J S13:P S14:G S15:F
+E S01-S02:30:R S02-S03:25:R S03-S07:54:R S07-S09:46:R S09-S10:40:R S10-S11:36:R S11-S12:20:R S12-S13:25:R S13-S14:18:R S14-S15:10:R S02-S04:20:R S04-S05:44:W S05-S07:46:B S01-S06:44:M S06-S08:54:M S08-S10:46:B S03-S06:38:B S05-S09:48:W S07-S08:42:M S04-S07:54:B S08-S09:64:B S11-S14:15:B S10-S13:27:B
+F r1 n=S01 st=IDLE ph=NORMAL gf=100 ts=0 on=S01 ots=0
+A r1 CLEAR target=S06 fresh=100
+A r1 SQUAD_CLEAR target=S08 fresh=100
+F r2 st=PROCESSING
+F r7 st=IDLE gf=99
+A r7 MOVE target=S06 fresh=99.7
+F r8 st=MOVING
+F r43 on=S02
+F r80 on=S03
+F r83 ots=30
+F r86 n=S06 st=IDLE
+A r86 CLAIM_RESOURCE target=S06 res=ICE_BOX fresh=94.17
+A r86 SQUAD_CLEAR target=S10 fresh=94.17
+F r87 st=PROCESSING
+F r88 st=IDLE
+A r88 MOVE target=S08 fresh=94.07
+F r89 st=MOVING
+F r102 w=HOT
+F r131 gf=98 fr90
+F r158 on=S07 ofr90
+F r162 ots=60
+F r166 ots=90
+F r185 n=S08 st=IDLE
+A r185 USE_RESOURCE res=ICE_BOX fresh=85.05
+A r186 CLAIM_TASK task=T_003 fresh=95
+F r187 st=PROCESSING
+F r190 st=IDLE ts=30
+A r190 CLAIM_TASK task=T_005 fresh=94.8
+F r191 st=PROCESSING
+F r194 st=IDLE ts=60
+A r194 CLAIM_TASK task=T_009 fresh=94.6
+F r195 st=PROCESSING
+F r198 st=IDLE ts=90
+A r198 CLAIM_RESOURCE target=S08 res=SHORT_HORSE fresh=94.4
+F r199 st=PROCESSING
+F r200 st=IDLE
+A r200 MOVE target=S10 fresh=94.3
+F r201 st=MOVING
+A r201 USE_RESOURCE res=SHORT_HORSE fresh=94.24
+A r202 MOVE target=S10 fresh=94.18
+F r212 w=MOUNTAIN_FOG
+F r234 on=S09
+F r239 ots=105
+F r270 n=S10 st=IDLE
+A r270 CLAIM_TASK task=T_008 fresh=90.1
+F r271 st=PROCESSING
+F r273 fr90
+F r274 st=IDLE ts=120
+A r274 CLAIM_TASK task=T_011 fresh=89.9
+F r275 st=PROCESSING
+F r278 st=IDLE ts=150
+A r278 MOVE target=S13 fresh=89.7
+F r279 st=MOVING
+ModeChange r282 EVEN->CONSERVATIVE reason=gap_above_threshold gap=None
+F r295 on=S10
+F r299 ots=135
+ModeChange r299 CONSERVATIVE->EVEN reason=gap_within_band gap=None
+F r320 n=S13 st=IDLE
+A r320 PROCESS fresh=87.18
+A r320 SQUAD_SCOUT target=S14 fresh=87.18
+F r321 st=PROCESSING
+F r322 w=HOT
+F r325 st=IDLE
+A r325 MOVE target=S14 fresh=86.87
+F r326 st=MOVING
+F r330 ofr90
+F r343 on=S13
+F r350 n=S14 st=IDLE
+F r351 st=WAITING
+F r354 ots=150
+F r379 on=S14
+F r390 ph=RUSH
+A r390 RUSH_PROTECT fresh=82.19
+A r391 VERIFY_GATE fresh=82.18
+F r392 st=CONTESTING
+A r392 WINDOW_CARD contest=C_391_001 type=GATE card=BING_ZHENG fresh=82.17
+F r396 st=WAITING
+A r396 VERIFY_GATE fresh=82.13
+F r402 st=VERIFYING
+F r407 st=IDLE vfy=1
+A r407 MOVE target=S15 fresh=82.02
+F r408 st=MOVING
+F r415 on=S15
+F r421 n=S15 st=IDLE
+A r421 DELIVER fresh=81.84
+REJ r397 x5 OBJECT_BUSY VERIFY_GATE None
+Traj fstart=100 fmin=81.84 fend=81.84 gstart=100 gend=98 onode=S15 ofend=85.05 ogend=96
+Proj my=763 oppDel=421 gap=-2 mode=EVEN
+Conf min=0.300 med=0.490 max=0.690
+MidGap=-7
+Over result=NORMAL reason=ALL_DELIVERED round=421 winner=2957 iWon=False
+Score me total=763 del=True dframe=421 fresh=81.84 good=98 task=150 bounty=0 det=[bounty=0|delivery=240|freshness=147|goodFruit=176|penalty=0|tasks=180|time=20|total=763]
+Score opp total=766 del=True dframe=415 fresh=85.05 good=96 task=150 bounty=0 det=[bounty=0|delivery=240|freshness=153|goodFruit=172|penalty=0|tasks=180|time=21|total=766]

@@ -1,0 +1,1968 @@
+{
+  "classification": {
+    "luckClass": "expected_loss",
+    "oppClassSignals": {
+      "freshnessEnd": 66.88,
+      "goodFruitEnd": 94,
+      "iceUsedCount": 0,
+      "oppDeliverFrame": 0,
+      "oppGuardCount": 1,
+      "oppTaskBase": 90
+    },
+    "opponentClass": "guard-type",
+    "scoreMargin": 20,
+    "segments": [
+      "undelivered",
+      "task90_reached",
+      "mid_lead",
+      "weather_hit",
+      "contested",
+      "opp_undelivered"
+    ]
+  },
+  "clientVersion": "iter36",
+  "decisionTimeline": [
+    {
+      "detail": "CLEAR S06 cost 1",
+      "event": "BREAKTHROUGH",
+      "frame": 1
+    },
+    {
+      "detail": "fresh=85.1",
+      "event": "USE_ICE",
+      "frame": 185
+    },
+    {
+      "detail": "T_003",
+      "event": "TASK_CLAIM",
+      "frame": 186
+    },
+    {
+      "detail": "T_005",
+      "event": "TASK_CLAIM",
+      "frame": 190
+    },
+    {
+      "detail": "SHORT_HORSE",
+      "event": "USE_HORSE",
+      "frame": 197
+    },
+    {
+      "detail": "T_006",
+      "event": "TASK_CLAIM",
+      "frame": 266
+    },
+    {
+      "detail": "T_008",
+      "event": "TASK_CLAIM",
+      "frame": 270
+    },
+    {
+      "detail": "T_010",
+      "event": "TASK_CLAIM",
+      "frame": 271
+    },
+    {
+      "detail": "CLAIM_TASK code=OBJECT_BUSY",
+      "event": "REJECTED",
+      "frame": 271
+    },
+    {
+      "detail": "T_011",
+      "event": "TASK_CLAIM",
+      "frame": 275
+    },
+    {
+      "detail": "T_013",
+      "event": "TASK_CLAIM",
+      "frame": 276
+    },
+    {
+      "detail": "CLAIM_TASK code=OBJECT_BUSY",
+      "event": "REJECTED",
+      "frame": 276
+    },
+    {
+      "detail": "EVEN->CONSERVATIVE",
+      "event": "MODE_CHANGE",
+      "frame": 277
+    },
+    {
+      "detail": "PROCESS code=OBJECT_BUSY",
+      "event": "REJECTED",
+      "frame": 323
+    },
+    {
+      "detail": "PROCESS code=OBJECT_BUSY",
+      "event": "REJECTED",
+      "frame": 324
+    },
+    {
+      "detail": "PROCESS code=OBJECT_BUSY",
+      "event": "REJECTED",
+      "frame": 325
+    },
+    {
+      "detail": "RUSH_PROTECT",
+      "event": "RUSH_TACTIC",
+      "frame": 390
+    },
+    {
+      "detail": "card=BING_ZHENG",
+      "event": "WINDOW_CARD",
+      "frame": 392
+    },
+    {
+      "detail": "card=BING_ZHENG",
+      "event": "WINDOW_CARD",
+      "frame": 393
+    },
+    {
+      "detail": "card=BING_ZHENG",
+      "event": "WINDOW_CARD",
+      "frame": 394
+    },
+    {
+      "detail": "card=BING_ZHENG",
+      "event": "WINDOW_CARD",
+      "frame": 399
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 400
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 401
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 406
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 407
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 408
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 409
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 410
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 411
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 416
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 417
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 418
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 423
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 424
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 425
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 426
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 427
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 428
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 433
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 434
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 435
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 440
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 441
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 442
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 443
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 444
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 445
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 450
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 451
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 452
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 457
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 458
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 459
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 460
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 461
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 462
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 467
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 468
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 469
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 474
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 475
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 476
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 477
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 478
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 479
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 484
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 485
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 486
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 491
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 492
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 493
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 494
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 495
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 496
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 501
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 502
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 503
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 508
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 509
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 510
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 511
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 512
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 513
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 518
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 519
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 520
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 525
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 526
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 527
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 528
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 529
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 530
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 535
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 536
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 537
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 542
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 543
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 544
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 545
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 546
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 547
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 552
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 553
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 554
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 559
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 560
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 561
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 562
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 563
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 564
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 569
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 570
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 571
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 576
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 577
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 578
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 579
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 580
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 581
+    },
+    {
+      "detail": "CONSERVATIVE->EVEN",
+      "event": "MODE_CHANGE",
+      "frame": 585
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 586
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 587
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 588
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 593
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 594
+    },
+    {
+      "detail": "VERIFY_GATE code=WINDOW_DRAW_RETRY_LIMIT",
+      "event": "REJECTED",
+      "frame": 595
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 596
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 597
+    },
+    {
+      "detail": "card=ABSTAIN",
+      "event": "WINDOW_CARD",
+      "frame": 598
+    }
+  ],
+  "delivery": {
+    "me": {
+      "frame": 0,
+      "freshness": 72.98,
+      "goodFruit": 97,
+      "verifyFrame": null
+    },
+    "opp": {
+      "frame": 0,
+      "verifyFrame": null
+    },
+    "rushTriggerFrame": 390
+  },
+  "durationRound": 600,
+  "failures": {
+    "canAffordBlocked": [],
+    "decisionTimeouts": 0,
+    "invalidActions": 0,
+    "rejected": [
+      {
+        "action": "CLAIM_TASK",
+        "code": "OBJECT_BUSY",
+        "frame": 271,
+        "target": null
+      },
+      {
+        "action": "CLAIM_TASK",
+        "code": "OBJECT_BUSY",
+        "frame": 276,
+        "target": null
+      },
+      {
+        "action": "PROCESS",
+        "code": "OBJECT_BUSY",
+        "frame": 323,
+        "target": null
+      },
+      {
+        "action": "PROCESS",
+        "code": "OBJECT_BUSY",
+        "frame": 324,
+        "target": null
+      },
+      {
+        "action": "PROCESS",
+        "code": "OBJECT_BUSY",
+        "frame": 325,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 406,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 407,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 408,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 423,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 424,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 425,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 440,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 441,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 442,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 457,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 458,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 459,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 474,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 475,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 476,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 491,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 492,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 493,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 508,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 509,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 510,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 525,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 526,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 527,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 542,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 543,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 544,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 559,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 560,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 561,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 576,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 577,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 578,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 593,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 594,
+        "target": null
+      },
+      {
+        "action": "VERIFY_GATE",
+        "code": "WINDOW_DRAW_RETRY_LIMIT",
+        "frame": 595,
+        "target": null
+      }
+    ],
+    "waitingStuck": [
+      {
+        "fromFrame": 323,
+        "node": "S13",
+        "toFrame": 325
+      },
+      {
+        "fromFrame": 356,
+        "node": "S14",
+        "toFrame": 391
+      }
+    ]
+  },
+  "finalScore": {
+    "me": {
+      "bounty": 0,
+      "delivery": 0,
+      "freshness": 0,
+      "goodFruit": 0,
+      "penalty": 0,
+      "task": 80,
+      "time": 0,
+      "total": 80
+    },
+    "opp": {
+      "bounty": 0,
+      "delivery": 0,
+      "freshness": 0,
+      "goodFruit": 0,
+      "penalty": 20,
+      "task": 80,
+      "time": 0,
+      "total": 60
+    }
+  },
+  "matchId": "match_20260705_121256_306_2617_vs_2696_35e40a89",
+  "opponentInteraction": {
+    "bounties": [],
+    "myGuards": [],
+    "oppGuards": [
+      {
+        "cost": null,
+        "defense": 1,
+        "durationFrames": 166,
+        "frame": 268,
+        "lastFrame": 433,
+        "myResponse": null,
+        "node": "S10"
+      }
+    ],
+    "windows": [
+      {
+        "contestId": "C_391_001",
+        "frame": 392,
+        "myCard": "BING_ZHENG",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_391_001",
+        "frame": 393,
+        "myCard": "BING_ZHENG",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_391_001",
+        "frame": 394,
+        "myCard": "BING_ZHENG",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_398_002",
+        "frame": 399,
+        "myCard": "BING_ZHENG",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_398_002",
+        "frame": 400,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_398_002",
+        "frame": 401,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_408_003",
+        "frame": 409,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_408_003",
+        "frame": 410,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_408_003",
+        "frame": 411,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_415_004",
+        "frame": 416,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_415_004",
+        "frame": 417,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_415_004",
+        "frame": 418,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_425_005",
+        "frame": 426,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_425_005",
+        "frame": 427,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_425_005",
+        "frame": 428,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_432_006",
+        "frame": 433,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_432_006",
+        "frame": 434,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_432_006",
+        "frame": 435,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_442_007",
+        "frame": 443,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_442_007",
+        "frame": 444,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_442_007",
+        "frame": 445,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_449_008",
+        "frame": 450,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_449_008",
+        "frame": 451,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_449_008",
+        "frame": 452,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_459_009",
+        "frame": 460,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_459_009",
+        "frame": 461,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_459_009",
+        "frame": 462,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_466_010",
+        "frame": 467,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_466_010",
+        "frame": 468,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_466_010",
+        "frame": 469,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_476_011",
+        "frame": 477,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_476_011",
+        "frame": 478,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_476_011",
+        "frame": 479,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_483_012",
+        "frame": 484,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_483_012",
+        "frame": 485,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_483_012",
+        "frame": 486,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_493_013",
+        "frame": 494,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_493_013",
+        "frame": 495,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_493_013",
+        "frame": 496,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_500_014",
+        "frame": 501,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_500_014",
+        "frame": 502,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_500_014",
+        "frame": 503,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_510_015",
+        "frame": 511,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_510_015",
+        "frame": 512,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_510_015",
+        "frame": 513,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_517_016",
+        "frame": 518,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_517_016",
+        "frame": 519,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_517_016",
+        "frame": 520,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_527_017",
+        "frame": 528,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_527_017",
+        "frame": 529,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_527_017",
+        "frame": 530,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_534_018",
+        "frame": 535,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_534_018",
+        "frame": 536,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_534_018",
+        "frame": 537,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_544_019",
+        "frame": 545,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_544_019",
+        "frame": 546,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_544_019",
+        "frame": 547,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_551_020",
+        "frame": 552,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_551_020",
+        "frame": 553,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_551_020",
+        "frame": 554,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_561_021",
+        "frame": 562,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_561_021",
+        "frame": 563,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_561_021",
+        "frame": 564,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_568_022",
+        "frame": 569,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_568_022",
+        "frame": 570,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_568_022",
+        "frame": 571,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_578_023",
+        "frame": 579,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_578_023",
+        "frame": 580,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_578_023",
+        "frame": 581,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_585_024",
+        "frame": 586,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_585_024",
+        "frame": 587,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_585_024",
+        "frame": 588,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_595_025",
+        "frame": 596,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_595_025",
+        "frame": 597,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      },
+      {
+        "contestId": "C_595_025",
+        "frame": 598,
+        "myCard": "ABSTAIN",
+        "oppCard": null,
+        "result": null,
+        "type": "GATE"
+      }
+    ]
+  },
+  "outcome": "UNDELIVERED",
+  "playerId": 2696,
+  "projection": {
+    "actualMyScore": 80,
+    "confidence": {
+      "max": 0.85,
+      "median": 0.575,
+      "min": 0.3
+    },
+    "error": 0,
+    "modeSwitches": [
+      {
+        "frame": 277,
+        "from": "EVEN",
+        "gap": null,
+        "reason": "gap_above_threshold",
+        "to": "CONSERVATIVE"
+      },
+      {
+        "frame": 585,
+        "from": "CONSERVATIVE",
+        "gap": null,
+        "reason": "gap_within_band",
+        "to": "EVEN"
+      }
+    ],
+    "oppActualDeliver": 0,
+    "oppEtaPredictedDeliver": 620,
+    "projectedMyScore": 80,
+    "runtimeOpponentClass": null
+  },
+  "resources": {
+    "horseUsed": "SHORT_HORSE@197",
+    "iceUsed": [
+      {
+        "frame": 185,
+        "freshnessBefore": 85.07
+      }
+    ],
+    "rushTactic": {
+      "frame": 390,
+      "type": "RUSH_PROTECT"
+    }
+  },
+  "schemaVersion": 2,
+  "seed": null,
+  "source": "platform",
+  "tasks": {
+    "me": {
+      "base": 150,
+      "claimed": [
+        {
+          "detourExtra": null,
+          "frame": 186,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 190,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 266,
+          "node": "S10",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 270,
+          "node": "S10",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 271,
+          "node": "S10",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 275,
+          "node": "S10",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 276,
+          "node": "S10",
+          "template": null
+        }
+      ],
+      "milestones": [
+        60,
+        90,
+        110
+      ]
+    },
+    "missedReachable90": null,
+    "opp": {
+      "base": 90,
+      "claimed": [
+        {
+          "frame": 79,
+          "taskScore": 30
+        },
+        {
+          "frame": 272,
+          "taskScore": 60
+        },
+        {
+          "frame": 277,
+          "taskScore": 90
+        }
+      ],
+      "milestones": [
+        60,
+        90
+      ]
+    }
+  },
+  "teamId": "BLUE",
+  "trajectory": {
+    "freshness": {
+      "end": 72.98,
+      "min": 72.98,
+      "start": 100
+    },
+    "goodFruit": {
+      "badCrossings": [
+        90,
+        80
+      ],
+      "end": 97,
+      "start": 100
+    },
+    "opponent": {
+      "badFruitEnd": 3,
+      "frames": [
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0,
+          "n": "S01",
+          "r": 1,
+          "s": "IDLE",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.02,
+          "n": "S01",
+          "nx": "S02",
+          "r": 2,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.05,
+          "n": "S01",
+          "nx": "S02",
+          "r": 3,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.07,
+          "n": "S01",
+          "nx": "S02",
+          "r": 4,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.1,
+          "n": "S01",
+          "nx": "S02",
+          "r": 5,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.12,
+          "n": "S01",
+          "nx": "S02",
+          "r": 6,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.14,
+          "n": "S01",
+          "nx": "S02",
+          "r": 7,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.17,
+          "n": "S01",
+          "nx": "S02",
+          "r": 8,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.19,
+          "n": "S01",
+          "nx": "S02",
+          "r": 9,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.22,
+          "n": "S01",
+          "nx": "S02",
+          "r": 10,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.24,
+          "n": "S01",
+          "nx": "S02",
+          "r": 11,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.27,
+          "n": "S01",
+          "nx": "S02",
+          "r": 12,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 3,
+          "ga": 0,
+          "mp": 0,
+          "n": "S14",
+          "r": 568,
+          "s": "IDLE",
+          "ts": 90
+        },
+        {
+          "b": 3,
+          "ga": 0,
+          "mp": 0,
+          "n": "S14",
+          "r": 569,
+          "s": "CONTESTING",
+          "ts": 90
+        },
+        {
+          "b": 3,
+          "ga": 0,
+          "mp": 0,
+          "n": "S14",
+          "r": 572,
+          "s": "RESTING",
+          "ts": 90
+        },
+        {
+          "b": 3,
+          "ga": 0,
+          "mp": 0,
+          "n": "S14",
+          "r": 575,
+          "s": "IDLE",
+          "ts": 90
+        },
+        {
+          "b": 3,
+          "ga": 0,
+          "mp": 0,
+          "n": "S14",
+          "r": 579,
+          "s": "CONTESTING",
+          "ts": 90
+        },
+        {
+          "b": 3,
+          "ga": 0,
+          "mp": 0,
+          "n": "S14",
+          "r": 582,
+          "s": "RESTING",
+          "ts": 90
+        },
+        {
+          "b": 3,
+          "ga": 0,
+          "mp": 0,
+          "n": "S14",
+          "r": 585,
+          "s": "IDLE",
+          "ts": 90
+        },
+        {
+          "b": 3,
+          "ga": 0,
+          "mp": 0,
+          "n": "S14",
+          "r": 586,
+          "s": "CONTESTING",
+          "ts": 90
+        },
+        {
+          "b": 3,
+          "ga": 0,
+          "mp": 0,
+          "n": "S14",
+          "r": 589,
+          "s": "RESTING",
+          "ts": 90
+        },
+        {
+          "b": 3,
+          "ga": 0,
+          "mp": 0,
+          "n": "S14",
+          "r": 592,
+          "s": "IDLE",
+          "ts": 90
+        },
+        {
+          "b": 3,
+          "ga": 0,
+          "mp": 0,
+          "n": "S14",
+          "r": 596,
+          "s": "CONTESTING",
+          "ts": 90
+        },
+        {
+          "b": 3,
+          "ga": 0,
+          "mp": 0,
+          "n": "S14",
+          "r": 599,
+          "s": "RESTING",
+          "ts": 90
+        }
+      ],
+      "freshnessEnd": 66.88,
+      "freshnessMin": 66.88,
+      "goodFruitEnd": 94,
+      "iceUsed": [],
+      "nodeEnd": "S14",
+      "verifyFrame": null
+    }
+  },
+  "variant": "baseline"
+}

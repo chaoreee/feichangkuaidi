@@ -1,0 +1,4170 @@
+{
+  "classification": {
+    "luckClass": "expected_loss",
+    "oppClassSignals": {
+      "freshnessEnd": 67.32,
+      "goodFruitEnd": 90,
+      "iceUsedCount": 0,
+      "oppDeliverFrame": 583,
+      "oppGuardCount": 2,
+      "oppTaskBase": 120
+    },
+    "opponentClass": "guard-type",
+    "scoreMargin": -634,
+    "segments": [
+      "undelivered",
+      "task90_missed",
+      "mid_trail",
+      "weather_hit",
+      "opp_delivered"
+    ]
+  },
+  "clientVersion": "iter36",
+  "decisionTimeline": [
+    {
+      "detail": "CLEAR S06 cost 1",
+      "event": "BREAKTHROUGH",
+      "frame": 1
+    },
+    {
+      "detail": "fresh=85.1",
+      "event": "USE_ICE",
+      "frame": 185
+    },
+    {
+      "detail": "T_003",
+      "event": "TASK_CLAIM",
+      "frame": 186
+    },
+    {
+      "detail": "T_005",
+      "event": "TASK_CLAIM",
+      "frame": 190
+    },
+    {
+      "detail": "SHORT_HORSE",
+      "event": "USE_HORSE",
+      "frame": 197
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "frame": 253
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 254
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 254
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 255
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 256
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 257
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 258
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 259
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 260
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 261
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "frame": 262
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 262
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 263
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 263
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 264
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 265
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 266
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 267
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 268
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 269
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 270
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "frame": 271
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 271
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 272
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 272
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 273
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 274
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 275
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 276
+    },
+    {
+      "detail": "EVEN->AGGRESSIVE",
+      "event": "MODE_CHANGE",
+      "frame": 277
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 277
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 278
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 279
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "frame": 280
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 280
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 281
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 281
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 282
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 283
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 284
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 285
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 286
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 287
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 288
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "frame": 289
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 289
+    },
+    {
+      "detail": "S10 reward=18 delta=35 BREAK_GUARD",
+      "event": "BOUNTY",
+      "frame": 289
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 290
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 290
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 291
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 292
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 293
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 294
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 295
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 296
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 297
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "frame": 298
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 298
+    },
+    {
+      "detail": "S10 reward=18 delta=36 BREAK_GUARD",
+      "event": "BOUNTY",
+      "frame": 298
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 299
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 299
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 300
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 301
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 302
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 303
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 304
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 305
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 306
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "frame": 307
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 307
+    },
+    {
+      "detail": "S10 reward=18 delta=35 BREAK_GUARD",
+      "event": "BOUNTY",
+      "frame": 307
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 308
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 308
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 309
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 310
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 311
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 312
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 313
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 314
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 315
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "frame": 316
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 316
+    },
+    {
+      "detail": "S10 reward=18 delta=35 BREAK_GUARD",
+      "event": "BOUNTY",
+      "frame": 316
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 317
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 317
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 318
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 319
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 320
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 321
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 322
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 323
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 324
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "frame": 325
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 325
+    },
+    {
+      "detail": "S10 reward=18 delta=35 BREAK_GUARD",
+      "event": "BOUNTY",
+      "frame": 325
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 326
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 326
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 327
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 328
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 329
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 330
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 331
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 332
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 333
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "frame": 334
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 334
+    },
+    {
+      "detail": "S10 reward=18 delta=35 BREAK_GUARD",
+      "event": "BOUNTY",
+      "frame": 334
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 335
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 335
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 336
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 337
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 338
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 339
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 340
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 341
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 342
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "frame": 343
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 343
+    },
+    {
+      "detail": "S10 reward=18 delta=35 BREAK_GUARD",
+      "event": "BOUNTY",
+      "frame": 343
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 344
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 344
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 345
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 346
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 347
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 348
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 349
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 350
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 351
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 2",
+      "event": "BREAKTHROUGH",
+      "frame": 352
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 352
+    },
+    {
+      "detail": "S10 reward=18 delta=35 BREAK_GUARD",
+      "event": "BOUNTY",
+      "frame": 352
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 353
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 353
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 354
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 355
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 356
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 357
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 358
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 359
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 360
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "frame": 361
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 361
+    },
+    {
+      "detail": "S10 reward=18 delta=36 BREAK_GUARD",
+      "event": "BOUNTY",
+      "frame": 361
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 362
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 362
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 363
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 364
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 365
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 366
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 367
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 368
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 369
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "frame": 370
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 370
+    },
+    {
+      "detail": "S10 reward=18 delta=37 BREAK_GUARD",
+      "event": "BOUNTY",
+      "frame": 370
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 371
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 371
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 372
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 373
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 374
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 375
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 376
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 377
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 378
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "frame": 379
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 379
+    },
+    {
+      "detail": "S10 reward=18 delta=37 BREAK_GUARD",
+      "event": "BOUNTY",
+      "frame": 379
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 380
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 380
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 381
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 382
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 383
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 384
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 385
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 386
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 387
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "frame": 388
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 388
+    },
+    {
+      "detail": "S10 reward=18 delta=37 BREAK_GUARD",
+      "event": "BOUNTY",
+      "frame": 388
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 389
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 389
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 390
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 391
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 392
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 393
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 394
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 395
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 396
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "frame": 397
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 397
+    },
+    {
+      "detail": "S10 reward=18 delta=37 BREAK_GUARD",
+      "event": "BOUNTY",
+      "frame": 397
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 398
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 398
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 399
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 400
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 401
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 402
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 403
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 404
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 405
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "frame": 406
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 406
+    },
+    {
+      "detail": "S10 reward=18 delta=36 BREAK_GUARD",
+      "event": "BOUNTY",
+      "frame": 406
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 407
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 407
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 408
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 409
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 410
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 411
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 412
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 413
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 414
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 1",
+      "event": "BREAKTHROUGH",
+      "frame": 415
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 415
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 416
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 416
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 417
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 418
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 419
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 420
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 421
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 422
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 423
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 424
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 424
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 425
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 425
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 426
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 427
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 428
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 429
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 430
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 431
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 432
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 433
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 433
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 434
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 434
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 435
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 436
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 437
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 438
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 439
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 440
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 441
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 442
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 442
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 443
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 443
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 444
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 445
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 446
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 447
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 448
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 449
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 450
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 451
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 451
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 452
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 452
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 453
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 454
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 455
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 456
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 457
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 458
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 459
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 460
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 460
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 461
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 461
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 462
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 463
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 464
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 465
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 466
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 467
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 468
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 469
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 469
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 470
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 470
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 471
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 472
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 473
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 474
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 475
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 476
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 477
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 478
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 478
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 479
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 479
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 480
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 481
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 482
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 483
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 484
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 485
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 486
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 487
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 487
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 488
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 488
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 489
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 490
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 491
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 492
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 493
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 494
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 495
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 496
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 496
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 497
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 497
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 498
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 499
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 500
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 501
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 502
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 503
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 504
+    },
+    {
+      "detail": "BREAK_GUARD S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 505
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 505
+    },
+    {
+      "detail": "FORCED_PASS S10 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 506
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 506
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 507
+    },
+    {
+      "detail": "RUSH_SPEED",
+      "event": "RUSH_TACTIC",
+      "frame": 520
+    },
+    {
+      "detail": "BREAK_GUARD S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 569
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 570
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 570
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 571
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 572
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 573
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 574
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 575
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 576
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 577
+    },
+    {
+      "detail": "BREAK_GUARD S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 578
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 578
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 579
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 579
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 580
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 581
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 582
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 583
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 584
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 585
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 586
+    },
+    {
+      "detail": "BREAK_GUARD S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 587
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 587
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 588
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 588
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 589
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 590
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 591
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 592
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 593
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 594
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 595
+    },
+    {
+      "detail": "BREAK_GUARD S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 596
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 596
+    },
+    {
+      "detail": "FORCED_PASS S14 cost 0",
+      "event": "BREAKTHROUGH",
+      "frame": 597
+    },
+    {
+      "detail": "BREAK_GUARD code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 597
+    },
+    {
+      "detail": "FORCED_PASS code=MOVING_ACTION_FORBIDDEN",
+      "event": "REJECTED",
+      "frame": 598
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 599
+    },
+    {
+      "detail": "MOVE code=MOVE_BLOCKED_BY_GUARD",
+      "event": "REJECTED",
+      "frame": 600
+    }
+  ],
+  "delivery": {
+    "me": {
+      "frame": 0,
+      "freshness": 71.63,
+      "goodFruit": 95,
+      "verifyFrame": null
+    },
+    "opp": {
+      "frame": 583,
+      "verifyFrame": 522
+    },
+    "rushTriggerFrame": 450
+  },
+  "durationRound": 600,
+  "failures": {
+    "canAffordBlocked": [],
+    "decisionTimeouts": 0,
+    "invalidActions": 0,
+    "rejected": [
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 254,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 255,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 256,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 257,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 258,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 259,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 260,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 261,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 262,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 263,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 264,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 265,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 266,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 267,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 268,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 269,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 270,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 271,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 272,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 273,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 274,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 275,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 276,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 277,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 278,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 279,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 280,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 281,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 282,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 283,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 284,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 285,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 286,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 287,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 288,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 289,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 290,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 291,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 292,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 293,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 294,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 295,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 296,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 297,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 298,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 299,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 300,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 301,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 302,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 303,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 304,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 305,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 306,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 307,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 308,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 309,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 310,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 311,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 312,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 313,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 314,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 315,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 316,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 317,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 318,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 319,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 320,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 321,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 322,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 323,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 324,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 325,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 326,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 327,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 328,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 329,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 330,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 331,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 332,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 333,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 334,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 335,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 336,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 337,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 338,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 339,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 340,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 341,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 342,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 343,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 344,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 345,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 346,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 347,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 348,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 349,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 350,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 351,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 352,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 353,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 354,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 355,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 356,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 357,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 358,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 359,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 360,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 361,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 362,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 363,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 364,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 365,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 366,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 367,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 368,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 369,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 370,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 371,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 372,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 373,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 374,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 375,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 376,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 377,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 378,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 379,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 380,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 381,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 382,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 383,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 384,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 385,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 386,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 387,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 388,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 389,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 390,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 391,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 392,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 393,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 394,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 395,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 396,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 397,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 398,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 399,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 400,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 401,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 402,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 403,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 404,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 405,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 406,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 407,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 408,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 409,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 410,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 411,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 412,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 413,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 414,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 415,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 416,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 417,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 418,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 419,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 420,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 421,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 422,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 423,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 424,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 425,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 426,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 427,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 428,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 429,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 430,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 431,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 432,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 433,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 434,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 435,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 436,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 437,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 438,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 439,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 440,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 441,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 442,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 443,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 444,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 445,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 446,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 447,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 448,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 449,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 450,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 451,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 452,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 453,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 454,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 455,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 456,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 457,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 458,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 459,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 460,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 461,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 462,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 463,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 464,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 465,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 466,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 467,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 468,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 469,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 470,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 471,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 472,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 473,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 474,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 475,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 476,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 477,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 478,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 479,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 480,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 481,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 482,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 483,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 484,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 485,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 486,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 487,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 488,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 489,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 490,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 491,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 492,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 493,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 494,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 495,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 496,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 497,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 498,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 499,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 500,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 501,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 502,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 503,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 504,
+        "target": "S10"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 505,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 506,
+        "target": "S10"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 507,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 570,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 571,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 572,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 573,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 574,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 575,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 576,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 577,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 578,
+        "target": "S14"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 579,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 580,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 581,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 582,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 583,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 584,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 585,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 586,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 587,
+        "target": "S14"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 588,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 589,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 590,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 591,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 592,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 593,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 594,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 595,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 596,
+        "target": "S14"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 597,
+        "target": "S14"
+      },
+      {
+        "action": "FORCED_PASS",
+        "code": "MOVING_ACTION_FORBIDDEN",
+        "frame": 598,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 599,
+        "target": "S14"
+      },
+      {
+        "action": "MOVE",
+        "code": "MOVE_BLOCKED_BY_GUARD",
+        "frame": 600,
+        "target": "S14"
+      }
+    ],
+    "waitingStuck": [
+      {
+        "fromFrame": 254,
+        "node": "S08",
+        "toFrame": 507
+      }
+    ]
+  },
+  "finalScore": {
+    "me": {
+      "bounty": 0,
+      "delivery": 0,
+      "freshness": 0,
+      "goodFruit": 0,
+      "penalty": 0,
+      "task": 60,
+      "time": 0,
+      "total": 60
+    },
+    "opp": {
+      "bounty": 0,
+      "delivery": 240,
+      "freshness": 121,
+      "goodFruit": 162,
+      "penalty": 0,
+      "task": 170,
+      "time": 1,
+      "total": 694
+    }
+  },
+  "matchId": "match_20260705_121300_703_2696_vs_2744_8181d4f0",
+  "opponentInteraction": {
+    "bounties": [
+      {
+        "action": "BREAK_GUARD",
+        "delta": 35,
+        "extraFrames": 0,
+        "frame": 289,
+        "goodBurned": 2,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 36,
+        "extraFrames": 0,
+        "frame": 298,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 35,
+        "extraFrames": 0,
+        "frame": 307,
+        "goodBurned": 2,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 35,
+        "extraFrames": 0,
+        "frame": 316,
+        "goodBurned": 2,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 35,
+        "extraFrames": 0,
+        "frame": 325,
+        "goodBurned": 2,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 35,
+        "extraFrames": 0,
+        "frame": 334,
+        "goodBurned": 2,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 35,
+        "extraFrames": 0,
+        "frame": 343,
+        "goodBurned": 2,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 35,
+        "extraFrames": 0,
+        "frame": 352,
+        "goodBurned": 2,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 36,
+        "extraFrames": 0,
+        "frame": 361,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 370,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 379,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 388,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 37,
+        "extraFrames": 0,
+        "frame": 397,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      },
+      {
+        "action": "BREAK_GUARD",
+        "delta": 36,
+        "extraFrames": 0,
+        "frame": 406,
+        "goodBurned": 1,
+        "reward": 18,
+        "target": "S10"
+      }
+    ],
+    "myGuards": [],
+    "oppGuards": [
+      {
+        "cost": {
+          "frames": 0,
+          "good": 0
+        },
+        "defense": 1,
+        "durationFrames": 226,
+        "frame": 253,
+        "lastFrame": 478,
+        "myResponse": "BREAK_GUARD",
+        "node": "S10"
+      },
+      {
+        "cost": {
+          "frames": 0,
+          "good": 0
+        },
+        "defense": 3,
+        "durationFrames": 31,
+        "frame": 569,
+        "lastFrame": 599,
+        "myResponse": "BREAK_GUARD",
+        "node": "S14"
+      }
+    ],
+    "windows": []
+  },
+  "outcome": "UNDELIVERED",
+  "playerId": 2696,
+  "projection": {
+    "actualMyScore": 60,
+    "confidence": {
+      "max": 0.85,
+      "median": 0.575,
+      "min": 0.3
+    },
+    "error": 0,
+    "modeSwitches": [
+      {
+        "frame": 277,
+        "from": "EVEN",
+        "gap": null,
+        "reason": "gap_below_threshold",
+        "to": "AGGRESSIVE"
+      }
+    ],
+    "oppActualDeliver": 583,
+    "oppEtaPredictedDeliver": 600,
+    "projectedMyScore": 60,
+    "runtimeOpponentClass": null
+  },
+  "resources": {
+    "horseUsed": "SHORT_HORSE@197",
+    "iceUsed": [
+      {
+        "frame": 185,
+        "freshnessBefore": 85.08
+      }
+    ],
+    "rushTactic": {
+      "frame": 520,
+      "type": "RUSH_SPEED"
+    }
+  },
+  "schemaVersion": 2,
+  "seed": null,
+  "source": "platform",
+  "tasks": {
+    "me": {
+      "base": 60,
+      "claimed": [
+        {
+          "detourExtra": null,
+          "frame": 186,
+          "node": "S08",
+          "template": null
+        },
+        {
+          "detourExtra": null,
+          "frame": 190,
+          "node": "S08",
+          "template": null
+        }
+      ],
+      "milestones": [
+        60
+      ]
+    },
+    "missedReachable90": null,
+    "opp": {
+      "base": 120,
+      "claimed": [
+        {
+          "frame": 257,
+          "taskScore": 30
+        },
+        {
+          "frame": 261,
+          "taskScore": 60
+        },
+        {
+          "frame": 265,
+          "taskScore": 90
+        },
+        {
+          "frame": 269,
+          "taskScore": 120
+        }
+      ],
+      "milestones": [
+        60,
+        90,
+        110
+      ]
+    }
+  },
+  "teamId": "RED",
+  "trajectory": {
+    "freshness": {
+      "end": 71.63,
+      "min": 71.63,
+      "start": 100
+    },
+    "goodFruit": {
+      "badCrossings": [
+        90,
+        80
+      ],
+      "end": 95,
+      "start": 100
+    },
+    "opponent": {
+      "badFruitEnd": 3,
+      "frames": [
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0,
+          "n": "S01",
+          "r": 1,
+          "s": "IDLE",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.02,
+          "n": "S01",
+          "nx": "S02",
+          "r": 2,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.05,
+          "n": "S01",
+          "nx": "S02",
+          "r": 3,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.07,
+          "n": "S01",
+          "nx": "S02",
+          "r": 4,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.1,
+          "n": "S01",
+          "nx": "S02",
+          "r": 5,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.12,
+          "n": "S01",
+          "nx": "S02",
+          "r": 6,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.14,
+          "n": "S01",
+          "nx": "S02",
+          "r": 7,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.17,
+          "n": "S01",
+          "nx": "S02",
+          "r": 8,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.19,
+          "n": "S01",
+          "nx": "S02",
+          "r": 9,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.22,
+          "n": "S01",
+          "nx": "S02",
+          "r": 10,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.24,
+          "n": "S01",
+          "nx": "S02",
+          "r": 11,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 0,
+          "ga": 4,
+          "mp": 0.27,
+          "n": "S01",
+          "nx": "S02",
+          "r": 12,
+          "s": "MOVING",
+          "ts": 0
+        },
+        {
+          "b": 3,
+          "ga": 4,
+          "mp": 0.29,
+          "n": "S14",
+          "nx": "S15",
+          "r": 573,
+          "s": "MOVING",
+          "ts": 120,
+          "vf": true
+        },
+        {
+          "b": 3,
+          "ga": 4,
+          "mp": 0.36,
+          "n": "S14",
+          "nx": "S15",
+          "r": 574,
+          "s": "MOVING",
+          "ts": 120,
+          "vf": true
+        },
+        {
+          "b": 3,
+          "ga": 4,
+          "mp": 0.43,
+          "n": "S14",
+          "nx": "S15",
+          "r": 575,
+          "s": "MOVING",
+          "ts": 120,
+          "vf": true
+        },
+        {
+          "b": 3,
+          "ga": 4,
+          "mp": 0.51,
+          "n": "S14",
+          "nx": "S15",
+          "r": 576,
+          "s": "MOVING",
+          "ts": 120,
+          "vf": true
+        },
+        {
+          "b": 3,
+          "ga": 4,
+          "mp": 0.58,
+          "n": "S14",
+          "nx": "S15",
+          "r": 577,
+          "s": "MOVING",
+          "ts": 120,
+          "vf": true
+        },
+        {
+          "b": 3,
+          "ga": 4,
+          "mp": 0.65,
+          "n": "S14",
+          "nx": "S15",
+          "r": 578,
+          "s": "MOVING",
+          "ts": 120,
+          "vf": true
+        },
+        {
+          "b": 3,
+          "ga": 4,
+          "mp": 0.72,
+          "n": "S14",
+          "nx": "S15",
+          "r": 579,
+          "s": "MOVING",
+          "ts": 120,
+          "vf": true
+        },
+        {
+          "b": 3,
+          "ga": 4,
+          "mp": 0.8,
+          "n": "S14",
+          "nx": "S15",
+          "r": 580,
+          "s": "MOVING",
+          "ts": 120,
+          "vf": true
+        },
+        {
+          "b": 3,
+          "ga": 4,
+          "mp": 0.87,
+          "n": "S14",
+          "nx": "S15",
+          "r": 581,
+          "s": "MOVING",
+          "ts": 120,
+          "vf": true
+        },
+        {
+          "b": 3,
+          "ga": 4,
+          "mp": 0.94,
+          "n": "S14",
+          "nx": "S15",
+          "r": 582,
+          "s": "MOVING",
+          "ts": 120,
+          "vf": true
+        },
+        {
+          "b": 3,
+          "ga": 4,
+          "mp": 0,
+          "n": "S15",
+          "r": 583,
+          "s": "IDLE",
+          "ts": 120,
+          "vf": true
+        },
+        {
+          "b": 3,
+          "ga": 4,
+          "mp": 0,
+          "n": "S15",
+          "r": 584,
+          "s": "DELIVERED",
+          "ts": 120,
+          "vf": true
+        }
+      ],
+      "freshnessEnd": 67.32,
+      "freshnessMin": 67.32,
+      "goodFruitEnd": 90,
+      "iceUsed": [],
+      "nodeEnd": "S15",
+      "verifyFrame": 522
+    }
+  },
+  "variant": "baseline"
+}
