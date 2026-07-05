@@ -2,6 +2,31 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 38] - 2026-07-05 — Iter 36 §3 真实 A/B 判负 → 回退 `ENABLE_STATIC_PLANNER` 默认关（纯回退零策略风险）
+
+**触发**：用户上传 `reports/iter36_ab/` 40 局 iter36 平台真实对战 trace（对前 30 名），与 `reports/` 顶层 67 局 iter31 老基线做 §3 真实 A/B（非配对两样本）。`python3 -m analysis reports/iter36_ab/ reports/ --out-dir reports/iter36_ab_out/` 产 `version_ab_report.md`。
+
+### §3 判决 — 负向（详见 `reports/iter36_ab_out/section3_verdict.md`）
+- iter36(new N=40) vs iter31(old N=67)：胜率 0.64→0.42（CI[−0.40,−0.00]）、交付率 0.96→0.85（未交付 3→6）、均分 729→649（Δ−80.7 CI[−165.8,+4.5]）、task90 0.97→0.85、8/8 分段回归全 ⚠。
+- **混杂排除**：两批对手池分布有偏移（iter36 批 guard-type 多、speed-route 少、expected_win 17 vs 43），但 **27 共同对手 head-to-head** 仍 iter36 劣——交付 96%→88%、胜率 67%→41%、交付均分 762→754。铁证对手：opp=2769（老 11/11 全胜 → 新 1/2）、2629（5/5→0/2）、2735（交付 413 帧 → 未交付 600 帧卡死 S10）。
+- **根因①**：大路 `S01→S02→S03→S07→S09→S10→S13→S14→S15` 穿 S10/S14 设卡关隘。6 局未交付中 4 局卡 S10/S14 的 `MOVE_BLOCKED_BY_GUARD`+`MOVING_ACTION_FORBIDDEN` 风暴至 600 帧。Iter 29（在途目标失效回落 `_plan`）+ Iter 33（非 MOVE 动作 8 帧签名冷却）的修复被 static_planner 反复把目标指回 S10 架空——8 帧签名冷却对"唯一通路持久设卡"无效。
+- **根因②**：+20 鲜度收益是 sim 自博弈假象（双方都不设卡、不争冰）。真实交付局鲜度 148.1→147.4 持平、task −7、总分 −8——大路多 30 帧转化为卡死风险 + task 绕路丢分，鲜度收益被对抗吞没。`route_weather_audit` 的"大路 +20 不缩水"是在假设无人设卡的逐帧 walker 上得出，缺对抗维度。
+- **sim 回归门教训**：Iter 36 §2 sim 50 种子全绿（+30 对称增益/1.000 交付/0 STUCK），但 sim 无进攻设卡→大路永不被封。**sim 回归门对"影响 guard 暴露面的路线类改动"无效**——只能证"不回归"，不能证"对抗下正向"。这是"sim 降为回归门、真实 A/B 升为合入门"纪律的价值兑现。
+
+### Changed — 回退（client/config.py）
+- `ENABLE_STATIC_PLANNER = True → False`（默认关，代码保留作 variant）。注释记录 §3 负向判决 + 共同对手铁证 + 根因。
+- `CLIENT_VERSION = iter37 → iter38`（标记回退点，区分失败的 iter36 部署）。
+- **保留** Iter 33（MOVING_ACTION_FORBIDDEN 风暴修复）+ Iter 34（冰鉴阈值 78→81）——独立于路线、低风险；但本次 §3 因与 static_planner 同包未能单独验证，留待下一轮真实 A/B 单独证。
+- 未删 static_planner 代码：§0.5 字面"验证为负则删"，但大路双冰鉴 +20 在无设卡条件下真实存在，guard-aware 改造（`plan_route` 排除对手已设卡 waypoint / 节点级冷却强制绕路）是可期迭代方向，故暂作 flag-off variant 保留。
+
+### Tests / 验证
+- sim 50 种子 flag-off 回归门：1.000 交付 / 0 STUCK / 0 对账 / mean 711.9（与 iter36 §2 flag-off baseline 一致，回退干净）。
+- 全 452 测试通过（135 analysis + 299 client + 18 scripts）。
+
+### 下一站
+- Iter 38 部署 → 平台真实 A/B 单独验 Iter 33/34 + 对手类观测层对账。
+- Iter 39+ guard-aware 路线候选 + Iter 33 风暴修复强化（节点级冷却）。
+
 ## [Iteration 37] - 2026-07-05 — §3 决策管线加固 + Iter 37 §1 运行期对手类观测层（纯观测，零策略风险）
 
 **触发**：用户已在平台开始 iter36 client 对前 30 名的 §3 真实 A/B（跑数据期间），并行推进两条不依赖 §3 结果的轨道：①让 §3 决策瞬间干净利落；②为 Iter 37 博弈最优提前打观测地基。CLIENT_VERSION iter36→iter37。

@@ -18,6 +18,9 @@ logs/**/*.log
 # sim 回归门产物（ephemeral：镜像自博弈 A/B，仅本地验回归用，不入库）
 reports/sim_*/
 
+# §3 A/B 输出目录的可再生单局 report.json（由源 trace 目录重生成，不入库；仅提交聚合 md + index）
+reports/iter36_ab_out/*.report.json
+
 # 本地 IDE / 工具设置
 .claude/
 .idea/
