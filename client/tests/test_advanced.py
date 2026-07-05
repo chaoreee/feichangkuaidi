@@ -227,6 +227,69 @@ class TestDeliveryPanic(unittest.TestCase):
         self.assertNotEqual(a.get("targetNodeId"), "ST")  # 不绕去任务节点
         self.assertEqual(a.get("action"), "MOVE")
 
+    def test_panic_accounts_for_obstacle_clear_tax(self):
+        """悲观估算计入障碍清障税：乐观估算认为来得及、悲观认为来不及 → 告急提前触发。
+
+        场景：S01→SB→S15 两跳，SB 有道路障碍（清障 6 帧）。乐观估算忽略障碍，悲观 +6。
+        选 rnd 使"乐观不告急、悲观告急"，验证 _delivery_panicking 用悲观口径。
+        """
+        m = _map(
+            [_node("S01", "START", start=True), _node("SB"), _node("S15", "FINISH", terminal=True)],
+            [_edge("S01", "SB", 10), _edge("SB", "S15", 10)],
+            {"startNodeId": "S01", "terminalNodeIds": ["S15"]},
+        )
+        gm = GameMap(m)
+        eng = DecisionEngine(GameContext(PID, "RED", 0, m))
+        w = world(m, gm, "S01", good=100,
+                  nodes=[{"nodeId": "SB", "hasObstacle": True}])
+        opt = eng._deliver_estimate(w, w.me, gm, "S01", "S15")
+        pes = eng._deliver_estimate_pessimistic(w, w.me, gm, "S01", "S15")
+        # 悲观比乐观多 6 帧（SB 障碍清障税，有好果走 CLEAR 6 帧）
+        self.assertEqual(pes - opt, 6)
+        # 未验核时验核帧不计入（本图无 gate），travel 仅含两跳移动 + 障碍税
+        self.assertGreater(pes, opt)
+
+    def test_pessimistic_ignores_breakable_guard_frames(self):
+        """可破敌卡在悲观估算中按 0 帧计（攻坚无额外处理帧），不虚假抬高告急。
+
+        对比 _enter_cost_fn（路由用，含好果机会成本折算 12 帧）与 _enter_cost_real_frames
+        （交付时间用，可破敌卡 0 帧）。
+        """
+        m = _map(
+            [_node("S01", "START", start=True), _node("S10", "KEY_PASS"),
+             _node("S15", "FINISH", terminal=True)],
+            [_edge("S01", "S10", 10), _edge("S10", "S15", 10)],
+            {"startNodeId": "S01", "terminalNodeIds": ["S15"]},
+        )
+        gm = GameMap(m)
+        eng = DecisionEngine(GameContext(PID, "RED", 0, m))
+        w = world(m, gm, "S01", good=100, bad=0,
+                  nodes=[{"nodeId": "S10",
+                          "guard": {"ownerTeamId": "BLUE", "defense": 4, "active": True}}])
+        # 路由口径：可破敌卡计入好果机会成本 2×6=12 帧
+        self.assertEqual(eng._enter_cost_fn(w, w.me)("S10"), 2 * config.BREAK_GUARD_GOOD_FRAME_EQ)
+        # 交付时间口径：攻坚无额外处理帧 → 0
+        self.assertEqual(eng._enter_cost_real_frames(w, w.me)("S10"), 0)
+
+    def test_pessimistic_unbreakable_guard_counts_forced_pass_tax(self):
+        """不可破敌卡（防守值过高、好果不足）按强制通行时间税计入悲观估算。"""
+        m = _map(
+            [_node("S01", "START", start=True), _node("S10", "KEY_PASS"),
+             _node("S15", "FINISH", terminal=True)],
+            [_edge("S01", "S10", 10), _edge("S10", "S15", 10)],
+            {"startNodeId": "S01", "terminalNodeIds": ["S15"]},
+        )
+        gm = GameMap(m)
+        eng = DecisionEngine(GameContext(PID, "RED", 0, m))
+        # defense=7（关键关隘上限），本方 0 好果 0 坏果 → 不可破，走强制通行
+        w = world(m, gm, "S01", good=0, bad=0,
+                  nodes=[{"nodeId": "S10",
+                          "guard": {"ownerTeamId": "BLUE", "defense": 7, "active": True}}])
+        from core import rules
+        expected_tax = rules.guard_time_tax("key_pass", 7)  # min(50, 15+7×5)=50
+        self.assertEqual(eng._enter_cost_real_frames(w, w.me)("S10"), expected_tax)
+        self.assertGreater(expected_tax, 0)
+
 
 class TestRushNoDetour(unittest.TestCase):
     """Iter20 P3a/b：RUSH 阶段禁绕路、遇阻优先就地突破。"""

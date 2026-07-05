@@ -2,6 +2,30 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 21] - 2026-07-05 — 交付告急估算细化：悲观口径计入途中阻塞真实时间成本
+
+### 触发
+博弈审查发现 `_delivery_panicking` 用乐观估算 `_deliver_estimate`（忽略途中障碍/敌卡），前方连续阻塞时会低估交付时间、迟触发告急——"已来不及却仍在绕路做任务"的风险未被 Iter20 P2 完全覆盖（P2 只在告急触发后保交付，告急触发本身偏乐观）。
+
+### Changed（`client/strategy/decision.py`、`client/tests/test_advanced.py`）
+- **新增 `_enter_cost_real_frames`**：交付时间估算专用的 node_id→真实额外帧成本回调，与 `_enter_cost_fn`（路由用，含好果机会成本折算）口径分离：
+  - 障碍：清障 6 帧（有好果）/ 强制通行 8 帧（无好果）；
+  - **可破敌卡：0 帧**（§6.3.1 攻坚破卡无额外处理帧数，仅耗好果）——关键修正，避免把好果机会成本误算成时间而过度告急；
+  - 不可破敌卡：强制通行时间税（§6.3.2 `guard_time_tax`）；
+  - 己方设卡/无阻挡/cooldown-only 节点：0 帧（cooldown 节点物理可通行，仅曾被拒）。
+- **新增 `_deliver_estimate_pessimistic`**：取"绕行 path_b（屏蔽障碍/敌卡/cooldown）"与"直行含税 path_t（障碍清障税 + 不可破敌卡强制通行税）"两条路较小者，与 `_advance` 实际"绕行 vs 突破"决策口径一致；两者皆不可达 → `_INF`（必然超时，告急强制突破）。可破敌卡在 path_t 中按 0 帧计，不因好果机会成本高估。
+- **`_delivery_panicking` 改用悲观估算**。`_can_afford` / `_ice_box_detour_target` / 日志 Budget 等预算门控仍用乐观 `_deliver_estimate`（由 `DELIVER_TIME_SAFETY_MARGIN` 吸收偏差），口径分离避免连锁改动。
+- **测试**：`TestDeliveryPanic` 新增 3 项——`test_panic_accounts_for_obstacle_clear_tax`（悲观比乐观多 6 帧障碍税）、`test_pessimistic_ignores_breakable_guard_frames`（可破敌卡路由口径 12 帧 vs 交付口径 0 帧）、`test_pessimistic_unbreakable_guard_counts_forced_pass_tax`（不可破敌卡计入强制通行税）；既有 `test_panic_skips_task_detour` 不破坏。client 167→170 全通过。
+
+### 设计要点
+- **口径分离**：路由代价（`_enter_cost_fn`，好果机会成本折算为帧）用于"绕行 vs 突破"择优；交付时间（`_enter_cost_real_frames`，真实帧）用于告急判定。两者目的不同，不混用——若用路由口径的 12 帧折算估交付时间，会在可破敌卡前虚假告急、放弃正当绕路做任务。
+- **取 min(path_b, path_t)**：反映 agent 实际选较便宜那条，既不高估（避免虚假告急）也不低估（避免漏报告急）。
+- **可破敌卡按 0 帧**：§6.3.1 攻坚只花好果不花时间，这是最易踩的坑。
+
+### 取舍 / 后续
+- 仍未计入：强制通行 PASS 窗口的 3 拍等待帧（约 3 帧，在 `DELIVER_TIME_SAFETY_MARGIN=25` 内吸收）；清障残留通行税（仅影响非清障方，本方清障无税）。
+- 真机回归重点确认：密集阻塞局（多障碍/敌卡串联）是否提前触发保交付、避免迟告急；可破敌卡局是否不误告急。
+
 ## [Iteration 20] - 2026-07-05 — 0705 真机回退根因修复：拒绝反馈全覆盖 + 协议动作额度合规 + 交付告急保交付
 
 ### 触发

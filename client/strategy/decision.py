@@ -233,12 +233,17 @@ class DecisionEngine:
 
         0705 真机 35/37 触发 EST_OVER_BUDGET 但仍持续做 USE_RESOURCE/CLAIM_TASK/WINDOW 循环，
         致 17 场未交付。P0/P1 已消除循环，此为兜底——预算告警时不再为小收益冒险，强制保交付。
+
+        估算用 _deliver_estimate_pessimistic（计入途中已知阻塞的真实时间成本：障碍清障税、
+        不可破敌卡的强制通行税、cooldown 节点绕行），与 _advance 实际"绕行 vs 突破"决策口径一致。
+        旧版用乐观 _deliver_estimate（忽略阻塞）致密集阻塞下低估、迟触发告急——前方连续多个
+        障碍/敌卡时，乐观估算认为尚早而继续绕路做任务，实际已来不及。
         """
         if terminal is None or (me.verified and node == terminal):
             return False
-        est = self._deliver_estimate(world, me, gm, node, terminal)
+        est = self._deliver_estimate_pessimistic(world, me, gm, node, terminal)
         if est == _INF:
-            return True  # 路径不可达 → 必然超时，按告急处理（强制绕行/突破）
+            return True  # 绕行与直行(含税)皆不可达 → 必然超时，按告急处理（强制突破）
         remaining = (self.ctx.duration_round or 600) - (world.round or 0)
         return est + config.DELIVER_TIME_SAFETY_MARGIN > remaining
 
@@ -331,6 +336,32 @@ class DecisionEngine:
             return 0
         return tax
 
+    def _enter_cost_real_frames(self, world, me):
+        """用于交付时间估算的 node_id -> 真实额外帧成本 回调。
+
+        与 _enter_cost_fn 的关键区别：攻坚可破的敌方设卡此处按 0 帧计（§6.3.1 攻坚破卡无额外
+        处理帧数，仅消耗好果），不把好果机会成本折算成帧——否则会高估交付时间、过度触发告急。
+        不可破的敌卡按强制通行时间税(§6.3.2)计；障碍按清障 6 帧(有好果)/强制通行 8 帧(无好果)计。
+        己方设卡、无阻挡节点、cooldown-only 节点返回 0（cooldown 节点物理可通行，仅曾被拒）。
+        """
+        gm = self.ctx.game_map
+        bo_bonus = 3 if (world.is_rush and (me.rush_tactic_used_count or 0) == 0) else 0
+
+        def tax(node_id):
+            ns = world.node(node_id)
+            if not ns:
+                return 0
+            if ns.has_obstacle:
+                return 6 if me.good_fruit > config.KEEP_GOOD_FRUIT_MIN else rules.OBSTACLE_TIME_TAX
+            owner = ns.active_guard_owner()
+            if owner and owner != me.team_id:
+                defense = (ns.guard or {}).get("defense", 0) or 0
+                if self._can_break(me, defense, bo_bonus):
+                    return 0  # 攻坚无额外处理帧，仅耗好果（交付时间不计）
+                return rules.guard_time_tax(self._node_kind(gm, node_id), defense)
+            return 0
+        return tax
+
     def _break_good_needed(self, defense, bo_bonus, me):
         """攻坚该防守值预估需投入的好果数（坏果优先填充，每篓好果 2 攻坚值）。
 
@@ -398,6 +429,33 @@ class DecisionEngine:
         if travel == _INF:
             return _INF
         est = travel + 2
+        if not me.verified:
+            est += self._verify_frames(world, me, gm)
+        return est
+
+    def _deliver_estimate_pessimistic(self, world, me, gm, node, terminal):
+        """悲观交付估算：计入途中已知阻塞的真实时间成本，用于 _delivery_panicking。
+
+        取"绕行(path_b，屏蔽障碍/敌卡/cooldown)"与"直行含税(path_t，障碍清障税 + 不可破敌卡
+        强制通行税)"两条路较小者——与 _advance 实际决策口径一致（advance 在 path_b/path_t 间
+        择优突破或绕行）。可破敌卡在 path_t 中按 0 帧计（攻坚无额外处理帧），故不会因好果机会
+        成本高估。两者皆不可达 → _INF（必然超时，告急强制突破）。
+
+        区别于 _deliver_estimate（乐观，忽略阻塞，供 _can_afford 等预算门控使用，由
+        DELIVER_TIME_SAFETY_MARGIN 吸收偏差）：告警场景需要"最坏也能到"的判定，故用悲观口径。
+        """
+        if not terminal:
+            return _INF
+        blocked = self._blocked_nodes(world, me)
+        tax_fn = self._enter_cost_real_frames(world, me)
+        _, cost_b = self._time_path(world, node, terminal, blocked=blocked)
+        _, cost_t = self._time_path(world, node, terminal, enter_cost_fn=tax_fn)
+        best = cost_b
+        if cost_t < best:
+            best = cost_t
+        if best == _INF:
+            return _INF
+        est = best + 2
         if not me.verified:
             est += self._verify_frames(world, me, gm)
         return est
