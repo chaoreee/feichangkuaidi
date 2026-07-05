@@ -18,17 +18,19 @@ def load_mc():
 
 def build_start(seed=1, match_id="sim_test"):
     mc = load_mc()
+    gp = mc.get("gameplay", {}) or {}
+    grid = mc.get("grid", {}) or {}
     return {
         "matchId": match_id, "rulesVersion": "sim", "round": 1, "tick": 0,
         "durationRound": 600, "seed": seed,
-        "map": {"maxX": mc["map"]["maxX"], "maxY": mc["map"]["maxY"],
-                "gameplay": {"roles": {"startNodeId": "S01", "gateNodeId": "S14",
-                                       "terminalNodeIds": ["S15"], "safeZoneNodeIds": ["S15"]}}},
+        "map": {"maxX": grid.get("width", 80), "maxY": grid.get("height", 60),
+                "gameplay": {"roles": gp.get("roles", {"startNodeId": "S01", "gateNodeId": "S14",
+                                                       "terminalNodeIds": ["S15"], "safeZoneNodeIds": ["S15"]}),
+                             "processNodes": gp.get("processNodes", [])}},
         "players": [{"playerId": 1001, "camp": 0, "teamId": "RED", "name": "sim-red"},
                     {"playerId": 2001, "camp": 1, "teamId": "BLUE", "name": "sim-blue"}],
-        "nodes": mc["nodes"], "edges": mc["edges"], "processNodes": mc["processNodes"],
-        "resources": [{"nodeId": r["nodeId"], "resourceType": r["resourceType"], "count": 1}
-                      for r in mc.get("visibleResources", [])],
+        "nodes": mc["nodes"], "edges": mc["edges"],
+        "resources": gp.get("resources", []),
         "taskTemplates": [{"taskTemplateId": "T01", "score": 30}],
     }, mc
 

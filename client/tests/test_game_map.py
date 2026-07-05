@@ -25,7 +25,7 @@ class TestGameMapFromConfig(unittest.TestCase):
 
     def test_nodes_and_edges_count(self):
         self.assertEqual(len(self.gm.nodes), 15)
-        self.assertEqual(len(self.gm.edges), 21)
+        self.assertEqual(len(self.gm.edges), 23)
 
     def test_roles_inferred_from_types(self):
         self.assertEqual(self.gm.start_node, "S01")

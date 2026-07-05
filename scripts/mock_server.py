@@ -68,16 +68,18 @@ def build_adjacency(edges):
 
 
 def build_start(mc, match_id, red_id, blue_id):
+    gp = mc.get("gameplay", {}) or {}
+    grid = mc.get("grid", {}) or {}
     return {"msg_name": "start", "msg_data": {
         "matchId": match_id, "rulesVersion": "mock", "round": 1, "tick": 0, "durationRound": 600,
-        "map": {"maxX": mc["map"]["maxX"], "maxY": mc["map"]["maxY"],
-                "gameplay": {"roles": {"startNodeId": "S01", "gateNodeId": "S14",
-                                       "terminalNodeIds": ["S15"], "safeZoneNodeIds": ["S15"]}}},
+        "map": {"maxX": grid.get("width", 80), "maxY": grid.get("height", 60),
+                "gameplay": {"roles": gp.get("roles", {"startNodeId": "S01", "gateNodeId": "S14",
+                                                       "terminalNodeIds": ["S15"], "safeZoneNodeIds": ["S15"]}),
+                             "processNodes": gp.get("processNodes", [])}},
         "players": [{"playerId": red_id, "camp": 0, "teamId": "RED", "name": "mock-red"},
                     {"playerId": blue_id, "camp": 1, "teamId": "BLUE", "name": "mock-blue"}],
-        "nodes": mc["nodes"], "edges": mc["edges"], "processNodes": mc["processNodes"],
-        "resources": [{"nodeId": r["nodeId"], "resourceType": r["resourceType"], "count": 1, "claimRound": 2}
-                      for r in mc.get("visibleResources", [])],
+        "nodes": mc["nodes"], "edges": mc["edges"],
+        "resources": gp.get("resources", []),
         "taskTemplates": [{"taskTemplateId": "T01", "score": 30}, {"taskTemplateId": "T02", "score": 30}]}}
 
 
@@ -88,13 +90,14 @@ class Sim:
     def __init__(self, mc, me_id):
         self.me_id = me_id
         self.adj = build_adjacency(mc["edges"])
-        self.proc_round = {p["nodeId"]: p["processRound"] for p in mc["processNodes"]}
+        gp = mc.get("gameplay", {}) or {}
+        self.proc_round = {p["nodeId"]: p["processRound"] for p in gp.get("processNodes", [])}
         self.gate, self.terminal = "S14", "S15"
         self.verify_round = self.proc_round.get("S14", 6)
         self.stock = {}
-        for r in mc.get("visibleResources", []):
+        for r in gp.get("resources", []):
             self.stock.setdefault(r["nodeId"], {}).setdefault(r["resourceType"], 0)
-            self.stock[r["nodeId"]][r["resourceType"]] += 1
+            self.stock[r["nodeId"]][r["resourceType"]] += r.get("count", 1)
         self.tasks = [dict(t, completed=False) for t in TASKS]
         self.obstacles = set(OBSTACLES)
         self.marks = {}          # node -> set(teamId)

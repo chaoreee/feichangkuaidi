@@ -1,6 +1,6 @@
 # Iter 36 计划 — 资源感知路线重评（方案 B）：大路双冰鉴路线杠杆
 
-> 触发：Iter 35 路线绕行归因完成后，复核 `samples/map_config.json` 的 `visibleResources` 发现完整资源拓扑对真实图有效——揭示 me 的山路绕行漏领 S03/S07 双冰鉴 + S09 快马，而对手 `on=` 重建路线正是走这条大路。`rules.py` 严格投影（移动损耗口径 + 冰鉴 +10×N）证实大路路线端鲜度 ~100、鲜度分 ~180，vs me 现状 150 → **+20 鲜度分真杠杆**，me 没选、对手选了。
+> 触发：Iter 35 路线绕行归因完成后，复核 `samples/map_config.json` 的 `gameplay.resources`（V4.2-MEDIUM schema，旧版 `visibleResources` 已折叠入 `gameplay.*`）发现完整资源拓扑对真实图有效——揭示 me 的山路绕行漏领 S03/S07 双冰鉴 + S09 快马，而对手 `on=` 重建路线正是走这条大路。`rules.py` 严格投影（移动损耗口径 + 冰鉴 +10×N）证实大路路线端鲜度 ~100、鲜度分 ~180，vs me 现状 150 → **+20 鲜度分真杠杆**，me 没选、对手选了。
 > 约束：用户要求先把现有 reports 充分利用后再上平台。Iter 33/34 已合入但未在真实平台验证；Iter 36 stage 后**一轮真实 A/B 同时验证三轮**（33+34+36）。
 
 ## 0. 背景：Iter 35 结论的边界
@@ -11,7 +11,7 @@ Iter 35 证伪「路线是鲜度杠杆」**仅在「山路 vs 水路」窄对比
 
 ## 1. 资源拓扑（关键新信息）
 
-`samples/map_config.json` 的 `visibleResources`（**对真实图有效**：同 15 节点 S01-S15；真实图仅多 2 条捷径边 S10-S13/S11-S14，资源按节点分布不受影响；已逐边核对）：
+`samples/map_config.json` 的 `gameplay.resources`（V4.2-MEDIUM schema；**对真实图有效**：同 15 节点 S01-S15；真实图仅多 2 条捷径边 S10-S13/S11-S14，资源按节点分布不受影响；已逐边核对）：
 
 | 节点 | 资源 | me 现状（山路） | 大路 |
 |---|---|---|---|
@@ -41,7 +41,7 @@ Iter 35 证伪「路线是鲜度杠杆」**仅在「山路 vs 水路」窄对比
 ## 3. 执行计划
 
 ### §1 归因（现有 reports + samples，不重跑）
-1. 扩展 `analysis/route_audit.py`（或新模块 `route_planner_eval.py`）：读 `samples/map_config.json` 的 visibleResources + 真实图拓扑（从 compact.log Map 行），枚举候选路线（山路/水路/大路/S07 混合/S09 混合），用 `rules.py` 严格投影每条终局分：
+1. 扩展 `analysis/route_audit.py`（或新模块 `route_planner_eval.py`）：读 `samples/map_config.json` 的 `gameplay.resources` + 真实图拓扑（从 compact.log Map 行），枚举候选路线（山路/水路/大路/S07 混合/S09 混合），用 `rules.py` 严格投影每条终局分：
    - 冰鉴 +10×N（端鲜度封顶 100）、马速（FAST_HORSE base 1200 / SHORT_HORSE 1150，仅持续 HORSE_DURATION 帧，按实际覆盖路段算）、处理站 processRound 停靠帧、好果转坏阈值（90/80/70…）、用时分、任务分（按路线途经任务节点）。
    - **必须含处理站成本 + 马有效持续帧 + 好果阈值**——路线方向已错两次（Iter 34 §1、Iter 34 勘误），§1 不准手算。
 2. 精算大路 ROI vs 山路（me 现状）：得逐分项 Δ（送达/任务/时间/好果/鲜度/悬赏）。若群体均值 +（鲜度 +20 − 时间 −3 − 处理 −2 + 好果 +2~4 ≈ +17~21）→ 杠杆确认。
@@ -65,9 +65,9 @@ Iter 35 证伪「路线是鲜度杠杆」**仅在「山路 vs 水路」窄对比
 ## 4. 纪律与风险
 
 - **路线方向已错两次**（Iter 34 §1 误判最优路、Iter 34 勘误误读 `on=`）。§1 必须用 `rules.py` 严格算全分项，禁手算；§3 真实 A/B N≥30 正向才合入。
-- 资源拓扑来源是 `samples/map_config.json`，非真实 start 消息。已逐边核对真实图是 samples 图 +2 边，资源按节点分布不变；但决赛若换图，资源布局可能变——策略须**通用**（读 start 的资源表动态决策，不硬编码大路路线）。
+- 资源拓扑来源是 `samples/map_config.json`，非真实 start 消息。已逐边核对真实图是 samples 图 +2 边，资源按节点分布不变；但淘汰赛/决赛会换图——`samples/map_config_variant_a.json`（36 进 8）已是不同资源/边权/处理点布局的实例（S04/S05 处理点互换、S06 加 FAST_HORSE、PASS_TOKEN 移到 S07 等）。策略须**通用**（读 start 的资源表动态决策，不硬编码大路路线）。
 - 大路多 24 帧 + 处理帧：若时间预算紧张（对手设卡/天气恶化），大路可能无法按时交付。stage 须过 `_can_afford` 时间守卫，时间不够回落山路。
 
 ## 5. 新 session 入口
 
-从 §1.1 开始：扩展 `analysis/route_audit.py` 读 `samples/map_config.json` visibleResources + 真实图拓扑，枚举候选路线 + `rules.py` 投影。先读 `docs/iter35_route_audit.md`（Iter 35 结论边界）+ 本文件 §1 资源拓扑 + `reports/route_audit.json`（me 现状路线）。
+从 §1.1 开始：扩展 `analysis/route_audit.py` 读 `samples/map_config.json` 的 `gameplay.resources` + 真实图拓扑，枚举候选路线 + `rules.py` 投影。先读 `docs/iter35_route_audit.md`（Iter 35 结论边界）+ 本文件 §1 资源拓扑 + `reports/route_audit.json`（me 现状路线）。
