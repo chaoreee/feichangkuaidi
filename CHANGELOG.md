@@ -2,6 +2,42 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 38] - 2026-07-05 — 排除静态地图仿真/投影对策略的影响：flag 回退关 + 文档勘误 + 纪律成文
+
+**触发**：屡次发现静态地图结果误导最终策略——①sim 镜像自博弈 A/B（`scripts/sim_server` 50 种子）：Iter 26–28 据"sim 未过门槛"把 `static_planner` 挡关 ~10 轮、Iter 36 §2 据"sim +30 对称增益"作合入依据之一；②离线静态图 rules.py 投影（`analysis/route_planner_eval.py` §1 +20、`route_weather_audit.py` §1.5）：§1.3 据静态图断言"plan_route 真实图选大路"并据此开 flag，但 §3 真实 A/B 证伪（实战 0/40 选大路、no-op、+20 未兑现）。
+
+### 改动
+
+**代码（`client/config.py`）**：
+- `ENABLE_STATIC_PLANNER` True → **False**（合入依据含 sim/静态投影影响且实战 no-op，回退干净基线）。
+- `CLIENT_VERSION` iter37 → **iter38**（运行期行为变化须 bump）。
+- 保留 `static_planner.py` 代码与 `STATIC_PLANNER_ICE_KEEP/USE_BELOW/MIN_ROUTE_EFFICIENCY` 参数作 variant 平台（下一轮明确要重做"修通 plan_route 实战选路根因"，保留有据）。
+- `STATIC_PLANNER_MIN_ROUTE_EFFICIENCY` 注释补"0.18 修正率源自 sim，按 Iter 38 纪律 sim 不作策略依据，此阈值仅作 variant 平台参数保留、flag 默认关不生效"。
+
+**纪律成文（核心）**：sim 镜像自博弈 + 静态图离线投影均**不得作策略合入门/正向收益证据**——sim 仅回归/不变量门（0 STUCK / 0 对账 / 不卡死 / 物理一致 / 分段不回归），静态投影仅假设生成须真实对局复验，合入门仅真实对战 A/B N≥30 正向且分段不回归。
+
+**文档勘误**（受影响文件）：
+- `CLAUDE.md`：顶三行（Iter 38 触发/判决）+ §4.3 static_planner 行（默认关 + 勘误 §1.3 + 标 +20 静态投影未兑现 + Iter 38 纪律）+ §4.4 仿真器行（sim 仅回归门）+ §4.4 analysis 行（route_eval/weather_audit 标静态投影）+ §5 新增「静态地图仿真/投影不得作策略依据」铁律 + §6 roadmap（P2.2/P2.3/P2.4 reframe + 验证门重定义强化）+ §7 迭代日志（Iter 26/27/28 去 sim 因果 + Iter 36 追加 §3 证伪 + 新增 Iter 38 行）。
+- `docs/iteration_plan_v2.md` §1.2：划掉"sim mean/交付率 ≥ baseline"作合入门（原第 1–2 项，制度源头），替换为 sim=回归门 + 静态投影=假设生成 + 真实 A/B=合入门。
+- `docs/iteration_loop_design.md`：§0 验证门补"sim 不得作正向证据 + 静态投影须真实复验"；P2.3 step 4 去"sim mean 鲜度上升"要求；P2.4/风险登记 #2 同步。
+- `docs/calibration_v1.md`：顶部加历史勘误块（"未过 sim 门槛→保持关"是旧标准 sim 驱动决策，本文件保留作机制记录不再作合入依据）。
+- `docs/iter36_route_eval.md`：§1.3 加勘误（静态图结论被 §3 证伪）+ §6 判决表（§2 stage 🔴 回退为关）+ 标 +20 静态投影未兑现。
+- `docs/iter36_weather_audit.md`：顶部加勘误（+20 静态投影实战 no-op，"不缩水反略增"实战无意义）。
+- `docs/iter36_plan.md`：§3 追加实际结论（no-op、flag 已回退）。
+- memory：更新 `iter36-route-lever-plan`/`static-planner-no-horse-model`/`iter37-opp-class-observation` + 新增 `sim-static-projection-discipline`（type=feedback）。
+
+### 验证
+- client 单测：flag-off = baseline，static_planner 行为测试 setUp force-on 仍过、7 项 flag-off baseline 测试本就 force-off。
+- sim 50 种子 baseline：1.000 交付 / 0 STUCK / 0 对账（零回归）。
+- `python3 -m analysis` 不变（纯观测，不受 flag 影响）。
+
+### 遗留
+- 查 `plan_route` 实战不选大路根因（instrument 决策日志查 waypoint 候选挤出 vs ΔEV/效率门否决），修通后由真实 A/B N≥30 正向再开 flag。
+- Iter 33/34 与 static_planner 同包未单独验证（须平衡对手池防 2769 式刷分偏斜）。
+- A/B 纪律补强：非配对两样本对单对手重复刷分极敏感，后续须平衡对手池或配对采样。
+
+---
+
 ## [Iteration 36 §3] - 2026-07-05 — §3 真实 A/B 无定论（INCONCLUSIVE）：static_planner 真实对局是行为 no-op，flag 保持开
 
 **触发**：用户上传 `reports/iter36_ab/` 40 局 iter36 平台真实对战 trace（对前 30 名），与 `reports/` 顶层 67 局 iter31 老基线做 §3 真实 A/B（非配对两样本）。`python3 -m analysis reports/iter36_ab/ reports/ --out-dir reports/iter36_ab_out/` 产 `version_ab_report.md` + `section3_verdict.md`。

@@ -22,7 +22,8 @@
 
 旧标准把 sim A/B 50 种子 CI 正向当作合入门，但 sim 是**镜像自博弈**（两侧同构 → gap 恒 0 → mode 恒 EVEN → 对手条件型代码永不激活），**结构性无法验证博弈层**。故拆为两道门：
 
-- **sim A/B = 回归 + 不变量门**（非合入门）：50 种子 flag-on vs baseline，只要求 0 STUCK、对账 0 误差、交付率/分段（task-90、mid_lead/trail/even、weather_hit、contested）不回归、物理一致。镜像 sim 验证不了博弈特征，仅挡回归与卡死。
+- **sim A/B = 回归 + 不变量门**（非合入门）：50 种子 flag-on vs baseline，只要求 0 STUCK、对账 0 误差、交付率/分段（task-90、mid_lead/trail/even、weather_hit、contested）不回归、物理一致。镜像 sim 验证不了博弈特征，仅挡回归与卡死。**〔Iter 38 强化〕不得作正向收益证据**——sim mean/胜率/鲜度对路线类改动双侧对称→结构性中性，既不背书也不否决策略（Iter 26–28"sim 中性→挡关"、Iter 36 §2"sim +30 对称增益→开 flag"均属 sim 越界）。
+- **离线静态图投影 = 假设生成（非合入门）**：`analysis/route_planner_eval.py`/`route_weather_audit.py` 等 rules.py 严格投影可生成假设，但结论在实战 waypoint/资源/任务绕路下可能不成立（Iter 36 §1.3"plan_route 真实图选大路"被 §3 证伪：实战 0/40 选大路、no-op）→ **须真实对局复验方可驱动策略**。
 - **真实对战 A/B = 合入门**：新 client vs 老 client，各对**同一对手群体**（平台真实对手代表性采样，含前十名但不限于）跑 N≥30，胜率/均分/分段正向才合入。博弈层（P3、对手感知切换）**只认此门**。
 - **阈值合入**仍须真实 trace N≥30 + 物理依据，不扫参数。
 
@@ -271,17 +272,17 @@ reports/match_*.compact.log   ← 【P1-B 新增】精简 trace，入库，我 p
 1. 阈值调整（`config.py`）：`ICE_BOX_USE_BELOW` 78→85、`CLAIM_ICE_BOX_KEEP` 1→2。**仅当 P1 证对手多冰鉴时**。
 2. 开 `ENABLE_FRESHNESS_RACE=True`（已有逻辑：落后≥10 鲜度时阈值提到 88）。
 3. 单测：扩 `test_freshness_resource_race.py`——断言新阈值下提前用冰鉴、囤 2 冰鉴。
-4. **sim 回归门**：50 种子验证 mean 鲜度上升、goodFruit 不回归、交付帧 +≤10、0 STUCK、对账 0 误差、分段不回归。**注意**：sim 是镜像自博弈，抬我方地板时双方同步抬升 → gap 不变 → 胜率/mean 分数差恒中性，**不能**据此判成败（这正是 Iter 26–28 static_planner A/B 中性的机制）。
+4. **sim 回归门**：50 种子仅验 0 STUCK、对账 0 误差、不卡死、物理一致、分段不回归。**不要求 sim mean 鲜度上升/均分正向**——sim 是镜像自博弈，抬我方地板时双方同步抬升 → gap 不变 → 胜率/mean 分数差恒中性，**不能**据此判成败（Iter 26–28 static_planner A/B 中性即此机制；Iter 38 成文禁止 sim 作正向证据）。
 5. **codeagent 真实 A/B（合入门）**：新 vs 老 client 对同一对手池 N≥30，看我方均分/胜率是否真上升——这才是 P2 成败判据。
 6. **不合入阈值**直至真实 A/B 正向且 N≥30。
 
 ### P2.4 验收（每分支独立 A/B）
-- **sim 回归门**：鲜度均值上升、好果不回归、交付帧 +≤10、0 STUCK、对账 0 误差、分段不回归（**不要求** mean 分数差 CI 正向——镜像自博弈结构性中性）。
+- **sim 回归门**：0 STUCK、对账 0 误差、不卡死、分段不回归、物理一致（**不要求** mean 分数差/鲜度 CI 正向——镜像自博弈结构性中性，亦不得作正向证据）。
 - **codeagent 真实 A/B 合入门**：新 vs 老 client 对同一对手池 N≥30，我方均分/胜率正向、分段不回归——满足才合入 `config.py` 默认值。
 - `CLIENT_VERSION` bump（仅当 flag 默认开 / 阈值改默认）。
 
 ### P2.5 风险
-- **投影天气乐观**（Iter 27 根因）：鲜度投影未建模隐藏未来天气 → 投影 +24 上界偏乐观。效率门（0.2）已部分吸收。分支 B 须保留效率门。
+- **投影天气乐观**（Iter 27 根因）：鲜度投影未建模隐藏未来天气 → 投影 +24 上界偏乐观。效率门（0.2）已部分吸收。分支 B 须保留效率门。**〔Iter 38 补〕离线静态图投影（route_planner_eval 等）同理须真实对局复验**——Iter 36 §1.3 静态图结论"plan_route 选大路"被 §3 实战证伪（0/40 选大路、no-op）。
 - **task-ice 时间零和**（Iter 26 根因）：分项式绕路下 task 与 ice 争同一预算。分支 B 用联合规划器（v2）规避，但须 A/B 验证不重演 task 回归。
 - **冰鉴囤量占用交付时间**：多囤冰鉴 = 多停靠 2 帧/个。须 `_can_afford` 把关。
 

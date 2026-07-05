@@ -3,6 +3,8 @@
 > 对应 `docs/p0_attribution_batch2.md` §6、`docs/iteration_plan_v2.md` §1.2 "done"标准。
 > 本文件记录 Phase B `static_planner` 作 variant 的仿真 A/B 结果与处置决策。
 > **结论：v1 未通过 A/B 门槛，`ENABLE_STATIC_PLANNER` 保持默认关，不合入。**
+>
+> **〔Iter 38 历史勘误〕** 本文件"未过 sim 门槛→保持关"的处置是**旧 done 标准（`iteration_plan_v2.md` §1.2 原第 1–2 项）下的 sim 驱动决策**，已被 Iter 32 新门取代。sim 镜像自博弈对路线类改动结构性中性（双侧同构→gap 恒 0），sim 中性**既不背书也不否决策略**——flag 保持关的正确依据应为"真实 A/B 未做、静态证据不足"，而非"sim 说中性/未过门槛"。Iter 36 §1 离线静态图投影曾确认大路双冰鉴 +20 并据此 §2 开 flag，但 §3 真实 A/B 证明实战 no-op（0/40 选大路、ICE_KEEP=3 未生效、+20 未兑现）。**本文件保留作 Phase B 机制（task-ice 零和、投影天气乐观、效率门）的历史记录，不再作合入依据。** 详见 CLAUDE.md §5「静态地图仿真/投影不得作策略依据」。
 
 ---
 
