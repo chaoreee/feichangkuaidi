@@ -75,6 +75,37 @@ class TestFraming(unittest.TestCase):
         body_len = int(frame[:5])
         self.assertEqual(body_len, len(frame) - 5)
 
+    def _decode_raw(self, body_text):
+        """绕过 encode_frame，直接喂入「5 位前缀 + 原样 body」模拟服务端字节流。"""
+        raw = str(len(body_text.encode("utf-8"))).zfill(5).encode("ascii") + body_text.encode("utf-8")
+        dec = FrameDecoder()
+        dec.feed(raw)
+        return list(dec.frames())
+
+    def test_bare_numeric_key_is_quoted(self):
+        # 服务端可能发出未加引号的数字键（如 {1001:"MOVE"}）；标准 json.loads 会直接拒绝。
+        # 修复后应规整为字符串键，且能被解析。
+        out = self._decode_raw('{"msg_name":"x","msg_data":{1001:"MOVE"}}')
+        self.assertEqual(out, [{"msg_name": "x", "msg_data": {"1001": "MOVE"}}])
+        # 键必须是字符串，不是 int
+        self.assertEqual(list(out[0]["msg_data"].keys()), ["1001"])
+
+    def test_bare_numeric_key_multiple_and_negative_and_float(self):
+        out = self._decode_raw('{"msg_name":"x","msg_data":{1001:"MOVE", -3:"BOAT_RIGHT", 1.5:1}}')
+        self.assertEqual(out[0]["msg_data"], {"1001": "MOVE", "-3": "BOAT_RIGHT", "1.5": 1})
+
+    def test_numeric_values_not_affected(self):
+        # 数值（在 ':' 右侧）不应被加引号；已有字符串键不动。
+        env_text = '{"msg_name":"action","msg_data":{"round":12,"score":1001}}'
+        out = self._decode_raw(env_text)
+        self.assertEqual(out, [{"msg_name": "action", "msg_data": {"round": 12, "score": 1001}}])
+
+    def test_numeric_key_pattern_inside_string_value_not_corrupted(self):
+        # 字符串值里出现的 `,1001:` 不应被当作键处理。
+        env_text = '{"msg_name":"x","msg_data":{"note":"a,1001:b"}}'
+        out = self._decode_raw(env_text)
+        self.assertEqual(out[0]["msg_data"]["note"], "a,1001:b")
+
 
 if __name__ == "__main__":
     unittest.main()
