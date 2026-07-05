@@ -1,0 +1,3529 @@
+{
+  "by_opponent_class": {
+    "guard-type": {
+      "N": 8,
+      "delta_frames": 6.125,
+      "delta_loss": 4.283,
+      "delta_loss_score": 7.709,
+      "detour_freq": 0.875,
+      "me_actual_frames": 308.125,
+      "me_actual_loss": 20.584,
+      "me_mean_score": 584.0,
+      "me_optimal_frames": 302.0,
+      "me_optimal_loss": 16.301,
+      "motive_dist": {
+        "HORSE": 6,
+        "ICE_BOX": 7,
+        "TASK": 1
+      },
+      "roi_delta_mean": 60.75
+    },
+    "quality-route": {
+      "N": 30,
+      "delta_frames": 7.0,
+      "delta_loss": 4.895,
+      "delta_loss_score": 8.81,
+      "detour_freq": 1.0,
+      "me_actual_frames": 329.0,
+      "me_actual_loss": 21.875,
+      "me_mean_score": 763.733,
+      "me_optimal_frames": 322.0,
+      "me_optimal_loss": 16.98,
+      "motive_dist": {
+        "HORSE": 30,
+        "ICE_BOX": 30
+      },
+      "roi_delta_mean": -146.433
+    },
+    "speed-route": {
+      "N": 29,
+      "delta_frames": 7.0,
+      "delta_loss": 4.895,
+      "delta_loss_score": 8.81,
+      "detour_freq": 1.0,
+      "me_actual_frames": 328.517,
+      "me_actual_loss": 21.848,
+      "me_mean_score": 733.759,
+      "me_optimal_frames": 321.517,
+      "me_optimal_loss": 16.953,
+      "motive_dist": {
+        "HORSE": 28,
+        "ICE_BOX": 29,
+        "TASK": 1
+      },
+      "roi_delta_mean": -80.862
+    }
+  },
+  "matches": [
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_031517_015_2696_vs_2986_43603109",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 766,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -150,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "TASK"
+      ],
+      "matchId": "match_20260705_031529_282_2696_vs_2809_02155fe3",
+      "opponentClass": "guard-type",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 753,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -137,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_031541_933_2905_vs_2696_03cfcc34",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -109,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 220,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 90,
+          "time": 18
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 655
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_031550_422_2696_vs_2614_c2d42d20",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -148,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_031942_192_2696_vs_2735_9653307c",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -147,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 406,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_031947_982_2696_vs_2814_d75a96f7",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 765,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -51,
+        "off_task_count": 2,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 240,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 125,
+          "time": 22
+        },
+        "proj_deliver_frame": 406,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 714
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_032002_726_2696_vs_2613_eee58165",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -148,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_032245_069_2696_vs_2743_a9cad475",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 765,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -149,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_032303_894_2931_vs_2696_51909d49",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 762,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -37,
+        "off_task_count": 2,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 240,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 136,
+          "time": 22
+        },
+        "proj_deliver_frame": 406,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 725
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_032317_062_2619_vs_2696_858c850a",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -147,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_032322_930_2696_vs_2839_666cbdc6",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -147,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 414,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08"
+      ],
+      "delta": {
+        "frames": 0,
+        "loss": 0.0,
+        "loss_score": 0.0,
+        "time_score": 0.0
+      },
+      "detour_motives": [],
+      "matchId": "match_20260705_032341_729_2696_vs_2744_c2e99980",
+      "opponentClass": "guard-type",
+      "optimal_path": [
+        "S01",
+        "S06",
+        "S08"
+      ],
+      "roi": {
+        "actual_total": 60,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": 596,
+        "off_task_count": 0,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 157,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 46
+        },
+        "proj_deliver_frame": 1,
+        "proj_end_freshness": 87.68,
+        "proj_good_fruit": 99,
+        "projected_total": 656
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_032607_121_2696_vs_2632_7815f95e",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -33,
+        "off_task_count": 2,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 240,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 142,
+          "time": 22
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 731
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_032613_428_2696_vs_2643_929c3501",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -147,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_032619_799_2738_vs_2696_aeb3b7a3",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 762,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -146,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_032629_625_2696_vs_2626_33d4652e",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -147,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_032839_487_2769_vs_2696_4d342ec0",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -148,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_032936_382_2769_vs_2696_7d05a069",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 762,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -107,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 220,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 90,
+          "time": 18
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 655
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_032950_334_2696_vs_2616_6befd7c6",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -108,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 220,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 90,
+          "time": 18
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 655
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_033007_128_2618_vs_2696_feec0db4",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -109,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 220,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 90,
+          "time": 18
+        },
+        "proj_deliver_frame": 406,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 655
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_033026_049_2696_vs_2884_d028e61d",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -49,
+        "off_task_count": 2,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 240,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 125,
+          "time": 22
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 714
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_033356_439_2612_vs_2696_79f8a1a2",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 765,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -149,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_033400_595_2823_vs_2696_23a64b9d",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -148,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_033413_374_2696_vs_2743_7868eac0",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -147,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_033832_456_2696_vs_2837_3694b507",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 762,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -146,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 406,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "TASK"
+      ],
+      "matchId": "match_20260705_033845_004_2751_vs_2696_6a358ff8",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 707,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -71,
+        "off_task_count": 2,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 210,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 83,
+          "time": 16
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 636
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_033851_868_2696_vs_2625_82269158",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 710,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -186,
+        "off_task_count": 2,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 160,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 30,
+          "time": 7
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 524
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_033857_744_2696_vs_2718_f193ac8c",
+      "opponentClass": "guard-type",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -148,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_034141_786_2814_vs_2696_c8a3e26c",
+      "opponentClass": "guard-type",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 762,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -31,
+        "off_task_count": 2,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 240,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 142,
+          "time": 22
+        },
+        "proj_deliver_frame": 406,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 731
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_034221_932_2611_vs_2696_f7c154b7",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -147,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_034226_105_2696_vs_2900_4b7981b8",
+      "opponentClass": "guard-type",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -32,
+        "off_task_count": 2,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 240,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 142,
+          "time": 22
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 731
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_034232_584_2696_vs_2943_72e48edd",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 766,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -150,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_034251_239_2639_vs_2696_0e0add10",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -148,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 406,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_034523_579_2982_vs_2696_e2754ba9",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14"
+      ],
+      "roi": {
+        "actual_total": 80,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": 682,
+        "off_task_count": 2,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 240,
+          "freshness": 150,
+          "goodFruit": 178,
+          "task": 125,
+          "time": 69
+        },
+        "proj_deliver_frame": 1,
+        "proj_end_freshness": 83.79,
+        "proj_good_fruit": 99,
+        "projected_total": 762
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_034541_877_2696_vs_2934_8b767223",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -147,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_034613_729_2696_vs_2720_d7a0258c",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 762,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -146,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 406,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_034809_346_2696_vs_2707_8d330c1f",
+      "opponentClass": "guard-type",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 747,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -42,
+        "off_task_count": 2,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 240,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 125,
+          "time": 13
+        },
+        "proj_deliver_frame": 484,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 705
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_034826_188_2757_vs_2696_3d508cdb",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 711,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -264,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 120,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 0,
+          "time": 0
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 447
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_034845_553_2696_vs_2622_fc56d675",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 766,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -150,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_035148_333_2965_vs_2696_a461b1c8",
+      "opponentClass": "guard-type",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -108,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 220,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 90,
+          "time": 18
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 655
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_035200_953_2696_vs_2693_0f10daed",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 766,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -111,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 220,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 90,
+          "time": 18
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 655
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_035208_096_2696_vs_2629_21f17d53",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -147,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_035438_691_2729_vs_2696_0f0c79ef",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 765,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -110,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 220,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 90,
+          "time": 18
+        },
+        "proj_deliver_frame": 406,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 655
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_035502_420_2696_vs_2695_bc9ebbc3",
+      "opponentClass": "guard-type",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14"
+      ],
+      "roi": {
+        "actual_total": 60,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": 388,
+        "off_task_count": 2,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 120,
+          "freshness": 150,
+          "goodFruit": 178,
+          "task": 0,
+          "time": 0
+        },
+        "proj_deliver_frame": 1,
+        "proj_end_freshness": 83.79,
+        "proj_good_fruit": 99,
+        "projected_total": 448
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_035555_511_2769_vs_2696_46f8b95a",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -148,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_035613_625_2696_vs_2753_15afaaef",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -148,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_035704_393_3022_vs_2696_0163f2e0",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 754,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -37,
+        "off_task_count": 2,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 240,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 128,
+          "time": 22
+        },
+        "proj_deliver_frame": 406,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 717
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_035710_456_2696_vs_2941_53bd0b8b",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -148,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_035839_022_2696_vs_2943_aebb0814",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -147,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_035936_138_2629_vs_2696_728889f4",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -147,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_035954_569_2696_vs_2931_c1a7cc4d",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 762,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -37,
+        "off_task_count": 2,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 240,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 136,
+          "time": 22
+        },
+        "proj_deliver_frame": 406,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 725
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_041523_948_2696_vs_2769_5fc233e7",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -109,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 220,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 90,
+          "time": 18
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 655
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_042923_363_2629_vs_2696_1feaa765",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -147,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_042936_815_2769_vs_2696_d9c65f15",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -109,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 220,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 90,
+          "time": 18
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 655
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_044542_861_2769_vs_2696_a348d7e6",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -109,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 220,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 90,
+          "time": 18
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 655
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_045439_001_2769_vs_2696_aa634923",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -148,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_045831_556_2696_vs_2639_b4457bc7",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 765,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -149,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 406,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_050154_418_2696_vs_2629_531053ee",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 765,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -149,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_051135_263_2714_vs_2696_eb968e85",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 756,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -73,
+        "off_task_count": 2,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 234,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 101,
+          "time": 21
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 683
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_051242_458_2764_vs_2696_3654f694",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -147,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 406,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_051401_595_2696_vs_2769_04cfffcc",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -109,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 220,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 90,
+          "time": 18
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 655
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_051503_949_2696_vs_2836_6b0185fb",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 764,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -148,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_052840_469_2696_vs_2836_87c81102",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 763,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -147,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_053343_274_2696_vs_2769_b079b337",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 762,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -107,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 220,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 90,
+          "time": 18
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 655
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_053813_114_2629_vs_2696_dcafe321",
+      "opponentClass": "quality-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 765,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -149,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 200,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 75,
+          "time": 14
+        },
+        "proj_deliver_frame": 404,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 616
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_054945_303_2696_vs_2769_03d28bc4",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 762,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -107,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 220,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 90,
+          "time": 18
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 655
+      }
+    },
+    {
+      "actual_path": [
+        "S01",
+        "S06",
+        "S08",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "delta": {
+        "frames": 7,
+        "loss": 4.895,
+        "loss_score": 8.81,
+        "time_score": 0.82
+      },
+      "detour_motives": [
+        "ICE_BOX",
+        "HORSE"
+      ],
+      "matchId": "match_20260705_060013_755_2769_vs_2696_acc94683",
+      "opponentClass": "speed-route",
+      "optimal_path": [
+        "S01",
+        "S02",
+        "S04",
+        "S05",
+        "S09",
+        "S10",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "roi": {
+        "actual_total": 762,
+        "assumptions": "optimal-route move frames/loss only; forfeit ice/horse/off-route tasks; upper-bound optimistic (excludes processing/weather stall loss)",
+        "delta": -107,
+        "off_task_count": 3,
+        "proj_components": {
+          "bounty": 0,
+          "delivery": 220,
+          "freshness": 149,
+          "goodFruit": 178,
+          "task": 90,
+          "time": 18
+        },
+        "proj_deliver_frame": 409,
+        "proj_end_freshness": 83.02,
+        "proj_good_fruit": 99,
+        "projected_total": 655
+      }
+    }
+  ],
+  "n": 67,
+  "segment_md": "## 路线绕行（Iter 35 §1，纯移动损耗口径，假设级）\n> me 实际路线 vs Dijkstra 帧数最优路（start→terminal）。Δ_loss 仅计移动损耗，\n> 不含处理/天气/急策；实际与最优同口径故 Δ 公平。N<30 标假设级。\n\n  guard-type     (N=8): Δ帧=6.125 Δ损耗=4.283(≈7.709分) 绕行频率=0.875 实际帧=308.125/最优帧=302.0 动机={'TASK': 1, 'ICE_BOX': 7, 'HORSE': 6} ROIΔ=60.75\n  quality-route  (N=30): Δ帧=7.0 Δ损耗=4.895(≈8.81分) 绕行频率=1.0 实际帧=329.0/最优帧=322.0 动机={'ICE_BOX': 30, 'HORSE': 30} ROIΔ=-146.433\n  speed-route    (N=29): Δ帧=7.0 Δ损耗=4.895(≈8.81分) 绕行频率=1.0 实际帧=328.517/最优帧=321.517 动机={'ICE_BOX': 29, 'HORSE': 28, 'TASK': 1} ROIΔ=-80.862\n\n→ 归因：me 是否系统性绕行高损耗地形（山/支路）领资源/任务，Δ损耗×1.8 与 ROIΔ 决定路线是否杠杆。",
+  "skipped": 0
+}

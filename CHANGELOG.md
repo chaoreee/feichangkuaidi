@@ -2,6 +2,33 @@
 
 本文件记录每轮迭代的能力变化。格式：轮次 / 日期 / 变更摘要。能力矩阵与迭代明细见 `CLAUDE.md`。
 
+## [Iteration 35] - 2026-07-05 — 路线绕行归因：证伪「路线是鲜度杠杆」（Iter 34 勘误自身勘误），不 stage 策略改动
+
+**触发**：Iter 34 合入后复核 compact.log，§1「路线非杠杆」结论已勘误撤销，roadmap 排「Iter 35 山路绕行归因 + 路线鲜度感知修复」。本轮用 67 局 compact.log 全量重建 me 实际路线做硬核算。详见 `docs/iter35_route_audit.md`。
+
+### Finding — A. Iter 34 勘误自身又勘误一次（`on=` 误读）
+- compact.log 中 `n=` = me 节点、`on=` = 对手节点（`client/main.py:326,333` 的 `node=`/`oppNode=`）。Iter 34 勘误误把 `on=` 当 me 途经节点，得出 me 走 `S01→S02→S03→S06` 的错误路线（S02/S03 实为对手节点）。
+- 实际 me 走 `S01→S06` 直连山路边（`S01-S06:44:M`，79 帧）。修正后绕行成本 **+7 帧 / +4.895 鲜度损耗**（非勘误的 +64/+7.43）。
+
+### Finding — B. 绕行是净正收益（+147 中位），不是杠杆
+- 新模块 `analysis/route_audit.py`（复用 `core.rules` + `core.pathfind` + `analysis.compact.parse_compact` + `analysis.opponent_classifier`）重建 67 局路线。**64/67 局 me 走固定山路绕行 `S01→S06→S08→S10→S13→S14→S15`**（与对手类无关、跨局常量）。
+- 绕行动机：S06 领 ICE_BOX + S08 领 SHORT_HORSE（每局都为冰鉴+马绕行；任务非主因）。主动选择、非障碍逼路（r1 即 CLEAR S06/SQUAD_CLEAR S08，水路从无 CLEAR）。
+- ROI 投影（`rules.py` 镜像，放弃绕行资源/任务）：冰鉴 +10 抵消多损的 4.9（端鲜度 wash 83.36 vs 83.02），另赚 3 off-route 任务（+105 任务分 +40 送达分）+ 马。**64/64 交付局绕行净增益 > 0，均值 +93、中位 +147**。
+
+### Verdict — C. 方案 A 证伪、不 stage 策略改动
+- §2 方案 A（鲜度感知绕路门）**证伪、不合入**：会阻断 +147 的绕行（为省 8.8 鲜度分放弃 +145 任务/送达分），方向相反。方案 B（重评 static_planner）方向正确（联合优化器正是会选此绕行的工具）但留待 Iter 36 真实图 A/B；方案 C 不需要。
+- **Iter 35 不 stage 任何策略改动**，遵守 §0.5 纪律（验证为负则删）。仅新增纯观测分析模块，client/strategy 零改动、CLIENT_VERSION 不 bump。
+- quality-route 鲜度 gap 真因是**马的密度**（对手全程 FAST_HORSE、total_loss 13.79；me 仅 1 匹 SHORT_HORSE、total_loss 26.64），非绕行决策——提上 Iter 36（Iter 34 §4 候选 A，须真实 A/B N≥30）。
+
+### Tests — D. 验收
+- `analysis/tests/test_route_audit.py` 11 项单测（Map/最优路 322 帧 16.98 损耗、me 路线 329 帧 21.875 损耗、Δ +7/+4.895、动机标注、ROI 净正、聚合/segment、对手路线低置信）。analysis **101 全过**（90+11）。
+- 全量回归：analysis 101 + client 285 + sim 18 = **404 全过**。sim 5 种子 sanity（1.000 交付 / 0 STUCK / 0 对账）——无策略改动故零回归。
+
+### Misc — E. 产出
+- `analysis/route_audit.py` + `analysis/tests/test_route_audit.py`
+- `reports/route_audit.json`（82.9KB <100KB）/ `reports/route_audit.md`（67 局归因 + 按对手类聚合）
+- `docs/iter35_route_audit.md`（归因报告）
+
 ## [Iteration 34] - 2026-07-05 — quality-route 鲜度杠杆证伪 + 冰鉴阈值保鲜修复（弱优于，无条件合入）
 
 **触发**：Iter 32.5 N=67 群体归因 quality-route 桶（N=30, W=0.43, opp 鲜度 93.2 vs me 82.6, gap +10.5）→ roadmap 排「Iter34+ 静态最优：Phase B 静态规划器路线重选」。本轮用真实地图拓扑 + 全量鲜度模型做硬核算**证伪路线杠杆**，定位真正根因，落地一个数学弱优于的冰鉴阈值修复。详见 `docs/iter34_route_lever_analysis.md`。
