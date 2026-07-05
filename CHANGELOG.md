@@ -19,8 +19,9 @@
   - `INVALID_ACTION_CONFLICT`/`MOVING_ACTION_FORBIDDEN`/`RESTING_ACTION_FORBIDDEN` → 主动作退避 1 帧（`_action_block_until`），`_freshness_rescue`/`_maybe_horse`/`_maybe_intel`/`_maybe_task` 跳过。
   新增 `_last_window_cid` 跟踪窗口拒绝归因。
 - **P2 交付告急保交付**：新增 `_delivery_panicking`（est + 通用余量 > 剩余帧，或路径不可达）。告急时禁用冰鉴绕路/任务绕路、未验核则无论帧数先去宫门、窗口出牌弃权省成本。at-node 冰鉴领取豁免保留（2 帧 < 3.6 分/果，交付鲜度保险）。
+- **P3 受卡破卡代价 + RUSH 禁绕路**：①`_enter_cost_fn` 对可破敌卡计入好果机会成本（`_break_good_needed`×`BREAK_GUARD_GOOD_FRAME_EQ`，旧版返回 0 致路由把破卡当免费而过度偏好破卡、即便便宜绕路也硬破浪费好果分）；②`_advance` RUSH 阶段用更紧阈值 `REROUTE_VS_CLEAR_RUSH_EXTRA`(8) 优先就地突破，避免终局绕路超时；③`_plan` RUSH 阶段禁一切绕路（冰鉴+任务），终局冲刺保交付。
 - **config**：新增 `WINDOW_ABSTAIN_ROUNDS = 6`。
-- **测试**：新增 `TestRejectionFeedbackIter20`（4 项：task 黑名单/窗口弃权/节点忙/动作退避）、`TestProtocolActionQuota`（2 项：用马单动作/dedup 去重）、`TestDeliveryPanic`（1 项：告急禁绕路）。client 157→164 全通过；mock 端到端交付@r498 fresh=89.30 good=96 task=150（与 Iter19 基线一致，无回归），trace 0 错误 0 拒绝。
+- **测试**：新增 `TestRejectionFeedbackIter20`（4 项：task 黑名单/窗口弃权/节点忙/动作退避）、`TestProtocolActionQuota`（2 项：用马单动作/dedup 去重）、`TestDeliveryPanic`（1 项：告急禁绕路）、`TestRushNoDetour`（1 项：RUSH 禁任务绕路）、`TestBreakGuardCost`（2 项：可破敌卡好果成本 + helper）。client 157→167 全通过；mock 端到端交付@r498 fresh=89.30 good=96 task=150（与 Iter19 基线一致，无回归），trace 0 错误 0 拒绝。
 
 ### 验证
 mock 端到端：r374 `MOVING+USE_RESOURCE`（单动作用马）→ r399 抵达 S12（马增益生效、续行正常，无 park 死循环）；r364 `CLAIM_TASK,WINDOW_CARD`、r443 `PROCESS,SQUAD_SCOUT` 跨类别组合合法保留。交付@r498 fresh=89.30 good=96 task=150，预算 est=2 left=102 健康。

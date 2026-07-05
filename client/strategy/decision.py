@@ -216,8 +216,9 @@ class DecisionEngine:
             return self._advance(world, me, gm, node, gate, terminal)
         # 绕路收集冰鉴（鲜度优先）：投影交付鲜度不足且冰鉴节点在合理绕路范围内时，先绕去收集。
         # 冰鉴 +10 为交付前永久偏移，2 个叠加 +20 可把 80 阈值延后到交付之后——以额外帧换鲜度分+好果分。
-        # 置于任务绕路之前：鲜度是交付质量硬约束，任务绕路其次。交付告急时禁用一切绕路（保交付优先）。
-        if panic:
+        # 置于任务绕路之前：鲜度是交付质量硬约束，任务绕路其次。
+        # 交付告急或 RUSH 阶段禁用一切绕路（保交付优先）：RUSH 是终局冲刺，绕路危及交付（P3a）。
+        if panic or world.is_rush:
             dst = terminal
         else:
             dst = (self._ice_box_detour_target(world, me, gm, node, terminal)
@@ -269,8 +270,11 @@ class DecisionEngine:
         path_t, cost_t = self._time_path(world, src, dst, enter_cost_fn=tax_fn)
 
         if path_b and len(path_b) > 1:
-            # 绕行远比直行(含税)贵 → 直路下一跳就地突破（清障/攻坚/强制通行）
-            if path_t and len(path_t) > 1 and cost_b - cost_t > config.REROUTE_VS_CLEAR_EXTRA:
+            # 绕行远比直行(含税)贵 → 直路下一跳就地突破（清障/攻坚/强制通行）。
+            # RUSH 阶段用更紧阈值：终局冲刺优先就地突破保交付，避免绕路超时（P3b）。
+            threshold = (config.REROUTE_VS_CLEAR_RUSH_EXTRA if world.is_rush
+                         else config.REROUTE_VS_CLEAR_EXTRA)
+            if path_t and len(path_t) > 1 and cost_b - cost_t > threshold:
                 nxt = path_t[1]
                 ns = world.node(nxt)
                 blocked_by = (ns is not None and (ns.has_obstacle
@@ -320,10 +324,23 @@ class DecisionEngine:
             if owner and owner != me.team_id:
                 defense = (ns.guard or {}).get("defense", 0) or 0
                 if self._can_break(me, defense, bo_bonus):
-                    return 0  # 攻坚破卡无额外处理帧
+                    # §6.3.1：攻坚无额外处理帧，但消耗好果（交付分机会成本）。折算帧成本避免
+                    # 路由把破卡当免费而过度偏好破卡——即便有便宜绕路也硬破浪费好果分。
+                    return self._break_good_needed(defense, bo_bonus, me) * config.BREAK_GUARD_GOOD_FRAME_EQ
                 return rules.guard_time_tax(self._node_kind(gm, node_id), defense)
             return 0
         return tax
+
+    def _break_good_needed(self, defense, bo_bonus, me):
+        """攻坚该防守值预估需投入的好果数（坏果优先填充，每篓好果 2 攻坚值）。
+
+        仅用于路由代价估算（_enter_cost_fn），非实际攻坚决策——实际投入由 _plan_attack 产出。
+        """
+        if defense <= 0:
+            return 0
+        bad_val = min(me.bad_fruit or 0, 2) * 3
+        remaining = max(0, defense - bo_bonus - bad_val)
+        return min(2, (remaining + 1) // 2)  # ceil(remaining/2)，单次攻坚好果上限 2
 
     def _can_break(self, me, defense, bo_bonus=0):
         """是否能在保留 KEEP_GOOD_FRUIT_MIN 好果的前提下攻破该防守值。

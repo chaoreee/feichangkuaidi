@@ -228,6 +228,61 @@ class TestDeliveryPanic(unittest.TestCase):
         self.assertEqual(a.get("action"), "MOVE")
 
 
+class TestRushNoDetour(unittest.TestCase):
+    """Iter20 P3a/b：RUSH 阶段禁绕路、遇阻优先就地突破。"""
+
+    def test_rush_skips_task_detour(self):
+        # RUSH 阶段（已验核，前往终点）：即便旁路有任务也不绕路，直奔终点
+        m = _map(
+            [_node("S01", "START", start=True), _node("SA"), _node("ST"), _node("SJ"),
+             _node("S14", "GATE"), _node("S15", "FINISH", terminal=True)],
+            [_edge("S01", "SA", 10), _edge("SA", "SJ", 10), _edge("S01", "ST", 10),
+             _edge("ST", "SJ", 10), _edge("SJ", "S14", 10), _edge("S14", "S15", 10)],
+            {"startNodeId": "S01", "gateNodeId": "S14", "terminalNodeIds": ["S15"]},
+        )
+        gm = GameMap(m)
+        eng = DecisionEngine(GameContext(PID, "RED", 0, m))
+        tasks = [{"taskId": "TK", "taskTemplateId": "T01", "nodeId": "ST", "processRound": 3,
+                  "active": True, "completed": False}]
+        # RUSH + 已验核 + 在 S14（前往 S15），时间充足不告急
+        w = world(m, gm, "S14", phase="RUSH", verified=True, rnd=460, tasks=tasks)
+        a = eng.decide(w)[0]
+        self.assertNotEqual(a.get("targetNodeId"), "ST")  # RUSH 不绕去任务
+        self.assertEqual(a.get("action"), "MOVE")
+
+
+class TestBreakGuardCost(unittest.TestCase):
+    """Iter20 P3c：_enter_cost_fn 对可破敌卡计入好果机会成本（不再返回 0）。"""
+
+    def test_breakable_guard_cost_includes_good_fruit(self):
+        m = _map(
+            [_node("S01", "START", start=True), _node("S10", "KEY_PASS"), _node("S15", "FINISH", terminal=True)],
+            [_edge("S01", "S10", 10), _edge("S10", "S15", 10)],
+            {"startNodeId": "S01", "terminalNodeIds": ["S15"]},
+        )
+        gm = GameMap(m)
+        eng = DecisionEngine(GameContext(PID, "RED", 0, m))
+        # S10 蓝方设卡 defense=4 active；本方 100 好果 0 坏果，可破（2 好果×2=4≥4）
+        w = world(m, gm, "S01", good=100, bad=0,
+                  nodes=[{"nodeId": "S10",
+                          "guard": {"ownerTeamId": "BLUE", "defense": 4, "active": True}}])
+        fn = eng._enter_cost_fn(w, w.me)
+        cost = fn("S10")
+        # defense=4，无坏果、无破关令 → 需 2 好果；2×BREAK_GUARD_GOOD_FRAME_EQ(6)=12（旧版返回 0）
+        self.assertEqual(cost, 2 * config.BREAK_GUARD_GOOD_FRAME_EQ)
+
+    def test_break_good_needed_helper(self):
+        eng = DecisionEngine(GameContext(PID, "RED", 0, LINEAR))
+        me = type("M", (), {"bad_fruit": 0})()
+        self.assertEqual(eng._break_good_needed(0, 0, me), 0)   # 无防守
+        self.assertEqual(eng._break_good_needed(4, 0, me), 2)   # 4→2 好果
+        self.assertEqual(eng._break_good_needed(3, 0, me), 2)   # ceil(3/2)=2
+        self.assertEqual(eng._break_good_needed(2, 0, me), 1)   # 1 好果
+        me3 = type("M", (), {"bad_fruit": 2})()
+        self.assertEqual(eng._break_good_needed(6, 0, me3), 0)   # 2 坏果×3=6 全覆盖
+        self.assertEqual(eng._break_good_needed(7, 3, me3), 0)   # bo3 + 坏6 = 9 ≥ 7 → 0 好果
+
+
 class TestIntel(unittest.TestCase):
     def test_use_intel_on_gate_within_range(self):
         gm = GameMap(LINEAR)  # SA→S14 距离 10 ≤15
